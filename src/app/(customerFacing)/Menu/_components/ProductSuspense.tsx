@@ -1,4 +1,4 @@
-import { CartItem, Item } from "@prisma/client";
+import { CartItem, Item } from "generated/prisma";
 import ProductCard, {  AllDishesCardServer, PopularDishesCardServer } from "../../_components/ProductCardServer";
 import ProductCardServer from "../../_components/ProductCardServer";
 

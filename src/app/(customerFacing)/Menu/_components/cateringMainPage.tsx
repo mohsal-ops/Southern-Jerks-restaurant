@@ -1,12 +1,12 @@
 'use client'
 import React, { Suspense, useEffect, useState } from 'react'
-import { CartItem, Item, Types } from '../../../../generated/prisma'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Button } from '@/components/ui/button'
 import { AllDishesSuspense, PopularDishesSuspense } from '../_components/ProductSuspense'
 import { GetFeaturedProducts, GetGategories } from '../_actions/getDataNeeded'
 import { ProductCardSkeleton } from '../../_components/ProductCardServer'
 import { useCart } from '@/app/providers/CartProvider'
+import { CartItem, Item, Types } from 'generated/prisma'
 
 
 type PropsTypes = {

@@ -39,8 +39,8 @@ export default function AppSideBar() {
 
     },
     {
-      name: "Brand Marketing",
-      link: "/BrandMarketing"
+      name: "Our Story",
+      link: "/story"
     },
   ]
   const hndleclick = async () => {

@@ -3,12 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/../public/general/logo.png"
 import AppSideBar from "./sideBar";
-import { CartItem } from "@prisma/client";
 import CartSideBar from "./Cart-SideBar";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { usePathname } from "next/navigation";
+import { CartItem } from "generated/prisma";
 
 
 
@@ -92,8 +92,8 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
 
     },
     {
-      name: "Brand Marketing",
-      link: "/BrandMarketing"
+      name: "Our Story",
+      link: "/story"
     },
   ]
   
