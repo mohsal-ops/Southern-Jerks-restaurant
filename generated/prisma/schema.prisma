@@ -3,14 +3,12 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider =  "postgresql"
+  provider = "postgresql"
 }
-
-
 
 model Item {
   id                     String  @id @default(uuid())
@@ -67,7 +65,7 @@ model Cart {
   id        String     @id @default(uuid())
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  items     CartItem[]      
+  items     CartItem[]
   status    String     @default("open") // open/completed/abandoned
 }
 
@@ -81,5 +79,5 @@ model CartItem {
   price      Int?
   quantity   Int?
   cartId     String
-  cart       Cart      @relation(fields: [cartId], references: [id])
+  cart       Cart     @relation(fields: [cartId], references: [id])
 }

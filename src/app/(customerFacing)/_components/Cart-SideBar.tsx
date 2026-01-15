@@ -5,7 +5,7 @@ import { PiShoppingCartSimpleFill } from 'react-icons/pi';
 import { formatCurrency } from '@/lib/formatters';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { CartItem } from '@prisma/client';
+import { CartItem } from '../../../../generated/prisma';
 import Image from 'next/image';
 import { Minus, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';

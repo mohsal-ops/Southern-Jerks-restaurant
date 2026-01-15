@@ -1,6 +1,6 @@
 'use client'
 import React, { Suspense, useEffect, useState } from 'react'
-import { CartItem, Item, Types } from '@prisma/client'
+import { CartItem, Item, Types } from '../../../../generated/prisma'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Button } from '@/components/ui/button'
 import { AllDishesSuspense, PopularDishesSuspense } from '../_components/ProductSuspense'

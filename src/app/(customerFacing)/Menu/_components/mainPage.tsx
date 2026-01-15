@@ -1,6 +1,5 @@
 'use client'
 import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { CartItem, Item, Location, Types } from '@prisma/client'
 import { FaLocationPin } from 'react-icons/fa6'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import { Button } from '@/components/ui/button'
@@ -8,6 +7,7 @@ import { AllDishesSuspense, PopularDishesSuspense } from './ProductSuspense'
 import PickupDetails from '../../_components/pickupTimeandDay'
 import { ProductCardSkeleton } from '../../_components/ProductCardServer'
 import { useCart } from '@/app/providers/CartProvider'
+import { CartItem, Item, Location, Types } from 'generated/prisma'
 
 type PropsTypes = {
     places: Location[],
@@ -269,7 +269,7 @@ export function PopularDishes({ cartItems, Poularproducts }: { cartItems: CartIt
 
     const products = Poularproducts;
     return (
-        <div className="flex-col space-y-6  w-full">
+        <div className="flex-col space-y-6  w-full ">
             <div className="grid grid-flow-col justify-start gap-4 w-full no-scrollbar overflow-auto  py-2">
                 <Suspense
                     fallback={

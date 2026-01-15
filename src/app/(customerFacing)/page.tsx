@@ -5,7 +5,7 @@ import img3 from '@/../public/general/vibe.jpg'
 import Link from "next/link";
 import PageHeader from "./_components/PageHeader";
 import { Suspense } from "react";
-import { CartItem, Item, Location } from "@prisma/client";
+import { Item, Location } from "@prisma/client";
 import { ProductSuspense } from "./Menu/_components/ProductSuspense";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";

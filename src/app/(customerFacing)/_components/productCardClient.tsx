@@ -7,7 +7,7 @@ import Image from 'next/image';
 import React, { useState } from 'react'
 import { PiHeartStraightThin } from "react-icons/pi";
 import SchedulePickupDialog from './schedualePickupModal';
-import { CartItem } from '@prisma/client';
+import { CartItem } from '../../../../generated/prisma';
 
 type productObjectPath = {
     id: string;
