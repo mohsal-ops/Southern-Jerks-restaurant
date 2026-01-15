@@ -76,7 +76,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
     },
     {
       name: "Catering",
-      link: "/HostEvent"
+      link: "/catering"
     },
     // {
     //   name: "Host an event",

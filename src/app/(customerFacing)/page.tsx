@@ -5,7 +5,6 @@ import img3 from '@/../public/general/vibe.jpg'
 import Link from "next/link";
 import PageHeader from "./_components/PageHeader";
 import { Suspense } from "react";
-import { Item, Location } from "@prisma/client";
 import { ProductSuspense } from "./Menu/_components/ProductSuspense";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -26,6 +25,7 @@ import dynamic from "next/dynamic";
 import FadeIn from "@/components/FadeIn";
 import MapClient from "@/components/MapClient";
 import ThirdSectionClient from "./_components/ThirdSectionClient";
+import { CartItem, Item, Location } from "generated/prisma";
 
 
 function LocalBusinessSchema() {
@@ -35,21 +35,28 @@ function LocalBusinessSchema() {
       dangerouslySetInnerHTML={{
         __html: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "LocalBusiness",
-          name: "1Cato Snow Cones",
-          image: "https://1cato.com/general/mainImage.jpg",
-          priceRange: "$",
-          telephone: "(619) 443-2165",
+          "@type": "Restaurant",
+          name: "Southern Jerks",
+          image: "https://southernjerks.com/general/mainImage.jpg", // replace later
+          priceRange: "$$",
+          servesCuisine: [
+            "Caribbean",
+            "Chicken Wings",
+            "Sandwiches"
+          ],
           address: {
             "@type": "PostalAddress",
-            streetAddress: "921 E 86th St",
-            addressLocality: "Brooklyn",
-            addressRegion: "NY",
-            postalCode: "11236",
+            streetAddress: "EDIT STREET",
+            addressLocality: "Houston",
+            addressRegion: "TX",
+            postalCode: "EDIT ZIP",
             addressCountry: "US"
           },
-          url: "https://1cato.com",
-          sameAs: ["https://www.instagram.com/1cato", "https://www.facebook.com/1cato"]
+          url: "https://southernjerks.com",
+          sameAs: [
+            "https://www.instagram.com/southernjerks",
+            "https://www.facebook.com/southernjerks"
+          ]
         }),
       }}
     />
@@ -58,27 +65,40 @@ function LocalBusinessSchema() {
 
 
 export const metadata = {
-  title: "1Cato Snow Cones | Refreshing Snow Cones in NYC",
-  description: "Order delicious, gluten-free, fat-free snow cones for schools, corporate events, and festivals in NYC. Book online or request a quote!",
+  title: "Southern Jerks | Caribbean Wings & Sandwiches in Houston",
+  description:
+    "Southern Jerks serves bold Caribbean flavors, juicy chicken wings, and stacked sandwiches in Houston. Fresh, flavorful, and unforgettable.",
+
   icons: {
     icon: "/logo.png",
   },
+
   openGraph: {
-    title: "1Cato Snow Cones | NYC",
-    description: "Refreshing, natural snow cones for events and daily orders. Gluten-free, fat-free, and fully customizable.",
-    url: "https://1cato.com",
-    siteName: "1Cato Snow Cones",
-    images: [{ url: "/general/mainImage.jpg", width: 1200, height: 630 }],
+    title: "Southern Jerks | Caribbean Wings & Sandwiches",
+    description:
+      "Bold Caribbean flavors, juicy wings, and stacked sandwiches made fresh at Southern Jerks in Houston.",
+    url: "https://southernjerks.com",
+    siteName: "Southern Jerks",
+    images: [
+      {
+        url: "/general/mainImage.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
     locale: "en_US",
     type: "website",
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "1Cato Snow Cones | NYC",
-    description: "Order fresh snow cones online or book for your event.",
+    title: "Southern Jerks | Caribbean Food in Houston",
+    description:
+      "Caribbean-inspired wings, sandwiches, and bold flavors you’ll crave.",
     images: ["/general/mainImage.jpg"],
   },
 };
+
 
 
 export default async function Home() {
@@ -142,7 +162,7 @@ export function TopSection() {
   return (
     <div className="flex relative overflow-hidden h-svh sm:flex-row  sm:w-[85%] flex-col bg-stone-100 sm:rounded-3xl sm:p-2 ">
       <div className="sm:relative absolute z-30 bottom-20  flex flex-col gap-8 items-start justify-end mt-10   md:mb-20 md:w-1/2 p-5 md:p-12">
-        <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-[60px] "><h1 className="text-yellow-400">Bold Caribbean flavors</h1> juicy wings, and stacked sandwiches
+        <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-15 "><h1 className="text-yellow-400">Bold Caribbean flavors</h1> juicy wings, and stacked sandwiches
         </span>
         <span className="font-semibold text-white sm:text-zinc-400 text-md">Slow-cooked, perfectly seasoned, and packed with island flavor — made fresh so every bite hits just right.</span>
 
@@ -247,8 +267,8 @@ export function OrderDirectlyfromOUrWebsite() {
   return (
     <div className="relative flex items-end h-96 md:h-svh sm:w-[85vw]  rounded-3xl overflow-hidden   ">
       <Image loading="lazy" src={mainImg} alt="best snow cone in NYC" className="object-cover w-full h-full" />
-      <div className="p-1 - absolute  md:left-30  md:top-1/3 sm:w-[50rem] ">
-        <Card className=" md:p-8 md:space-y-4 bg-neutral-900 text-white rounded-3xl  md:w-[45rem]">
+      <div className="p-1 - absolute  md:left-30  md:top-1/3 sm:w-200 ">
+        <Card className=" md:p-8 md:space-y-4 bg-neutral-900 text-white rounded-3xl  md:w-180">
           <CardHeader>
             <PageHeader>Order From Our Website</PageHeader>
           </CardHeader>
@@ -270,14 +290,14 @@ export function OrderDirectlyfromOUrWebsite() {
 export function DistinctiveFeatures() {
   return (
     <div className="flex flex-col space-y-5 md:w-[85vw] rounded-3xl overflow-hidden ">
-      <div className="flex md:flex-row flex-col justify-between  md:h-[33rem] h-full">
+      <div className="flex md:flex-row flex-col justify-between  md:h-132 h-full">
         <Image loading="lazy" src={img2} alt="Refreshing snow cones" className="object-cover md:w-[45%] w-full h-full rounded-3xl" />
         <div className="flex flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
           <PageHeader>Only flavor that hits</PageHeader>
           <p className="text-lg font-medium text-neutral-600">From juicy wings to stacked sandwiches, every dish is made with care, quality ingredients, and big Caribbean flavor — because average isn’t our thing.</p>
         </div>
       </div>
-      <div className="flex md:flex-row flex-col justify-between md:h-[33rem] h-full">
+      <div className="flex md:flex-row flex-col justify-between md:h-132 h-full">
         <div className="flex md:order-1 order-2 flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
           <PageHeader>Bite, chill, and enjoy</PageHeader>
           <p className="text-lg font-medium text-neutral-600">Our dishes are made to elevate your experience, using quality ingredients, balanced seasoning, and bold flavor in every bite.</p>
@@ -325,8 +345,8 @@ export function RewardsProgram() {
   return (
     <div className="relative flex items-end max-h-svh  rounded-3xl overflow-hidden   ">
       <Image priority src={mainImg} alt="best snow cone in NYC" className="object-cover w-full h-full" />
-      <div className="p-1 - absolute  md:left-30  md:top-1/3 sm:w-[50rem] ">
-        <Card className=" md:p-8 md:space-y-4 bg-stone-300 rounded-3xl md:w-[45rem]">
+      <div className="p-1 - absolute  md:left-30  md:top-1/3 sm:w-200 ">
+        <Card className=" md:p-8 md:space-y-4 bg-stone-300 rounded-3xl md:w-180">
           <CardHeader>
             <PageHeader>1Cato Snow Cones Rewards</PageHeader>
           </CardHeader>
@@ -395,8 +415,8 @@ type placeObject = {
 
 export function OurLocation({ places, lat, lng }: { places: Location[], lat: number, lng: number }) {
   return (
-    <div className=" flex text-sm flex-col sm:flex-row sm:justify-center  sm:items-center p-4  sm:space-x-10 sm:pr-10 h-[35rem] sm:h-[20rem] sm:w-[75%] sm:space-y-0 space-y-5 pb-10 bg-stone-200 rounded-4xl">
-      <div className=" h-1/3  sm:h-full sm:w-[35rem] w-full rounded-4xl  overflow-hidden">
+    <div className=" flex text-sm flex-col sm:flex-row sm:justify-center  sm:items-center p-4  sm:space-x-10 sm:pr-10 h-140 sm:h-80 sm:w-[75%] sm:space-y-0 space-y-5 pb-10 bg-stone-200 rounded-4xl">
+      <div className=" h-1/3  sm:h-full sm:w-140 w-full rounded-4xl  overflow-hidden">
         <MapClient lat={lat} lng={lng} className="h-full w-full " />
       </div>
 
@@ -407,7 +427,7 @@ export function OurLocation({ places, lat, lng }: { places: Location[], lat: num
             <p className="text-gray-500"> Houston, TX</p>
           </span>
           <span className="flex flex-col sm:items-end sm:flex-row w-full h-ful sm:space-y-0 space-y-10">
-            <div className="space-y-3">
+            <div className="space-y-3 w-1/2 bg-black">
               <h2 className="text-gray-500 ">Address</h2>
               <h3 className="w-2/3  ">{places[0]?.name}</h3>
             </div>
@@ -423,7 +443,7 @@ export function OurLocation({ places, lat, lng }: { places: Location[], lat: num
             <span>Tuesday to Sunday</span>
           </div>
           <div>
-            <Link href="/HostEvent"  >
+            <Link href="/catering"  >
               <Button size="sm" variant="mainButton">
                 Catering
                 <MdKeyboardArrowRight />
@@ -439,7 +459,7 @@ export function OurLocation({ places, lat, lng }: { places: Location[], lat: num
 }
 export function Footer() {
   return (
-    <div className="flex w-full text-sm gap-4 items-center md:py-10  justify-between md:justify-center flex-col h-[35rem] sm:h-[15rem] sm:space-x-10  sm:pr-10  md:w-[98%] bg-stone-200 rounded-4xl">
+    <div className="flex w-full text-sm gap-4 items-center md:py-10  justify-between md:justify-center flex-col h-140 sm:h-60 sm:space-x-10  sm:pr-10  md:w-[98%] bg-stone-200 rounded-4xl">
       <div className=" flex flex-col md:flex-row  md:justify-center w-full h-4/5">
         <div className="flex  items-start sm:h-full h-1/3 justify-center w-full md:w-32">
           <Link href="/">
@@ -448,7 +468,7 @@ export function Footer() {
         </div>
         <div className="flex text-start md:space-x-20 text-sm items-start p-4 md:justify-center font-semibold w-full md:w-3/5 flex-col md:flex-row">
           <div className="flex flex-col gap-2">
-            <Button variant="link" ><Link href="/Home">Home</Link></Button>
+            <Button variant="link" ><Link href="/">Home</Link></Button>
             <Button variant="link" ><Link href="/Menu">Menu</Link></Button>
             <Button variant="link" ><Link href="/Blog">Blog</Link></Button>
           </div>

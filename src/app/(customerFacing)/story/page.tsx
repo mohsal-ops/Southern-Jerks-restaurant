@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import pic2 from "@/../public/general/nightfestival.png";
-import pic3 from "@/../public/general/nightfestival.png"; // replace later
-import pic4 from "@/../public/general/nightfestival.png"; // replace later
+import pic2 from "@/../public/general/partners.jpg";
+import pic3 from "@/../public/general/vibe.jpg"; 
+import pic4 from "@/../public/general/enjoy.jpg"; 
 
-export default function OurStoryPage() {
+export default function Page() {
+  console.log("🔥 NEW STORY PAGE LOADED", Date.now());
+
   return (
     <main className="flex flex-col items-center pt-24 space-y-24">
 
@@ -122,7 +124,7 @@ export default function OurStoryPage() {
               transition={{ duration: 0.5 }}
               className="relative"
             >
-              <span className="absolute -left-[38px] top-1 w-4 h-4 bg-yellow-400 rounded-full" />
+              <span className="absolute -left-9.5 top-1 w-4 h-4 bg-yellow-400 rounded-full" />
               <h4 className="font-semibold text-lg">{item.year}</h4>
               <p className="text-gray-600">{item.text}</p>
             </motion.div>

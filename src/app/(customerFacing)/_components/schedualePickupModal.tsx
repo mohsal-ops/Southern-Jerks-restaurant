@@ -32,7 +32,7 @@ function PickupDetails({ onNext }: { onNext: () => void }) {
       </div>
 
       <p className="text-center text-sm text-muted-foreground">
-        📍 1Cato Snow Cones – Exotic Natural Flavors
+        📍 Southern Jerks | Caribbean Wings & Sandwiches in Houston
       </p>
 
 

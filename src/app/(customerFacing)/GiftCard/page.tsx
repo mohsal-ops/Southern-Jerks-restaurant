@@ -32,12 +32,12 @@ export default function GiftCardPage() {
   return (
     <div className="max-w-4xl mx-auto mt-10 space-y-6 ">
 
-      <section className="w-full  bg-gradient-to-b bg-pink-600  via-pink-400 to-white py-24 text-center px-6">
+      <section className="w-full  bg-linear-to-b bg-pink-600  via-pink-400 to-white py-24 text-center px-6">
         <h1 className="text-4xl md:text-5xl font-extrabold text-stone-100 mb-4">
           Give the Perfect Gift 🎁
         </h1>
         <p className="text-gray-800 max-w-xl mx-auto">
-          Perfect for birthdays, holidays, and celebrations — send a snow cone
+          Perfect for birthdays, holidays, and celebrations — send a Southerns Jerks
           gift card to friends, family, or coworkers!
         </p>
       </section>
@@ -169,8 +169,8 @@ function CheckoutForm({ priceInCents }: { priceInCents: number }) {
             <label><input type="radio" checked={formData.delivery === "later"} onChange={() => setFormData({ ...formData, delivery: "later" })} /> Deliver Later</label>
           </div>
           <div className="flex flex-col gap-3 ">
-            <Label className="flex gap-3 font-normal items-center"><Checkbox checked={GetPromEmails} onCheckedChange={() => setGetPromEmails(!GetPromEmails)} /> Get promotional emails from 1Cato Snow cone</Label>
-            <Label className="flex gap-3 font-normal items-center"><Checkbox onChange={() => setGetPromTexts(!GetPromTexts)} /> Get promotional texts from 1Cato Snow cone</Label>
+            <Label className="flex gap-3 font-normal items-center"><Checkbox checked={GetPromEmails} onCheckedChange={() => setGetPromEmails(!GetPromEmails)} /> Get promotional emails from Southern Jerks</Label>
+            <Label className="flex gap-3 font-normal items-center"><Checkbox onChange={() => setGetPromTexts(!GetPromTexts)} /> Get promotional texts from Southern Jerks</Label>
           </div>
 
         </div>

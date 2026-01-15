@@ -146,7 +146,7 @@ export default function MainPageMenu({ featuredProducts, style, places, gategori
             </div>
             <div className='md:w-9/12 w-full md:py-5 px-2 space-y-5 md:space-y-7 '>
                 <div className='flex flex-col gap-2 md:items-start  items-center  font-bold  ' id="name&address">
-                    <p className='tracking-tight font-serif  text-xl text-center'>1Cato Snow Cones Exotic Natural Flavors</p>
+                    <p className='tracking-tight font-serif  text-xl text-center'>Southern jerks Chicken Wings, Sandwiches, Caribbean</p>
                     <p className="flex text-sm items-center font-semibold w-4/5 gap-1  text-neutral-600 text-center  "><FaLocationPin className='md:block hidden' />{places[0] && places[0].name}</p>
                 </div>
                 <div id="PickupOrDelivery " className='text-sm flex  p'>

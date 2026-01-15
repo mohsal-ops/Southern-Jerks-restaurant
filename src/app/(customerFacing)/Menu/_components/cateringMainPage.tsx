@@ -93,7 +93,7 @@ export default function CateringMainPage({ style, gategories, products }: PropsT
             </div>
             <div className='md:w-9/12 w-full md:py-5 px-3 space-y-5 md:space-y-7'>
                 <div className='flex flex-col gap-2 md:items-start  items-center  font-bold  ' id="name&address">
-                    <p className='tracking-tight font-serif  text-xl text-center'>1Cato Snow Cones Exotic Natural Flavors</p>
+                    <p className='tracking-tight font-serif  text-xl text-center'>Southern jerks Chicken Wings, Sandwiches, Caribbean</p>
                 </div>
                 <div id="PickupOrDelivery " className='text-xs flex  bg-stone-200 rounded-3xl p'>
                     <div className="flex w-full justify-between  gap-4 font-semibold text-gray-600">

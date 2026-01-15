@@ -121,9 +121,10 @@ export default function PickupDetails({
 
                             {/* Restaurant location */}
                             <p className="text-center text-sm text-muted-foreground">
-                                📍 1Cato Snow Cones – Exotic Natural Flavors
+                                📍 Southern jerks – Chicken Wings, Sandwiches, Caribbean
                             </p>
                         </>)}
+
 
 
                     {showSchedule && (

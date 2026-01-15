@@ -23,7 +23,7 @@ export default function AppSideBar() {
     },
     {
       name: "Catering",
-      link: "/HostEvent"
+      link: "/catering"
     },
     // {
     //   name: "Host an event",
