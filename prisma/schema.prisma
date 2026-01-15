@@ -8,6 +8,7 @@ generator client {
 
 datasource db {
   provider =  "postgresql"
+
 }
 
 
@@ -50,6 +51,14 @@ model Location {
   lat       Float
   lng       Float
   createdAt DateTime @default(now())
+}
+
+model Post {
+  id          String   @id @default(uuid()) @map("_id")
+  title       String
+  description String
+  image       String
+  createdAt   DateTime @default(now())
 }
 
 model Order {
