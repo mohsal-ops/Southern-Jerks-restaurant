@@ -1,5 +1,5 @@
 import Image from "next/image";
-import mainImg from '@/../public/general/mainImage.webp'
+import mainImg from '@/../public/general/mainImage.jpg'
 import img2 from '@/../public/general/enjoy.jpg'
 import img3 from '@/../public/general/vibe.jpg'
 import Link from "next/link";
@@ -7,11 +7,13 @@ import PageHeader from "./_components/PageHeader";
 import { Suspense } from "react";
 import { ProductSuspense } from "./Menu/_components/ProductSuspense";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { PiInstagramLogoFill } from "react-icons/pi";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { FaStar } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PiPackageFill } from "react-icons/pi";
 import { MdOutlineFamilyRestroom } from "react-icons/md";
+import { FaFacebook } from "react-icons/fa";
 import { BsBagCheckFill } from "react-icons/bs";
 import { TbPlant2Off } from "react-icons/tb";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -164,7 +166,7 @@ export function TopSection() {
       <div className="sm:relative absolute z-30 bottom-20  flex flex-col gap-8 items-start justify-end mt-10   md:mb-20 md:w-1/2 p-5 md:p-12">
         <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-15 "><h1 className="text-yellow-400">Bold Caribbean flavors</h1> juicy wings, and stacked sandwiches
         </span>
-        <span className="font-semibold text-white sm:text-zinc-400 text-md">Slow-cooked, perfectly seasoned, and packed with island flavor — made fresh so every bite hits just right.</span>
+        <span className="font-semibold text-white sm:text-zinc-400 text-md">perfectly  seasoned, and packed with flavor — made fresh so every bite hits just right.</span>
 
         <Link href="/Menu"  >
           <Button size="lg" variant="mainButton">
@@ -427,9 +429,9 @@ export function OurLocation({ places, lat, lng }: { places: Location[], lat: num
             <p className="text-gray-500"> Houston, TX</p>
           </span>
           <span className="flex flex-col sm:items-end sm:flex-row w-full h-ful sm:space-y-0 space-y-10">
-            <div className="space-y-3 w-1/2 bg-black">
+            <div className="space-y-3 w-1/2 ">
               <h2 className="text-gray-500 ">Address</h2>
-              <h3 className="w-2/3  ">{places[0]?.name}</h3>
+              <h3 className="w-2/3  ">2950 Gears Rd. Houston, TX 77067</h3>
             </div>
             <div className="space-y-3">
               <h2 className="text-gray-500 ">Contact</h2>
@@ -466,7 +468,7 @@ export function Footer() {
             <Image priority alt="snow cone logo" className="w-auto h-auto" src={Logo} height={70} width={70} />
           </Link>
         </div>
-        <div className="flex text-start md:space-x-20 text-sm items-start p-4 md:justify-center font-semibold w-full md:w-3/5 flex-col md:flex-row">
+        <div className="flex text-start md:space-x-20 text-sm items-start p-4 md:justify-start md:pl-16 font-semibold w-full md:w-3/5 flex-col md:flex-row">
           <div className="flex flex-col gap-2">
             <Button variant="link" ><Link href="/">Home</Link></Button>
             <Button variant="link" ><Link href="/Menu">Menu</Link></Button>
@@ -481,16 +483,20 @@ export function Footer() {
           </div>
 
         </div>
-        <div className="md:h-full  h-1/5  w-full p-2  md:w-1/5 ">
+        <div className="md:h-full flex flex-col gap-4 justify-between h-1/5  w-full pt-2  md:w-1/5 ">
           <Link href="/Menu"  >
             <Button size="sm" className="w-full" variant="mainButton">
              Order now
               <MdKeyboardArrowRight />
             </Button>
           </Link>
+          <div className="w-full flex gap-4  justify-center">
+            <Link href="https://www.instagram.com/southernjerkshtx/?hl=en"><PiInstagramLogoFill size={25} /></Link>
+            <Link href='https://www.facebook.com/p/Southern-Jerks-100076329252325'><FaFacebook  size={25}/></Link>
+            </div>
         </div>
       </div>
-      <div className="flex items-center  justify-center md:justify-start  h-1/4 w-full py-2 border md:w-2/3  border-t-gray-300">
+      <div className="flex items-center  justify-center md:justify-start   w-full py-2  border md:w-2/3  border-t-gray-300">
         <Button variant="link"><Link className="text-gray-500" href="/terms">Terms & Policies</Link></Button>
       </div>
 

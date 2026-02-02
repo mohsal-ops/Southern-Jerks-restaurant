@@ -3,18 +3,18 @@ import React from 'react'
 import PageHeader from './PageHeader';
 import { motion } from "framer-motion";
 import Image, { StaticImageData } from 'next/image';
-import img1 from '@/../public/general/img1.webp'
-import img2 from '@/../public/general/img2.webp'
-import img3 from '@/../public/general/img3.webp'
-import img4 from '@/../public/general/img4.webp'
-import img5 from '@/../public/general/img5.webp'
-import img6 from '@/../public/general/img6.webp'
-import img7 from '@/../public/general/img7.webp'
-import img8 from '@/../public/general/img8.webp'
-import img9 from '@/../public/general/img9.webp'
-import img10 from '@/../public/general/img10.webp'
-import img11 from '@/../public/general/img11.webp'
-import img12 from '@/../public/general/img12.webp'
+import img1 from '@/../public/general/SouthernJerks-Sep25-78.jpg'
+import img2 from '@/../public/general/SouthernJerks-Sep25-73.jpg'
+import img3 from '@/../public/general/SouthernJerks-Sep25-52.jpg'
+import img4 from '@/../public/general/SouthernJerks-Sep25-59.jpg'
+import img5 from '@/../public/general/SouthernJerks-Sep25-55.jpg'
+import img6 from '@/../public/general/SouthernJerks-Sep25-63.jpg'
+import img7 from '@/../public/general/SouthernJerks-Sep25-58.jpg'
+import img8 from '@/../public/general/SouthernJerks-Sep25-53.jpg'
+import img9 from '@/../public/general/SouthernJerks-Sep25-42.jpg'
+import img10 from '@/../public/general/SouthernJerks-Sep25-46.jpg'
+import img11 from '@/../public/general/SouthernJerks-Sep25-27.jpg'
+import img12 from '@/../public/general/SouthernJerks-Sep25-25.jpg'
 
 
 
@@ -32,7 +32,7 @@ export function ThirdSectionComponent() {
 
       <main className="grid grid-cols-2  sm:grid-cols-3  md:grid-cols-3  w-full gap-6 ">
         {images.map((image,i)=>(
-          <HoverCard key={i} src={image} title="Lovely moment at 1Cato Snow Cone :)" />
+          <HoverCard key={i} src={image} title="Lovely moment at Southern Jerks :)" />
         ))}
         
         

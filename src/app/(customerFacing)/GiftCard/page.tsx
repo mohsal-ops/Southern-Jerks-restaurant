@@ -1,107 +1,186 @@
-"use client"
+"use client";
 
-import { useEffect, useState, FormEvent } from "react"
-import { loadStripe } from "@stripe/stripe-js"
-import { Elements, PaymentElement, LinkAuthenticationElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { formatCurrency } from "@/lib/formatters"
+import { useEffect, useState, FormEvent } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  LinkAuthenticationElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import logo from "public/logo.png";
+import { formatCurrency } from "@/lib/formatters";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useRouter } from "next/navigation"
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string)
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string,
+);
 
 export default function GiftCardPage() {
-  const [clientSecret, setClientSecret] = useState<string>()
-  const [price, setPrice] = useState(50 * 100)
-  const route = useRouter()
+  const [clientSecret, setClientSecret] = useState<string>();
+  const [price, setPrice] = useState(50 * 100);
+  const route = useRouter();
 
   useEffect(() => {
-    fetch("/api/GiftCard/create-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: price }),
-    })
-      .then(res => res.json())
-      .then(data => setClientSecret(data.clientSecret))
-  }, [price])
+    const fetchClientSecret = async () => {
+      try {
+        const res = await fetch("/api/GiftCard/create-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: price }),
+        });
+
+        if (!res.ok) {
+          throw new Error(
+            `Failed to create payment intent. Status: ${res.status}`,
+          );
+        }
+
+        const data = await res.json();
+
+        if (data.clientSecret) {
+          setClientSecret(data.clientSecret);
+        } else {
+          throw new Error("clientSecret missing in response");
+        }
+      } catch (error) {
+        console.error("Error fetching clientSecret:", error);
+        // Optionally show an error message to the user
+      }
+    };
+
+    fetchClientSecret();
+  }, [price]);
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 space-y-6 ">
+    <div className="max-w-5xl mx-auto mt-10 space-y-10">
+      {/* 🔥 HERO */}
+      <section className="relative overflow-hidden rounded-3xl bg-white px-10 py-24 text-center shadow-xl text-yellow-400">
+        {/* REPEATED LOGO BACKGROUND */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${logo.src})`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "200px 200px",
+            transform: "rotate(-8deg) scale(1.2)",
+          }}
+        />
 
-      <section className="w-full  bg-linear-to-b bg-pink-600  via-pink-400 to-white py-24 text-center px-6">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-stone-100 mb-4">
-          Give the Perfect Gift 🎁
-        </h1>
-        <p className="text-gray-800 max-w-xl mx-auto">
-          Perfect for birthdays, holidays, and celebrations — send a Southerns Jerks
-          gift card to friends, family, or coworkers!
-        </p>
-      </section>
+        {/* DARK OVERLAY */}
+        <div className="absolute inset-0 bg-black/80" />
 
-      {/* Card design preview (optional placeholder) */}
-      <section className="w-full max-w-4xl px-6 mt-8 text-center">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">
-          Choose Your Gift Card Amount
-        </h2>
+        {/* CONTENT */}
+        <div className="relative z-10">
+          <div className="flex justify-center mb-6">
+            <div className="rounded-2xl bg-yellow-400 p-3 shadow-xl">
+              <Image src={logo} alt="Southern Jerks" className="h-20 w-auto" />
+            </div>
+          </div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-4">
-          {[10, 25, 50, 75, 100].map((amt) => (
-            <Button
-              key={amt}
-              variant={price === amt * 100 ? "default" : "outline"}
-              className={cn(
-                "rounded-full px-6 py-2 text-lg",
-                price === amt * 100 && "bg-pink-600 text-white"
-              )}
-              onClick={() => setPrice(amt * 100)}
-            >
-              ${amt}
-            </Button>
-          ))}
-        </div>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+            A Gift They’ll <span className="text-white">Never Forget</span>
+          </h1>
 
-        <div className="flex justify-center items-center gap-2 mt-2">
-          <Label htmlFor="customAmount" className="text-gray-600">
-            Or enter custom amount:
-          </Label>
-          <Input
-            id="customAmount"
-            type="number"
-            onChange={(e) => {
-              setPrice(e.target.valueAsNumber)
-
-            }}
-            className="w-28"
-            placeholder="e.g. 30"
-          />
+          <p className="mt-6 max-w-2xl mx-auto text-yellow-200 text-lg">
+            Premium food. Bold flavors. One unforgettable experience. Send a
+            Southern Jerks gift card instantly.
+          </p>
         </div>
       </section>
 
+      {/* 🎁 GIFT CARD PREVIEW */}
+      <section className="grid md:grid-cols-2 gap-10 items-center px-6">
+        <div className="relative">
+          <div className="rounded-2xl bg-linear-to-br from-yellow-400 to-yellow-300 p-8 shadow-2xl -rotate-3">
+            <div className="flex justify-between items-center mb-10">
+              <span className="font-bold text-black text-xl">
+                Southern Jerks
+              </span>
+              <span className="text-black/70">Gift Card</span>
+            </div>
+
+            <div className="text-black text-4xl font-extrabold mb-4">
+              {formatCurrency(price / 100)}
+            </div>
+
+            <div className="flex justify-between text-black/80 text-sm">
+              <span>No Expiration</span>
+              <span>Premium Experience</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Amount Selector */}
+        <div className="space-y-6">
+          <h2 className="text-3xl font-bold text-gray-900">
+            Choose the amount
+          </h2>
+
+          <div className="flex flex-wrap gap-3">
+            {[10, 25, 50, 75, 100].map((amt) => (
+              <Button
+                key={amt}
+                variant="outline"
+                className={cn(
+                  "rounded-full px-6 py-3 text-lg border-2",
+                  price === amt * 100
+                    ? "bg-black text-yellow-400 border-black"
+                    : "border-gray-300",
+                )}
+                onClick={() => setPrice(amt * 100)}
+              >
+                ${amt}
+              </Button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Label className="text-gray-700">Custom amount</Label>
+            <Input
+              type="number"
+              className="w-32"
+              placeholder="e.g. 30"
+              onChange={(e) => setPrice(e.target.valueAsNumber * 100)}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 💳 PAYMENT */}
       {clientSecret ? (
         <Elements options={{ clientSecret }} stripe={stripePromise}>
           <CheckoutForm priceInCents={price} />
         </Elements>
       ) : (
-        <div className="w-full  flex justify-center items-center text-gray-400 py-8">
-          if no payment fields apeared try to <Button variant='link' onClick={()=> route.refresh()} className="p-1 underline"> refresh</Button>
+        <div className="flex justify-center text-gray-400 py-10">
+          Loading payment…
+          <Button
+            variant="link"
+            onClick={() => route.refresh()}
+            className="ml-1"
+          >
+            refresh
+          </Button>
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function CheckoutForm({ priceInCents }: { priceInCents: number }) {
-  const stripe = useStripe()
-  const elements = useElements()
-  const [isLoading, setIsLoading] = useState(false)
-  const [GetPromEmails, setGetPromEmails] = useState(true)
-  const [GetPromTexts, setGetPromTexts] = useState<boolean>()
-  const [email, setEmail] = useState<string>()
-  const [errorMessage, setErrorMessage] = useState<string>()
+  const stripe = useStripe();
+  const elements = useElements();
+  const [email, setEmail] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [formData, setFormData] = useState({
     fromName: "",
     fromEmail: "",
@@ -109,83 +188,107 @@ function CheckoutForm({ priceInCents }: { priceInCents: number }) {
     toEmail: "",
     note: "",
     delivery: "now",
-  })
-
+  });
   async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    if (!stripe || !elements || !email) return
+    e.preventDefault();
 
-    setIsLoading(true)
+    if (!stripe || !elements || !email) return;
 
-    const res = await fetch("/api/gift-cards/save-temp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...formData, email, price: priceInCents }),
-    })
+    setIsLoading(true);
 
-    await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/GcPurchase-success`,
-        receipt_email: email,
-      },
-    }).then(({ error }) => {
-      if (error) setErrorMessage(error.message || "Unknown error occurred")
-    })
+    try {
+      // 1. Send formData to temporary storage API (e.g. save-temp)
+      const formRes = await fetch("/api/GiftCard/temp-save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fromName: formData.fromName,
+          fromEmail: formData.fromEmail,
+          toName: formData.toName,
+          toEmail: formData.toEmail,
+          note: formData.note,
+          price: priceInCents,
+        }),
+      });
 
-    setIsLoading(false)
+      if (!formRes.ok) {
+        throw new Error("Error saving form data");
+      }
+
+      // 2. Confirm Stripe Payment
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/GcPurchase-success`,
+          receipt_email: email,
+        },
+      });
+
+      if (error) {
+        setErrorMessage(error.message);
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage("Payment or form data saving failed");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <Card className="p-6 space-y-4">
-        <h2 className="text-xl font-semibold">Order your gift card today</h2>
-        <p className="text-gray-600">Give the gift of a delicious meal! Perfect for any occasion.</p>
+        <h2 className="text-xl font-semibold">Order your gift card</h2>
 
         <div className="grid grid-cols-2 gap-3">
-          <Input className="border p-2 rounded" placeholder="From Name"
-            value={formData.fromName}
-            onChange={e => setFormData({ ...formData, fromName: e.target.value })} />
-          <Input className="border p-2 rounded" placeholder="From Email"
-            value={formData.fromEmail}
-            onChange={e => setFormData({ ...formData, fromEmail: e.target.value })} />
-          <Input className="border p-2 rounded col-span-2" placeholder="Note"
-            value={formData.note}
-            onChange={e => setFormData({ ...formData, note: e.target.value })} />
+          <Input
+            placeholder="From Name"
+            onChange={(e) =>
+              setFormData({ ...formData, fromName: e.target.value })
+            }
+          />
+          <Input
+            placeholder="From Email"
+            onChange={(e) =>
+              setFormData({ ...formData, fromEmail: e.target.value })
+            }
+          />
+          <Input
+            className="col-span-2"
+            placeholder="Note"
+            onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+          />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <input className="border p-2 rounded" placeholder="To Name"
-            value={formData.toName}
-            onChange={e => setFormData({ ...formData, toName: e.target.value })} />
-          <input className="border p-2 rounded" placeholder="To Email"
-            value={formData.toEmail}
-            onChange={e => setFormData({ ...formData, toEmail: e.target.value })} />
-        </div>
-
-        <div className="  space-y-5">
-          <div className="flex gap-3">
-            <label ><input type="radio" checked={formData.delivery === "now"} onChange={() => setFormData({ ...formData, delivery: "now" })} /> Deliver Now</label>
-            <label><input type="radio" checked={formData.delivery === "later"} onChange={() => setFormData({ ...formData, delivery: "later" })} /> Deliver Later</label>
-          </div>
-          <div className="flex flex-col gap-3 ">
-            <Label className="flex gap-3 font-normal items-center"><Checkbox checked={GetPromEmails} onCheckedChange={() => setGetPromEmails(!GetPromEmails)} /> Get promotional emails from Southern Jerks</Label>
-            <Label className="flex gap-3 font-normal items-center"><Checkbox onChange={() => setGetPromTexts(!GetPromTexts)} /> Get promotional texts from Southern Jerks</Label>
-          </div>
-
+          <Input
+            placeholder="To Name"
+            onChange={(e) =>
+              setFormData({ ...formData, toName: e.target.value })
+            }
+          />
+          <Input
+            placeholder="To Email"
+            onChange={(e) =>
+              setFormData({ ...formData, toEmail: e.target.value })
+            }
+          />
         </div>
 
         <PaymentElement />
-        <div className="mt-4">
-          <LinkAuthenticationElement onChange={e => setEmail(e.value.email)} />
-        </div>
+        <LinkAuthenticationElement onChange={(e) => setEmail(e.value.email)} />
 
-        <Button type="submit" disabled={isLoading || !stripe || !elements} className="w-full mt-3 bg-green-500 hover:bg-green-600/90">
-          {isLoading ? "Processing..." : `Pay ${formatCurrency(priceInCents / 100)}`}
+        <Button
+          type="submit"
+          className="w-full bg-black text-yellow-400 hover:bg-black/90"
+        >
+          {isLoading
+            ? "Processing..."
+            : `Pay ${formatCurrency(priceInCents / 100)}`}
         </Button>
 
-        {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       </Card>
     </form>
-  )
+  );
 }

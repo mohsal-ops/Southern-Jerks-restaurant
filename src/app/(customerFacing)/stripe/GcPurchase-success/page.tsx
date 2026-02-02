@@ -1,12 +1,8 @@
 import { Button } from "@/components/ui/button";
-import db from "@/db/db";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import Stripe from "stripe";
 
-// ✅ Compatible with Next.js 15.1+
 export default async function Success(props: any) {
-  // Some Next.js builds treat searchParams as Promise, some as object
   const searchParams = await Promise.resolve(props.searchParams);
   const payment_intent = searchParams?.payment_intent;
 

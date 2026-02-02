@@ -18,7 +18,7 @@ export default function HomeLoading() {
       </div>
 
       {/* BIG IMAGE SECTION */}
-      <div className="w-[85%] h-[400px] bg-gray-200 rounded-3xl" />
+      <div className="w-[85%] h-100 bg-gray-200 rounded-3xl" />
 
       {/* REVIEWS */}
       <div className="grid md:grid-cols-3 gap-6 w-[85%]">
@@ -28,7 +28,7 @@ export default function HomeLoading() {
       </div>
 
       {/* MAP */}
-      <div className="w-[85%] h-[300px] bg-gray-200 rounded-3xl" />
+      <div className="w-[85%] h-75 bg-gray-200 rounded-3xl" />
 
     </div>
   );

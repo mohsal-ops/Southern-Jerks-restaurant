@@ -13,7 +13,7 @@ export const GetCateringProducts = cache(async () => {
   })
     return products
 
-}, ['cater-products-fun'],{tags:['catering-products']})
+}, ['cater-products-fun'],{tags:['catering-products'],  revalidate: 60 * 15})
 
 
 
@@ -21,7 +21,7 @@ export const GetProducts = cache(async () => {
     const products = await db.item.findMany()
     return products
 
-}, ['products-fun'],{tags:['products']})
+}, ['products-fun'],{tags:['products'] ,  revalidate: 60 * 15})
 
 export const GetFeaturedProducts = cache(async () => {
     const products = await db.item.findMany({
@@ -30,7 +30,7 @@ export const GetFeaturedProducts = cache(async () => {
     return products
 
 
-}, ['featured-products-fun'],{tags:['featured-products']})
+}, ['featured-products-fun'],{tags:['featured-products'], revalidate: 60 * 15}) // 15 minutes})
 
 
 
@@ -39,16 +39,16 @@ export const GetGategories = cache(async () => {
     const types = await db.types.findMany()
     return types
 
-}, ['categorries-fun'],{tags:['categorries']})
+}, ['categories-fun'],{tags:['categories'], revalidate: 60 * 60 * 24})
 
 export const GetPlaces = cache(async () => {
     const places = await db.location.findMany()
     return places
 
-}, ['location'],{tags:['location']})
+}, ['location'],{tags:['location'], revalidate: 60 * 60 * 24 * 15 }) // 15 days
 
 
-export const GetCartItems = cache(async (cartId) => {
+export async function GetCartItems (cartId : string | null) {
 
     if (!cartId) return { items: [] };
     const cart = await db.cart.findUnique({
@@ -60,8 +60,7 @@ export const GetCartItems = cache(async (cartId) => {
     if(!cart ) return {items:[]}
 
     return cart
-}, ['cart-items'],{ tags:['cart'], revalidate:2},
-  );
+}
 
 
   
