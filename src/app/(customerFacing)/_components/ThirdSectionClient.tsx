@@ -10,7 +10,7 @@ const ThirdSectionComponent = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-[85%] h-[400px] bg-gray-200 rounded-3xl animate-pulse" />
+      <div className="w-[85%] h-100 bg-gray-200 rounded-3xl animate-pulse" />
     ),
   }
 );

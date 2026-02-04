@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import pic2 from "@/../public/general/partners.jpg";
-import pic3 from "@/../public/general/vibe.jpg"; 
-import pic4 from "@/../public/general/enjoy.jpg"; 
+import pic2 from "@/../public/general/generalPages/partners.jpg";
+import pic3 from "@/../public/general/generalPages/vibe.jpg"; 
+import pic4 from "@/../public/general/generalPages/enjoy.jpg"; 
 
 export default function Page() {
   console.log("🔥 NEW STORY PAGE LOADED", Date.now());

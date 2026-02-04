@@ -45,7 +45,8 @@ next-env.d.ts
 src/app/admin/service-account.json
 src/app/admin/service-account.json:1
 
-public/
+public/general/notused/
+
 
 
 

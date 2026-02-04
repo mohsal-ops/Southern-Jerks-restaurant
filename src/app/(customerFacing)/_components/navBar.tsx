@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "@/../public/general/logo.png"
+import Logo from "@/../public/general/logo/logo.png"
 import AppSideBar from "./sideBar";
 import CartSideBar from "./Cart-SideBar";
 import { Button } from "@/components/ui/button";

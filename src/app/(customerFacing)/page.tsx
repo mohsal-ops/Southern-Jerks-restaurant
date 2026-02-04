@@ -1,7 +1,7 @@
 import Image from "next/image";
-import mainImg from '@/../public/general/mainImage.jpg'
-import img2 from '@/../public/general/enjoy.jpg'
-import img3 from '@/../public/general/vibe.jpg'
+import mainImg from '@/../public/general/generalPages/mainImage.jpg'
+import img2 from '@/../public/general/generalPages/enjoy.jpg'
+import img3 from '@/../public/general/generalPages/vibe.jpg'
 import Link from "next/link";
 import PageHeader from "./_components/PageHeader";
 import { Suspense } from "react";
@@ -18,7 +18,7 @@ import { BsBagCheckFill } from "react-icons/bs";
 import { TbPlant2Off } from "react-icons/tb";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import GetPlaces from "./_components/getPlaces";
-import Logo from "@/../public/general/logo.png"
+import Logo from "@/../public/general/logo/logo.png";
 import { GetCartItems, GetFeaturedProducts } from "./Menu/_actions/getDataNeeded";
 import { cookies } from "next/headers";
 import { Button } from "@/components/ui/button";
@@ -39,7 +39,7 @@ function LocalBusinessSchema() {
           "@context": "https://schema.org",
           "@type": "Restaurant",
           name: "Southern Jerks",
-          image: "https://southernjerks.com/general/mainImage.jpg", // replace later
+          image: "https://southernjerks.com/general/generalPages/mainImage.jpg", // replace later
           priceRange: "$$",
           servesCuisine: [
             "Caribbean",
@@ -83,7 +83,7 @@ export const metadata = {
     siteName: "Southern Jerks",
     images: [
       {
-        url: "/general/mainImage.jpg",
+        url: "/general/generalPages/mainImage.jpg",
         width: 1200,
         height: 630,
       },
@@ -236,17 +236,17 @@ export function ReviewsSection() {
     {
       name: "Terrence B.",
       review: "This was some good eatin! Chicken has a nice coating and is crispy. The jerk flavor in the breading sets this apart from others. And the sauce options were flavorful.",
-      link :"/general/review1.jpg"
+      link :"/general/reviews/review1.jpg"
     },
     {
       name: "	Paris B.",
       review: "I've been addicted since I first tried them. Literally went back that same day for dinner . Now I've told my job about and we decided to get them for lunch. 10 out 10 recommend! Go give it a try",
-      link :"/general/review2.jpg"
+      link :"/general/reviews/review2.jpg"
     },
     {
       name: "Candice T.",
       review: "Food is do good. Owners are super nice. Chicken is amazing. Didn't care for the rice. Fries are good. Mac n cheese looks delicious. Bad area, long wait. But food is so good!",
-      link :"/general/review3.jpg"
+      link :"/general/reviews/review3.jpg"
     }
   ]
   return (

@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import img from "public/general/SouthernJerks-Sep25-42.jpg";
+import img from "public/general/generalPages/SouthernJerks-Sep25-42.jpg";
 import { CartItem, Item, Types } from "generated/prisma";
 import { ProductCardSkeleton } from "../_components/ProductCardServer";
 import { AllDishesSuspense } from "../Menu/_components/ProductSuspense";
