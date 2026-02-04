@@ -109,7 +109,7 @@ export default function MainPageMenu({ featuredProducts, style, places, gategori
     return (
         <div style={{ ...style }} className='flex flex-col md:flex-row gap-16 w-full lg:w-[80%] pt-20 '>
             <div className='relative hidden md:block w-2/12 py-5  '>
-                <div id="SearchBar&gategories" className='flex w-[15rem] flex-col fixed'>
+                <div id="SearchBar&gategories" className='flex w-60 flex-col fixed'>
                     <div className='flex  w-full justify-start items-center  border border-stone-300 rounded-xl outline-none focus-within:border-2 focus-within:border-black'>
                         {/* Search Input */}
                         <PiMagnifyingGlass fontSize={21} className="mx-2" />
@@ -155,14 +155,15 @@ export default function MainPageMenu({ featuredProducts, style, places, gategori
                         <div className='bg-stone-200 w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden'>
                             <label className="cursor-pointer w-1/2 relative">
                                 <input
-                                    type=""
+                                   type="radio"
                                     name="orderType"
-                                    className='hidden peer'
+                                    value="delivery"
+                                    checked={choice === "delivery"}
+                                    onChange={() => setChoice("delivery")}
+                                    className="hidden peer"
                                 />
-                                {/* <div className="h-full  bg-stone-200 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
-                                    Delivery
-                                </div> */}
-                                <div className="h-full  bg-stone-200 border  flex items-center justify-center  rounded-3xl ">
+
+                                <div className="h-full bg-stone-200 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
                                     Delivery
                                 </div>
                             </label>
@@ -260,7 +261,7 @@ export default function MainPageMenu({ featuredProducts, style, places, gategori
 
                 </div>
             </div>
-            <PickupDetails open={open} onOpenChange={setOpen} />
+            <PickupDetails orderType={choice} open={open} onOpenChange={setOpen} />
         </div>
     )
 }

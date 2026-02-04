@@ -19,7 +19,7 @@ export default function CateringMainPage({ style, gategories, products }: PropsT
     const [choice, setChoice] = useState<"delivery" | "pickup" | null>("pickup");
     const [query, setQuery] = useState("");
     const { cartItems } = useCart();
-
+console.log(choice)
 
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
@@ -56,7 +56,7 @@ export default function CateringMainPage({ style, gategories, products }: PropsT
     return (
         <div className='flex flex-col md:flex-row gap-16 w-full lg:w-[80%] pt-20'>
             <div className='relative hidden md:block w-2/12 py-5  '>
-                <div id="SearchBar&gategories" className='flex w-[15rem] flex-col fixed'>
+                <div id="SearchBar&gategories" className='flex w-60 flex-col fixed'>
                     <div className='flex  w-full justify-start items-center  border border-stone-300 rounded-xl outline-none focus-within:border-2 focus-within:border-black'>
                         {/* Search Input */}
                         <PiMagnifyingGlass fontSize={21} className="mx-2" />

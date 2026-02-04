@@ -90,7 +90,7 @@ export default function CateringPage({ gategories, products }: Props) {
             transform: "rotate(-8deg) scale(1.2)",
           }}
         />
-        <div className="absolute inset-0 bg-black/80" />
+        <div className="absolute inset-0 bg-black/90" />
 
         <div className="w-full sm:w-1/2 h-75 md:h-full relative overflow-hidden rounded-2xl">
           <Image

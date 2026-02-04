@@ -75,7 +75,7 @@ export default function GiftCardPage() {
         />
 
         {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-black/80" />
+        <div className="absolute inset-0 bg-black/90" />
 
         {/* CONTENT */}
         <div className="relative z-10">
