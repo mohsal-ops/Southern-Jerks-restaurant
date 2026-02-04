@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useRef, useState, useEffect, Suspense } from "react";
+'use client'
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -16,16 +15,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import img from "public/general/3rdsection/SouthernJerks-Sep25-42.jpg";
-import { CartItem, Item, Types } from "generated/prisma";
-import { ProductCardSkeleton } from "../_components/ProductCardServer";
-import { AllDishesSuspense } from "../Menu/_components/ProductSuspense";
 
-type Props = {
-  gategories: Types[];
-  products: Item[];
-};
 
-export default function CateringPage({ gategories, products }: Props) {
+
+
+export default function CateringPage() {
   const [open, setOpen] = useState(false);
   const packagesRef = useRef<HTMLDivElement | null>(null);
   const [formData, setFormData] = useState({
@@ -159,7 +153,7 @@ export default function CateringPage({ gategories, products }: Props) {
       </section>
 
       {/* Menu / Packages */}
-      <section ref={packagesRef} className="max-w-6xl w-full space-y-10 px-2">
+      <section ref={packagesRef} className="max-w-6xl w-full space-y-10 pb-4 px-2">
         <div className="flex flex-col gap-4 sm:flex-row justify-between items-center">
           <h2 className="text-3xl font-bold">Catering Menu</h2>
           <Button
@@ -173,7 +167,6 @@ export default function CateringPage({ gategories, products }: Props) {
             Download Menu
           </Button>
         </div>
-        <AllDishes products={products} />
       </section>
 
       {/* Request Form */}
@@ -252,20 +245,4 @@ export default function CateringPage({ gategories, products }: Props) {
   );
 }
 
-function AllDishes({ products }: { products: Item[] }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Suspense
-        fallback={
-          <>
-            <ProductCardSkeleton />
-            <ProductCardSkeleton />
-            <ProductCardSkeleton />
-          </>
-        }
-      >
-        <AllDishesSuspense cartItems={[]} products={products} />
-      </Suspense>
-    </div>
-  );
-}
+
