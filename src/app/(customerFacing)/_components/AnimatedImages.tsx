@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import PageHeader from './PageHeader';
 import { motion } from "framer-motion";
 import Image, { StaticImageData } from 'next/image';
@@ -49,6 +49,7 @@ export function HoverCard({
   src: StaticImageData;
   title: string;
 }) {
+  const [loaded, setLoaded] = useState(false);
   const MotionImage = motion.create(Image);
 
   return (
@@ -56,22 +57,30 @@ export function HoverCard({
       initial="rest"
       whileHover="hover"
       animate="rest"
-      className="relative w-full aspect-square   overflow-hidden rounded-2xl shadow-lg"
+      className="relative w-full aspect-square overflow-hidden rounded-2xl shadow-lg"
     >
-      {/* image */}
+      {/* Skeleton (same size, no layout shift) */}
+      {!loaded && (
+        <div className="absolute inset-0 bg-gray-300 animate-pulse z-10" />
+      )}
+
+      {/* Image */}
       <MotionImage
         loading="lazy"
         src={src}
         alt={title}
         className="object-cover w-full h-full"
+        onLoadingComplete={() => setLoaded(true)}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: loaded ? 1 : 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
         variants={{
           rest: { scale: 1, y: 0 },
           hover: { scale: 1.06, y: -6 },
         }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
       />
 
-      {/* overlay */}
+      {/* Overlay (unchanged) */}
       <motion.div
         variants={{
           rest: { opacity: 0, y: 8 },
@@ -86,7 +95,5 @@ export function HoverCard({
         </motion.h3>
       </motion.div>
     </motion.div>
-  );
+  )
 }
-
-

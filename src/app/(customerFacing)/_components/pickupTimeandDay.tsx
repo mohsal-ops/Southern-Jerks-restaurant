@@ -15,18 +15,39 @@ import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/providers/CartProvider";
+import HereAutocomplete from "@/lib/HereAutocomplete";
+
+type HerePlace = {
+  id: string;
+  title: string;
+  address: {
+    label: string;
+  };
+  position: {
+    lat: number;
+    lng: number;
+  };
+};
 
 export default function PickupDetails({
   open,
   onOpenChange,
-  orderType
+  orderType,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  orderType : "delivery" | "pickup" | null;
+  orderType: "delivery" | "pickup" | null;
 }) {
   const [showSchedule, setShowSchedule] = useState(false);
   const [showpickupDetails, setshowpickupDetails] = useState(true);
+  const [selectedPlace, setSelectedPlace] = useState<{
+    address: string;
+    lat: number;
+    lng: number;
+    placeId: string;
+  } | null>(null);
+  const [apt, setApt] = useState("");
+  const [instructions, setInstructions] = useState("");
 
   // 🟢 selectedDay is now a Date or null
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
@@ -51,6 +72,29 @@ export default function PickupDetails({
     d.setDate(today.getDate() + i + 2);
     return d;
   });
+  const handleAddDelivery = async () => {
+    if (!selectedPlace) {
+      toast("Please select delivery address");
+      return;
+    }
+
+    await fetch("/api/cart/addDelivery", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        address: selectedPlace.address,
+        lat: selectedPlace.lat,
+        lng: selectedPlace.lng,
+        placeId: selectedPlace.placeId,
+        apt,
+        instructions,
+      }),
+    });
+
+    await mutate(["/api/cart/get", cartId]);
+    router.refresh();
+    onOpenChange(false);
+  };
   const handleAddToCart = async (Day: Date | null, Time: string | null) => {
     if (!Day || !Time) {
       toast("Please select a day and time");
@@ -114,21 +158,62 @@ export default function PickupDetails({
         </DialogHeader>
 
         <div className="flex flex-col space-y-8 flex-1 p-2">
+          {orderType === "delivery" && !selectedPlace && (
+            <HereAutocomplete
+              onSelect={(place) => {
+                setSelectedPlace({
+                  address: place.address.label,
+                  lat: place.position.lat,
+                  lng: place.position.lng,
+                  placeId: place.id,
+                });
+              }}
+            />
+          )}
+
+          {orderType === "delivery" && selectedPlace && (
+            <div className="flex flex-col gap-3">
+              <div className="border p-3 rounded-xl flex justify-between items-center">
+                <div>
+                  <div className="font-medium">📍 {selectedPlace.address}</div>
+                </div>
+                <button
+                  className="text-sm text-blue-500"
+                  onClick={() => setSelectedPlace(null)}
+                >
+                  Change
+                </button>
+              </div>
+
+              <input
+                placeholder="Apt / Suite / Floor"
+                value={apt}
+                onChange={(e) => setApt(e.target.value)}
+                className="border rounded-xl p-3"
+              />
+
+              <textarea
+                placeholder="Delivery instructions"
+                value={instructions}
+                onChange={(e) => setInstructions(e.target.value)}
+                className="border rounded-xl p-3"
+              />
+            </div>
+          )}
           {showpickupDetails && (
             <>
-              <div
+              {/* <div
                 id="PickupOrDelivery "
                 className="text-xs flex  bg-stone-200 rounded-3xl p"
               >
                 <div className="flex w-full justify-between  gap-4 font-semibold text-gray-600">
-                  {/* Delivery */}
                   <label className="cursor-pointer w-1/2 relative">
                     <input
                       type="radio"
                       name="orderType"
                       value="delivery"
-                    //   checked={choice === "delivery"}
-                    //   onChange={() => setChoice("delivery")}
+                        checked={choice === "delivery"}
+                        onChange={() => setChoice("delivery")}
                       className="hidden peer"
                     />
                     <div className=" h-10 bg-stone-200 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
@@ -136,14 +221,13 @@ export default function PickupDetails({
                     </div>
                   </label>
 
-                  {/* Pickup */}
                   <label className="cursor-pointer w-1/2 relative ">
                     <input
                       type="radio"
                       name="orderType"
                       value="pickup"
-                    //   checked={choice === "pickup"}
-                    //   onChange={() => setChoice("pickup")}
+                        checked={choice === "pickup"}
+                        onChange={() => setChoice("pickup")}
                       className="hidden peer"
                     />
                     <div className=" h-10 bg-stone-200 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
@@ -151,113 +235,113 @@ export default function PickupDetails({
                     </div>
                   </label>
                 </div>
-              </div>
+              </div> */}
               <p className="text-center text-sm text-muted-foreground">
                 📍 Southern jerks – Chicken Wings, Sandwiches, Caribbean
               </p>
             </>
           )}
 
-          {showSchedule || orderType === "pickup" && (
-            <>
-              {/* Day Selection */}
-              <div className="flex flex-col gap-2  ">
-                <div className="flex gap-2">
-                  {/* Today */}
-                  <Button
-                    size="lg"
-                    variant={
-                      isSameDay(selectedDay, today) ? "clicked" : "outline"
-                    }
-                    className="flex justify-between w-1/2"
-                    onClick={() => {
-                      setSelectedDay(today);
-                      setShowMoreDays(false);
-                    }}
-                  >
-                    <span>{formatDay(today).split(" ")[0]}</span>
-                    <span>
-                      {formatDay(today).split(" ").slice(1).join(" ")}
-                    </span>
-                  </Button>
+          {showSchedule ||
+            (orderType === "pickup" && (
+              <>
+                {/* Day Selection */}
+                <div className="flex flex-col gap-2  ">
+                  <div className="flex gap-2">
+                    {/* Today */}
+                    <Button
+                      size="lg"
+                      variant={
+                        isSameDay(selectedDay, today) ? "clicked" : "outline"
+                      }
+                      className="flex justify-between w-1/2"
+                      onClick={() => {
+                        setSelectedDay(today);
+                        setShowMoreDays(false);
+                      }}
+                    >
+                      <span>{formatDay(today).split(" ")[0]}</span>
+                      <span>
+                        {formatDay(today).split(" ").slice(1).join(" ")}
+                      </span>
+                    </Button>
 
-                  {/* Tomorrow */}
-                  <Button
-                    size="lg"
-                    variant={
-                      isSameDay(selectedDay, tomorrow) ? "clicked" : "outline"
-                    }
-                    className="flex justify-between w-1/2"
-                    onClick={() => {
-                      setSelectedDay(tomorrow);
-                      setShowMoreDays(false);
-                    }}
-                  >
-                    <span>{formatDay(tomorrow).split(" ")[0]}</span>
-                    <span>
-                      {formatDay(tomorrow).split(" ").slice(1).join(" ")}
-                    </span>
-                  </Button>
-                </div>
-
-                {/* More Days */}
-                <Button
-                  size="lg"
-                  variant="outline"
-                  onClick={() => setShowMoreDays(!showMoreDays)}
-                  className="w-full justify-between"
-                >
-                  More days
-                  <span>▼</span>
-                </Button>
-
-                {showMoreDays && (
-                  <div className="grid grid-cols-2 gap-2 ">
-                    {moreDays.map((day, i) => (
-                      <Button
-                        size="lg"
-                        key={i}
-                        variant={
-                          isSameDay(selectedDay, day) ? "clicked" : "outline"
-                        }
-                        className="justify-between"
-                        onClick={() => setSelectedDay(day)}
-                      >
-                        <span>{formatDay(day).split(" ")[0]}</span>
-                        <span>
-                          {formatDay(day).split(" ").slice(1).join(" ")}
-                        </span>
-                      </Button>
-                    ))}
+                    {/* Tomorrow */}
+                    <Button
+                      size="lg"
+                      variant={
+                        isSameDay(selectedDay, tomorrow) ? "clicked" : "outline"
+                      }
+                      className="flex justify-between w-1/2"
+                      onClick={() => {
+                        setSelectedDay(tomorrow);
+                        setShowMoreDays(false);
+                      }}
+                    >
+                      <span>{formatDay(tomorrow).split(" ")[0]}</span>
+                      <span>
+                        {formatDay(tomorrow).split(" ").slice(1).join(" ")}
+                      </span>
+                    </Button>
                   </div>
-                )}
-                {/* Time Slots */}
-                <div
-                  className={`${showMoreDays && "h-28"} flex flex-col max-h-72  overflow-hidden `}
-                >
-                  <p className="font-medium mb-2">Available times:</p>
-                  <div className="w-full h-full overflow-auto ">
-                    <div>
-                      {timeSlots.map((t) => (
-                        <div
-                          key={t}
-                          onClick={() => setSelectedTime(t)}
-                          className="flex items-center w-full py-4 px-2 space-x-4 border-b cursor-pointer"
+
+                  {/* More Days */}
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    onClick={() => setShowMoreDays(!showMoreDays)}
+                    className="w-full justify-between"
+                  >
+                    More days
+                    <span>▼</span>
+                  </Button>
+
+                  {showMoreDays && (
+                    <div className="grid grid-cols-2 gap-2 ">
+                      {moreDays.map((day, i) => (
+                        <Button
+                          size="lg"
+                          key={i}
+                          variant={
+                            isSameDay(selectedDay, day) ? "clicked" : "outline"
+                          }
+                          className="justify-between"
+                          onClick={() => setSelectedDay(day)}
                         >
-                          <Checkbox
-                            checked={selectedTime === t}
-                            onCheckedChange={() => setSelectedTime(t)}
-                          />
-                          <Label>{t}</Label>
-                        </div>
+                          <span>{formatDay(day).split(" ")[0]}</span>
+                          <span>
+                            {formatDay(day).split(" ").slice(1).join(" ")}
+                          </span>
+                        </Button>
                       ))}
+                    </div>
+                  )}
+                  {/* Time Slots */}
+                  <div
+                    className={`${showMoreDays && "h-28"} flex flex-col max-h-72  overflow-hidden `}
+                  >
+                    <p className="font-medium mb-2">Available times:</p>
+                    <div className="w-full h-full overflow-auto ">
+                      <div>
+                        {timeSlots.map((t) => (
+                          <div
+                            key={t}
+                            onClick={() => setSelectedTime(t)}
+                            className="flex items-center w-full py-4 px-2 space-x-4 border-b cursor-pointer"
+                          >
+                            <Checkbox
+                              checked={selectedTime === t}
+                              onCheckedChange={() => setSelectedTime(t)}
+                            />
+                            <Label>{t}</Label>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </>
-          )}
-
+              </>
+            ))}
         </div>
 
         <DialogFooter className="flex-none p-3 shadow-lg shadow-black">
@@ -287,6 +371,16 @@ export default function PickupDetails({
               }}
             >
               Schedule Order
+            </Button>
+          )}
+          {orderType === "delivery" && selectedPlace && (
+            <Button
+              size="md"
+              variant="mainButton"
+              className="w-full"
+              onClick={handleAddDelivery}
+            >
+              Confirm Delivery
             </Button>
           )}
         </DialogFooter>
