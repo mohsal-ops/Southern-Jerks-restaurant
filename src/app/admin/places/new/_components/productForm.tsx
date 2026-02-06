@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/formatters";
-import { Item } from "@prisma/client";
 import { Label } from "@radix-ui/react-label";
+import { Item } from "generated/prisma";
 import { useActionState, useEffect } from "react";
 import { useFormState } from "react-dom";
 

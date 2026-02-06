@@ -9,11 +9,11 @@ import db from "@/db/db";
 import { formatCurrency, formatDate, formatNumber } from "@/lib/formatters";
 import OrdersByDayChart from "./_components/charts/orderByDayChart";
 import { ReactNode } from "react";
-import { Prisma } from "@prisma/client";
 import { differenceInDays, differenceInMonths, differenceInWeeks, eachDayOfInterval, eachMonthOfInterval, eachWeekOfInterval, eachYearOfInterval, endOfWeek, interval, max, min, startOfDay, startOfWeek, subDays } from "date-fns";
 import UserssByDayChart from "./_components/charts/usersByDayChart";
 import ProductRevenueByDayChart from "./_components/charts/productRevenuByDayChart";
 import TrafficSourceChart from "./_components/charts/trafficSources";
+import { Prisma } from "generated/prisma";
 
 
 
