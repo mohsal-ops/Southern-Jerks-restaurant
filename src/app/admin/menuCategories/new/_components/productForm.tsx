@@ -4,8 +4,8 @@ import { AddCategory } from "@/app/admin/_actions/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { Item } from "@prisma/client";
 import { Label } from "@radix-ui/react-label";
+import { Item } from "generated/prisma";
 import { useActionState, useEffect } from "react";
 
 const initialState = {
