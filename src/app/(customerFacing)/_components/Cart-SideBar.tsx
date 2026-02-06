@@ -172,7 +172,7 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
                             </div>
                             <SheetFooter>
                                 <Link className="w-full " href={{ pathname: `/Menu/${cartId}/purchase` }}>
-                                    <Button className="w-full" variant="mainButton" >
+                                    <Button disabled={subtotal === 0} className="w-full" variant="mainButton" >
                                         Checkout
 
                                     </Button>

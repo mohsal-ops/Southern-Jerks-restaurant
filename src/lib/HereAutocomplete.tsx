@@ -1,6 +1,12 @@
 "use client";
 import { useState } from "react";
 
+type HereSuggestion = {
+  id: string;
+  title: string;
+  address: { label: string };
+};
+
 type HerePlace = {
   id: string;
   title: string;
@@ -14,11 +20,11 @@ export default function HereAutocomplete({
   onSelect: (place: HerePlace) => void;
 }) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<HerePlace[]>([]);
+  const [results, setResults] = useState<HereSuggestion[]>([]);
 
   const search = async (q: string) => {
     setQuery(q);
-    if (q.length < 3) {
+    if (q.length < 2) {
       setResults([]);
       return;
     }
@@ -26,17 +32,17 @@ export default function HereAutocomplete({
     const res = await fetch(
       `https://autocomplete.search.hereapi.com/v1/autocomplete?q=${encodeURIComponent(
         q
-      )}&apiKey=${process.env.NEXT_PUBLIC_HERE_API_KEY}`
+      )}&limit=5&apiKey=${process.env.NEXT_PUBLIC_HERE_API_KEY}`
     );
 
     const data = await res.json();
 
-    // Filter items to only real "places" with lat/lng
-    const filtered: HerePlace[] = (data.items || [])
+    const filtered: HereSuggestion[] = (data.items || [])
       .filter(
         (item: any) =>
-          item.resultType === "place" &&
-          item.position &&
+          (item.resultType === "houseNumber" ||
+            item.resultType === "street" ||
+            item.resultType === "place") &&
           item.address &&
           item.address.label
       )
@@ -44,10 +50,31 @@ export default function HereAutocomplete({
         id: item.id,
         title: item.title,
         address: { label: item.address.label },
-        position: { lat: item.position.lat, lng: item.position.lng },
       }));
 
     setResults(filtered);
+  };
+
+  const resolvePlace = async (item: HereSuggestion) => {
+    const res = await fetch(
+      `https://lookup.search.hereapi.com/v1/lookup?id=${item.id}&apiKey=${process.env.NEXT_PUBLIC_HERE_API_KEY}`
+    );
+
+    const full = await res.json();
+
+    const place: HerePlace = {
+      id: item.id,
+      title: item.title,
+      address: { label: item.address.label },
+      position: {
+        lat: full.position.lat,
+        lng: full.position.lng,
+      },
+    };
+
+    onSelect(place);
+    setQuery(item.address.label);
+    setResults([]);
   };
 
   return (
@@ -64,15 +91,13 @@ export default function HereAutocomplete({
           {results.map((item) => (
             <div
               key={item.id}
-              onClick={() => {
-                onSelect(item);
-                setResults([]);
-                setQuery(item.address.label);
-              }}
+              onClick={() => resolvePlace(item)}
               className="p-3 hover:bg-gray-100 cursor-pointer"
             >
               <div className="font-medium">{item.title}</div>
-              <div className="text-sm text-gray-500">{item.address.label}</div>
+              <div className="text-sm text-gray-500">
+                {item.address.label}
+              </div>
             </div>
           ))}
         </div>

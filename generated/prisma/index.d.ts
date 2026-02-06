@@ -9151,11 +9151,15 @@ export namespace Prisma {
   }
 
   export type CartItemAvgAggregateOutputType = {
+    deliveryLat: number | null
+    deliveryLng: number | null
     price: number | null
     quantity: number | null
   }
 
   export type CartItemSumAggregateOutputType = {
+    deliveryLat: number | null
+    deliveryLng: number | null
     price: number | null
     quantity: number | null
   }
@@ -9165,8 +9169,17 @@ export namespace Prisma {
     image: string | null
     productId: string | null
     name: string | null
+    orderType: string | null
     pickupDay: Date | null
     pickupTime: string | null
+    deliveryAddress: string | null
+    deliveryLat: number | null
+    deliveryLng: number | null
+    deliveryPlaceId: string | null
+    apt: string | null
+    instructions: string | null
+    customerName: string | null
+    customerPhone: string | null
     price: number | null
     quantity: number | null
     cartId: string | null
@@ -9177,8 +9190,17 @@ export namespace Prisma {
     image: string | null
     productId: string | null
     name: string | null
+    orderType: string | null
     pickupDay: Date | null
     pickupTime: string | null
+    deliveryAddress: string | null
+    deliveryLat: number | null
+    deliveryLng: number | null
+    deliveryPlaceId: string | null
+    apt: string | null
+    instructions: string | null
+    customerName: string | null
+    customerPhone: string | null
     price: number | null
     quantity: number | null
     cartId: string | null
@@ -9189,8 +9211,17 @@ export namespace Prisma {
     image: number
     productId: number
     name: number
+    orderType: number
     pickupDay: number
     pickupTime: number
+    deliveryAddress: number
+    deliveryLat: number
+    deliveryLng: number
+    deliveryPlaceId: number
+    apt: number
+    instructions: number
+    customerName: number
+    customerPhone: number
     price: number
     quantity: number
     cartId: number
@@ -9199,11 +9230,15 @@ export namespace Prisma {
 
 
   export type CartItemAvgAggregateInputType = {
+    deliveryLat?: true
+    deliveryLng?: true
     price?: true
     quantity?: true
   }
 
   export type CartItemSumAggregateInputType = {
+    deliveryLat?: true
+    deliveryLng?: true
     price?: true
     quantity?: true
   }
@@ -9213,8 +9248,17 @@ export namespace Prisma {
     image?: true
     productId?: true
     name?: true
+    orderType?: true
     pickupDay?: true
     pickupTime?: true
+    deliveryAddress?: true
+    deliveryLat?: true
+    deliveryLng?: true
+    deliveryPlaceId?: true
+    apt?: true
+    instructions?: true
+    customerName?: true
+    customerPhone?: true
     price?: true
     quantity?: true
     cartId?: true
@@ -9225,8 +9269,17 @@ export namespace Prisma {
     image?: true
     productId?: true
     name?: true
+    orderType?: true
     pickupDay?: true
     pickupTime?: true
+    deliveryAddress?: true
+    deliveryLat?: true
+    deliveryLng?: true
+    deliveryPlaceId?: true
+    apt?: true
+    instructions?: true
+    customerName?: true
+    customerPhone?: true
     price?: true
     quantity?: true
     cartId?: true
@@ -9237,8 +9290,17 @@ export namespace Prisma {
     image?: true
     productId?: true
     name?: true
+    orderType?: true
     pickupDay?: true
     pickupTime?: true
+    deliveryAddress?: true
+    deliveryLat?: true
+    deliveryLng?: true
+    deliveryPlaceId?: true
+    apt?: true
+    instructions?: true
+    customerName?: true
+    customerPhone?: true
     price?: true
     quantity?: true
     cartId?: true
@@ -9336,8 +9398,17 @@ export namespace Prisma {
     image: string | null
     productId: string | null
     name: string | null
-    pickupDay: Date
-    pickupTime: string
+    orderType: string | null
+    pickupDay: Date | null
+    pickupTime: string | null
+    deliveryAddress: string | null
+    deliveryLat: number | null
+    deliveryLng: number | null
+    deliveryPlaceId: string | null
+    apt: string | null
+    instructions: string | null
+    customerName: string | null
+    customerPhone: string | null
     price: number | null
     quantity: number | null
     cartId: string
@@ -9367,8 +9438,17 @@ export namespace Prisma {
     image?: boolean
     productId?: boolean
     name?: boolean
+    orderType?: boolean
     pickupDay?: boolean
     pickupTime?: boolean
+    deliveryAddress?: boolean
+    deliveryLat?: boolean
+    deliveryLng?: boolean
+    deliveryPlaceId?: boolean
+    apt?: boolean
+    instructions?: boolean
+    customerName?: boolean
+    customerPhone?: boolean
     price?: boolean
     quantity?: boolean
     cartId?: boolean
@@ -9380,8 +9460,17 @@ export namespace Prisma {
     image?: boolean
     productId?: boolean
     name?: boolean
+    orderType?: boolean
     pickupDay?: boolean
     pickupTime?: boolean
+    deliveryAddress?: boolean
+    deliveryLat?: boolean
+    deliveryLng?: boolean
+    deliveryPlaceId?: boolean
+    apt?: boolean
+    instructions?: boolean
+    customerName?: boolean
+    customerPhone?: boolean
     price?: boolean
     quantity?: boolean
     cartId?: boolean
@@ -9393,8 +9482,17 @@ export namespace Prisma {
     image?: boolean
     productId?: boolean
     name?: boolean
+    orderType?: boolean
     pickupDay?: boolean
     pickupTime?: boolean
+    deliveryAddress?: boolean
+    deliveryLat?: boolean
+    deliveryLng?: boolean
+    deliveryPlaceId?: boolean
+    apt?: boolean
+    instructions?: boolean
+    customerName?: boolean
+    customerPhone?: boolean
     price?: boolean
     quantity?: boolean
     cartId?: boolean
@@ -9406,14 +9504,23 @@ export namespace Prisma {
     image?: boolean
     productId?: boolean
     name?: boolean
+    orderType?: boolean
     pickupDay?: boolean
     pickupTime?: boolean
+    deliveryAddress?: boolean
+    deliveryLat?: boolean
+    deliveryLng?: boolean
+    deliveryPlaceId?: boolean
+    apt?: boolean
+    instructions?: boolean
+    customerName?: boolean
+    customerPhone?: boolean
     price?: boolean
     quantity?: boolean
     cartId?: boolean
   }
 
-  export type CartItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "productId" | "name" | "pickupDay" | "pickupTime" | "price" | "quantity" | "cartId", ExtArgs["result"]["cartItem"]>
+  export type CartItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "productId" | "name" | "orderType" | "pickupDay" | "pickupTime" | "deliveryAddress" | "deliveryLat" | "deliveryLng" | "deliveryPlaceId" | "apt" | "instructions" | "customerName" | "customerPhone" | "price" | "quantity" | "cartId", ExtArgs["result"]["cartItem"]>
   export type CartItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cart?: boolean | CartDefaultArgs<ExtArgs>
   }
@@ -9434,8 +9541,17 @@ export namespace Prisma {
       image: string | null
       productId: string | null
       name: string | null
-      pickupDay: Date
-      pickupTime: string
+      orderType: string | null
+      pickupDay: Date | null
+      pickupTime: string | null
+      deliveryAddress: string | null
+      deliveryLat: number | null
+      deliveryLng: number | null
+      deliveryPlaceId: string | null
+      apt: string | null
+      instructions: string | null
+      customerName: string | null
+      customerPhone: string | null
       price: number | null
       quantity: number | null
       cartId: string
@@ -9867,8 +9983,17 @@ export namespace Prisma {
     readonly image: FieldRef<"CartItem", 'String'>
     readonly productId: FieldRef<"CartItem", 'String'>
     readonly name: FieldRef<"CartItem", 'String'>
+    readonly orderType: FieldRef<"CartItem", 'String'>
     readonly pickupDay: FieldRef<"CartItem", 'DateTime'>
     readonly pickupTime: FieldRef<"CartItem", 'String'>
+    readonly deliveryAddress: FieldRef<"CartItem", 'String'>
+    readonly deliveryLat: FieldRef<"CartItem", 'Float'>
+    readonly deliveryLng: FieldRef<"CartItem", 'Float'>
+    readonly deliveryPlaceId: FieldRef<"CartItem", 'String'>
+    readonly apt: FieldRef<"CartItem", 'String'>
+    readonly instructions: FieldRef<"CartItem", 'String'>
+    readonly customerName: FieldRef<"CartItem", 'String'>
+    readonly customerPhone: FieldRef<"CartItem", 'String'>
     readonly price: FieldRef<"CartItem", 'Int'>
     readonly quantity: FieldRef<"CartItem", 'Int'>
     readonly cartId: FieldRef<"CartItem", 'String'>
@@ -10386,8 +10511,17 @@ export namespace Prisma {
     image: 'image',
     productId: 'productId',
     name: 'name',
+    orderType: 'orderType',
     pickupDay: 'pickupDay',
     pickupTime: 'pickupTime',
+    deliveryAddress: 'deliveryAddress',
+    deliveryLat: 'deliveryLat',
+    deliveryLng: 'deliveryLng',
+    deliveryPlaceId: 'deliveryPlaceId',
+    apt: 'apt',
+    instructions: 'instructions',
+    customerName: 'customerName',
+    customerPhone: 'customerPhone',
     price: 'price',
     quantity: 'quantity',
     cartId: 'cartId'
@@ -10910,8 +11044,17 @@ export namespace Prisma {
     image?: StringNullableFilter<"CartItem"> | string | null
     productId?: StringNullableFilter<"CartItem"> | string | null
     name?: StringNullableFilter<"CartItem"> | string | null
-    pickupDay?: DateTimeFilter<"CartItem"> | Date | string
-    pickupTime?: StringFilter<"CartItem"> | string
+    orderType?: StringNullableFilter<"CartItem"> | string | null
+    pickupDay?: DateTimeNullableFilter<"CartItem"> | Date | string | null
+    pickupTime?: StringNullableFilter<"CartItem"> | string | null
+    deliveryAddress?: StringNullableFilter<"CartItem"> | string | null
+    deliveryLat?: FloatNullableFilter<"CartItem"> | number | null
+    deliveryLng?: FloatNullableFilter<"CartItem"> | number | null
+    deliveryPlaceId?: StringNullableFilter<"CartItem"> | string | null
+    apt?: StringNullableFilter<"CartItem"> | string | null
+    instructions?: StringNullableFilter<"CartItem"> | string | null
+    customerName?: StringNullableFilter<"CartItem"> | string | null
+    customerPhone?: StringNullableFilter<"CartItem"> | string | null
     price?: IntNullableFilter<"CartItem"> | number | null
     quantity?: IntNullableFilter<"CartItem"> | number | null
     cartId?: StringFilter<"CartItem"> | string
@@ -10923,8 +11066,17 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     productId?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
-    pickupDay?: SortOrder
-    pickupTime?: SortOrder
+    orderType?: SortOrderInput | SortOrder
+    pickupDay?: SortOrderInput | SortOrder
+    pickupTime?: SortOrderInput | SortOrder
+    deliveryAddress?: SortOrderInput | SortOrder
+    deliveryLat?: SortOrderInput | SortOrder
+    deliveryLng?: SortOrderInput | SortOrder
+    deliveryPlaceId?: SortOrderInput | SortOrder
+    apt?: SortOrderInput | SortOrder
+    instructions?: SortOrderInput | SortOrder
+    customerName?: SortOrderInput | SortOrder
+    customerPhone?: SortOrderInput | SortOrder
     price?: SortOrderInput | SortOrder
     quantity?: SortOrderInput | SortOrder
     cartId?: SortOrder
@@ -10939,8 +11091,17 @@ export namespace Prisma {
     image?: StringNullableFilter<"CartItem"> | string | null
     productId?: StringNullableFilter<"CartItem"> | string | null
     name?: StringNullableFilter<"CartItem"> | string | null
-    pickupDay?: DateTimeFilter<"CartItem"> | Date | string
-    pickupTime?: StringFilter<"CartItem"> | string
+    orderType?: StringNullableFilter<"CartItem"> | string | null
+    pickupDay?: DateTimeNullableFilter<"CartItem"> | Date | string | null
+    pickupTime?: StringNullableFilter<"CartItem"> | string | null
+    deliveryAddress?: StringNullableFilter<"CartItem"> | string | null
+    deliveryLat?: FloatNullableFilter<"CartItem"> | number | null
+    deliveryLng?: FloatNullableFilter<"CartItem"> | number | null
+    deliveryPlaceId?: StringNullableFilter<"CartItem"> | string | null
+    apt?: StringNullableFilter<"CartItem"> | string | null
+    instructions?: StringNullableFilter<"CartItem"> | string | null
+    customerName?: StringNullableFilter<"CartItem"> | string | null
+    customerPhone?: StringNullableFilter<"CartItem"> | string | null
     price?: IntNullableFilter<"CartItem"> | number | null
     quantity?: IntNullableFilter<"CartItem"> | number | null
     cartId?: StringFilter<"CartItem"> | string
@@ -10952,8 +11113,17 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     productId?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
-    pickupDay?: SortOrder
-    pickupTime?: SortOrder
+    orderType?: SortOrderInput | SortOrder
+    pickupDay?: SortOrderInput | SortOrder
+    pickupTime?: SortOrderInput | SortOrder
+    deliveryAddress?: SortOrderInput | SortOrder
+    deliveryLat?: SortOrderInput | SortOrder
+    deliveryLng?: SortOrderInput | SortOrder
+    deliveryPlaceId?: SortOrderInput | SortOrder
+    apt?: SortOrderInput | SortOrder
+    instructions?: SortOrderInput | SortOrder
+    customerName?: SortOrderInput | SortOrder
+    customerPhone?: SortOrderInput | SortOrder
     price?: SortOrderInput | SortOrder
     quantity?: SortOrderInput | SortOrder
     cartId?: SortOrder
@@ -10972,8 +11142,17 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
     productId?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
     name?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
-    pickupDay?: DateTimeWithAggregatesFilter<"CartItem"> | Date | string
-    pickupTime?: StringWithAggregatesFilter<"CartItem"> | string
+    orderType?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
+    pickupDay?: DateTimeNullableWithAggregatesFilter<"CartItem"> | Date | string | null
+    pickupTime?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
+    deliveryAddress?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
+    deliveryLat?: FloatNullableWithAggregatesFilter<"CartItem"> | number | null
+    deliveryLng?: FloatNullableWithAggregatesFilter<"CartItem"> | number | null
+    deliveryPlaceId?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
+    apt?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
+    instructions?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
+    customerName?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
+    customerPhone?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
     price?: IntNullableWithAggregatesFilter<"CartItem"> | number | null
     quantity?: IntNullableWithAggregatesFilter<"CartItem"> | number | null
     cartId?: StringWithAggregatesFilter<"CartItem"> | string
@@ -11417,8 +11596,17 @@ export namespace Prisma {
     image?: string | null
     productId?: string | null
     name?: string | null
-    pickupDay: Date | string
-    pickupTime: string
+    orderType?: string | null
+    pickupDay?: Date | string | null
+    pickupTime?: string | null
+    deliveryAddress?: string | null
+    deliveryLat?: number | null
+    deliveryLng?: number | null
+    deliveryPlaceId?: string | null
+    apt?: string | null
+    instructions?: string | null
+    customerName?: string | null
+    customerPhone?: string | null
     price?: number | null
     quantity?: number | null
     cart: CartCreateNestedOneWithoutItemsInput
@@ -11429,8 +11617,17 @@ export namespace Prisma {
     image?: string | null
     productId?: string | null
     name?: string | null
-    pickupDay: Date | string
-    pickupTime: string
+    orderType?: string | null
+    pickupDay?: Date | string | null
+    pickupTime?: string | null
+    deliveryAddress?: string | null
+    deliveryLat?: number | null
+    deliveryLng?: number | null
+    deliveryPlaceId?: string | null
+    apt?: string | null
+    instructions?: string | null
+    customerName?: string | null
+    customerPhone?: string | null
     price?: number | null
     quantity?: number | null
     cartId: string
@@ -11441,8 +11638,17 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    pickupDay?: DateTimeFieldUpdateOperationsInput | Date | string
-    pickupTime?: StringFieldUpdateOperationsInput | string
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
     cart?: CartUpdateOneRequiredWithoutItemsNestedInput
@@ -11453,8 +11659,17 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    pickupDay?: DateTimeFieldUpdateOperationsInput | Date | string
-    pickupTime?: StringFieldUpdateOperationsInput | string
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
     cartId?: StringFieldUpdateOperationsInput | string
@@ -11465,8 +11680,17 @@ export namespace Prisma {
     image?: string | null
     productId?: string | null
     name?: string | null
-    pickupDay: Date | string
-    pickupTime: string
+    orderType?: string | null
+    pickupDay?: Date | string | null
+    pickupTime?: string | null
+    deliveryAddress?: string | null
+    deliveryLat?: number | null
+    deliveryLng?: number | null
+    deliveryPlaceId?: string | null
+    apt?: string | null
+    instructions?: string | null
+    customerName?: string | null
+    customerPhone?: string | null
     price?: number | null
     quantity?: number | null
     cartId: string
@@ -11477,8 +11701,17 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    pickupDay?: DateTimeFieldUpdateOperationsInput | Date | string
-    pickupTime?: StringFieldUpdateOperationsInput | string
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -11488,8 +11721,17 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    pickupDay?: DateTimeFieldUpdateOperationsInput | Date | string
-    pickupTime?: StringFieldUpdateOperationsInput | string
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
     cartId?: StringFieldUpdateOperationsInput | string
@@ -11938,6 +12180,28 @@ export namespace Prisma {
     status?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type CartScalarRelationFilter = {
     is?: CartWhereInput
     isNot?: CartWhereInput
@@ -11948,14 +12212,25 @@ export namespace Prisma {
     image?: SortOrder
     productId?: SortOrder
     name?: SortOrder
+    orderType?: SortOrder
     pickupDay?: SortOrder
     pickupTime?: SortOrder
+    deliveryAddress?: SortOrder
+    deliveryLat?: SortOrder
+    deliveryLng?: SortOrder
+    deliveryPlaceId?: SortOrder
+    apt?: SortOrder
+    instructions?: SortOrder
+    customerName?: SortOrder
+    customerPhone?: SortOrder
     price?: SortOrder
     quantity?: SortOrder
     cartId?: SortOrder
   }
 
   export type CartItemAvgOrderByAggregateInput = {
+    deliveryLat?: SortOrder
+    deliveryLng?: SortOrder
     price?: SortOrder
     quantity?: SortOrder
   }
@@ -11965,8 +12240,17 @@ export namespace Prisma {
     image?: SortOrder
     productId?: SortOrder
     name?: SortOrder
+    orderType?: SortOrder
     pickupDay?: SortOrder
     pickupTime?: SortOrder
+    deliveryAddress?: SortOrder
+    deliveryLat?: SortOrder
+    deliveryLng?: SortOrder
+    deliveryPlaceId?: SortOrder
+    apt?: SortOrder
+    instructions?: SortOrder
+    customerName?: SortOrder
+    customerPhone?: SortOrder
     price?: SortOrder
     quantity?: SortOrder
     cartId?: SortOrder
@@ -11977,16 +12261,57 @@ export namespace Prisma {
     image?: SortOrder
     productId?: SortOrder
     name?: SortOrder
+    orderType?: SortOrder
     pickupDay?: SortOrder
     pickupTime?: SortOrder
+    deliveryAddress?: SortOrder
+    deliveryLat?: SortOrder
+    deliveryLng?: SortOrder
+    deliveryPlaceId?: SortOrder
+    apt?: SortOrder
+    instructions?: SortOrder
+    customerName?: SortOrder
+    customerPhone?: SortOrder
     price?: SortOrder
     quantity?: SortOrder
     cartId?: SortOrder
   }
 
   export type CartItemSumOrderByAggregateInput = {
+    deliveryLat?: SortOrder
+    deliveryLng?: SortOrder
     price?: SortOrder
     quantity?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type TypesCreateNestedOneWithoutItemsInput = {
@@ -12245,6 +12570,18 @@ export namespace Prisma {
     connect?: CartWhereUniqueInput
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type CartUpdateOneRequiredWithoutItemsNestedInput = {
     create?: XOR<CartCreateWithoutItemsInput, CartUncheckedCreateWithoutItemsInput>
     connectOrCreate?: CartCreateOrConnectWithoutItemsInput
@@ -12443,6 +12780,47 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type TypesCreateWithoutItemsInput = {
@@ -12780,8 +13158,17 @@ export namespace Prisma {
     image?: string | null
     productId?: string | null
     name?: string | null
-    pickupDay: Date | string
-    pickupTime: string
+    orderType?: string | null
+    pickupDay?: Date | string | null
+    pickupTime?: string | null
+    deliveryAddress?: string | null
+    deliveryLat?: number | null
+    deliveryLng?: number | null
+    deliveryPlaceId?: string | null
+    apt?: string | null
+    instructions?: string | null
+    customerName?: string | null
+    customerPhone?: string | null
     price?: number | null
     quantity?: number | null
   }
@@ -12791,8 +13178,17 @@ export namespace Prisma {
     image?: string | null
     productId?: string | null
     name?: string | null
-    pickupDay: Date | string
-    pickupTime: string
+    orderType?: string | null
+    pickupDay?: Date | string | null
+    pickupTime?: string | null
+    deliveryAddress?: string | null
+    deliveryLat?: number | null
+    deliveryLng?: number | null
+    deliveryPlaceId?: string | null
+    apt?: string | null
+    instructions?: string | null
+    customerName?: string | null
+    customerPhone?: string | null
     price?: number | null
     quantity?: number | null
   }
@@ -12831,8 +13227,17 @@ export namespace Prisma {
     image?: StringNullableFilter<"CartItem"> | string | null
     productId?: StringNullableFilter<"CartItem"> | string | null
     name?: StringNullableFilter<"CartItem"> | string | null
-    pickupDay?: DateTimeFilter<"CartItem"> | Date | string
-    pickupTime?: StringFilter<"CartItem"> | string
+    orderType?: StringNullableFilter<"CartItem"> | string | null
+    pickupDay?: DateTimeNullableFilter<"CartItem"> | Date | string | null
+    pickupTime?: StringNullableFilter<"CartItem"> | string | null
+    deliveryAddress?: StringNullableFilter<"CartItem"> | string | null
+    deliveryLat?: FloatNullableFilter<"CartItem"> | number | null
+    deliveryLng?: FloatNullableFilter<"CartItem"> | number | null
+    deliveryPlaceId?: StringNullableFilter<"CartItem"> | string | null
+    apt?: StringNullableFilter<"CartItem"> | string | null
+    instructions?: StringNullableFilter<"CartItem"> | string | null
+    customerName?: StringNullableFilter<"CartItem"> | string | null
+    customerPhone?: StringNullableFilter<"CartItem"> | string | null
     price?: IntNullableFilter<"CartItem"> | number | null
     quantity?: IntNullableFilter<"CartItem"> | number | null
     cartId?: StringFilter<"CartItem"> | string
@@ -13009,8 +13414,17 @@ export namespace Prisma {
     image?: string | null
     productId?: string | null
     name?: string | null
-    pickupDay: Date | string
-    pickupTime: string
+    orderType?: string | null
+    pickupDay?: Date | string | null
+    pickupTime?: string | null
+    deliveryAddress?: string | null
+    deliveryLat?: number | null
+    deliveryLng?: number | null
+    deliveryPlaceId?: string | null
+    apt?: string | null
+    instructions?: string | null
+    customerName?: string | null
+    customerPhone?: string | null
     price?: number | null
     quantity?: number | null
   }
@@ -13020,8 +13434,17 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    pickupDay?: DateTimeFieldUpdateOperationsInput | Date | string
-    pickupTime?: StringFieldUpdateOperationsInput | string
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -13031,8 +13454,17 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    pickupDay?: DateTimeFieldUpdateOperationsInput | Date | string
-    pickupTime?: StringFieldUpdateOperationsInput | string
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -13042,8 +13474,17 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    pickupDay?: DateTimeFieldUpdateOperationsInput | Date | string
-    pickupTime?: StringFieldUpdateOperationsInput | string
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
   }

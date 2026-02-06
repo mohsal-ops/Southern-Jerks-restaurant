@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { toast } from "sonner";
-import { useSWRConfig } from "swr";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/providers/CartProvider";
 import HereAutocomplete from "@/lib/HereAutocomplete";
@@ -39,7 +38,11 @@ export default function PickupDetails({
   orderType: "delivery" | "pickup" | null;
 }) {
   const [showSchedule, setShowSchedule] = useState(false);
-  const [showpickupDetails, setshowpickupDetails] = useState(true);
+  const [showpickupDetails, setshowpickupDetails] = useState(false);
+
+  useEffect(() => {
+    setshowpickupDetails(orderType === "pickup");
+  }, [orderType]);
   const [selectedPlace, setSelectedPlace] = useState<{
     address: string;
     lat: number;
@@ -52,6 +55,9 @@ export default function PickupDetails({
   // 🟢 selectedDay is now a Date or null
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [customerName, setCustomerName] = useState<string | undefined>("");
+  const [customerPhone, setCustomerPhone] = useState<string | undefined>("");
+  const [isLoading, setIsLoading] = useState(false);
   const [showMoreDays, setShowMoreDays] = useState(false);
   const { cartId, mutate } = useCart();
   const router = useRouter();
@@ -72,13 +78,15 @@ export default function PickupDetails({
     d.setDate(today.getDate() + i + 2);
     return d;
   });
+
   const handleAddDelivery = async () => {
+    setIsLoading(true);
     if (!selectedPlace) {
       toast("Please select delivery address");
       return;
     }
-
-    await fetch("/api/cart/addDelivery", {
+    try {
+      const res = await fetch("/api/cart/addDelivery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -88,14 +96,41 @@ export default function PickupDetails({
         placeId: selectedPlace.placeId,
         apt,
         instructions,
+        orderType,
+        customerName,
+        customerPhone
       }),
     });
 
     await mutate(["/api/cart/get", cartId]);
     router.refresh();
     onOpenChange(false);
+
+    if (res.ok) {
+        const data = await res.json();
+        await mutate(["/api/cart/get", cartId]).then(() => {router.refresh()})
+        toast(`${data.message}`);
+      }
+
+      if (!res.ok) {
+        const data = await res.json();
+        toast(`${data.message}`);
+        throw new Error("Failed adding delevey details");
+      }
+
+      
+    } catch (error) {
+      console.error(error);
+      toast(`${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+
+    
   };
+
   const handleAddToCart = async (Day: Date | null, Time: string | null) => {
+    setIsLoading(true);
     if (!Day || !Time) {
       toast("Please select a day and time");
       return;
@@ -107,12 +142,13 @@ export default function PickupDetails({
         body: JSON.stringify({
           pickupDay: Day,
           pickupTime: Time,
+          orderType: orderType,
         }),
       });
       if (res.ok) {
         const data = await res.json();
-        await mutate(["/api/cart/get", cartId]);
-        router.refresh();
+        await mutate(["/api/cart/get", cartId]).then(() => {router.refresh()})
+        
         toast(`${data.message}`);
       }
 
@@ -124,6 +160,8 @@ export default function PickupDetails({
     } catch (error) {
       console.error(error);
       toast(`${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -149,7 +187,7 @@ export default function PickupDetails({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         aria-describedby={undefined}
-        className="flex flex-col gap-4 justify-between max-h-[90vh] overflow-hidden  "
+        className="flex flex-col gap-4 justify-between  overflow-hidden  "
       >
         <DialogHeader className="p-5 flex-none ">
           <DialogTitle>
@@ -191,6 +229,19 @@ export default function PickupDetails({
                 onChange={(e) => setApt(e.target.value)}
                 className="border rounded-xl p-3"
               />
+              <input
+                className="border rounded-xl p-3"
+                placeholder="Full name"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+              />
+
+              <input
+                className="border rounded-xl p-3"
+                placeholder="Phone number"
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+              />
 
               <textarea
                 placeholder="Delivery instructions"
@@ -200,48 +251,6 @@ export default function PickupDetails({
               />
             </div>
           )}
-          {showpickupDetails && (
-            <>
-              {/* <div
-                id="PickupOrDelivery "
-                className="text-xs flex  bg-stone-200 rounded-3xl p"
-              >
-                <div className="flex w-full justify-between  gap-4 font-semibold text-gray-600">
-                  <label className="cursor-pointer w-1/2 relative">
-                    <input
-                      type="radio"
-                      name="orderType"
-                      value="delivery"
-                        checked={choice === "delivery"}
-                        onChange={() => setChoice("delivery")}
-                      className="hidden peer"
-                    />
-                    <div className=" h-10 bg-stone-200 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
-                      Delivery
-                    </div>
-                  </label>
-
-                  <label className="cursor-pointer w-1/2 relative ">
-                    <input
-                      type="radio"
-                      name="orderType"
-                      value="pickup"
-                        checked={choice === "pickup"}
-                        onChange={() => setChoice("pickup")}
-                      className="hidden peer"
-                    />
-                    <div className=" h-10 bg-stone-200 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
-                      Pickup
-                    </div>
-                  </label>
-                </div>
-              </div> */}
-              <p className="text-center text-sm text-muted-foreground">
-                📍 Southern jerks – Chicken Wings, Sandwiches, Caribbean
-              </p>
-            </>
-          )}
-
           {showSchedule ||
             (orderType === "pickup" && (
               <>
@@ -361,6 +370,7 @@ export default function PickupDetails({
           )}
           {showSchedule && (
             <Button
+              disabled={isLoading}
               size="md"
               variant="mainButton"
               className="w-full"
@@ -370,17 +380,18 @@ export default function PickupDetails({
                 onOpenChange(false);
               }}
             >
-              Schedule Order
+              {isLoading ? "Scheduling..." : "Schedule Order"}
             </Button>
           )}
           {orderType === "delivery" && selectedPlace && (
             <Button
+              disabled={isLoading}
               size="md"
               variant="mainButton"
               className="w-full"
               onClick={handleAddDelivery}
             >
-              Confirm Delivery
+              {isLoading ? "Confirming..." : "Confirm Delivery"}
             </Button>
           )}
         </DialogFooter>

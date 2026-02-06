@@ -81,14 +81,29 @@ model Cart {
 }
 
 model CartItem {
-  id         String   @id @default(uuid())
-  image      String?
-  productId  String?
-  name       String?
-  pickupDay  DateTime
-  pickupTime String
-  price      Int?
-  quantity   Int?
-  cartId     String
-  cart       Cart      @relation(fields: [cartId], references: [id])
+  id           String   @id @default(uuid())
+  image        String?
+  productId    String?
+  name         String?
+  orderType    String?    
+
+  pickupDay    DateTime?
+  pickupTime   String?
+
+  // Delivery fields (DoorDash / Uber / etc)
+  deliveryAddress String?
+  deliveryLat     Float?
+  deliveryLng     Float?
+  deliveryPlaceId String?
+  apt             String?
+  instructions    String?
+  customerName  String?
+  customerPhone String?
+
+
+  price        Int?
+  quantity     Int?
+  cartId       String
+  cart         Cart @relation(fields: [cartId], references: [id])
 }
+

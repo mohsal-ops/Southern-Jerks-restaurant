@@ -8,7 +8,7 @@ import PickupDetails from "../../_components/pickupTimeandDay";
 import { ProductCardSkeleton } from "../../_components/ProductCardServer";
 import { useCart } from "@/app/providers/CartProvider";
 import { CartItem, Item, Location, Types } from "generated/prisma";
-import { StoreIcon } from "lucide-react";
+import { CarFrontIcon, StoreIcon } from "lucide-react";
 
 type PropsTypes = {
   places: Location[];
@@ -33,6 +33,7 @@ export default function MainPageMenu({
   // const [cartItems, setcartItems] = useState<CartItem[] | undefined>([])
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const { cartItems, cartId, mutate } = useCart();
 
@@ -97,6 +98,9 @@ export default function MainPageMenu({
       const time = cartItems[0].pickupTime;
       setSelectedDay(Day);
       setSelectedTime(time);
+
+      const city = cartItems[0].deliveryAddress?.split(",")[1].trim();
+      setSelectedAddress(city);
     }
   }, [cartItems]);
 
@@ -157,7 +161,7 @@ export default function MainPageMenu({
           <p className="tracking-tight font-serif  text-xl text-center">
             Southern jerks Chicken Wings, Sandwiches, Caribbean
           </p>
-          <p className="flex text-sm items-center font-semibold w-4/5 gap-1  text-neutral-600 text-center  ">
+          <p className="flex text-sm justify-center sm:justify-start items-center font-semibold w-4/5 gap-1  text-neutral-600 text-center  ">
             <FaLocationPin className="md:block hidden" />
             2950 Gears Rd. Houston, TX 77067
           </p>
@@ -210,10 +214,19 @@ export default function MainPageMenu({
                     <h1>{selectedTime}</h1>
                   </div>
                 ) : (
-                  "Scheduel pickup "
+                  "Schedule pickup"
                 )
               ) : (
-                "Select delivery location"
+                selectedDay != null || selectedTime != null ? (
+                  <div className="flex items-center gap-2">
+                    <CarFrontIcon size={17} />
+                    <h1>{"Delivery to "+selectedAddress}</h1>
+                  </div>
+                ) : (
+                   "Select delivery location"
+
+                )
+               
               )}
 
               <span>▼</span>
