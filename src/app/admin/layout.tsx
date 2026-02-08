@@ -1,7 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { AdminNav, NavLink } from "./_components/nav";
 
-
 export default function Adminlayout({
   children,
 }: Readonly<{
@@ -11,7 +10,6 @@ export default function Adminlayout({
   return (
     <>
       <AdminNav>
-        
         <NavLink href="/admin">Dashbord</NavLink>
         <NavLink href="/admin/menuItems">Menu items</NavLink>
         <NavLink href="/admin/menuCategories">Menu Categories</NavLink>
@@ -21,9 +19,7 @@ export default function Adminlayout({
         <NavLink href="/admin/places">Places</NavLink>
       </AdminNav>
       <div className="container  overflow-auto">{children}</div>
-      <Toaster  />
-
-
+      <Toaster expand richColors closeButton duration={6000} />
     </>
   );
 }

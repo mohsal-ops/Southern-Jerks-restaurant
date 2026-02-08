@@ -16,12 +16,12 @@ datasource db {
 model Item {
   id                     String  @id @default(uuid())
   name                   String
-  description            String
+  description            String?
   priceInCents           Int
   slug                   String  @unique
   isAvailableForPurchase Boolean @default(true)
   featured               Boolean @default(false)
-  image                  String
+  image                  String?
   typeId                 String
   type                   Types   @relation(fields: [typeId], references: [id], onDelete: Restrict)
   orders                 Order[]

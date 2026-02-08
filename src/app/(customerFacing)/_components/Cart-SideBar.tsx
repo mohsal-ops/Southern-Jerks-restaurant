@@ -112,7 +112,7 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
 
                 </SheetTrigger>
                 <SheetContent aria-describedby={undefined} side={isMobile ? "bottom" : "right"}
-                    className={isMobile ? "h-[90vh]" : "w-[400px]"}>
+                    className={isMobile ? "h-[90vh]" : "w-100"}>
                     <SheetHeader>
                         <SheetTitle>Your Cart</SheetTitle>
                     </SheetHeader>

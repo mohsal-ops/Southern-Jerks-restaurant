@@ -1836,12 +1836,12 @@ export namespace Prisma {
   export type ItemGroupByOutputType = {
     id: string
     name: string
-    description: string
+    description: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase: boolean
     featured: boolean
-    image: string
+    image: string | null
     typeId: string
     isCaterable: boolean
     cateringDescription: string | null
@@ -1954,12 +1954,12 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
-      description: string
+      description: string | null
       priceInCents: number
       slug: string
       isAvailableForPurchase: boolean
       featured: boolean
-      image: string
+      image: string | null
       typeId: string
       isCaterable: boolean
       cateringDescription: string | null
@@ -10631,12 +10631,12 @@ export namespace Prisma {
     NOT?: ItemWhereInput | ItemWhereInput[]
     id?: StringFilter<"Item"> | string
     name?: StringFilter<"Item"> | string
-    description?: StringFilter<"Item"> | string
+    description?: StringNullableFilter<"Item"> | string | null
     priceInCents?: IntFilter<"Item"> | number
     slug?: StringFilter<"Item"> | string
     isAvailableForPurchase?: BoolFilter<"Item"> | boolean
     featured?: BoolFilter<"Item"> | boolean
-    image?: StringFilter<"Item"> | string
+    image?: StringNullableFilter<"Item"> | string | null
     typeId?: StringFilter<"Item"> | string
     isCaterable?: BoolFilter<"Item"> | boolean
     cateringDescription?: StringNullableFilter<"Item"> | string | null
@@ -10648,12 +10648,12 @@ export namespace Prisma {
   export type ItemOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
     priceInCents?: SortOrder
     slug?: SortOrder
     isAvailableForPurchase?: SortOrder
     featured?: SortOrder
-    image?: SortOrder
+    image?: SortOrderInput | SortOrder
     typeId?: SortOrder
     isCaterable?: SortOrder
     cateringDescription?: SortOrderInput | SortOrder
@@ -10669,11 +10669,11 @@ export namespace Prisma {
     OR?: ItemWhereInput[]
     NOT?: ItemWhereInput | ItemWhereInput[]
     name?: StringFilter<"Item"> | string
-    description?: StringFilter<"Item"> | string
+    description?: StringNullableFilter<"Item"> | string | null
     priceInCents?: IntFilter<"Item"> | number
     isAvailableForPurchase?: BoolFilter<"Item"> | boolean
     featured?: BoolFilter<"Item"> | boolean
-    image?: StringFilter<"Item"> | string
+    image?: StringNullableFilter<"Item"> | string | null
     typeId?: StringFilter<"Item"> | string
     isCaterable?: BoolFilter<"Item"> | boolean
     cateringDescription?: StringNullableFilter<"Item"> | string | null
@@ -10685,12 +10685,12 @@ export namespace Prisma {
   export type ItemOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
     priceInCents?: SortOrder
     slug?: SortOrder
     isAvailableForPurchase?: SortOrder
     featured?: SortOrder
-    image?: SortOrder
+    image?: SortOrderInput | SortOrder
     typeId?: SortOrder
     isCaterable?: SortOrder
     cateringDescription?: SortOrderInput | SortOrder
@@ -10708,12 +10708,12 @@ export namespace Prisma {
     NOT?: ItemScalarWhereWithAggregatesInput | ItemScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Item"> | string
     name?: StringWithAggregatesFilter<"Item"> | string
-    description?: StringWithAggregatesFilter<"Item"> | string
+    description?: StringNullableWithAggregatesFilter<"Item"> | string | null
     priceInCents?: IntWithAggregatesFilter<"Item"> | number
     slug?: StringWithAggregatesFilter<"Item"> | string
     isAvailableForPurchase?: BoolWithAggregatesFilter<"Item"> | boolean
     featured?: BoolWithAggregatesFilter<"Item"> | boolean
-    image?: StringWithAggregatesFilter<"Item"> | string
+    image?: StringNullableWithAggregatesFilter<"Item"> | string | null
     typeId?: StringWithAggregatesFilter<"Item"> | string
     isCaterable?: BoolWithAggregatesFilter<"Item"> | boolean
     cateringDescription?: StringNullableWithAggregatesFilter<"Item"> | string | null
@@ -11161,12 +11161,12 @@ export namespace Prisma {
   export type ItemCreateInput = {
     id?: string
     name: string
-    description: string
+    description?: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase?: boolean
     featured?: boolean
-    image: string
+    image?: string | null
     isCaterable?: boolean
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
@@ -11177,12 +11177,12 @@ export namespace Prisma {
   export type ItemUncheckedCreateInput = {
     id?: string
     name: string
-    description: string
+    description?: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase?: boolean
     featured?: boolean
-    image: string
+    image?: string | null
     typeId: string
     isCaterable?: boolean
     cateringDescription?: string | null
@@ -11193,12 +11193,12 @@ export namespace Prisma {
   export type ItemUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11209,12 +11209,12 @@ export namespace Prisma {
   export type ItemUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     typeId?: StringFieldUpdateOperationsInput | string
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11225,12 +11225,12 @@ export namespace Prisma {
   export type ItemCreateManyInput = {
     id?: string
     name: string
-    description: string
+    description?: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase?: boolean
     featured?: boolean
-    image: string
+    image?: string | null
     typeId: string
     isCaterable?: boolean
     cateringDescription?: string | null
@@ -11240,12 +11240,12 @@ export namespace Prisma {
   export type ItemUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -11254,12 +11254,12 @@ export namespace Prisma {
   export type ItemUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     typeId?: StringFieldUpdateOperationsInput | string
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11752,6 +11752,21 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -11766,21 +11781,6 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -11887,6 +11887,24 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -11909,24 +11927,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12338,6 +12338,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -12348,10 +12352,6 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -12604,6 +12604,20 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -12618,20 +12632,6 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -12660,6 +12660,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -12695,23 +12712,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12962,12 +12962,12 @@ export namespace Prisma {
   export type ItemCreateWithoutTypeInput = {
     id?: string
     name: string
-    description: string
+    description?: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase?: boolean
     featured?: boolean
-    image: string
+    image?: string | null
     isCaterable?: boolean
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
@@ -12977,12 +12977,12 @@ export namespace Prisma {
   export type ItemUncheckedCreateWithoutTypeInput = {
     id?: string
     name: string
-    description: string
+    description?: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase?: boolean
     featured?: boolean
-    image: string
+    image?: string | null
     isCaterable?: boolean
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
@@ -13021,12 +13021,12 @@ export namespace Prisma {
     NOT?: ItemScalarWhereInput | ItemScalarWhereInput[]
     id?: StringFilter<"Item"> | string
     name?: StringFilter<"Item"> | string
-    description?: StringFilter<"Item"> | string
+    description?: StringNullableFilter<"Item"> | string | null
     priceInCents?: IntFilter<"Item"> | number
     slug?: StringFilter<"Item"> | string
     isAvailableForPurchase?: BoolFilter<"Item"> | boolean
     featured?: BoolFilter<"Item"> | boolean
-    image?: StringFilter<"Item"> | string
+    image?: StringNullableFilter<"Item"> | string | null
     typeId?: StringFilter<"Item"> | string
     isCaterable?: BoolFilter<"Item"> | boolean
     cateringDescription?: StringNullableFilter<"Item"> | string | null
@@ -13055,12 +13055,12 @@ export namespace Prisma {
   export type ItemCreateWithoutOrdersInput = {
     id?: string
     name: string
-    description: string
+    description?: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase?: boolean
     featured?: boolean
-    image: string
+    image?: string | null
     isCaterable?: boolean
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
@@ -13070,12 +13070,12 @@ export namespace Prisma {
   export type ItemUncheckedCreateWithoutOrdersInput = {
     id?: string
     name: string
-    description: string
+    description?: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase?: boolean
     featured?: boolean
-    image: string
+    image?: string | null
     typeId: string
     isCaterable?: boolean
     cateringDescription?: string | null
@@ -13126,12 +13126,12 @@ export namespace Prisma {
   export type ItemUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -13141,12 +13141,12 @@ export namespace Prisma {
   export type ItemUncheckedUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     typeId?: StringFieldUpdateOperationsInput | string
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13354,12 +13354,12 @@ export namespace Prisma {
   export type ItemCreateManyTypeInput = {
     id?: string
     name: string
-    description: string
+    description?: string | null
     priceInCents: number
     slug: string
     isAvailableForPurchase?: boolean
     featured?: boolean
-    image: string
+    image?: string | null
     isCaterable?: boolean
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
@@ -13368,12 +13368,12 @@ export namespace Prisma {
   export type ItemUpdateWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -13383,12 +13383,12 @@ export namespace Prisma {
   export type ItemUncheckedUpdateWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
@@ -13398,12 +13398,12 @@ export namespace Prisma {
   export type ItemUncheckedUpdateManyWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     priceInCents?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
     featured?: BoolFieldUpdateOperationsInput | boolean
-    image?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
