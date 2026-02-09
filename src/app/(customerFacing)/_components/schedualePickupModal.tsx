@@ -182,13 +182,14 @@ function AddProductCard(
         <div className="border rounded-2xl shadow-sm p-4 space-y-4 bg-white">
           {/* Product Header */}
           <div className="flex items-center gap-4">
-            <Image
+
+            {product.image && <Image
               src={product.image}// replace with actual product image
               alt="Snow cone"
               height={16}
               width={16}
               className="w-16 h-16 rounded-lg object-cover"
-            />
+            />}
             <div>
               <h3 className="text-lg font-semibold">{product.name}</h3>
               <p className="text-sm text-muted-foreground">{formatCurrency(product.priceInCents / 100)}</p>
@@ -260,8 +261,8 @@ type Product = {
   id: string;
   name: string;
   priceInCents: number;
-  description: string;
-  image: string;
+  description: string | null ;
+  image: string | null ;
 };
 
 type Props = {

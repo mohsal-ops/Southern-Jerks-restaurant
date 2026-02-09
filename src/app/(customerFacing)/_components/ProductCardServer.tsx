@@ -7,8 +7,8 @@ type productObjectPath = {
     id: string;
     name: string;
     priceInCents: number;
-    description: string;
-    image: string;
+    description: string | null ;
+    image: string | null ;
     cartItems: CartItem[]
 };
 
@@ -20,7 +20,7 @@ export default function ProductCardServer({ id, name, priceInCents, description,
       id={id}
       name={name}
       priceInCents={priceInCents}
-      description={description}
+      description={!description ? "": description}
       image={image}
       cartItems={cartItems}
     />
@@ -35,7 +35,7 @@ export function PopularDishesCardServer({ id, name, priceInCents, description, i
       id={id}
       name={name}
       priceInCents={priceInCents}
-      description={description}
+      description={!description ? "": description}
       image={image}
       cartItems={cartItems}
     />
@@ -48,7 +48,7 @@ export function AllDishesCardServer({ id, name, priceInCents, description, image
       id={id}
       name={name}
       priceInCents={priceInCents}
-      description={description}
+      description={!description ? "": description}
       image={image}
       cartItems={cartItems}
     />
