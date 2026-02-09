@@ -145,7 +145,8 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.TypesScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  slug: 'slug'
+  slug: 'slug',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.LocationScalarFieldEnum = {

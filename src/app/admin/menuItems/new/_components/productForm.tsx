@@ -78,10 +78,9 @@ const { toast} = useToast();
             Description
           </Label>
           <Textarea
-            required
             id="description"
             name="description"
-            defaultValue={item?.description}
+            defaultValue={item?.description || ""}
           />
         </div>
         <div className="space-y-2">
@@ -109,7 +108,6 @@ const { toast} = useToast();
             type="file"
             id="image"
             name="image"
-            required={item == null}
           />
         </div>
         <div className="space-y-2">

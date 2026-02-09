@@ -25,8 +25,9 @@ export const GetProducts = cache(async () => {
 
 export const GetFeaturedProducts = cache(async () => {
     const products = await db.item.findMany({
-        where: { isAvailableForPurchase: true },
+        where: {isAvailableForPurchase: true, featured: true },
     });
+    console.log("products from server", products)
     return products
 
 
@@ -36,7 +37,12 @@ export const GetFeaturedProducts = cache(async () => {
 
 
 export const GetGategories = cache(async () => {
-    const types = await db.types.findMany()
+    const types = await db.types.findMany({orderBy:{createdAt:"asc"}})
+    if (types.length > 1) {
+        // Move the last element to the front
+        const last = types.pop();
+        types.unshift(last!); // non-null assertion since we checked length
+    }
     return types
 
 }, ['categories-fun'],{tags:['categories'], revalidate: 60 * 60 * 24})

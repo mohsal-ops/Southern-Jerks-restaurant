@@ -140,12 +140,12 @@ export function AllDishesCardClient({
     }
 
     return (
-        <div className='flex w-full space-x-2 md:rounded-2xl md:border-[1px] border-y-[1px] border-gray-200 md:p-0 p-2'>
+        <div className='flex w-full space-x-2 md:rounded-2xl md:border border-y border-gray-200 md:p-0 p-2'>
             <div className='flex py-3 flex-col gap-1 md:px-4 px-2 text-lg tracking-tight font-semibold w-3/5 '>
                 <p>{name}</p>
                 <p>{formatCurrency(priceInCents / 100)}</p>
-                <p className='text-gray-500 text-sm font'>{description.split(" ").slice(0, 25).join(" ")}
-  {description.split(" ").length > 25 && "..."}</p>
+                <p className='text-gray-500 text-sm font'>{description?.split(" ").slice(0, 25).join(" ")}
+  {description?.split(" ").length! > 25 && "..."}</p>
             </div>
             <Card className="flex md:rounded-l-none rounded-2xl overflow-hidden gap-5 md:h-50 h-36 flex-col md:w-1/2 w-2/5  " key={id}>
                 {/* <CardHeader className="relative w-full h-5/6 aspect-video">

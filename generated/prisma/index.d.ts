@@ -3910,18 +3910,21 @@ export namespace Prisma {
     id: string | null
     name: string | null
     slug: string | null
+    createdAt: Date | null
   }
 
   export type TypesMaxAggregateOutputType = {
     id: string | null
     name: string | null
     slug: string | null
+    createdAt: Date | null
   }
 
   export type TypesCountAggregateOutputType = {
     id: number
     name: number
     slug: number
+    createdAt: number
     _all: number
   }
 
@@ -3930,18 +3933,21 @@ export namespace Prisma {
     id?: true
     name?: true
     slug?: true
+    createdAt?: true
   }
 
   export type TypesMaxAggregateInputType = {
     id?: true
     name?: true
     slug?: true
+    createdAt?: true
   }
 
   export type TypesCountAggregateInputType = {
     id?: true
     name?: true
     slug?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -4021,6 +4027,7 @@ export namespace Prisma {
     id: string
     name: string
     slug: string
+    createdAt: Date
     _count: TypesCountAggregateOutputType | null
     _min: TypesMinAggregateOutputType | null
     _max: TypesMaxAggregateOutputType | null
@@ -4044,6 +4051,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     slug?: boolean
+    createdAt?: boolean
     items?: boolean | Types$itemsArgs<ExtArgs>
     _count?: boolean | TypesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["types"]>
@@ -4052,21 +4060,24 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     slug?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["types"]>
 
   export type TypesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     slug?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["types"]>
 
   export type TypesSelectScalar = {
     id?: boolean
     name?: boolean
     slug?: boolean
+    createdAt?: boolean
   }
 
-  export type TypesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug", ExtArgs["result"]["types"]>
+  export type TypesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "createdAt", ExtArgs["result"]["types"]>
   export type TypesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Types$itemsArgs<ExtArgs>
     _count?: boolean | TypesCountOutputTypeDefaultArgs<ExtArgs>
@@ -4083,6 +4094,7 @@ export namespace Prisma {
       id: string
       name: string
       slug: string
+      createdAt: Date
     }, ExtArgs["result"]["types"]>
     composites: {}
   }
@@ -4510,6 +4522,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Types", 'String'>
     readonly name: FieldRef<"Types", 'String'>
     readonly slug: FieldRef<"Types", 'String'>
+    readonly createdAt: FieldRef<"Types", 'DateTime'>
   }
     
 
@@ -10456,7 +10469,8 @@ export namespace Prisma {
   export const TypesScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    slug: 'slug'
+    slug: 'slug',
+    createdAt: 'createdAt'
   };
 
   export type TypesScalarFieldEnum = (typeof TypesScalarFieldEnum)[keyof typeof TypesScalarFieldEnum]
@@ -10777,6 +10791,7 @@ export namespace Prisma {
     id?: StringFilter<"Types"> | string
     name?: StringFilter<"Types"> | string
     slug?: StringFilter<"Types"> | string
+    createdAt?: DateTimeFilter<"Types"> | Date | string
     items?: ItemListRelationFilter
   }
 
@@ -10784,6 +10799,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
     items?: ItemOrderByRelationAggregateInput
   }
 
@@ -10794,6 +10810,7 @@ export namespace Prisma {
     OR?: TypesWhereInput[]
     NOT?: TypesWhereInput | TypesWhereInput[]
     name?: StringFilter<"Types"> | string
+    createdAt?: DateTimeFilter<"Types"> | Date | string
     items?: ItemListRelationFilter
   }, "id" | "slug">
 
@@ -10801,6 +10818,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
     _count?: TypesCountOrderByAggregateInput
     _max?: TypesMaxOrderByAggregateInput
     _min?: TypesMinOrderByAggregateInput
@@ -10813,6 +10831,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Types"> | string
     name?: StringWithAggregatesFilter<"Types"> | string
     slug?: StringWithAggregatesFilter<"Types"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Types"> | Date | string
   }
 
   export type LocationWhereInput = {
@@ -11323,6 +11342,7 @@ export namespace Prisma {
     id?: string
     name: string
     slug: string
+    createdAt?: Date | string
     items?: ItemCreateNestedManyWithoutTypeInput
   }
 
@@ -11330,6 +11350,7 @@ export namespace Prisma {
     id?: string
     name: string
     slug: string
+    createdAt?: Date | string
     items?: ItemUncheckedCreateNestedManyWithoutTypeInput
   }
 
@@ -11337,6 +11358,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUpdateManyWithoutTypeNestedInput
   }
 
@@ -11344,6 +11366,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUncheckedUpdateManyWithoutTypeNestedInput
   }
 
@@ -11351,18 +11374,21 @@ export namespace Prisma {
     id?: string
     name: string
     slug: string
+    createdAt?: Date | string
   }
 
   export type TypesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TypesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LocationCreateInput = {
@@ -12005,18 +12031,21 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type TypesMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type TypesMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -12827,12 +12856,14 @@ export namespace Prisma {
     id?: string
     name: string
     slug: string
+    createdAt?: Date | string
   }
 
   export type TypesUncheckedCreateWithoutItemsInput = {
     id?: string
     name: string
     slug: string
+    createdAt?: Date | string
   }
 
   export type TypesCreateOrConnectWithoutItemsInput = {
@@ -12881,12 +12912,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TypesUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderUpsertWithWhereUniqueWithoutProductInput = {
