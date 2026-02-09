@@ -4,12 +4,15 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>
 }
 
 export async function generateMetadata({ params }: PageProps) {
+
+  const {id} = await params
+
   const post = await db.post.findUnique({
-    where: { id: params.id },
+    where: { id: id },
   });
 
   if (!post) return {};
@@ -20,14 +23,17 @@ export async function generateMetadata({ params }: PageProps) {
     openGraph: {
       title: post.title,
       description: post.description,
-      images: post.image ? [post.image] : [],
+      images: [post.image],
     },
   };
 }
 
+
 export default async function Post({ params }: PageProps) {
+  const {id} = await params
+
   const post = await db.post.findUnique({
-    where: { id: params.id },
+    where: { id: id },
   });
 
   if (!post) return notFound();
@@ -36,15 +42,15 @@ export default async function Post({ params }: PageProps) {
     <article className="min-h-screen bg-[#0f0f0f] text-white">
       {/* HERO */}
       <section className="relative h-[70vh] flex items-end">
-        {post.image && (
-          <Image
-            src={post.image}
-            alt={post.title}
-            fill
-            priority
-            className="object-cover opacity-60"
-          />
-        )}
+          {post.image && (
+    <Image
+      src={post.image}
+      alt={post.title}
+      fill
+      priority
+      className="object-cover opacity-60"
+    />
+  )}
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
 
         <div className="relative z-10 p-10 max-w-4xl">
