@@ -21,31 +21,41 @@ export default function MapClient({ lat, lng, className }: Props) {
 
     const defaultLayers = platform.createDefaultLayers();
 
-    const map = new H.Map(
-      mapRef.current,
-      defaultLayers.vector.normal.map,
-      {
-        center: { lat, lng },
-        zoom: 14, // city-level zoom
-        pixelRatio: window.devicePixelRatio || 1,
-      }
-    );
+    const map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
+      center: { lat, lng },
+      zoom: 14,
+      pixelRatio: window.devicePixelRatio || 1,
+    });
 
     // Enable interactions
-    new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     const ui = H.ui.UI.createDefault(map, defaultLayers);
 
     // Marker
     const marker = new H.map.Marker({ lat, lng });
     map.addObject(marker);
 
-    // Info bubble
-    const bubble = new H.ui.InfoBubble({ lat, lng }, {
-      content: "<b>Southern Jerks</b><br/>Houston, TX",
-    });
-    ui.addBubble(bubble);
+    marker.addEventListener("tap", async () => {
+      const position = marker.getGeometry(); // <-- THIS line fixes your error
 
-    // Cleanup
+      map.setCenter(position, true);
+      map.setZoom(16, true);
+
+      const bubble = new H.ui.InfoBubble(position, {
+        content: `
+      <strong>Southern Jerks</strong><br/>
+      Click map to open in Google Maps
+    `,
+      });
+      ui.addBubble(bubble);
+    });
+
+    // 👉 Open Google Maps on click
+    map.addEventListener("tap", () => {
+      const url = `https://www.google.com/maps?q=${lat},${lng}`;
+      window.open(url, "_blank");
+    });
+
     return () => map.dispose();
   }, [lat, lng]);
 

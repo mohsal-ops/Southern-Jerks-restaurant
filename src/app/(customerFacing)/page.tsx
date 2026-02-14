@@ -423,8 +423,8 @@ type placeObject = {
 
 export function OurLocation({ places, lat, lng }: { places: Location[], lat: number, lng: number }) {
   return (
-    <div className=" flex text-sm flex-col sm:flex-row sm:justify-center  sm:items-center p-4  sm:space-x-10 sm:pr-10 h-140 sm:h-80 w-full sm:w-[75%] sm:space-y-0 space-y-5 pb-10 bg-stone-200 rounded-4xl">
-      <div className=" h-1/3  sm:h-full sm:w-140 w-full rounded-4xl  overflow-hidden">
+    <div className=" flex text-sm flex-col sm:flex-row sm:justify-center  sm:items-center p-4  sm:space-x-10 sm:pr-10 h-170 sm:h-80 w-full sm:w-[75%] sm:space-y-0 space-y-5 pb-10 bg-stone-200 rounded-4xl">
+      <div className=" h-75   sm:h-full sm:w-140 w-full rounded-4xl  overflow-hidden">
         <MapClient lat={lat} lng={lng} className="h-full w-full " />
       </div>
 
