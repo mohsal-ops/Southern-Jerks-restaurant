@@ -5,7 +5,6 @@ import { StripeCheckoutForm } from "../../_components/StripeCheckoutForm"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-// ✅ FIX: use `Promise<{ id: string }>` for params because Next.js 15 expects it as async
 interface PageProps {
   params: Promise<{ id: string }>
 }

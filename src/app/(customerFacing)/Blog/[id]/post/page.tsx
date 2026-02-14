@@ -4,12 +4,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 interface PageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-
-  const {id} = await params
+  const { id } = await params;
 
   const post = await db.post.findUnique({
     where: { id: id },
@@ -28,9 +27,8 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-
 export default async function Post({ params }: PageProps) {
-  const {id} = await params
+  const { id } = await params;
 
   const post = await db.post.findUnique({
     where: { id: id },
@@ -39,18 +37,18 @@ export default async function Post({ params }: PageProps) {
   if (!post) return notFound();
 
   return (
-    <article className="min-h-screen bg-[#0f0f0f] text-white">
+    <article className="min-h-screen  bg-[#0f0f0f] text-white">
       {/* HERO */}
-      <section className="relative h-[70vh] flex items-end">
-          {post.image && (
-    <Image
-      src={post.image}
-      alt={post.title}
-      fill
-      priority
-      className="object-cover opacity-60"
-    />
-  )}
+      <section className="relative  w-screen sm:w-[80vw] h-[80vh] flex items-end">
+        {post.image && (
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            priority
+            className="object-contain opacity-60"
+          />
+        )}
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
 
         <div className="relative z-10 p-10 max-w-4xl">
@@ -58,9 +56,14 @@ export default async function Post({ params }: PageProps) {
             ← Back to Journal
           </Link>
 
-          <h1 className="text-5xl md:text-6xl font-bold mt-4 leading-tight">
+          <h1 className="text-3xl md:text-5xl font-bold mt-4 leading-tight">
             {post.title}
           </h1>
+          <div className="prose p-2 prose-invert prose-lg max-w-none">
+          <p className="text-md text-gray-300 leading-relaxed">
+            {post.description}
+          </p>
+        </div>
         </div>
       </section>
 
@@ -68,7 +71,7 @@ export default async function Post({ params }: PageProps) {
       <section className="max-w-3xl mx-auto px-6 py-20">
         <div className="prose prose-invert prose-lg max-w-none">
           <p className="text-xl text-gray-300 leading-relaxed">
-            {post.description}
+            {post.content}
           </p>
         </div>
       </section>

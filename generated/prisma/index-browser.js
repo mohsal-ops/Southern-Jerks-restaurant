@@ -161,6 +161,7 @@ exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  content: 'content',
   image: 'image',
   createdAt: 'createdAt'
 };
@@ -202,6 +203,33 @@ exports.Prisma.CartItemScalarFieldEnum = {
   cartId: 'cartId'
 };
 
+exports.Prisma.SideGroupScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  title: 'title',
+  type: 'type',
+  required: 'required',
+  maxSelect: 'maxSelect',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SideOptionScalarFieldEnum = {
+  id: 'id',
+  sideGroupId: 'sideGroupId',
+  label: 'label',
+  priceInCents: 'priceInCents',
+  linkedItemId: 'linkedItemId'
+};
+
+exports.Prisma.CartItemSideScalarFieldEnum = {
+  id: 'id',
+  cartItemId: 'cartItemId',
+  sideGroupId: 'sideGroupId',
+  optionId: 'optionId',
+  label: 'label',
+  priceInCents: 'priceInCents'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -216,7 +244,13 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.SideGroupType = exports.$Enums.SideGroupType = {
+  RECOMMENDED: 'RECOMMENDED',
+  NO: 'NO',
+  EXTRA: 'EXTRA',
+  SPICE: 'SPICE',
+  SIDE: 'SIDE'
+};
 
 exports.Prisma.ModelName = {
   Item: 'Item',
@@ -226,7 +260,10 @@ exports.Prisma.ModelName = {
   Post: 'Post',
   Order: 'Order',
   Cart: 'Cart',
-  CartItem: 'CartItem'
+  CartItem: 'CartItem',
+  SideGroup: 'SideGroup',
+  SideOption: 'SideOption',
+  CartItemSide: 'CartItemSide'
 };
 
 /**

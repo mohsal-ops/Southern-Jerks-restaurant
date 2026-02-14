@@ -109,6 +109,9 @@ export default async function Items() {
                         <DropdownMenuItem >
                           <Link href={`/admin/menuItems/${obj.id}/edit`}>Edit</Link>
                         </DropdownMenuItem>
+                        <DropdownMenuItem >
+                          <Link href={`/admin/menuItems/${obj.id}/sidesGroup`}>Add Sides</Link>
+                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DeleteItemComp id={obj?.id} />
                       </DropdownMenuContent>

@@ -28,6 +28,8 @@ model Item {
   isCaterable            Boolean @default(false)
   cateringDescription    String?
   cateringPriceInCents   Int?
+  sideGroups              SideGroup[] 
+
 }
 
 model User {
@@ -39,11 +41,11 @@ model User {
 }
 
 model Types {
-  id    String @id @default(uuid())
-  name  String
-  slug  String @unique
+  id          String @id @default(uuid())
+  name        String
+  slug        String @unique
   createdAt   DateTime @default(now())
-  items Item[]
+  items       Item[]
 }
 
 model Location {
@@ -58,6 +60,7 @@ model Post {
   id          String   @id @default(uuid()) @map("_id")
   title       String
   description String
+  content     String?
   image       String
   createdAt   DateTime @default(now())
 }
@@ -106,5 +109,49 @@ model CartItem {
   quantity     Int?
   cartId       String
   cart         Cart @relation(fields: [cartId], references: [id])
+  sides        CartItemSide[]  
+
 }
+
+enum SideGroupType {
+  RECOMMENDED
+  NO
+  EXTRA
+  SPICE
+  SIDE
+}
+
+model SideGroup {
+  id        String @id @default(uuid())
+  itemId    String
+  title     String               // e.g. "Burger No", "Extra Sauce"
+  type      SideGroupType
+  required  Boolean @default(false)
+  maxSelect Int?                 // null = unlimited
+
+  item      Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  options   SideOption[]
+
+  createdAt DateTime @default(now())
+}
+
+model SideOption {
+  id          String  @id @default(uuid())
+  sideGroupId String
+  label       String            // "No Pickles", "Golden Ranch"
+  priceInCents Int?             // null = free
+  linkedItemId String?          // for Recommended Sides (points to Item)
+  sideGroup   SideGroup @relation(fields: [sideGroupId], references: [id], onDelete: Cascade)
+}
+
+model CartItemSide {
+  id          String   @id @default(uuid())
+  cartItemId String
+  sideGroupId String
+  optionId    String
+  label       String
+  priceInCents Int?    // snapshot price at order time
+  cartItem CartItem @relation(fields: [cartItemId], references: [id], onDelete: Cascade)
+}
+
 

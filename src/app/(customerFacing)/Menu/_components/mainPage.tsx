@@ -9,12 +9,13 @@ import { ProductCardSkeleton } from "../../_components/ProductCardServer";
 import { useCart } from "@/app/providers/CartProvider";
 import { CartItem, Item, Location, Types } from "generated/prisma";
 import { CarFrontIcon, StoreIcon } from "lucide-react";
+import { ItemWithSides } from "../../page";
 
 type PropsTypes = {
   places: Location[];
   gategories: Types[];
-  products: Item[];
-  featuredProducts: Item[];
+  products: ItemWithSides[];
+  featuredProducts: ItemWithSides[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export default function MainPageMenu({
@@ -24,7 +25,7 @@ export default function MainPageMenu({
   gategories,
   products,
 }: PropsTypes) {
-  const [filtered, setfiltered] = useState<Item[] | undefined>();
+  const [filtered, setfiltered] = useState<ItemWithSides[] | undefined>();
   const [choice, setChoice] = useState<"delivery" | "pickup" | null>("pickup");
   const [query, setQuery] = useState("");
   const placeholderRef = useRef<HTMLDivElement | null>(null);
@@ -237,6 +238,7 @@ export default function MainPageMenu({
           <h2 className="text-xl font-semibold font-serif ">Popular</h2>
           {featuredProducts && featuredProducts?.length > 0 ? (
             <PopularDishes
+              choice={choice}
               cartItems={cartItems}
               Poularproducts={featuredProducts}
             />
@@ -289,7 +291,7 @@ export default function MainPageMenu({
 
         <div id="Products" className="min-h-56 ">
           {filtered && filtered.length > 0 ? (
-            <AllDishes cartItems={cartItems} Products={filtered} />
+            <AllDishes choice={choice} cartItems={cartItems} Products={filtered} />
           ) : query ? (
             <span className="text-gray-500 text-center  ">
               No products found
@@ -304,7 +306,7 @@ export default function MainPageMenu({
                 <h2 className="text-xl font-semibold font-serif ">
                   {Category.category.name}
                 </h2>
-                <AllDishes cartItems={cartItems} Products={Category.products} />
+                <AllDishes choice={choice} cartItems={cartItems} Products={Category.products} />
               </section>
             ))
           )}
@@ -318,9 +320,11 @@ export default function MainPageMenu({
 export function PopularDishes({
   cartItems,
   Poularproducts,
+  choice
 }: {
   cartItems: CartItem[];
-  Poularproducts: Item[] | undefined;
+  Poularproducts: ItemWithSides[] | undefined;
+  choice: "pickup" | "delivery" | null
 }) {
   const products = Poularproducts;
   return (
@@ -335,7 +339,7 @@ export function PopularDishes({
             </>
           }
         >
-          <PopularDishesSuspense cartItems={cartItems} products={products} />
+          <PopularDishesSuspense orderType={choice} cartItems={cartItems} products={products} />
         </Suspense>
       </div>
     </div>
@@ -345,9 +349,11 @@ export function PopularDishes({
 export function AllDishes({
   cartItems,
   Products,
+  choice
 }: {
   cartItems: CartItem[];
-  Products: Item[];
+  Products: ItemWithSides[];
+  choice: "pickup" | "delivery" | null
 }) {
   return (
     <div className="flex space-y-6  w-full">
@@ -361,7 +367,7 @@ export function AllDishes({
             </>
           }
         >
-          <AllDishesSuspense cartItems={cartItems} products={Products} />
+          <AllDishesSuspense orderType={choice} cartItems={cartItems} products={Products} />
         </Suspense>
       </div>
     </div>

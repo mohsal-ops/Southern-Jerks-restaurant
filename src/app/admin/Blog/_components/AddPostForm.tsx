@@ -68,6 +68,7 @@ export default function AddPostForm({ post }: { post: null }) {
       <div className="space-y-1">
         <Label>Short Description</Label>
         <Input
+          id = "description"
           name="description"
           placeholder="A brief summary of your post..."
           className="h-9"
@@ -87,6 +88,7 @@ export default function AddPostForm({ post }: { post: null }) {
       <div className="space-y-1">
         <Label>Content</Label>
         <Textarea
+          id="content" 
           name="content"
           placeholder="Write your blog post content here..."
           rows={6}
@@ -95,7 +97,7 @@ export default function AddPostForm({ post }: { post: null }) {
 
       {/* ACTIONS */}
       <div className="flex justify-end">
-        <Button type="submit" disabled={pending}>
+        <Button className="bg-black text-white" type="submit" disabled={pending}>
           {pending ? "Publishing..." : "Publish"}
         </Button>
       </div>

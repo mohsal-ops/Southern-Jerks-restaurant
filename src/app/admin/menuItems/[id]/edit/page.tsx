@@ -10,10 +10,6 @@ export default async function Edit({ params }: { params: Promise<{ id: string }>
     where: { id }, 
   })])
 
-  if (!item) {
-    return <p className="text-red-500 text-center mt-10">Product not found</p>
-  }
-
   return (
     <div className="flex flex-col gap-3 md:ml-44">
       <p className="text-3xl">Edit Product</p>

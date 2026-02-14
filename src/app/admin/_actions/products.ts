@@ -74,13 +74,19 @@ export default async function AddProduct(
     const data = { ...result.data, slug };
 
     await fs.mkdir("public/products", { recursive: true });
-    const image = data?.image
-      ? `/products/${crypto.randomUUID()}-${data.image.name}`
+    const file = data.image;
+
+    const isValidImage =
+      file && file.size > 0 && file.type.startsWith("image/");
+
+    const image = isValidImage
+      ? `/products/${crypto.randomUUID()}-${file.name}`
       : null;
-    if (image && data.image) {
+
+    if (isValidImage) {
       await fs.writeFile(
         `public${image}`,
-        new Uint8Array(await data.image.arrayBuffer()),
+        new Uint8Array(await file.arrayBuffer()),
       );
     }
 
@@ -127,13 +133,21 @@ export async function updateProduct(
   if (item == null) return notFound();
 
   let image = item.image;
-  if (data.image != null && data.image.size > 0) {
+  const file = data.image;
+
+  const isValidImage = file && file.size > 0 && file.type.startsWith("image/");
+
+  if (isValidImage) {
     try {
-      await fs.unlink(`public${item.image}`);
-      image = `/products/${crypto.randomUUID()}-${data.image.name}`;
+      if (item.image) {
+        await fs.unlink(`public${item.image}`);
+      }
+
+      image = `/products/${crypto.randomUUID()}-${file.name}`;
+
       await fs.writeFile(
         `public${image}`,
-        new Uint8Array(await data.image.arrayBuffer()),
+        new Uint8Array(await file.arrayBuffer()),
       );
     } catch (err) {
       console.warn("File delete failed, skipping", err);
@@ -191,7 +205,6 @@ export async function AddCategory(prevSatate: unknown, formData: FormData) {
     revalidatePath("/Menu");
     return { message: "item added succefuly" };
   } catch (error: any) {
-    // ✅ Check if it's a unique constraint error (Prisma error code P2002)
     if (error.code === "P2002" && error.meta?.target?.includes("slug")) {
       return {
         message: "This name already exists. Please choose a different one.",
@@ -233,3 +246,66 @@ export async function DeleteCategory(id: string) {
   revalidateTag("categories");
   revalidatePath("/admin/menuCategories");
 }
+
+
+
+type SideGroupInput = {
+  title: string;
+  type: "RECOMMENDED" | "NO" | "EXTRA" | "SPICE";
+  required?: boolean;
+  maxSelect?: number | null;
+  options: {
+    label?: string;
+    priceInCents?: number | null;
+    linkedItemId?: string;
+  }[];
+};
+
+export async function addItemSides(
+  itemId: string,
+  groups: SideGroupInput[]
+) {
+
+  try {
+    // Remove old groups (safe re-save)
+  await db.sideGroup.deleteMany({
+    where: { itemId },
+  });
+
+
+
+  // Create new groups
+  for (const group of groups) {
+    if (!group.options.length) continue
+    await db.sideGroup.create({
+      data: {
+        itemId,
+        title: group.title,
+        type: group.type,
+        required: group.required ?? false,
+        maxSelect: group.maxSelect ?? null,
+        options: {
+          create: group.options.map((opt) => ({
+            label: opt.label ?? "",
+            priceInCents: opt.priceInCents ?? null,
+            linkedItemId: opt.linkedItemId ?? null,
+          })),
+        },
+      },
+    });
+  }
+   revalidatePath("/admin");
+    revalidatePath("/admin/menuItems");
+    revalidatePath("/Menu");
+    revalidateTag("products");
+    return { message: "group added successfully" };
+    
+  } catch (error) {
+    console.error("Error adding sides:", error);
+     return { message: error };
+    
+  }
+ return { ok: true };
+}
+
+

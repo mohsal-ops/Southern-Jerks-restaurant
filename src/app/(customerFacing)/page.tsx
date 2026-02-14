@@ -27,8 +27,14 @@ import dynamic from "next/dynamic";
 import FadeIn from "@/components/FadeIn";
 import MapClient from "@/components/MapClient";
 import ThirdSectionClient from "./_components/ThirdSectionClient";
-import { CartItem, Item, Location } from "generated/prisma";
+import { CartItem, Item, Location, SideGroup, SideOption,  } from "generated/prisma";
 
+
+export type ItemWithSides = Item & {
+  sideGroups: (SideGroup & {
+    options: SideOption[];
+  })[];
+};
 
 function LocalBusinessSchema() {
   return (
@@ -186,7 +192,7 @@ export function TopSection() {
   )
 }
 
-export function SecondSection({ products, cartItems }: { products: Item[], cartItems: CartItem[] }) {
+export function SecondSection({ products, cartItems }: { products: ItemWithSides[], cartItems: CartItem[] }) {
 
   return (
     <div className="flex-col space-y-1 p-3 sm:w-[85vw] w-full overflow-hidden">
@@ -200,7 +206,7 @@ export function SecondSection({ products, cartItems }: { products: Item[], cartI
       </div>
       <div className="grid grid-flow-col justify-start gap-8 w-full  overflow-auto no-scrollbar ">
         <Suspense fallback={<> <HomeFeaturedSkeleton /> </>} >
-          <ProductSuspense cartItems={cartItems} products={products} />
+          <ProductSuspense  orderType={null} cartItems={cartItems} products={products} />
         </Suspense>
       </div>
     </div>

@@ -1,152 +1,110 @@
-import { Loader } from "@googlemaps/js-api-loader";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
-let map: google.maps.Map;
-let infoWindow: google.maps.InfoWindow;
-let markers: Record<string, google.maps.marker.AdvancedMarkerElement> = {};
+let map: H.Map;
+let ui: H.ui.UI;
+let markers: Record<string, H.map.Marker> = {};
 
 type Props = {
-  mapRef: HTMLDivElement,
-}
+  mapRef: HTMLDivElement;
+};
 
-export default async function searchandGetPlaceAndAddToDataBase({ mapRef }: Props) {
-  // 1. Load Google Maps
-  const loader = new Loader({
-    apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
-    version: "weekly"
+export default function searchandGetPlaceAndAddToDataBase({ mapRef }: Props) {
+  const platform = new H.service.Platform({
+    apikey: process.env.NEXT_PUBLIC_HERE_API_KEY as string,
   });
 
-  await loader?.importLibrary("maps"); // ✅ this ensures `google` is defined
-  const { Map, InfoWindow } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+  const defaultLayers = platform.createDefaultLayers();
 
-  const center = { lat: 37.4161493, lng: -122.0812166 };
-  //setup the map
-
-  map = new Map(mapRef as HTMLElement, {
-    center: center,
-    zoom: 11,
-    mapTypeControl: false,
-    mapId: 'DEMO_MAP_ID',
+  map = new H.Map(mapRef, defaultLayers.vector.normal.map, {
+    center: { lat: 39.8283, lng: -98.5795 }, // USA center
+    zoom: 4, // show whole USA
   });
 
-  const textInput = document.getElementById('text-input') as HTMLInputElement;
-  const textInputButton = document.getElementById('text-input-button') as HTMLButtonElement;
-  const cardRef = document.getElementById('text-input-card') as HTMLElement;
+  new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+  ui = H.ui.UI.createDefault(map, defaultLayers);
 
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(cardRef);
+  const textInput = document.getElementById("text-input") as HTMLInputElement;
+  const textInputButton = document.getElementById(
+    "text-input-button",
+  ) as HTMLButtonElement;
 
-
-
-
-
-
-  // add EventLister when he enters searchterm and when he click submit
-
-  textInputButton.addEventListener('click', () => {
+  textInputButton.addEventListener("click", () => {
     findPlaces(textInput.value);
-
   });
 
-  textInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      findPlaces(textInput.value);
-    }
+  textInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") findPlaces(textInput.value);
   });
-
-  infoWindow = new google.maps.InfoWindow();
 }
 
-const findPlaces = async (query: string | undefined) => {
-  const { Place } = await google.maps.importLibrary("places") as google.maps.PlacesLibrary;
-  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+async function findPlaces(query: string) {
+  if (!query) return;
 
+  const center = map.getCenter();
 
+  const url = `https://discover.search.hereapi.com/v1/discover?apikey=${
+    process.env.NEXT_PUBLIC_HERE_API_KEY
+  }&q=${encodeURIComponent(query)}&at=${center.lat},${center.lng}&limit=8`;
 
-  const request = {
-    textQuery: query,
-    fields: ['displayName', 'location', 'businessStatus'],
-    includedType: '', // Restrict query to a specific type (leave blank for any).
-    useStrictTypeFiltering: true,
-    locationBias: map.getCenter(),
-    isOpenNow: true,
-    language: 'en-US',
-    maxResultCount: 8,
-    minRating: 1, // Specify a minimum rating.
-    region: 'us',
-  };
+  const res = await fetch(url);
+  const data = await res.json();
 
-  const { places } = await Place.searchByText(request);
-  function latLngToObject(latLng: google.maps.LatLng | null | undefined) {
-  if (!latLng) return { lat: 0, lng: 0 }; // fallback
-  return {
-    lat: latLng.lat(), // full decimal
-    lng: latLng.lng(), // full decimal
-  };
-}
-
-  if (places.length) {
-    const { LatLngBounds } = await google.maps.importLibrary("core") as google.maps.CoreLibrary;
-    const bounds = new LatLngBounds();
-
-    // First remove all existing markers.
-    for (const id in markers) {
-      markers[id].map = null;
-    };
-    markers = {};
-
-    // Loop through and get all the results.
-    places.forEach(place => {
-      const marker = new AdvancedMarkerElement({
-        map,
-        position: place.location,
-        title: place.displayName,
-      });
-      markers[place.id] = marker;
-
-      marker.addListener('gmp-click', async () => {
-        if (!place.location) return
-        map.panTo(place.location);
-        const position = latLngToObject(place.location);
-        updateInfoWindow(place.displayName, place.id, marker);
-        const res = await fetch('/api/addPlaceToDb', {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: place.displayName,
-            ...position,
-          }),
-        })
-
-        if(res.ok){
-          toast("Place added succefuly")
-
-        }else{
-           toast('place already exists')
-
-        }
-      });
-
-      
-
-      if (place.location != null) {
-        bounds.extend(place.location);
-      }
-    });
-
-    map.fitBounds(bounds);
-
-  } else {
-    console.log('No results');
+  if (!data.items?.length) {
+    toast("No results");
+    return;
   }
-}
-// Helper function to create an info window.
-const updateInfoWindow = async (title: string | null | undefined, content: string | undefined, anchor: google.maps.marker.AdvancedMarkerElement | undefined) => {
-  infoWindow.setContent(content);
-  infoWindow.setHeaderContent(title);
-  infoWindow.open({
-    map,
-    anchor,
-    shouldFocus: false,
+
+  Object.values(markers).forEach((m) => map.removeObject(m));
+  markers = {};
+
+  let bounds: H.geo.Rect | null = null;
+
+  data.items.forEach((place: any) => {
+    const position = {
+      lat: place.position.lat,
+      lng: place.position.lng,
+    };
+
+    const marker = new H.map.Marker(position);
+    map.addObject(marker);
+    markers[place.id] = marker;
+
+    if (!bounds) {
+      bounds = new H.geo.Rect(
+        position.lat,
+        position.lng,
+        position.lat,
+        position.lng,
+      );
+    } else {
+      bounds.mergePoint(position);
+    }
+
+    marker.addEventListener("tap", async () => {
+      const bubble = new H.ui.InfoBubble(position, {
+        content: `<strong>${place.title}</strong>`,
+      });
+      ui.addBubble(bubble);
+
+      const res = await fetch("/api/addPlaceToDb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: place.title,
+          lat: position.lat,
+          lng: position.lng,
+        }),
+      });
+
+      if (res.ok) toast("Place added successfully");
+      else toast("Place already exists");
+    });
   });
 
+  if (bounds) {
+    map.getViewModel().setLookAtData({
+      bounds,
+      padding: { top: 200, bottom: 200, left: 200, right: 200 },
+    });
+  }
 }

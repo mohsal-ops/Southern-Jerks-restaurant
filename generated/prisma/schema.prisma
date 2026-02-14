@@ -11,20 +11,21 @@ datasource db {
 }
 
 model Item {
-  id                     String  @id @default(uuid())
+  id                     String      @id @default(uuid())
   name                   String
   description            String?
   priceInCents           Int
-  slug                   String  @unique
-  isAvailableForPurchase Boolean @default(true)
-  featured               Boolean @default(false)
+  slug                   String      @unique
+  isAvailableForPurchase Boolean     @default(true)
+  featured               Boolean     @default(false)
   image                  String?
   typeId                 String
-  type                   Types   @relation(fields: [typeId], references: [id], onDelete: Restrict)
+  type                   Types       @relation(fields: [typeId], references: [id], onDelete: Restrict)
   orders                 Order[]
-  isCaterable            Boolean @default(false)
+  isCaterable            Boolean     @default(false)
   cateringDescription    String?
   cateringPriceInCents   Int?
+  sideGroups             SideGroup[]
 }
 
 model User {
@@ -55,6 +56,7 @@ model Post {
   id          String   @id @default(uuid()) @map("_id")
   title       String
   description String
+  content     String?
   image       String
   createdAt   DateTime @default(now())
 }
@@ -101,5 +103,49 @@ model CartItem {
   price    Int?
   quantity Int?
   cartId   String
-  cart     Cart   @relation(fields: [cartId], references: [id])
+  cart     Cart           @relation(fields: [cartId], references: [id])
+  sides    CartItemSide[]
+}
+
+enum SideGroupType {
+  RECOMMENDED
+  NO
+  EXTRA
+  SPICE
+  SIDE
+}
+
+model SideGroup {
+  id        String        @id @default(uuid())
+  itemId    String
+  title     String // e.g. "Burger No", "Extra Sauce"
+  type      SideGroupType
+  required  Boolean       @default(false)
+  maxSelect Int? // null = unlimited
+
+  item    Item         @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  options SideOption[]
+
+  createdAt DateTime @default(now())
+}
+
+model SideOption {
+  id           String  @id @default(uuid())
+  sideGroupId  String
+  label        String // "No Pickles", "Golden Ranch"
+  priceInCents Int? // null = free
+  linkedItemId String? // for Recommended Sides (points to Item)
+
+  sideGroup SideGroup @relation(fields: [sideGroupId], references: [id], onDelete: Cascade)
+}
+
+model CartItemSide {
+  id           String @id @default(uuid())
+  cartItemId   String
+  sideGroupId  String
+  optionId     String
+  label        String
+  priceInCents Int? // snapshot price at order time
+
+  cartItem CartItem @relation(fields: [cartItemId], references: [id], onDelete: Cascade)
 }

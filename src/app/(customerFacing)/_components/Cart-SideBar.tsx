@@ -33,6 +33,7 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
     }, [initialItems]);
 
 
+
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768)
         handleResize()
@@ -90,7 +91,7 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
 
 
     return (
-        <div className='className="flex items-center justify-start'>
+        <div className='flex items-center gap justify-start'>
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger className={`${isMobile && 'absolute right-0 left-0 bottom-0'}`}>
                     <div style={quantity ? { backgroundColor: "oklch(85.2% 0.199 91.936)", color: 'white' } : {}} className='flex items-center gap-2 justify-center md:border  px-4 py-2 hover:cursor-pointer rounded-xl  bg-background hover:bg-accent hover:text-accent-foreground'>
@@ -112,27 +113,29 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
 
                 </SheetTrigger>
                 <SheetContent aria-describedby={undefined} side={isMobile ? "bottom" : "right"}
-                    className={isMobile ? "h-[90vh]" : "w-100"}>
-                    <SheetHeader>
+                    className={isMobile ? "h-[90vh] gap-0" : "w-100 gap-0"}>
+                    <SheetHeader >
                         <SheetTitle>Your Cart</SheetTitle>
                     </SheetHeader>
                     {/* Cart items */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    <div className="flex-1 overflow-y-auto  px-4  space-y-4">
                         {quantity == 0 ? (
                             <div className="text-center text-muted-foreground mt-10">
                                 Your cart is empty.
                             </div>
                         ) : (
-                            cartItems.filter((item) => item.image != null && item.image).map((item, index) => (
+                            cartItems.filter((item) => item.name != null && item.price).map((item, index) => (
                                 <div key={index} className="flex items-center space-x-4">
-                                    <Image
-                                        src={(item.image ?? '/')}
+                                    {item.image && (
+                                        <Image
+                                        src={item.image }
                                         alt={item.name || 'product image'}
                                         width={64}
                                         height={64}
                                         className="rounded-md object-cover"
                                     />
-                                    <div className="flex-1">
+                                    )}
+                                    <div className="flex-1 space-y-2">
                                         <h3 className="text-sm font-medium">{item.name}</h3>
                                         {/* Quantity adjuster */}
                                         <div className="flex items-center gap-2">
@@ -174,7 +177,6 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
                                 <Link className="w-full " href={{ pathname: `/Menu/${cartId}/purchase` }}>
                                     <Button disabled={subtotal === 0} className="w-full" variant="mainButton" >
                                         Checkout
-
                                     </Button>
                                 </Link>
 

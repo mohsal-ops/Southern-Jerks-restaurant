@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import { PiHeartStraightThin } from "react-icons/pi";
-import SchedulePickupDialog from "./schedualePickupModal";
+import SchedulePickupDialog, { SideGroupWithOptions } from "./schedualePickupModal";
 import { CartItem } from "../../../../generated/prisma";
 
 type productObjectPath = {
@@ -16,6 +16,8 @@ type productObjectPath = {
   description: string | "";
   image: string | null;
   cartItems: CartItem[];
+  sideGroups: SideGroupWithOptions[];
+  orderType: "pickup" | "delivery" | null
 };
 
 export default function ProductCardClient({
@@ -24,8 +26,10 @@ export default function ProductCardClient({
   priceInCents,
   description,
   image,
-  cartItems,
+  sideGroups,
+  orderType
 }: productObjectPath) {
+
   const [open, setOpen] = useState(false);
 
   const ProductInfos = {
@@ -34,6 +38,7 @@ export default function ProductCardClient({
     priceInCents,
     description,
     image,
+    sideGroups,
   };
 
   return (
@@ -45,8 +50,8 @@ export default function ProductCardClient({
         {/* <CardHeader className="relative w-full h-5/6 aspect-video">
                 </CardHeader> */}
         <CardContent className="flex items-end relative h-full p-0 w-full text-center ">
-          <div className="relative top-0 h-full w-full">
-            {image && (
+          {image && (
+            <div className="relative top-0 h-full w-full bg-black ">
               <Image
                 src={image}
                 fill
@@ -55,9 +60,9 @@ export default function ProductCardClient({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
                 className="object-cover "
               />
-            )}
-          </div>
-          <div className="absolute z-10 flex items-end h-full  w-full p-3 ">
+            </div>
+          )}
+          <div className="absolute z-10 flex items-end h-full bg-black w-full p-3 ">
             <div className="flex  flex-col gap-4 z-20 ">
               <CardTitle className="font-semibold text-lg text-white ">
                 {name}
@@ -77,6 +82,7 @@ export default function ProductCardClient({
       </Card>
       <div className="font-semibold text-lg ">{name}</div>
       <SchedulePickupDialog
+        orderType={orderType}
         product={ProductInfos}
         open={open}
         onOpenChange={setOpen}
@@ -91,6 +97,8 @@ export function PopularDishesCardClient({
   description,
   priceInCents,
   image,
+  sideGroups,
+  orderType
 }: productObjectPath) {
   const [open, setOpen] = useState(false);
   const ProductInfos = {
@@ -99,6 +107,7 @@ export function PopularDishesCardClient({
     priceInCents,
     description,
     image,
+    sideGroups,
   };
 
   return (
@@ -110,8 +119,8 @@ export function PopularDishesCardClient({
         {/* <CardHeader className="relative w-full h-5/6 aspect-video">
                 </CardHeader> */}
         <CardContent className=" flex items-end relative h-full p-0 w-full text-center ">
-          <div className="relative top-0 h-full w-full ">
-            {image && (
+          {image && (
+            <div className="relative top-0 h-full w-full ">
               <Image
                 src={image}
                 fill
@@ -120,8 +129,8 @@ export function PopularDishesCardClient({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
                 className="object-cover "
               />
-            )}
-          </div>
+            </div>
+          )}
           <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
             <div className="flex gap-2 items-center  ">
               <Button
@@ -135,11 +144,12 @@ export function PopularDishesCardClient({
           </div>
         </CardContent>
       </Card>
-      <div className="flex flex-col gap-1 px-2 font-semibold w-full ">
+      <div className="flex bg-black flex-col gap-1 px-2 font-semibold w-full ">
         <p>{name}</p>
-        <p>{formatCurrency(priceInCents / 100)}</p>
+        <p className="text-neutral-600">{formatCurrency(priceInCents / 100)}</p>
       </div>
       <SchedulePickupDialog
+      orderType={orderType}
         product={ProductInfos}
         open={open}
         onOpenChange={setOpen}
@@ -155,6 +165,8 @@ export function AllDishesCardClient({
   description,
   image,
   cartItems,
+  sideGroups,
+  orderType
 }: productObjectPath) {
   const [open, setOpen] = useState(false);
   const ProductInfos = {
@@ -163,27 +175,28 @@ export function AllDishesCardClient({
     priceInCents,
     description,
     image,
+    sideGroups,
   };
 
   return (
     <div className="flex w-full space-x-2 md:rounded-2xl md:border border-y border-gray-200 md:p-0 p-2">
-      <div className="flex py-3 flex-col gap-1 md:px-4 px-2 text-lg tracking-tight font-semibold w-3/5 ">
+      <div className={`flex py-3 flex-col justify-center gap-1 md:px-4 px-2 text-lg tracking-tight font-semibold ${image ? ' w-3/5' : 'w-full '}`}>
         <p>{name}</p>
-        <p>{formatCurrency(priceInCents / 100)}</p>
         <p className="text-gray-500 text-sm font">
           {description?.split(" ").slice(0, 25).join(" ")}
           {description?.split(" ").length! > 25 && "..."}
         </p>
+        <p className="text-gray-600 font-bold text-sm">{formatCurrency(priceInCents / 100)}</p>
       </div>
       <Card
-        className="flex md:rounded-l-none rounded-2xl overflow-hidden gap-5 md:h-50 h-36 flex-col md:w-1/2 w-2/5  "
+        className={`flex md:rounded-l-none rounded-2xl overflow-hidden gap-5 md:h-50 h-36 flex-col  ${image ? ' md:w-1/2 w-2/5' : 'w-16 '} `}
         key={id}
       >
         {/* <CardHeader className="relative w-full h-5/6 aspect-video">
                 </CardHeader> */}
         <CardContent className="flex items-end relative h-full p-0 w-full text-center ">
-          <div className="relative top-0 h-full w-full ">
-            {image && (
+          {image && (
+            <div className="relative top-0 h-full w-full ">
               <Image
                 src={image}
                 fill
@@ -192,8 +205,8 @@ export function AllDishesCardClient({
                 className="object-cover "
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
               />
-            )}
-          </div>
+            </div>
+          )}
           <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
             <div className="flex gap-2 items-center  ">
               <Button
@@ -208,7 +221,8 @@ export function AllDishesCardClient({
         </CardContent>
       </Card>
       <SchedulePickupDialog
-        product={ProductInfos}
+      orderType={orderType}
+        product={ProductInfos }
         open={open}
         onOpenChange={setOpen}
       />

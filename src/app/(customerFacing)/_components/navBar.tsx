@@ -66,6 +66,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
   }, []);
 
   // 🧠 Pass a stable key and avoid dependency loops
+  console.log("Fetching cart with ID:", cartId);
   const { data: CartResObj } = useSWR(cartId ? ["/api/cart/get", cartId] : null, ([url, id]) => fetcher(url, id),{ revalidateOnFocus: false });
 
   const cartItems = (CartResObj?.cart?.items ?? []) as CartItem[];

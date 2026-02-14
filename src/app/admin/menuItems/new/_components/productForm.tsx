@@ -1,6 +1,8 @@
 "use client";
 
-import AddProduct, { updateProduct } from "@/app/admin/_actions/products";
+import AddProduct, {
+  updateProduct,
+} from "@/app/admin/_actions/products";
 import PageHeader from "@/app/admin/_components/pageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/formatters";
 import { Label } from "@radix-ui/react-label";
-import { Item } from "generated/prisma";
+import {  Item } from "generated/prisma";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
@@ -46,16 +48,16 @@ export default function ProductForm({
     item?.cateringPriceInCents || 0,
   );
 
-
-const { toast} = useToast();
+  const { toast } = useToast();
   useEffect(() => {
     if (state?.message) {
       toast({
-        variant:state.message === "item added succefuly" ? "default" : "destructive", description: `${state.message}`,
+        variant:
+          state.message === "item added succefuly" ? "default" : "destructive",
+        description: `${state.message}`,
       });
     }
   }, [state]);
-
 
   return (
     <div className="lg:flex justify-center pb-10">
@@ -104,11 +106,7 @@ const { toast} = useToast();
           <Label htmlFor="image" className=" text-sm ">
             Image
           </Label>
-          <Input
-            type="file"
-            id="image"
-            name="image"
-          />
+          <Input type="file" id="image" name="image" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="category" className=" text-sm ">
@@ -167,7 +165,7 @@ const { toast} = useToast();
               type="checkbox"
               name="isCaterable"
               checked={isCaterable}
-              value="true"   // always "true" when checked
+              value="true" // always "true" when checked
               onChange={(e) => setIsCaterable(e.target.checked)}
             />
             Available for Catering
@@ -207,10 +205,16 @@ const { toast} = useToast();
           )}
         </div>
 
-        <Button variant='outline' disabled={pending || CategoryId == ""} type="submit">
+        <Button
+          variant="outline"
+          disabled={pending || CategoryId == ""}
+          type="submit"
+        >
           {pending ? "saving..." : "save"}
         </Button>
       </form>
     </div>
   );
 }
+
+

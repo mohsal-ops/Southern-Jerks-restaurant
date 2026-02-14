@@ -12,7 +12,6 @@ import $Result = runtime.Types.Result
 
 export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
-
 /**
  * Model Item
  * 
@@ -53,6 +52,41 @@ export type Cart = $Result.DefaultSelection<Prisma.$CartPayload>
  * 
  */
 export type CartItem = $Result.DefaultSelection<Prisma.$CartItemPayload>
+/**
+ * Model SideGroup
+ * 
+ */
+export type SideGroup = $Result.DefaultSelection<Prisma.$SideGroupPayload>
+/**
+ * Model SideOption
+ * 
+ */
+export type SideOption = $Result.DefaultSelection<Prisma.$SideOptionPayload>
+/**
+ * Model CartItemSide
+ * 
+ */
+export type CartItemSide = $Result.DefaultSelection<Prisma.$CartItemSidePayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const SideGroupType: {
+  RECOMMENDED: 'RECOMMENDED',
+  NO: 'NO',
+  EXTRA: 'EXTRA',
+  SPICE: 'SPICE',
+  SIDE: 'SIDE'
+};
+
+export type SideGroupType = (typeof SideGroupType)[keyof typeof SideGroupType]
+
+}
+
+export type SideGroupType = $Enums.SideGroupType
+
+export const SideGroupType: typeof $Enums.SideGroupType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -250,6 +284,36 @@ export class PrismaClient<
     * ```
     */
   get cartItem(): Prisma.CartItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.sideGroup`: Exposes CRUD operations for the **SideGroup** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SideGroups
+    * const sideGroups = await prisma.sideGroup.findMany()
+    * ```
+    */
+  get sideGroup(): Prisma.SideGroupDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.sideOption`: Exposes CRUD operations for the **SideOption** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SideOptions
+    * const sideOptions = await prisma.sideOption.findMany()
+    * ```
+    */
+  get sideOption(): Prisma.SideOptionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cartItemSide`: Exposes CRUD operations for the **CartItemSide** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CartItemSides
+    * const cartItemSides = await prisma.cartItemSide.findMany()
+    * ```
+    */
+  get cartItemSide(): Prisma.CartItemSideDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -691,7 +755,10 @@ export namespace Prisma {
     Post: 'Post',
     Order: 'Order',
     Cart: 'Cart',
-    CartItem: 'CartItem'
+    CartItem: 'CartItem',
+    SideGroup: 'SideGroup',
+    SideOption: 'SideOption',
+    CartItemSide: 'CartItemSide'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -707,7 +774,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "item" | "user" | "types" | "location" | "post" | "order" | "cart" | "cartItem"
+      modelProps: "item" | "user" | "types" | "location" | "post" | "order" | "cart" | "cartItem" | "sideGroup" | "sideOption" | "cartItemSide"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1303,6 +1370,228 @@ export namespace Prisma {
           }
         }
       }
+      SideGroup: {
+        payload: Prisma.$SideGroupPayload<ExtArgs>
+        fields: Prisma.SideGroupFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SideGroupFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SideGroupFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>
+          }
+          findFirst: {
+            args: Prisma.SideGroupFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SideGroupFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>
+          }
+          findMany: {
+            args: Prisma.SideGroupFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>[]
+          }
+          create: {
+            args: Prisma.SideGroupCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>
+          }
+          createMany: {
+            args: Prisma.SideGroupCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SideGroupCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>[]
+          }
+          delete: {
+            args: Prisma.SideGroupDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>
+          }
+          update: {
+            args: Prisma.SideGroupUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>
+          }
+          deleteMany: {
+            args: Prisma.SideGroupDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SideGroupUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SideGroupUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>[]
+          }
+          upsert: {
+            args: Prisma.SideGroupUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideGroupPayload>
+          }
+          aggregate: {
+            args: Prisma.SideGroupAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSideGroup>
+          }
+          groupBy: {
+            args: Prisma.SideGroupGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SideGroupGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SideGroupCountArgs<ExtArgs>
+            result: $Utils.Optional<SideGroupCountAggregateOutputType> | number
+          }
+        }
+      }
+      SideOption: {
+        payload: Prisma.$SideOptionPayload<ExtArgs>
+        fields: Prisma.SideOptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SideOptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SideOptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>
+          }
+          findFirst: {
+            args: Prisma.SideOptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SideOptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>
+          }
+          findMany: {
+            args: Prisma.SideOptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>[]
+          }
+          create: {
+            args: Prisma.SideOptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>
+          }
+          createMany: {
+            args: Prisma.SideOptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SideOptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>[]
+          }
+          delete: {
+            args: Prisma.SideOptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>
+          }
+          update: {
+            args: Prisma.SideOptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.SideOptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SideOptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SideOptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.SideOptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SideOptionPayload>
+          }
+          aggregate: {
+            args: Prisma.SideOptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSideOption>
+          }
+          groupBy: {
+            args: Prisma.SideOptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SideOptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SideOptionCountArgs<ExtArgs>
+            result: $Utils.Optional<SideOptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      CartItemSide: {
+        payload: Prisma.$CartItemSidePayload<ExtArgs>
+        fields: Prisma.CartItemSideFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CartItemSideFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CartItemSideFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>
+          }
+          findFirst: {
+            args: Prisma.CartItemSideFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CartItemSideFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>
+          }
+          findMany: {
+            args: Prisma.CartItemSideFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>[]
+          }
+          create: {
+            args: Prisma.CartItemSideCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>
+          }
+          createMany: {
+            args: Prisma.CartItemSideCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CartItemSideCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>[]
+          }
+          delete: {
+            args: Prisma.CartItemSideDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>
+          }
+          update: {
+            args: Prisma.CartItemSideUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>
+          }
+          deleteMany: {
+            args: Prisma.CartItemSideDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CartItemSideUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CartItemSideUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>[]
+          }
+          upsert: {
+            args: Prisma.CartItemSideUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CartItemSidePayload>
+          }
+          aggregate: {
+            args: Prisma.CartItemSideAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCartItemSide>
+          }
+          groupBy: {
+            args: Prisma.CartItemSideGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CartItemSideGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CartItemSideCountArgs<ExtArgs>
+            result: $Utils.Optional<CartItemSideCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1419,6 +1708,9 @@ export namespace Prisma {
     order?: OrderOmit
     cart?: CartOmit
     cartItem?: CartItemOmit
+    sideGroup?: SideGroupOmit
+    sideOption?: SideOptionOmit
+    cartItemSide?: CartItemSideOmit
   }
 
   /* Types for Logging */
@@ -1500,10 +1792,12 @@ export namespace Prisma {
 
   export type ItemCountOutputType = {
     orders: number
+    sideGroups: number
   }
 
   export type ItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | ItemCountOutputTypeCountOrdersArgs
+    sideGroups?: boolean | ItemCountOutputTypeCountSideGroupsArgs
   }
 
   // Custom InputTypes
@@ -1522,6 +1816,13 @@ export namespace Prisma {
    */
   export type ItemCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderWhereInput
+  }
+
+  /**
+   * ItemCountOutputType without action
+   */
+  export type ItemCountOutputTypeCountSideGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SideGroupWhereInput
   }
 
 
@@ -1615,6 +1916,68 @@ export namespace Prisma {
    */
   export type CartCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CartItemWhereInput
+  }
+
+
+  /**
+   * Count Type CartItemCountOutputType
+   */
+
+  export type CartItemCountOutputType = {
+    sides: number
+  }
+
+  export type CartItemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sides?: boolean | CartItemCountOutputTypeCountSidesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CartItemCountOutputType without action
+   */
+  export type CartItemCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemCountOutputType
+     */
+    select?: CartItemCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CartItemCountOutputType without action
+   */
+  export type CartItemCountOutputTypeCountSidesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CartItemSideWhereInput
+  }
+
+
+  /**
+   * Count Type SideGroupCountOutputType
+   */
+
+  export type SideGroupCountOutputType = {
+    options: number
+  }
+
+  export type SideGroupCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    options?: boolean | SideGroupCountOutputTypeCountOptionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SideGroupCountOutputType without action
+   */
+  export type SideGroupCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroupCountOutputType
+     */
+    select?: SideGroupCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SideGroupCountOutputType without action
+   */
+  export type SideGroupCountOutputTypeCountOptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SideOptionWhereInput
   }
 
 
@@ -1882,6 +2245,7 @@ export namespace Prisma {
     cateringPriceInCents?: boolean
     type?: boolean | TypesDefaultArgs<ExtArgs>
     orders?: boolean | Item$ordersArgs<ExtArgs>
+    sideGroups?: boolean | Item$sideGroupsArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["item"]>
 
@@ -1936,6 +2300,7 @@ export namespace Prisma {
   export type ItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     type?: boolean | TypesDefaultArgs<ExtArgs>
     orders?: boolean | Item$ordersArgs<ExtArgs>
+    sideGroups?: boolean | Item$sideGroupsArgs<ExtArgs>
     _count?: boolean | ItemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1950,6 +2315,7 @@ export namespace Prisma {
     objects: {
       type: Prisma.$TypesPayload<ExtArgs>
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      sideGroups: Prisma.$SideGroupPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2360,6 +2726,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     type<T extends TypesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TypesDefaultArgs<ExtArgs>>): Prisma__TypesClient<$Result.GetResult<Prisma.$TypesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     orders<T extends Item$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Item$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sideGroups<T extends Item$sideGroupsArgs<ExtArgs> = {}>(args?: Subset<T, Item$sideGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2818,6 +3185,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * Item.sideGroups
+   */
+  export type Item$sideGroupsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    where?: SideGroupWhereInput
+    orderBy?: SideGroupOrderByWithRelationInput | SideGroupOrderByWithRelationInput[]
+    cursor?: SideGroupWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SideGroupScalarFieldEnum | SideGroupScalarFieldEnum[]
   }
 
   /**
@@ -6000,6 +6391,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
+    content: string | null
     image: string | null
     createdAt: Date | null
   }
@@ -6008,6 +6400,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     description: string | null
+    content: string | null
     image: string | null
     createdAt: Date | null
   }
@@ -6016,6 +6409,7 @@ export namespace Prisma {
     id: number
     title: number
     description: number
+    content: number
     image: number
     createdAt: number
     _all: number
@@ -6026,6 +6420,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    content?: true
     image?: true
     createdAt?: true
   }
@@ -6034,6 +6429,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    content?: true
     image?: true
     createdAt?: true
   }
@@ -6042,6 +6438,7 @@ export namespace Prisma {
     id?: true
     title?: true
     description?: true
+    content?: true
     image?: true
     createdAt?: true
     _all?: true
@@ -6123,6 +6520,7 @@ export namespace Prisma {
     id: string
     title: string
     description: string
+    content: string | null
     image: string
     createdAt: Date
     _count: PostCountAggregateOutputType | null
@@ -6148,6 +6546,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    content?: boolean
     image?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["post"]>
@@ -6156,6 +6555,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    content?: boolean
     image?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["post"]>
@@ -6164,6 +6564,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    content?: boolean
     image?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["post"]>
@@ -6172,11 +6573,12 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    content?: boolean
     image?: boolean
     createdAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "image" | "createdAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "content" | "image" | "createdAt", ExtArgs["result"]["post"]>
 
   export type $PostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Post"
@@ -6185,6 +6587,7 @@ export namespace Prisma {
       id: string
       title: string
       description: string
+      content: string | null
       image: string
       createdAt: Date
     }, ExtArgs["result"]["post"]>
@@ -6613,6 +7016,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Post", 'String'>
     readonly title: FieldRef<"Post", 'String'>
     readonly description: FieldRef<"Post", 'String'>
+    readonly content: FieldRef<"Post", 'String'>
     readonly image: FieldRef<"Post", 'String'>
     readonly createdAt: FieldRef<"Post", 'DateTime'>
   }
@@ -9466,6 +9870,8 @@ export namespace Prisma {
     quantity?: boolean
     cartId?: boolean
     cart?: boolean | CartDefaultArgs<ExtArgs>
+    sides?: boolean | CartItem$sidesArgs<ExtArgs>
+    _count?: boolean | CartItemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["cartItem"]>
 
   export type CartItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9536,6 +9942,8 @@ export namespace Prisma {
   export type CartItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "productId" | "name" | "orderType" | "pickupDay" | "pickupTime" | "deliveryAddress" | "deliveryLat" | "deliveryLng" | "deliveryPlaceId" | "apt" | "instructions" | "customerName" | "customerPhone" | "price" | "quantity" | "cartId", ExtArgs["result"]["cartItem"]>
   export type CartItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cart?: boolean | CartDefaultArgs<ExtArgs>
+    sides?: boolean | CartItem$sidesArgs<ExtArgs>
+    _count?: boolean | CartItemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CartItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cart?: boolean | CartDefaultArgs<ExtArgs>
@@ -9548,6 +9956,7 @@ export namespace Prisma {
     name: "CartItem"
     objects: {
       cart: Prisma.$CartPayload<ExtArgs>
+      sides: Prisma.$CartItemSidePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9963,6 +10372,7 @@ export namespace Prisma {
   export interface Prisma__CartItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     cart<T extends CartDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CartDefaultArgs<ExtArgs>>): Prisma__CartClient<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    sides<T extends CartItem$sidesArgs<ExtArgs> = {}>(args?: Subset<T, CartItem$sidesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10406,6 +10816,30 @@ export namespace Prisma {
   }
 
   /**
+   * CartItem.sides
+   */
+  export type CartItem$sidesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    where?: CartItemSideWhereInput
+    orderBy?: CartItemSideOrderByWithRelationInput | CartItemSideOrderByWithRelationInput[]
+    cursor?: CartItemSideWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CartItemSideScalarFieldEnum | CartItemSideScalarFieldEnum[]
+  }
+
+  /**
    * CartItem without action
    */
   export type CartItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10421,6 +10855,3351 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CartItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SideGroup
+   */
+
+  export type AggregateSideGroup = {
+    _count: SideGroupCountAggregateOutputType | null
+    _avg: SideGroupAvgAggregateOutputType | null
+    _sum: SideGroupSumAggregateOutputType | null
+    _min: SideGroupMinAggregateOutputType | null
+    _max: SideGroupMaxAggregateOutputType | null
+  }
+
+  export type SideGroupAvgAggregateOutputType = {
+    maxSelect: number | null
+  }
+
+  export type SideGroupSumAggregateOutputType = {
+    maxSelect: number | null
+  }
+
+  export type SideGroupMinAggregateOutputType = {
+    id: string | null
+    itemId: string | null
+    title: string | null
+    type: $Enums.SideGroupType | null
+    required: boolean | null
+    maxSelect: number | null
+    createdAt: Date | null
+  }
+
+  export type SideGroupMaxAggregateOutputType = {
+    id: string | null
+    itemId: string | null
+    title: string | null
+    type: $Enums.SideGroupType | null
+    required: boolean | null
+    maxSelect: number | null
+    createdAt: Date | null
+  }
+
+  export type SideGroupCountAggregateOutputType = {
+    id: number
+    itemId: number
+    title: number
+    type: number
+    required: number
+    maxSelect: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SideGroupAvgAggregateInputType = {
+    maxSelect?: true
+  }
+
+  export type SideGroupSumAggregateInputType = {
+    maxSelect?: true
+  }
+
+  export type SideGroupMinAggregateInputType = {
+    id?: true
+    itemId?: true
+    title?: true
+    type?: true
+    required?: true
+    maxSelect?: true
+    createdAt?: true
+  }
+
+  export type SideGroupMaxAggregateInputType = {
+    id?: true
+    itemId?: true
+    title?: true
+    type?: true
+    required?: true
+    maxSelect?: true
+    createdAt?: true
+  }
+
+  export type SideGroupCountAggregateInputType = {
+    id?: true
+    itemId?: true
+    title?: true
+    type?: true
+    required?: true
+    maxSelect?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SideGroupAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SideGroup to aggregate.
+     */
+    where?: SideGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SideGroups to fetch.
+     */
+    orderBy?: SideGroupOrderByWithRelationInput | SideGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SideGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SideGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SideGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SideGroups
+    **/
+    _count?: true | SideGroupCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SideGroupAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SideGroupSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SideGroupMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SideGroupMaxAggregateInputType
+  }
+
+  export type GetSideGroupAggregateType<T extends SideGroupAggregateArgs> = {
+        [P in keyof T & keyof AggregateSideGroup]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSideGroup[P]>
+      : GetScalarType<T[P], AggregateSideGroup[P]>
+  }
+
+
+
+
+  export type SideGroupGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SideGroupWhereInput
+    orderBy?: SideGroupOrderByWithAggregationInput | SideGroupOrderByWithAggregationInput[]
+    by: SideGroupScalarFieldEnum[] | SideGroupScalarFieldEnum
+    having?: SideGroupScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SideGroupCountAggregateInputType | true
+    _avg?: SideGroupAvgAggregateInputType
+    _sum?: SideGroupSumAggregateInputType
+    _min?: SideGroupMinAggregateInputType
+    _max?: SideGroupMaxAggregateInputType
+  }
+
+  export type SideGroupGroupByOutputType = {
+    id: string
+    itemId: string
+    title: string
+    type: $Enums.SideGroupType
+    required: boolean
+    maxSelect: number | null
+    createdAt: Date
+    _count: SideGroupCountAggregateOutputType | null
+    _avg: SideGroupAvgAggregateOutputType | null
+    _sum: SideGroupSumAggregateOutputType | null
+    _min: SideGroupMinAggregateOutputType | null
+    _max: SideGroupMaxAggregateOutputType | null
+  }
+
+  type GetSideGroupGroupByPayload<T extends SideGroupGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SideGroupGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SideGroupGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SideGroupGroupByOutputType[P]>
+            : GetScalarType<T[P], SideGroupGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SideGroupSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    title?: boolean
+    type?: boolean
+    required?: boolean
+    maxSelect?: boolean
+    createdAt?: boolean
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    options?: boolean | SideGroup$optionsArgs<ExtArgs>
+    _count?: boolean | SideGroupCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sideGroup"]>
+
+  export type SideGroupSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    title?: boolean
+    type?: boolean
+    required?: boolean
+    maxSelect?: boolean
+    createdAt?: boolean
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sideGroup"]>
+
+  export type SideGroupSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    itemId?: boolean
+    title?: boolean
+    type?: boolean
+    required?: boolean
+    maxSelect?: boolean
+    createdAt?: boolean
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sideGroup"]>
+
+  export type SideGroupSelectScalar = {
+    id?: boolean
+    itemId?: boolean
+    title?: boolean
+    type?: boolean
+    required?: boolean
+    maxSelect?: boolean
+    createdAt?: boolean
+  }
+
+  export type SideGroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "itemId" | "title" | "type" | "required" | "maxSelect" | "createdAt", ExtArgs["result"]["sideGroup"]>
+  export type SideGroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+    options?: boolean | SideGroup$optionsArgs<ExtArgs>
+    _count?: boolean | SideGroupCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SideGroupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+  }
+  export type SideGroupIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    item?: boolean | ItemDefaultArgs<ExtArgs>
+  }
+
+  export type $SideGroupPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SideGroup"
+    objects: {
+      item: Prisma.$ItemPayload<ExtArgs>
+      options: Prisma.$SideOptionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      itemId: string
+      title: string
+      type: $Enums.SideGroupType
+      required: boolean
+      maxSelect: number | null
+      createdAt: Date
+    }, ExtArgs["result"]["sideGroup"]>
+    composites: {}
+  }
+
+  type SideGroupGetPayload<S extends boolean | null | undefined | SideGroupDefaultArgs> = $Result.GetResult<Prisma.$SideGroupPayload, S>
+
+  type SideGroupCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SideGroupFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SideGroupCountAggregateInputType | true
+    }
+
+  export interface SideGroupDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SideGroup'], meta: { name: 'SideGroup' } }
+    /**
+     * Find zero or one SideGroup that matches the filter.
+     * @param {SideGroupFindUniqueArgs} args - Arguments to find a SideGroup
+     * @example
+     * // Get one SideGroup
+     * const sideGroup = await prisma.sideGroup.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SideGroupFindUniqueArgs>(args: SelectSubset<T, SideGroupFindUniqueArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SideGroup that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SideGroupFindUniqueOrThrowArgs} args - Arguments to find a SideGroup
+     * @example
+     * // Get one SideGroup
+     * const sideGroup = await prisma.sideGroup.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SideGroupFindUniqueOrThrowArgs>(args: SelectSubset<T, SideGroupFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SideGroup that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideGroupFindFirstArgs} args - Arguments to find a SideGroup
+     * @example
+     * // Get one SideGroup
+     * const sideGroup = await prisma.sideGroup.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SideGroupFindFirstArgs>(args?: SelectSubset<T, SideGroupFindFirstArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SideGroup that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideGroupFindFirstOrThrowArgs} args - Arguments to find a SideGroup
+     * @example
+     * // Get one SideGroup
+     * const sideGroup = await prisma.sideGroup.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SideGroupFindFirstOrThrowArgs>(args?: SelectSubset<T, SideGroupFindFirstOrThrowArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SideGroups that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideGroupFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SideGroups
+     * const sideGroups = await prisma.sideGroup.findMany()
+     * 
+     * // Get first 10 SideGroups
+     * const sideGroups = await prisma.sideGroup.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sideGroupWithIdOnly = await prisma.sideGroup.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SideGroupFindManyArgs>(args?: SelectSubset<T, SideGroupFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SideGroup.
+     * @param {SideGroupCreateArgs} args - Arguments to create a SideGroup.
+     * @example
+     * // Create one SideGroup
+     * const SideGroup = await prisma.sideGroup.create({
+     *   data: {
+     *     // ... data to create a SideGroup
+     *   }
+     * })
+     * 
+     */
+    create<T extends SideGroupCreateArgs>(args: SelectSubset<T, SideGroupCreateArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SideGroups.
+     * @param {SideGroupCreateManyArgs} args - Arguments to create many SideGroups.
+     * @example
+     * // Create many SideGroups
+     * const sideGroup = await prisma.sideGroup.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SideGroupCreateManyArgs>(args?: SelectSubset<T, SideGroupCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SideGroups and returns the data saved in the database.
+     * @param {SideGroupCreateManyAndReturnArgs} args - Arguments to create many SideGroups.
+     * @example
+     * // Create many SideGroups
+     * const sideGroup = await prisma.sideGroup.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SideGroups and only return the `id`
+     * const sideGroupWithIdOnly = await prisma.sideGroup.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SideGroupCreateManyAndReturnArgs>(args?: SelectSubset<T, SideGroupCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SideGroup.
+     * @param {SideGroupDeleteArgs} args - Arguments to delete one SideGroup.
+     * @example
+     * // Delete one SideGroup
+     * const SideGroup = await prisma.sideGroup.delete({
+     *   where: {
+     *     // ... filter to delete one SideGroup
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SideGroupDeleteArgs>(args: SelectSubset<T, SideGroupDeleteArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SideGroup.
+     * @param {SideGroupUpdateArgs} args - Arguments to update one SideGroup.
+     * @example
+     * // Update one SideGroup
+     * const sideGroup = await prisma.sideGroup.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SideGroupUpdateArgs>(args: SelectSubset<T, SideGroupUpdateArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SideGroups.
+     * @param {SideGroupDeleteManyArgs} args - Arguments to filter SideGroups to delete.
+     * @example
+     * // Delete a few SideGroups
+     * const { count } = await prisma.sideGroup.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SideGroupDeleteManyArgs>(args?: SelectSubset<T, SideGroupDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SideGroups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideGroupUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SideGroups
+     * const sideGroup = await prisma.sideGroup.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SideGroupUpdateManyArgs>(args: SelectSubset<T, SideGroupUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SideGroups and returns the data updated in the database.
+     * @param {SideGroupUpdateManyAndReturnArgs} args - Arguments to update many SideGroups.
+     * @example
+     * // Update many SideGroups
+     * const sideGroup = await prisma.sideGroup.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SideGroups and only return the `id`
+     * const sideGroupWithIdOnly = await prisma.sideGroup.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SideGroupUpdateManyAndReturnArgs>(args: SelectSubset<T, SideGroupUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SideGroup.
+     * @param {SideGroupUpsertArgs} args - Arguments to update or create a SideGroup.
+     * @example
+     * // Update or create a SideGroup
+     * const sideGroup = await prisma.sideGroup.upsert({
+     *   create: {
+     *     // ... data to create a SideGroup
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SideGroup we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SideGroupUpsertArgs>(args: SelectSubset<T, SideGroupUpsertArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SideGroups.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideGroupCountArgs} args - Arguments to filter SideGroups to count.
+     * @example
+     * // Count the number of SideGroups
+     * const count = await prisma.sideGroup.count({
+     *   where: {
+     *     // ... the filter for the SideGroups we want to count
+     *   }
+     * })
+    **/
+    count<T extends SideGroupCountArgs>(
+      args?: Subset<T, SideGroupCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SideGroupCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SideGroup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideGroupAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SideGroupAggregateArgs>(args: Subset<T, SideGroupAggregateArgs>): Prisma.PrismaPromise<GetSideGroupAggregateType<T>>
+
+    /**
+     * Group by SideGroup.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideGroupGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SideGroupGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SideGroupGroupByArgs['orderBy'] }
+        : { orderBy?: SideGroupGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SideGroupGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSideGroupGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SideGroup model
+   */
+  readonly fields: SideGroupFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SideGroup.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SideGroupClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    item<T extends ItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ItemDefaultArgs<ExtArgs>>): Prisma__ItemClient<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    options<T extends SideGroup$optionsArgs<ExtArgs> = {}>(args?: Subset<T, SideGroup$optionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SideGroup model
+   */
+  interface SideGroupFieldRefs {
+    readonly id: FieldRef<"SideGroup", 'String'>
+    readonly itemId: FieldRef<"SideGroup", 'String'>
+    readonly title: FieldRef<"SideGroup", 'String'>
+    readonly type: FieldRef<"SideGroup", 'SideGroupType'>
+    readonly required: FieldRef<"SideGroup", 'Boolean'>
+    readonly maxSelect: FieldRef<"SideGroup", 'Int'>
+    readonly createdAt: FieldRef<"SideGroup", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SideGroup findUnique
+   */
+  export type SideGroupFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which SideGroup to fetch.
+     */
+    where: SideGroupWhereUniqueInput
+  }
+
+  /**
+   * SideGroup findUniqueOrThrow
+   */
+  export type SideGroupFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which SideGroup to fetch.
+     */
+    where: SideGroupWhereUniqueInput
+  }
+
+  /**
+   * SideGroup findFirst
+   */
+  export type SideGroupFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which SideGroup to fetch.
+     */
+    where?: SideGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SideGroups to fetch.
+     */
+    orderBy?: SideGroupOrderByWithRelationInput | SideGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SideGroups.
+     */
+    cursor?: SideGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SideGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SideGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SideGroups.
+     */
+    distinct?: SideGroupScalarFieldEnum | SideGroupScalarFieldEnum[]
+  }
+
+  /**
+   * SideGroup findFirstOrThrow
+   */
+  export type SideGroupFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which SideGroup to fetch.
+     */
+    where?: SideGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SideGroups to fetch.
+     */
+    orderBy?: SideGroupOrderByWithRelationInput | SideGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SideGroups.
+     */
+    cursor?: SideGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SideGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SideGroups.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SideGroups.
+     */
+    distinct?: SideGroupScalarFieldEnum | SideGroupScalarFieldEnum[]
+  }
+
+  /**
+   * SideGroup findMany
+   */
+  export type SideGroupFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * Filter, which SideGroups to fetch.
+     */
+    where?: SideGroupWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SideGroups to fetch.
+     */
+    orderBy?: SideGroupOrderByWithRelationInput | SideGroupOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SideGroups.
+     */
+    cursor?: SideGroupWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SideGroups from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SideGroups.
+     */
+    skip?: number
+    distinct?: SideGroupScalarFieldEnum | SideGroupScalarFieldEnum[]
+  }
+
+  /**
+   * SideGroup create
+   */
+  export type SideGroupCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SideGroup.
+     */
+    data: XOR<SideGroupCreateInput, SideGroupUncheckedCreateInput>
+  }
+
+  /**
+   * SideGroup createMany
+   */
+  export type SideGroupCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SideGroups.
+     */
+    data: SideGroupCreateManyInput | SideGroupCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SideGroup createManyAndReturn
+   */
+  export type SideGroupCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * The data used to create many SideGroups.
+     */
+    data: SideGroupCreateManyInput | SideGroupCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SideGroup update
+   */
+  export type SideGroupUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SideGroup.
+     */
+    data: XOR<SideGroupUpdateInput, SideGroupUncheckedUpdateInput>
+    /**
+     * Choose, which SideGroup to update.
+     */
+    where: SideGroupWhereUniqueInput
+  }
+
+  /**
+   * SideGroup updateMany
+   */
+  export type SideGroupUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SideGroups.
+     */
+    data: XOR<SideGroupUpdateManyMutationInput, SideGroupUncheckedUpdateManyInput>
+    /**
+     * Filter which SideGroups to update
+     */
+    where?: SideGroupWhereInput
+    /**
+     * Limit how many SideGroups to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SideGroup updateManyAndReturn
+   */
+  export type SideGroupUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * The data used to update SideGroups.
+     */
+    data: XOR<SideGroupUpdateManyMutationInput, SideGroupUncheckedUpdateManyInput>
+    /**
+     * Filter which SideGroups to update
+     */
+    where?: SideGroupWhereInput
+    /**
+     * Limit how many SideGroups to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SideGroup upsert
+   */
+  export type SideGroupUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SideGroup to update in case it exists.
+     */
+    where: SideGroupWhereUniqueInput
+    /**
+     * In case the SideGroup found by the `where` argument doesn't exist, create a new SideGroup with this data.
+     */
+    create: XOR<SideGroupCreateInput, SideGroupUncheckedCreateInput>
+    /**
+     * In case the SideGroup was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SideGroupUpdateInput, SideGroupUncheckedUpdateInput>
+  }
+
+  /**
+   * SideGroup delete
+   */
+  export type SideGroupDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+    /**
+     * Filter which SideGroup to delete.
+     */
+    where: SideGroupWhereUniqueInput
+  }
+
+  /**
+   * SideGroup deleteMany
+   */
+  export type SideGroupDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SideGroups to delete
+     */
+    where?: SideGroupWhereInput
+    /**
+     * Limit how many SideGroups to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SideGroup.options
+   */
+  export type SideGroup$optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    where?: SideOptionWhereInput
+    orderBy?: SideOptionOrderByWithRelationInput | SideOptionOrderByWithRelationInput[]
+    cursor?: SideOptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SideOptionScalarFieldEnum | SideOptionScalarFieldEnum[]
+  }
+
+  /**
+   * SideGroup without action
+   */
+  export type SideGroupDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideGroup
+     */
+    select?: SideGroupSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideGroup
+     */
+    omit?: SideGroupOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideGroupInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SideOption
+   */
+
+  export type AggregateSideOption = {
+    _count: SideOptionCountAggregateOutputType | null
+    _avg: SideOptionAvgAggregateOutputType | null
+    _sum: SideOptionSumAggregateOutputType | null
+    _min: SideOptionMinAggregateOutputType | null
+    _max: SideOptionMaxAggregateOutputType | null
+  }
+
+  export type SideOptionAvgAggregateOutputType = {
+    priceInCents: number | null
+  }
+
+  export type SideOptionSumAggregateOutputType = {
+    priceInCents: number | null
+  }
+
+  export type SideOptionMinAggregateOutputType = {
+    id: string | null
+    sideGroupId: string | null
+    label: string | null
+    priceInCents: number | null
+    linkedItemId: string | null
+  }
+
+  export type SideOptionMaxAggregateOutputType = {
+    id: string | null
+    sideGroupId: string | null
+    label: string | null
+    priceInCents: number | null
+    linkedItemId: string | null
+  }
+
+  export type SideOptionCountAggregateOutputType = {
+    id: number
+    sideGroupId: number
+    label: number
+    priceInCents: number
+    linkedItemId: number
+    _all: number
+  }
+
+
+  export type SideOptionAvgAggregateInputType = {
+    priceInCents?: true
+  }
+
+  export type SideOptionSumAggregateInputType = {
+    priceInCents?: true
+  }
+
+  export type SideOptionMinAggregateInputType = {
+    id?: true
+    sideGroupId?: true
+    label?: true
+    priceInCents?: true
+    linkedItemId?: true
+  }
+
+  export type SideOptionMaxAggregateInputType = {
+    id?: true
+    sideGroupId?: true
+    label?: true
+    priceInCents?: true
+    linkedItemId?: true
+  }
+
+  export type SideOptionCountAggregateInputType = {
+    id?: true
+    sideGroupId?: true
+    label?: true
+    priceInCents?: true
+    linkedItemId?: true
+    _all?: true
+  }
+
+  export type SideOptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SideOption to aggregate.
+     */
+    where?: SideOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SideOptions to fetch.
+     */
+    orderBy?: SideOptionOrderByWithRelationInput | SideOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SideOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SideOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SideOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SideOptions
+    **/
+    _count?: true | SideOptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SideOptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SideOptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SideOptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SideOptionMaxAggregateInputType
+  }
+
+  export type GetSideOptionAggregateType<T extends SideOptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateSideOption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSideOption[P]>
+      : GetScalarType<T[P], AggregateSideOption[P]>
+  }
+
+
+
+
+  export type SideOptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SideOptionWhereInput
+    orderBy?: SideOptionOrderByWithAggregationInput | SideOptionOrderByWithAggregationInput[]
+    by: SideOptionScalarFieldEnum[] | SideOptionScalarFieldEnum
+    having?: SideOptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SideOptionCountAggregateInputType | true
+    _avg?: SideOptionAvgAggregateInputType
+    _sum?: SideOptionSumAggregateInputType
+    _min?: SideOptionMinAggregateInputType
+    _max?: SideOptionMaxAggregateInputType
+  }
+
+  export type SideOptionGroupByOutputType = {
+    id: string
+    sideGroupId: string
+    label: string
+    priceInCents: number | null
+    linkedItemId: string | null
+    _count: SideOptionCountAggregateOutputType | null
+    _avg: SideOptionAvgAggregateOutputType | null
+    _sum: SideOptionSumAggregateOutputType | null
+    _min: SideOptionMinAggregateOutputType | null
+    _max: SideOptionMaxAggregateOutputType | null
+  }
+
+  type GetSideOptionGroupByPayload<T extends SideOptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SideOptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SideOptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SideOptionGroupByOutputType[P]>
+            : GetScalarType<T[P], SideOptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SideOptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sideGroupId?: boolean
+    label?: boolean
+    priceInCents?: boolean
+    linkedItemId?: boolean
+    sideGroup?: boolean | SideGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sideOption"]>
+
+  export type SideOptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sideGroupId?: boolean
+    label?: boolean
+    priceInCents?: boolean
+    linkedItemId?: boolean
+    sideGroup?: boolean | SideGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sideOption"]>
+
+  export type SideOptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sideGroupId?: boolean
+    label?: boolean
+    priceInCents?: boolean
+    linkedItemId?: boolean
+    sideGroup?: boolean | SideGroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sideOption"]>
+
+  export type SideOptionSelectScalar = {
+    id?: boolean
+    sideGroupId?: boolean
+    label?: boolean
+    priceInCents?: boolean
+    linkedItemId?: boolean
+  }
+
+  export type SideOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sideGroupId" | "label" | "priceInCents" | "linkedItemId", ExtArgs["result"]["sideOption"]>
+  export type SideOptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sideGroup?: boolean | SideGroupDefaultArgs<ExtArgs>
+  }
+  export type SideOptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sideGroup?: boolean | SideGroupDefaultArgs<ExtArgs>
+  }
+  export type SideOptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    sideGroup?: boolean | SideGroupDefaultArgs<ExtArgs>
+  }
+
+  export type $SideOptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SideOption"
+    objects: {
+      sideGroup: Prisma.$SideGroupPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      sideGroupId: string
+      label: string
+      priceInCents: number | null
+      linkedItemId: string | null
+    }, ExtArgs["result"]["sideOption"]>
+    composites: {}
+  }
+
+  type SideOptionGetPayload<S extends boolean | null | undefined | SideOptionDefaultArgs> = $Result.GetResult<Prisma.$SideOptionPayload, S>
+
+  type SideOptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SideOptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SideOptionCountAggregateInputType | true
+    }
+
+  export interface SideOptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SideOption'], meta: { name: 'SideOption' } }
+    /**
+     * Find zero or one SideOption that matches the filter.
+     * @param {SideOptionFindUniqueArgs} args - Arguments to find a SideOption
+     * @example
+     * // Get one SideOption
+     * const sideOption = await prisma.sideOption.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SideOptionFindUniqueArgs>(args: SelectSubset<T, SideOptionFindUniqueArgs<ExtArgs>>): Prisma__SideOptionClient<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SideOption that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SideOptionFindUniqueOrThrowArgs} args - Arguments to find a SideOption
+     * @example
+     * // Get one SideOption
+     * const sideOption = await prisma.sideOption.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SideOptionFindUniqueOrThrowArgs>(args: SelectSubset<T, SideOptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SideOptionClient<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SideOption that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideOptionFindFirstArgs} args - Arguments to find a SideOption
+     * @example
+     * // Get one SideOption
+     * const sideOption = await prisma.sideOption.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SideOptionFindFirstArgs>(args?: SelectSubset<T, SideOptionFindFirstArgs<ExtArgs>>): Prisma__SideOptionClient<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SideOption that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideOptionFindFirstOrThrowArgs} args - Arguments to find a SideOption
+     * @example
+     * // Get one SideOption
+     * const sideOption = await prisma.sideOption.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SideOptionFindFirstOrThrowArgs>(args?: SelectSubset<T, SideOptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__SideOptionClient<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SideOptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideOptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SideOptions
+     * const sideOptions = await prisma.sideOption.findMany()
+     * 
+     * // Get first 10 SideOptions
+     * const sideOptions = await prisma.sideOption.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sideOptionWithIdOnly = await prisma.sideOption.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SideOptionFindManyArgs>(args?: SelectSubset<T, SideOptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SideOption.
+     * @param {SideOptionCreateArgs} args - Arguments to create a SideOption.
+     * @example
+     * // Create one SideOption
+     * const SideOption = await prisma.sideOption.create({
+     *   data: {
+     *     // ... data to create a SideOption
+     *   }
+     * })
+     * 
+     */
+    create<T extends SideOptionCreateArgs>(args: SelectSubset<T, SideOptionCreateArgs<ExtArgs>>): Prisma__SideOptionClient<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SideOptions.
+     * @param {SideOptionCreateManyArgs} args - Arguments to create many SideOptions.
+     * @example
+     * // Create many SideOptions
+     * const sideOption = await prisma.sideOption.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SideOptionCreateManyArgs>(args?: SelectSubset<T, SideOptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SideOptions and returns the data saved in the database.
+     * @param {SideOptionCreateManyAndReturnArgs} args - Arguments to create many SideOptions.
+     * @example
+     * // Create many SideOptions
+     * const sideOption = await prisma.sideOption.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SideOptions and only return the `id`
+     * const sideOptionWithIdOnly = await prisma.sideOption.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SideOptionCreateManyAndReturnArgs>(args?: SelectSubset<T, SideOptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SideOption.
+     * @param {SideOptionDeleteArgs} args - Arguments to delete one SideOption.
+     * @example
+     * // Delete one SideOption
+     * const SideOption = await prisma.sideOption.delete({
+     *   where: {
+     *     // ... filter to delete one SideOption
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SideOptionDeleteArgs>(args: SelectSubset<T, SideOptionDeleteArgs<ExtArgs>>): Prisma__SideOptionClient<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SideOption.
+     * @param {SideOptionUpdateArgs} args - Arguments to update one SideOption.
+     * @example
+     * // Update one SideOption
+     * const sideOption = await prisma.sideOption.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SideOptionUpdateArgs>(args: SelectSubset<T, SideOptionUpdateArgs<ExtArgs>>): Prisma__SideOptionClient<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SideOptions.
+     * @param {SideOptionDeleteManyArgs} args - Arguments to filter SideOptions to delete.
+     * @example
+     * // Delete a few SideOptions
+     * const { count } = await prisma.sideOption.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SideOptionDeleteManyArgs>(args?: SelectSubset<T, SideOptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SideOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideOptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SideOptions
+     * const sideOption = await prisma.sideOption.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SideOptionUpdateManyArgs>(args: SelectSubset<T, SideOptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SideOptions and returns the data updated in the database.
+     * @param {SideOptionUpdateManyAndReturnArgs} args - Arguments to update many SideOptions.
+     * @example
+     * // Update many SideOptions
+     * const sideOption = await prisma.sideOption.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SideOptions and only return the `id`
+     * const sideOptionWithIdOnly = await prisma.sideOption.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SideOptionUpdateManyAndReturnArgs>(args: SelectSubset<T, SideOptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SideOption.
+     * @param {SideOptionUpsertArgs} args - Arguments to update or create a SideOption.
+     * @example
+     * // Update or create a SideOption
+     * const sideOption = await prisma.sideOption.upsert({
+     *   create: {
+     *     // ... data to create a SideOption
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SideOption we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SideOptionUpsertArgs>(args: SelectSubset<T, SideOptionUpsertArgs<ExtArgs>>): Prisma__SideOptionClient<$Result.GetResult<Prisma.$SideOptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SideOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideOptionCountArgs} args - Arguments to filter SideOptions to count.
+     * @example
+     * // Count the number of SideOptions
+     * const count = await prisma.sideOption.count({
+     *   where: {
+     *     // ... the filter for the SideOptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends SideOptionCountArgs>(
+      args?: Subset<T, SideOptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SideOptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SideOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideOptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SideOptionAggregateArgs>(args: Subset<T, SideOptionAggregateArgs>): Prisma.PrismaPromise<GetSideOptionAggregateType<T>>
+
+    /**
+     * Group by SideOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SideOptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SideOptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SideOptionGroupByArgs['orderBy'] }
+        : { orderBy?: SideOptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SideOptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSideOptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SideOption model
+   */
+  readonly fields: SideOptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SideOption.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SideOptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    sideGroup<T extends SideGroupDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SideGroupDefaultArgs<ExtArgs>>): Prisma__SideGroupClient<$Result.GetResult<Prisma.$SideGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SideOption model
+   */
+  interface SideOptionFieldRefs {
+    readonly id: FieldRef<"SideOption", 'String'>
+    readonly sideGroupId: FieldRef<"SideOption", 'String'>
+    readonly label: FieldRef<"SideOption", 'String'>
+    readonly priceInCents: FieldRef<"SideOption", 'Int'>
+    readonly linkedItemId: FieldRef<"SideOption", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SideOption findUnique
+   */
+  export type SideOptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which SideOption to fetch.
+     */
+    where: SideOptionWhereUniqueInput
+  }
+
+  /**
+   * SideOption findUniqueOrThrow
+   */
+  export type SideOptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which SideOption to fetch.
+     */
+    where: SideOptionWhereUniqueInput
+  }
+
+  /**
+   * SideOption findFirst
+   */
+  export type SideOptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which SideOption to fetch.
+     */
+    where?: SideOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SideOptions to fetch.
+     */
+    orderBy?: SideOptionOrderByWithRelationInput | SideOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SideOptions.
+     */
+    cursor?: SideOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SideOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SideOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SideOptions.
+     */
+    distinct?: SideOptionScalarFieldEnum | SideOptionScalarFieldEnum[]
+  }
+
+  /**
+   * SideOption findFirstOrThrow
+   */
+  export type SideOptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which SideOption to fetch.
+     */
+    where?: SideOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SideOptions to fetch.
+     */
+    orderBy?: SideOptionOrderByWithRelationInput | SideOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SideOptions.
+     */
+    cursor?: SideOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SideOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SideOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SideOptions.
+     */
+    distinct?: SideOptionScalarFieldEnum | SideOptionScalarFieldEnum[]
+  }
+
+  /**
+   * SideOption findMany
+   */
+  export type SideOptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which SideOptions to fetch.
+     */
+    where?: SideOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SideOptions to fetch.
+     */
+    orderBy?: SideOptionOrderByWithRelationInput | SideOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SideOptions.
+     */
+    cursor?: SideOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SideOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SideOptions.
+     */
+    skip?: number
+    distinct?: SideOptionScalarFieldEnum | SideOptionScalarFieldEnum[]
+  }
+
+  /**
+   * SideOption create
+   */
+  export type SideOptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SideOption.
+     */
+    data: XOR<SideOptionCreateInput, SideOptionUncheckedCreateInput>
+  }
+
+  /**
+   * SideOption createMany
+   */
+  export type SideOptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SideOptions.
+     */
+    data: SideOptionCreateManyInput | SideOptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SideOption createManyAndReturn
+   */
+  export type SideOptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many SideOptions.
+     */
+    data: SideOptionCreateManyInput | SideOptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SideOption update
+   */
+  export type SideOptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SideOption.
+     */
+    data: XOR<SideOptionUpdateInput, SideOptionUncheckedUpdateInput>
+    /**
+     * Choose, which SideOption to update.
+     */
+    where: SideOptionWhereUniqueInput
+  }
+
+  /**
+   * SideOption updateMany
+   */
+  export type SideOptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SideOptions.
+     */
+    data: XOR<SideOptionUpdateManyMutationInput, SideOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which SideOptions to update
+     */
+    where?: SideOptionWhereInput
+    /**
+     * Limit how many SideOptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SideOption updateManyAndReturn
+   */
+  export type SideOptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * The data used to update SideOptions.
+     */
+    data: XOR<SideOptionUpdateManyMutationInput, SideOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which SideOptions to update
+     */
+    where?: SideOptionWhereInput
+    /**
+     * Limit how many SideOptions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SideOption upsert
+   */
+  export type SideOptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SideOption to update in case it exists.
+     */
+    where: SideOptionWhereUniqueInput
+    /**
+     * In case the SideOption found by the `where` argument doesn't exist, create a new SideOption with this data.
+     */
+    create: XOR<SideOptionCreateInput, SideOptionUncheckedCreateInput>
+    /**
+     * In case the SideOption was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SideOptionUpdateInput, SideOptionUncheckedUpdateInput>
+  }
+
+  /**
+   * SideOption delete
+   */
+  export type SideOptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+    /**
+     * Filter which SideOption to delete.
+     */
+    where: SideOptionWhereUniqueInput
+  }
+
+  /**
+   * SideOption deleteMany
+   */
+  export type SideOptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SideOptions to delete
+     */
+    where?: SideOptionWhereInput
+    /**
+     * Limit how many SideOptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SideOption without action
+   */
+  export type SideOptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SideOption
+     */
+    select?: SideOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SideOption
+     */
+    omit?: SideOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SideOptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CartItemSide
+   */
+
+  export type AggregateCartItemSide = {
+    _count: CartItemSideCountAggregateOutputType | null
+    _avg: CartItemSideAvgAggregateOutputType | null
+    _sum: CartItemSideSumAggregateOutputType | null
+    _min: CartItemSideMinAggregateOutputType | null
+    _max: CartItemSideMaxAggregateOutputType | null
+  }
+
+  export type CartItemSideAvgAggregateOutputType = {
+    priceInCents: number | null
+  }
+
+  export type CartItemSideSumAggregateOutputType = {
+    priceInCents: number | null
+  }
+
+  export type CartItemSideMinAggregateOutputType = {
+    id: string | null
+    cartItemId: string | null
+    sideGroupId: string | null
+    optionId: string | null
+    label: string | null
+    priceInCents: number | null
+  }
+
+  export type CartItemSideMaxAggregateOutputType = {
+    id: string | null
+    cartItemId: string | null
+    sideGroupId: string | null
+    optionId: string | null
+    label: string | null
+    priceInCents: number | null
+  }
+
+  export type CartItemSideCountAggregateOutputType = {
+    id: number
+    cartItemId: number
+    sideGroupId: number
+    optionId: number
+    label: number
+    priceInCents: number
+    _all: number
+  }
+
+
+  export type CartItemSideAvgAggregateInputType = {
+    priceInCents?: true
+  }
+
+  export type CartItemSideSumAggregateInputType = {
+    priceInCents?: true
+  }
+
+  export type CartItemSideMinAggregateInputType = {
+    id?: true
+    cartItemId?: true
+    sideGroupId?: true
+    optionId?: true
+    label?: true
+    priceInCents?: true
+  }
+
+  export type CartItemSideMaxAggregateInputType = {
+    id?: true
+    cartItemId?: true
+    sideGroupId?: true
+    optionId?: true
+    label?: true
+    priceInCents?: true
+  }
+
+  export type CartItemSideCountAggregateInputType = {
+    id?: true
+    cartItemId?: true
+    sideGroupId?: true
+    optionId?: true
+    label?: true
+    priceInCents?: true
+    _all?: true
+  }
+
+  export type CartItemSideAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CartItemSide to aggregate.
+     */
+    where?: CartItemSideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CartItemSides to fetch.
+     */
+    orderBy?: CartItemSideOrderByWithRelationInput | CartItemSideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CartItemSideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CartItemSides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CartItemSides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CartItemSides
+    **/
+    _count?: true | CartItemSideCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CartItemSideAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CartItemSideSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CartItemSideMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CartItemSideMaxAggregateInputType
+  }
+
+  export type GetCartItemSideAggregateType<T extends CartItemSideAggregateArgs> = {
+        [P in keyof T & keyof AggregateCartItemSide]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCartItemSide[P]>
+      : GetScalarType<T[P], AggregateCartItemSide[P]>
+  }
+
+
+
+
+  export type CartItemSideGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CartItemSideWhereInput
+    orderBy?: CartItemSideOrderByWithAggregationInput | CartItemSideOrderByWithAggregationInput[]
+    by: CartItemSideScalarFieldEnum[] | CartItemSideScalarFieldEnum
+    having?: CartItemSideScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CartItemSideCountAggregateInputType | true
+    _avg?: CartItemSideAvgAggregateInputType
+    _sum?: CartItemSideSumAggregateInputType
+    _min?: CartItemSideMinAggregateInputType
+    _max?: CartItemSideMaxAggregateInputType
+  }
+
+  export type CartItemSideGroupByOutputType = {
+    id: string
+    cartItemId: string
+    sideGroupId: string
+    optionId: string
+    label: string
+    priceInCents: number | null
+    _count: CartItemSideCountAggregateOutputType | null
+    _avg: CartItemSideAvgAggregateOutputType | null
+    _sum: CartItemSideSumAggregateOutputType | null
+    _min: CartItemSideMinAggregateOutputType | null
+    _max: CartItemSideMaxAggregateOutputType | null
+  }
+
+  type GetCartItemSideGroupByPayload<T extends CartItemSideGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CartItemSideGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CartItemSideGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CartItemSideGroupByOutputType[P]>
+            : GetScalarType<T[P], CartItemSideGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CartItemSideSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cartItemId?: boolean
+    sideGroupId?: boolean
+    optionId?: boolean
+    label?: boolean
+    priceInCents?: boolean
+    cartItem?: boolean | CartItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cartItemSide"]>
+
+  export type CartItemSideSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cartItemId?: boolean
+    sideGroupId?: boolean
+    optionId?: boolean
+    label?: boolean
+    priceInCents?: boolean
+    cartItem?: boolean | CartItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cartItemSide"]>
+
+  export type CartItemSideSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cartItemId?: boolean
+    sideGroupId?: boolean
+    optionId?: boolean
+    label?: boolean
+    priceInCents?: boolean
+    cartItem?: boolean | CartItemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cartItemSide"]>
+
+  export type CartItemSideSelectScalar = {
+    id?: boolean
+    cartItemId?: boolean
+    sideGroupId?: boolean
+    optionId?: boolean
+    label?: boolean
+    priceInCents?: boolean
+  }
+
+  export type CartItemSideOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cartItemId" | "sideGroupId" | "optionId" | "label" | "priceInCents", ExtArgs["result"]["cartItemSide"]>
+  export type CartItemSideInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cartItem?: boolean | CartItemDefaultArgs<ExtArgs>
+  }
+  export type CartItemSideIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cartItem?: boolean | CartItemDefaultArgs<ExtArgs>
+  }
+  export type CartItemSideIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    cartItem?: boolean | CartItemDefaultArgs<ExtArgs>
+  }
+
+  export type $CartItemSidePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CartItemSide"
+    objects: {
+      cartItem: Prisma.$CartItemPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      cartItemId: string
+      sideGroupId: string
+      optionId: string
+      label: string
+      priceInCents: number | null
+    }, ExtArgs["result"]["cartItemSide"]>
+    composites: {}
+  }
+
+  type CartItemSideGetPayload<S extends boolean | null | undefined | CartItemSideDefaultArgs> = $Result.GetResult<Prisma.$CartItemSidePayload, S>
+
+  type CartItemSideCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CartItemSideFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CartItemSideCountAggregateInputType | true
+    }
+
+  export interface CartItemSideDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CartItemSide'], meta: { name: 'CartItemSide' } }
+    /**
+     * Find zero or one CartItemSide that matches the filter.
+     * @param {CartItemSideFindUniqueArgs} args - Arguments to find a CartItemSide
+     * @example
+     * // Get one CartItemSide
+     * const cartItemSide = await prisma.cartItemSide.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CartItemSideFindUniqueArgs>(args: SelectSubset<T, CartItemSideFindUniqueArgs<ExtArgs>>): Prisma__CartItemSideClient<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CartItemSide that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CartItemSideFindUniqueOrThrowArgs} args - Arguments to find a CartItemSide
+     * @example
+     * // Get one CartItemSide
+     * const cartItemSide = await prisma.cartItemSide.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CartItemSideFindUniqueOrThrowArgs>(args: SelectSubset<T, CartItemSideFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CartItemSideClient<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CartItemSide that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CartItemSideFindFirstArgs} args - Arguments to find a CartItemSide
+     * @example
+     * // Get one CartItemSide
+     * const cartItemSide = await prisma.cartItemSide.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CartItemSideFindFirstArgs>(args?: SelectSubset<T, CartItemSideFindFirstArgs<ExtArgs>>): Prisma__CartItemSideClient<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CartItemSide that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CartItemSideFindFirstOrThrowArgs} args - Arguments to find a CartItemSide
+     * @example
+     * // Get one CartItemSide
+     * const cartItemSide = await prisma.cartItemSide.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CartItemSideFindFirstOrThrowArgs>(args?: SelectSubset<T, CartItemSideFindFirstOrThrowArgs<ExtArgs>>): Prisma__CartItemSideClient<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CartItemSides that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CartItemSideFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CartItemSides
+     * const cartItemSides = await prisma.cartItemSide.findMany()
+     * 
+     * // Get first 10 CartItemSides
+     * const cartItemSides = await prisma.cartItemSide.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cartItemSideWithIdOnly = await prisma.cartItemSide.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CartItemSideFindManyArgs>(args?: SelectSubset<T, CartItemSideFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CartItemSide.
+     * @param {CartItemSideCreateArgs} args - Arguments to create a CartItemSide.
+     * @example
+     * // Create one CartItemSide
+     * const CartItemSide = await prisma.cartItemSide.create({
+     *   data: {
+     *     // ... data to create a CartItemSide
+     *   }
+     * })
+     * 
+     */
+    create<T extends CartItemSideCreateArgs>(args: SelectSubset<T, CartItemSideCreateArgs<ExtArgs>>): Prisma__CartItemSideClient<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CartItemSides.
+     * @param {CartItemSideCreateManyArgs} args - Arguments to create many CartItemSides.
+     * @example
+     * // Create many CartItemSides
+     * const cartItemSide = await prisma.cartItemSide.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CartItemSideCreateManyArgs>(args?: SelectSubset<T, CartItemSideCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CartItemSides and returns the data saved in the database.
+     * @param {CartItemSideCreateManyAndReturnArgs} args - Arguments to create many CartItemSides.
+     * @example
+     * // Create many CartItemSides
+     * const cartItemSide = await prisma.cartItemSide.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CartItemSides and only return the `id`
+     * const cartItemSideWithIdOnly = await prisma.cartItemSide.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CartItemSideCreateManyAndReturnArgs>(args?: SelectSubset<T, CartItemSideCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CartItemSide.
+     * @param {CartItemSideDeleteArgs} args - Arguments to delete one CartItemSide.
+     * @example
+     * // Delete one CartItemSide
+     * const CartItemSide = await prisma.cartItemSide.delete({
+     *   where: {
+     *     // ... filter to delete one CartItemSide
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CartItemSideDeleteArgs>(args: SelectSubset<T, CartItemSideDeleteArgs<ExtArgs>>): Prisma__CartItemSideClient<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CartItemSide.
+     * @param {CartItemSideUpdateArgs} args - Arguments to update one CartItemSide.
+     * @example
+     * // Update one CartItemSide
+     * const cartItemSide = await prisma.cartItemSide.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CartItemSideUpdateArgs>(args: SelectSubset<T, CartItemSideUpdateArgs<ExtArgs>>): Prisma__CartItemSideClient<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CartItemSides.
+     * @param {CartItemSideDeleteManyArgs} args - Arguments to filter CartItemSides to delete.
+     * @example
+     * // Delete a few CartItemSides
+     * const { count } = await prisma.cartItemSide.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CartItemSideDeleteManyArgs>(args?: SelectSubset<T, CartItemSideDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CartItemSides.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CartItemSideUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CartItemSides
+     * const cartItemSide = await prisma.cartItemSide.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CartItemSideUpdateManyArgs>(args: SelectSubset<T, CartItemSideUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CartItemSides and returns the data updated in the database.
+     * @param {CartItemSideUpdateManyAndReturnArgs} args - Arguments to update many CartItemSides.
+     * @example
+     * // Update many CartItemSides
+     * const cartItemSide = await prisma.cartItemSide.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CartItemSides and only return the `id`
+     * const cartItemSideWithIdOnly = await prisma.cartItemSide.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CartItemSideUpdateManyAndReturnArgs>(args: SelectSubset<T, CartItemSideUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CartItemSide.
+     * @param {CartItemSideUpsertArgs} args - Arguments to update or create a CartItemSide.
+     * @example
+     * // Update or create a CartItemSide
+     * const cartItemSide = await prisma.cartItemSide.upsert({
+     *   create: {
+     *     // ... data to create a CartItemSide
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CartItemSide we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CartItemSideUpsertArgs>(args: SelectSubset<T, CartItemSideUpsertArgs<ExtArgs>>): Prisma__CartItemSideClient<$Result.GetResult<Prisma.$CartItemSidePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CartItemSides.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CartItemSideCountArgs} args - Arguments to filter CartItemSides to count.
+     * @example
+     * // Count the number of CartItemSides
+     * const count = await prisma.cartItemSide.count({
+     *   where: {
+     *     // ... the filter for the CartItemSides we want to count
+     *   }
+     * })
+    **/
+    count<T extends CartItemSideCountArgs>(
+      args?: Subset<T, CartItemSideCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CartItemSideCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CartItemSide.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CartItemSideAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CartItemSideAggregateArgs>(args: Subset<T, CartItemSideAggregateArgs>): Prisma.PrismaPromise<GetCartItemSideAggregateType<T>>
+
+    /**
+     * Group by CartItemSide.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CartItemSideGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CartItemSideGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CartItemSideGroupByArgs['orderBy'] }
+        : { orderBy?: CartItemSideGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CartItemSideGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCartItemSideGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CartItemSide model
+   */
+  readonly fields: CartItemSideFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CartItemSide.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CartItemSideClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    cartItem<T extends CartItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CartItemDefaultArgs<ExtArgs>>): Prisma__CartItemClient<$Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CartItemSide model
+   */
+  interface CartItemSideFieldRefs {
+    readonly id: FieldRef<"CartItemSide", 'String'>
+    readonly cartItemId: FieldRef<"CartItemSide", 'String'>
+    readonly sideGroupId: FieldRef<"CartItemSide", 'String'>
+    readonly optionId: FieldRef<"CartItemSide", 'String'>
+    readonly label: FieldRef<"CartItemSide", 'String'>
+    readonly priceInCents: FieldRef<"CartItemSide", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CartItemSide findUnique
+   */
+  export type CartItemSideFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * Filter, which CartItemSide to fetch.
+     */
+    where: CartItemSideWhereUniqueInput
+  }
+
+  /**
+   * CartItemSide findUniqueOrThrow
+   */
+  export type CartItemSideFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * Filter, which CartItemSide to fetch.
+     */
+    where: CartItemSideWhereUniqueInput
+  }
+
+  /**
+   * CartItemSide findFirst
+   */
+  export type CartItemSideFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * Filter, which CartItemSide to fetch.
+     */
+    where?: CartItemSideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CartItemSides to fetch.
+     */
+    orderBy?: CartItemSideOrderByWithRelationInput | CartItemSideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CartItemSides.
+     */
+    cursor?: CartItemSideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CartItemSides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CartItemSides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CartItemSides.
+     */
+    distinct?: CartItemSideScalarFieldEnum | CartItemSideScalarFieldEnum[]
+  }
+
+  /**
+   * CartItemSide findFirstOrThrow
+   */
+  export type CartItemSideFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * Filter, which CartItemSide to fetch.
+     */
+    where?: CartItemSideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CartItemSides to fetch.
+     */
+    orderBy?: CartItemSideOrderByWithRelationInput | CartItemSideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CartItemSides.
+     */
+    cursor?: CartItemSideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CartItemSides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CartItemSides.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CartItemSides.
+     */
+    distinct?: CartItemSideScalarFieldEnum | CartItemSideScalarFieldEnum[]
+  }
+
+  /**
+   * CartItemSide findMany
+   */
+  export type CartItemSideFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * Filter, which CartItemSides to fetch.
+     */
+    where?: CartItemSideWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CartItemSides to fetch.
+     */
+    orderBy?: CartItemSideOrderByWithRelationInput | CartItemSideOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CartItemSides.
+     */
+    cursor?: CartItemSideWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CartItemSides from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CartItemSides.
+     */
+    skip?: number
+    distinct?: CartItemSideScalarFieldEnum | CartItemSideScalarFieldEnum[]
+  }
+
+  /**
+   * CartItemSide create
+   */
+  export type CartItemSideCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CartItemSide.
+     */
+    data: XOR<CartItemSideCreateInput, CartItemSideUncheckedCreateInput>
+  }
+
+  /**
+   * CartItemSide createMany
+   */
+  export type CartItemSideCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CartItemSides.
+     */
+    data: CartItemSideCreateManyInput | CartItemSideCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CartItemSide createManyAndReturn
+   */
+  export type CartItemSideCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * The data used to create many CartItemSides.
+     */
+    data: CartItemSideCreateManyInput | CartItemSideCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CartItemSide update
+   */
+  export type CartItemSideUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CartItemSide.
+     */
+    data: XOR<CartItemSideUpdateInput, CartItemSideUncheckedUpdateInput>
+    /**
+     * Choose, which CartItemSide to update.
+     */
+    where: CartItemSideWhereUniqueInput
+  }
+
+  /**
+   * CartItemSide updateMany
+   */
+  export type CartItemSideUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CartItemSides.
+     */
+    data: XOR<CartItemSideUpdateManyMutationInput, CartItemSideUncheckedUpdateManyInput>
+    /**
+     * Filter which CartItemSides to update
+     */
+    where?: CartItemSideWhereInput
+    /**
+     * Limit how many CartItemSides to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CartItemSide updateManyAndReturn
+   */
+  export type CartItemSideUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * The data used to update CartItemSides.
+     */
+    data: XOR<CartItemSideUpdateManyMutationInput, CartItemSideUncheckedUpdateManyInput>
+    /**
+     * Filter which CartItemSides to update
+     */
+    where?: CartItemSideWhereInput
+    /**
+     * Limit how many CartItemSides to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CartItemSide upsert
+   */
+  export type CartItemSideUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CartItemSide to update in case it exists.
+     */
+    where: CartItemSideWhereUniqueInput
+    /**
+     * In case the CartItemSide found by the `where` argument doesn't exist, create a new CartItemSide with this data.
+     */
+    create: XOR<CartItemSideCreateInput, CartItemSideUncheckedCreateInput>
+    /**
+     * In case the CartItemSide was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CartItemSideUpdateInput, CartItemSideUncheckedUpdateInput>
+  }
+
+  /**
+   * CartItemSide delete
+   */
+  export type CartItemSideDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
+    /**
+     * Filter which CartItemSide to delete.
+     */
+    where: CartItemSideWhereUniqueInput
+  }
+
+  /**
+   * CartItemSide deleteMany
+   */
+  export type CartItemSideDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CartItemSides to delete
+     */
+    where?: CartItemSideWhereInput
+    /**
+     * Limit how many CartItemSides to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CartItemSide without action
+   */
+  export type CartItemSideDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CartItemSide
+     */
+    select?: CartItemSideSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CartItemSide
+     */
+    omit?: CartItemSideOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CartItemSideInclude<ExtArgs> | null
   }
 
 
@@ -10491,6 +14270,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
+    content: 'content',
     image: 'image',
     createdAt: 'createdAt'
   };
@@ -10542,6 +14322,42 @@ export namespace Prisma {
   };
 
   export type CartItemScalarFieldEnum = (typeof CartItemScalarFieldEnum)[keyof typeof CartItemScalarFieldEnum]
+
+
+  export const SideGroupScalarFieldEnum: {
+    id: 'id',
+    itemId: 'itemId',
+    title: 'title',
+    type: 'type',
+    required: 'required',
+    maxSelect: 'maxSelect',
+    createdAt: 'createdAt'
+  };
+
+  export type SideGroupScalarFieldEnum = (typeof SideGroupScalarFieldEnum)[keyof typeof SideGroupScalarFieldEnum]
+
+
+  export const SideOptionScalarFieldEnum: {
+    id: 'id',
+    sideGroupId: 'sideGroupId',
+    label: 'label',
+    priceInCents: 'priceInCents',
+    linkedItemId: 'linkedItemId'
+  };
+
+  export type SideOptionScalarFieldEnum = (typeof SideOptionScalarFieldEnum)[keyof typeof SideOptionScalarFieldEnum]
+
+
+  export const CartItemSideScalarFieldEnum: {
+    id: 'id',
+    cartItemId: 'cartItemId',
+    sideGroupId: 'sideGroupId',
+    optionId: 'optionId',
+    label: 'label',
+    priceInCents: 'priceInCents'
+  };
+
+  export type CartItemSideScalarFieldEnum = (typeof CartItemSideScalarFieldEnum)[keyof typeof CartItemSideScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10634,6 +14450,20 @@ export namespace Prisma {
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
+
+
+  /**
+   * Reference to a field of type 'SideGroupType'
+   */
+  export type EnumSideGroupTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SideGroupType'>
+    
+
+
+  /**
+   * Reference to a field of type 'SideGroupType[]'
+   */
+  export type ListEnumSideGroupTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SideGroupType[]'>
+    
   /**
    * Deep Input Types
    */
@@ -10657,6 +14487,7 @@ export namespace Prisma {
     cateringPriceInCents?: IntNullableFilter<"Item"> | number | null
     type?: XOR<TypesScalarRelationFilter, TypesWhereInput>
     orders?: OrderListRelationFilter
+    sideGroups?: SideGroupListRelationFilter
   }
 
   export type ItemOrderByWithRelationInput = {
@@ -10674,6 +14505,7 @@ export namespace Prisma {
     cateringPriceInCents?: SortOrderInput | SortOrder
     type?: TypesOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
+    sideGroups?: SideGroupOrderByRelationAggregateInput
   }
 
   export type ItemWhereUniqueInput = Prisma.AtLeast<{
@@ -10694,6 +14526,7 @@ export namespace Prisma {
     cateringPriceInCents?: IntNullableFilter<"Item"> | number | null
     type?: XOR<TypesScalarRelationFilter, TypesWhereInput>
     orders?: OrderListRelationFilter
+    sideGroups?: SideGroupListRelationFilter
   }, "id" | "slug">
 
   export type ItemOrderByWithAggregationInput = {
@@ -10895,6 +14728,7 @@ export namespace Prisma {
     id?: StringFilter<"Post"> | string
     title?: StringFilter<"Post"> | string
     description?: StringFilter<"Post"> | string
+    content?: StringNullableFilter<"Post"> | string | null
     image?: StringFilter<"Post"> | string
     createdAt?: DateTimeFilter<"Post"> | Date | string
   }
@@ -10903,6 +14737,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    content?: SortOrderInput | SortOrder
     image?: SortOrder
     createdAt?: SortOrder
   }
@@ -10914,6 +14749,7 @@ export namespace Prisma {
     NOT?: PostWhereInput | PostWhereInput[]
     title?: StringFilter<"Post"> | string
     description?: StringFilter<"Post"> | string
+    content?: StringNullableFilter<"Post"> | string | null
     image?: StringFilter<"Post"> | string
     createdAt?: DateTimeFilter<"Post"> | Date | string
   }, "id">
@@ -10922,6 +14758,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    content?: SortOrderInput | SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     _count?: PostCountOrderByAggregateInput
@@ -10936,6 +14773,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Post"> | string
     title?: StringWithAggregatesFilter<"Post"> | string
     description?: StringWithAggregatesFilter<"Post"> | string
+    content?: StringNullableWithAggregatesFilter<"Post"> | string | null
     image?: StringWithAggregatesFilter<"Post"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
   }
@@ -11078,6 +14916,7 @@ export namespace Prisma {
     quantity?: IntNullableFilter<"CartItem"> | number | null
     cartId?: StringFilter<"CartItem"> | string
     cart?: XOR<CartScalarRelationFilter, CartWhereInput>
+    sides?: CartItemSideListRelationFilter
   }
 
   export type CartItemOrderByWithRelationInput = {
@@ -11100,6 +14939,7 @@ export namespace Prisma {
     quantity?: SortOrderInput | SortOrder
     cartId?: SortOrder
     cart?: CartOrderByWithRelationInput
+    sides?: CartItemSideOrderByRelationAggregateInput
   }
 
   export type CartItemWhereUniqueInput = Prisma.AtLeast<{
@@ -11125,6 +14965,7 @@ export namespace Prisma {
     quantity?: IntNullableFilter<"CartItem"> | number | null
     cartId?: StringFilter<"CartItem"> | string
     cart?: XOR<CartScalarRelationFilter, CartWhereInput>
+    sides?: CartItemSideListRelationFilter
   }, "id">
 
   export type CartItemOrderByWithAggregationInput = {
@@ -11177,6 +15018,195 @@ export namespace Prisma {
     cartId?: StringWithAggregatesFilter<"CartItem"> | string
   }
 
+  export type SideGroupWhereInput = {
+    AND?: SideGroupWhereInput | SideGroupWhereInput[]
+    OR?: SideGroupWhereInput[]
+    NOT?: SideGroupWhereInput | SideGroupWhereInput[]
+    id?: StringFilter<"SideGroup"> | string
+    itemId?: StringFilter<"SideGroup"> | string
+    title?: StringFilter<"SideGroup"> | string
+    type?: EnumSideGroupTypeFilter<"SideGroup"> | $Enums.SideGroupType
+    required?: BoolFilter<"SideGroup"> | boolean
+    maxSelect?: IntNullableFilter<"SideGroup"> | number | null
+    createdAt?: DateTimeFilter<"SideGroup"> | Date | string
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    options?: SideOptionListRelationFilter
+  }
+
+  export type SideGroupOrderByWithRelationInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    maxSelect?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    item?: ItemOrderByWithRelationInput
+    options?: SideOptionOrderByRelationAggregateInput
+  }
+
+  export type SideGroupWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SideGroupWhereInput | SideGroupWhereInput[]
+    OR?: SideGroupWhereInput[]
+    NOT?: SideGroupWhereInput | SideGroupWhereInput[]
+    itemId?: StringFilter<"SideGroup"> | string
+    title?: StringFilter<"SideGroup"> | string
+    type?: EnumSideGroupTypeFilter<"SideGroup"> | $Enums.SideGroupType
+    required?: BoolFilter<"SideGroup"> | boolean
+    maxSelect?: IntNullableFilter<"SideGroup"> | number | null
+    createdAt?: DateTimeFilter<"SideGroup"> | Date | string
+    item?: XOR<ItemScalarRelationFilter, ItemWhereInput>
+    options?: SideOptionListRelationFilter
+  }, "id">
+
+  export type SideGroupOrderByWithAggregationInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    maxSelect?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SideGroupCountOrderByAggregateInput
+    _avg?: SideGroupAvgOrderByAggregateInput
+    _max?: SideGroupMaxOrderByAggregateInput
+    _min?: SideGroupMinOrderByAggregateInput
+    _sum?: SideGroupSumOrderByAggregateInput
+  }
+
+  export type SideGroupScalarWhereWithAggregatesInput = {
+    AND?: SideGroupScalarWhereWithAggregatesInput | SideGroupScalarWhereWithAggregatesInput[]
+    OR?: SideGroupScalarWhereWithAggregatesInput[]
+    NOT?: SideGroupScalarWhereWithAggregatesInput | SideGroupScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SideGroup"> | string
+    itemId?: StringWithAggregatesFilter<"SideGroup"> | string
+    title?: StringWithAggregatesFilter<"SideGroup"> | string
+    type?: EnumSideGroupTypeWithAggregatesFilter<"SideGroup"> | $Enums.SideGroupType
+    required?: BoolWithAggregatesFilter<"SideGroup"> | boolean
+    maxSelect?: IntNullableWithAggregatesFilter<"SideGroup"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"SideGroup"> | Date | string
+  }
+
+  export type SideOptionWhereInput = {
+    AND?: SideOptionWhereInput | SideOptionWhereInput[]
+    OR?: SideOptionWhereInput[]
+    NOT?: SideOptionWhereInput | SideOptionWhereInput[]
+    id?: StringFilter<"SideOption"> | string
+    sideGroupId?: StringFilter<"SideOption"> | string
+    label?: StringFilter<"SideOption"> | string
+    priceInCents?: IntNullableFilter<"SideOption"> | number | null
+    linkedItemId?: StringNullableFilter<"SideOption"> | string | null
+    sideGroup?: XOR<SideGroupScalarRelationFilter, SideGroupWhereInput>
+  }
+
+  export type SideOptionOrderByWithRelationInput = {
+    id?: SortOrder
+    sideGroupId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrderInput | SortOrder
+    linkedItemId?: SortOrderInput | SortOrder
+    sideGroup?: SideGroupOrderByWithRelationInput
+  }
+
+  export type SideOptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SideOptionWhereInput | SideOptionWhereInput[]
+    OR?: SideOptionWhereInput[]
+    NOT?: SideOptionWhereInput | SideOptionWhereInput[]
+    sideGroupId?: StringFilter<"SideOption"> | string
+    label?: StringFilter<"SideOption"> | string
+    priceInCents?: IntNullableFilter<"SideOption"> | number | null
+    linkedItemId?: StringNullableFilter<"SideOption"> | string | null
+    sideGroup?: XOR<SideGroupScalarRelationFilter, SideGroupWhereInput>
+  }, "id">
+
+  export type SideOptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    sideGroupId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrderInput | SortOrder
+    linkedItemId?: SortOrderInput | SortOrder
+    _count?: SideOptionCountOrderByAggregateInput
+    _avg?: SideOptionAvgOrderByAggregateInput
+    _max?: SideOptionMaxOrderByAggregateInput
+    _min?: SideOptionMinOrderByAggregateInput
+    _sum?: SideOptionSumOrderByAggregateInput
+  }
+
+  export type SideOptionScalarWhereWithAggregatesInput = {
+    AND?: SideOptionScalarWhereWithAggregatesInput | SideOptionScalarWhereWithAggregatesInput[]
+    OR?: SideOptionScalarWhereWithAggregatesInput[]
+    NOT?: SideOptionScalarWhereWithAggregatesInput | SideOptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SideOption"> | string
+    sideGroupId?: StringWithAggregatesFilter<"SideOption"> | string
+    label?: StringWithAggregatesFilter<"SideOption"> | string
+    priceInCents?: IntNullableWithAggregatesFilter<"SideOption"> | number | null
+    linkedItemId?: StringNullableWithAggregatesFilter<"SideOption"> | string | null
+  }
+
+  export type CartItemSideWhereInput = {
+    AND?: CartItemSideWhereInput | CartItemSideWhereInput[]
+    OR?: CartItemSideWhereInput[]
+    NOT?: CartItemSideWhereInput | CartItemSideWhereInput[]
+    id?: StringFilter<"CartItemSide"> | string
+    cartItemId?: StringFilter<"CartItemSide"> | string
+    sideGroupId?: StringFilter<"CartItemSide"> | string
+    optionId?: StringFilter<"CartItemSide"> | string
+    label?: StringFilter<"CartItemSide"> | string
+    priceInCents?: IntNullableFilter<"CartItemSide"> | number | null
+    cartItem?: XOR<CartItemScalarRelationFilter, CartItemWhereInput>
+  }
+
+  export type CartItemSideOrderByWithRelationInput = {
+    id?: SortOrder
+    cartItemId?: SortOrder
+    sideGroupId?: SortOrder
+    optionId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrderInput | SortOrder
+    cartItem?: CartItemOrderByWithRelationInput
+  }
+
+  export type CartItemSideWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CartItemSideWhereInput | CartItemSideWhereInput[]
+    OR?: CartItemSideWhereInput[]
+    NOT?: CartItemSideWhereInput | CartItemSideWhereInput[]
+    cartItemId?: StringFilter<"CartItemSide"> | string
+    sideGroupId?: StringFilter<"CartItemSide"> | string
+    optionId?: StringFilter<"CartItemSide"> | string
+    label?: StringFilter<"CartItemSide"> | string
+    priceInCents?: IntNullableFilter<"CartItemSide"> | number | null
+    cartItem?: XOR<CartItemScalarRelationFilter, CartItemWhereInput>
+  }, "id">
+
+  export type CartItemSideOrderByWithAggregationInput = {
+    id?: SortOrder
+    cartItemId?: SortOrder
+    sideGroupId?: SortOrder
+    optionId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrderInput | SortOrder
+    _count?: CartItemSideCountOrderByAggregateInput
+    _avg?: CartItemSideAvgOrderByAggregateInput
+    _max?: CartItemSideMaxOrderByAggregateInput
+    _min?: CartItemSideMinOrderByAggregateInput
+    _sum?: CartItemSideSumOrderByAggregateInput
+  }
+
+  export type CartItemSideScalarWhereWithAggregatesInput = {
+    AND?: CartItemSideScalarWhereWithAggregatesInput | CartItemSideScalarWhereWithAggregatesInput[]
+    OR?: CartItemSideScalarWhereWithAggregatesInput[]
+    NOT?: CartItemSideScalarWhereWithAggregatesInput | CartItemSideScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CartItemSide"> | string
+    cartItemId?: StringWithAggregatesFilter<"CartItemSide"> | string
+    sideGroupId?: StringWithAggregatesFilter<"CartItemSide"> | string
+    optionId?: StringWithAggregatesFilter<"CartItemSide"> | string
+    label?: StringWithAggregatesFilter<"CartItemSide"> | string
+    priceInCents?: IntNullableWithAggregatesFilter<"CartItemSide"> | number | null
+  }
+
   export type ItemCreateInput = {
     id?: string
     name: string
@@ -11191,6 +15221,7 @@ export namespace Prisma {
     cateringPriceInCents?: number | null
     type: TypesCreateNestedOneWithoutItemsInput
     orders?: OrderCreateNestedManyWithoutProductInput
+    sideGroups?: SideGroupCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateInput = {
@@ -11207,6 +15238,7 @@ export namespace Prisma {
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
     orders?: OrderUncheckedCreateNestedManyWithoutProductInput
+    sideGroups?: SideGroupUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemUpdateInput = {
@@ -11223,6 +15255,7 @@ export namespace Prisma {
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
     type?: TypesUpdateOneRequiredWithoutItemsNestedInput
     orders?: OrderUpdateManyWithoutProductNestedInput
+    sideGroups?: SideGroupUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateInput = {
@@ -11239,6 +15272,7 @@ export namespace Prisma {
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
     orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
+    sideGroups?: SideGroupUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemCreateManyInput = {
@@ -11451,6 +15485,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    content?: string | null
     image: string
     createdAt?: Date | string
   }
@@ -11459,6 +15494,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    content?: string | null
     image: string
     createdAt?: Date | string
   }
@@ -11467,6 +15503,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11475,6 +15512,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11483,6 +15521,7 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
+    content?: string | null
     image: string
     createdAt?: Date | string
   }
@@ -11491,6 +15530,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11499,6 +15539,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11636,6 +15677,7 @@ export namespace Prisma {
     price?: number | null
     quantity?: number | null
     cart: CartCreateNestedOneWithoutItemsInput
+    sides?: CartItemSideCreateNestedManyWithoutCartItemInput
   }
 
   export type CartItemUncheckedCreateInput = {
@@ -11657,6 +15699,7 @@ export namespace Prisma {
     price?: number | null
     quantity?: number | null
     cartId: string
+    sides?: CartItemSideUncheckedCreateNestedManyWithoutCartItemInput
   }
 
   export type CartItemUpdateInput = {
@@ -11678,6 +15721,7 @@ export namespace Prisma {
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
     cart?: CartUpdateOneRequiredWithoutItemsNestedInput
+    sides?: CartItemSideUpdateManyWithoutCartItemNestedInput
   }
 
   export type CartItemUncheckedUpdateInput = {
@@ -11699,6 +15743,7 @@ export namespace Prisma {
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
     cartId?: StringFieldUpdateOperationsInput | string
+    sides?: CartItemSideUncheckedUpdateManyWithoutCartItemNestedInput
   }
 
   export type CartItemCreateManyInput = {
@@ -11761,6 +15806,196 @@ export namespace Prisma {
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
     cartId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SideGroupCreateInput = {
+    id?: string
+    title: string
+    type: $Enums.SideGroupType
+    required?: boolean
+    maxSelect?: number | null
+    createdAt?: Date | string
+    item: ItemCreateNestedOneWithoutSideGroupsInput
+    options?: SideOptionCreateNestedManyWithoutSideGroupInput
+  }
+
+  export type SideGroupUncheckedCreateInput = {
+    id?: string
+    itemId: string
+    title: string
+    type: $Enums.SideGroupType
+    required?: boolean
+    maxSelect?: number | null
+    createdAt?: Date | string
+    options?: SideOptionUncheckedCreateNestedManyWithoutSideGroupInput
+  }
+
+  export type SideGroupUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    item?: ItemUpdateOneRequiredWithoutSideGroupsNestedInput
+    options?: SideOptionUpdateManyWithoutSideGroupNestedInput
+  }
+
+  export type SideGroupUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    options?: SideOptionUncheckedUpdateManyWithoutSideGroupNestedInput
+  }
+
+  export type SideGroupCreateManyInput = {
+    id?: string
+    itemId: string
+    title: string
+    type: $Enums.SideGroupType
+    required?: boolean
+    maxSelect?: number | null
+    createdAt?: Date | string
+  }
+
+  export type SideGroupUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SideGroupUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SideOptionCreateInput = {
+    id?: string
+    label: string
+    priceInCents?: number | null
+    linkedItemId?: string | null
+    sideGroup: SideGroupCreateNestedOneWithoutOptionsInput
+  }
+
+  export type SideOptionUncheckedCreateInput = {
+    id?: string
+    sideGroupId: string
+    label: string
+    priceInCents?: number | null
+    linkedItemId?: string | null
+  }
+
+  export type SideOptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    linkedItemId?: NullableStringFieldUpdateOperationsInput | string | null
+    sideGroup?: SideGroupUpdateOneRequiredWithoutOptionsNestedInput
+  }
+
+  export type SideOptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    linkedItemId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SideOptionCreateManyInput = {
+    id?: string
+    sideGroupId: string
+    label: string
+    priceInCents?: number | null
+    linkedItemId?: string | null
+  }
+
+  export type SideOptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    linkedItemId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SideOptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    linkedItemId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CartItemSideCreateInput = {
+    id?: string
+    sideGroupId: string
+    optionId: string
+    label: string
+    priceInCents?: number | null
+    cartItem: CartItemCreateNestedOneWithoutSidesInput
+  }
+
+  export type CartItemSideUncheckedCreateInput = {
+    id?: string
+    cartItemId: string
+    sideGroupId: string
+    optionId: string
+    label: string
+    priceInCents?: number | null
+  }
+
+  export type CartItemSideUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    cartItem?: CartItemUpdateOneRequiredWithoutSidesNestedInput
+  }
+
+  export type CartItemSideUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cartItemId?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type CartItemSideCreateManyInput = {
+    id?: string
+    cartItemId: string
+    sideGroupId: string
+    optionId: string
+    label: string
+    priceInCents?: number | null
+  }
+
+  export type CartItemSideUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type CartItemSideUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cartItemId?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -11831,12 +16066,22 @@ export namespace Prisma {
     none?: OrderWhereInput
   }
 
+  export type SideGroupListRelationFilter = {
+    every?: SideGroupWhereInput
+    some?: SideGroupWhereInput
+    none?: SideGroupWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type OrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SideGroupOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12113,6 +16358,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    content?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
   }
@@ -12121,6 +16367,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    content?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
   }
@@ -12129,6 +16376,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    content?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
   }
@@ -12234,6 +16482,16 @@ export namespace Prisma {
   export type CartScalarRelationFilter = {
     is?: CartWhereInput
     isNot?: CartWhereInput
+  }
+
+  export type CartItemSideListRelationFilter = {
+    every?: CartItemSideWhereInput
+    some?: CartItemSideWhereInput
+    none?: CartItemSideWhereInput
+  }
+
+  export type CartItemSideOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type CartItemCountOrderByAggregateInput = {
@@ -12343,6 +16601,148 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type EnumSideGroupTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.SideGroupType | EnumSideGroupTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SideGroupType[] | ListEnumSideGroupTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SideGroupType[] | ListEnumSideGroupTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSideGroupTypeFilter<$PrismaModel> | $Enums.SideGroupType
+  }
+
+  export type SideOptionListRelationFilter = {
+    every?: SideOptionWhereInput
+    some?: SideOptionWhereInput
+    none?: SideOptionWhereInput
+  }
+
+  export type SideOptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SideGroupCountOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    maxSelect?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SideGroupAvgOrderByAggregateInput = {
+    maxSelect?: SortOrder
+  }
+
+  export type SideGroupMaxOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    maxSelect?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SideGroupMinOrderByAggregateInput = {
+    id?: SortOrder
+    itemId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    required?: SortOrder
+    maxSelect?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SideGroupSumOrderByAggregateInput = {
+    maxSelect?: SortOrder
+  }
+
+  export type EnumSideGroupTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SideGroupType | EnumSideGroupTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SideGroupType[] | ListEnumSideGroupTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SideGroupType[] | ListEnumSideGroupTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSideGroupTypeWithAggregatesFilter<$PrismaModel> | $Enums.SideGroupType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSideGroupTypeFilter<$PrismaModel>
+    _max?: NestedEnumSideGroupTypeFilter<$PrismaModel>
+  }
+
+  export type SideGroupScalarRelationFilter = {
+    is?: SideGroupWhereInput
+    isNot?: SideGroupWhereInput
+  }
+
+  export type SideOptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    sideGroupId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrder
+    linkedItemId?: SortOrder
+  }
+
+  export type SideOptionAvgOrderByAggregateInput = {
+    priceInCents?: SortOrder
+  }
+
+  export type SideOptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    sideGroupId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrder
+    linkedItemId?: SortOrder
+  }
+
+  export type SideOptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    sideGroupId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrder
+    linkedItemId?: SortOrder
+  }
+
+  export type SideOptionSumOrderByAggregateInput = {
+    priceInCents?: SortOrder
+  }
+
+  export type CartItemScalarRelationFilter = {
+    is?: CartItemWhereInput
+    isNot?: CartItemWhereInput
+  }
+
+  export type CartItemSideCountOrderByAggregateInput = {
+    id?: SortOrder
+    cartItemId?: SortOrder
+    sideGroupId?: SortOrder
+    optionId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrder
+  }
+
+  export type CartItemSideAvgOrderByAggregateInput = {
+    priceInCents?: SortOrder
+  }
+
+  export type CartItemSideMaxOrderByAggregateInput = {
+    id?: SortOrder
+    cartItemId?: SortOrder
+    sideGroupId?: SortOrder
+    optionId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrder
+  }
+
+  export type CartItemSideMinOrderByAggregateInput = {
+    id?: SortOrder
+    cartItemId?: SortOrder
+    sideGroupId?: SortOrder
+    optionId?: SortOrder
+    label?: SortOrder
+    priceInCents?: SortOrder
+  }
+
+  export type CartItemSideSumOrderByAggregateInput = {
+    priceInCents?: SortOrder
+  }
+
   export type TypesCreateNestedOneWithoutItemsInput = {
     create?: XOR<TypesCreateWithoutItemsInput, TypesUncheckedCreateWithoutItemsInput>
     connectOrCreate?: TypesCreateOrConnectWithoutItemsInput
@@ -12356,11 +16756,25 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type SideGroupCreateNestedManyWithoutItemInput = {
+    create?: XOR<SideGroupCreateWithoutItemInput, SideGroupUncheckedCreateWithoutItemInput> | SideGroupCreateWithoutItemInput[] | SideGroupUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: SideGroupCreateOrConnectWithoutItemInput | SideGroupCreateOrConnectWithoutItemInput[]
+    createMany?: SideGroupCreateManyItemInputEnvelope
+    connect?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+  }
+
   export type OrderUncheckedCreateNestedManyWithoutProductInput = {
     create?: XOR<OrderCreateWithoutProductInput, OrderUncheckedCreateWithoutProductInput> | OrderCreateWithoutProductInput[] | OrderUncheckedCreateWithoutProductInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutProductInput | OrderCreateOrConnectWithoutProductInput[]
     createMany?: OrderCreateManyProductInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type SideGroupUncheckedCreateNestedManyWithoutItemInput = {
+    create?: XOR<SideGroupCreateWithoutItemInput, SideGroupUncheckedCreateWithoutItemInput> | SideGroupCreateWithoutItemInput[] | SideGroupUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: SideGroupCreateOrConnectWithoutItemInput | SideGroupCreateOrConnectWithoutItemInput[]
+    createMany?: SideGroupCreateManyItemInputEnvelope
+    connect?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12413,6 +16827,20 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type SideGroupUpdateManyWithoutItemNestedInput = {
+    create?: XOR<SideGroupCreateWithoutItemInput, SideGroupUncheckedCreateWithoutItemInput> | SideGroupCreateWithoutItemInput[] | SideGroupUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: SideGroupCreateOrConnectWithoutItemInput | SideGroupCreateOrConnectWithoutItemInput[]
+    upsert?: SideGroupUpsertWithWhereUniqueWithoutItemInput | SideGroupUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: SideGroupCreateManyItemInputEnvelope
+    set?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+    disconnect?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+    delete?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+    connect?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+    update?: SideGroupUpdateWithWhereUniqueWithoutItemInput | SideGroupUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: SideGroupUpdateManyWithWhereWithoutItemInput | SideGroupUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: SideGroupScalarWhereInput | SideGroupScalarWhereInput[]
+  }
+
   export type OrderUncheckedUpdateManyWithoutProductNestedInput = {
     create?: XOR<OrderCreateWithoutProductInput, OrderUncheckedCreateWithoutProductInput> | OrderCreateWithoutProductInput[] | OrderUncheckedCreateWithoutProductInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutProductInput | OrderCreateOrConnectWithoutProductInput[]
@@ -12425,6 +16853,20 @@ export namespace Prisma {
     update?: OrderUpdateWithWhereUniqueWithoutProductInput | OrderUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: OrderUpdateManyWithWhereWithoutProductInput | OrderUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type SideGroupUncheckedUpdateManyWithoutItemNestedInput = {
+    create?: XOR<SideGroupCreateWithoutItemInput, SideGroupUncheckedCreateWithoutItemInput> | SideGroupCreateWithoutItemInput[] | SideGroupUncheckedCreateWithoutItemInput[]
+    connectOrCreate?: SideGroupCreateOrConnectWithoutItemInput | SideGroupCreateOrConnectWithoutItemInput[]
+    upsert?: SideGroupUpsertWithWhereUniqueWithoutItemInput | SideGroupUpsertWithWhereUniqueWithoutItemInput[]
+    createMany?: SideGroupCreateManyItemInputEnvelope
+    set?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+    disconnect?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+    delete?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+    connect?: SideGroupWhereUniqueInput | SideGroupWhereUniqueInput[]
+    update?: SideGroupUpdateWithWhereUniqueWithoutItemInput | SideGroupUpdateWithWhereUniqueWithoutItemInput[]
+    updateMany?: SideGroupUpdateManyWithWhereWithoutItemInput | SideGroupUpdateManyWithWhereWithoutItemInput[]
+    deleteMany?: SideGroupScalarWhereInput | SideGroupScalarWhereInput[]
   }
 
   export type OrderCreateNestedManyWithoutUserInput = {
@@ -12599,6 +17041,20 @@ export namespace Prisma {
     connect?: CartWhereUniqueInput
   }
 
+  export type CartItemSideCreateNestedManyWithoutCartItemInput = {
+    create?: XOR<CartItemSideCreateWithoutCartItemInput, CartItemSideUncheckedCreateWithoutCartItemInput> | CartItemSideCreateWithoutCartItemInput[] | CartItemSideUncheckedCreateWithoutCartItemInput[]
+    connectOrCreate?: CartItemSideCreateOrConnectWithoutCartItemInput | CartItemSideCreateOrConnectWithoutCartItemInput[]
+    createMany?: CartItemSideCreateManyCartItemInputEnvelope
+    connect?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+  }
+
+  export type CartItemSideUncheckedCreateNestedManyWithoutCartItemInput = {
+    create?: XOR<CartItemSideCreateWithoutCartItemInput, CartItemSideUncheckedCreateWithoutCartItemInput> | CartItemSideCreateWithoutCartItemInput[] | CartItemSideUncheckedCreateWithoutCartItemInput[]
+    connectOrCreate?: CartItemSideCreateOrConnectWithoutCartItemInput | CartItemSideCreateOrConnectWithoutCartItemInput[]
+    createMany?: CartItemSideCreateManyCartItemInputEnvelope
+    connect?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+  }
+
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
@@ -12617,6 +17073,122 @@ export namespace Prisma {
     upsert?: CartUpsertWithoutItemsInput
     connect?: CartWhereUniqueInput
     update?: XOR<XOR<CartUpdateToOneWithWhereWithoutItemsInput, CartUpdateWithoutItemsInput>, CartUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type CartItemSideUpdateManyWithoutCartItemNestedInput = {
+    create?: XOR<CartItemSideCreateWithoutCartItemInput, CartItemSideUncheckedCreateWithoutCartItemInput> | CartItemSideCreateWithoutCartItemInput[] | CartItemSideUncheckedCreateWithoutCartItemInput[]
+    connectOrCreate?: CartItemSideCreateOrConnectWithoutCartItemInput | CartItemSideCreateOrConnectWithoutCartItemInput[]
+    upsert?: CartItemSideUpsertWithWhereUniqueWithoutCartItemInput | CartItemSideUpsertWithWhereUniqueWithoutCartItemInput[]
+    createMany?: CartItemSideCreateManyCartItemInputEnvelope
+    set?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+    disconnect?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+    delete?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+    connect?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+    update?: CartItemSideUpdateWithWhereUniqueWithoutCartItemInput | CartItemSideUpdateWithWhereUniqueWithoutCartItemInput[]
+    updateMany?: CartItemSideUpdateManyWithWhereWithoutCartItemInput | CartItemSideUpdateManyWithWhereWithoutCartItemInput[]
+    deleteMany?: CartItemSideScalarWhereInput | CartItemSideScalarWhereInput[]
+  }
+
+  export type CartItemSideUncheckedUpdateManyWithoutCartItemNestedInput = {
+    create?: XOR<CartItemSideCreateWithoutCartItemInput, CartItemSideUncheckedCreateWithoutCartItemInput> | CartItemSideCreateWithoutCartItemInput[] | CartItemSideUncheckedCreateWithoutCartItemInput[]
+    connectOrCreate?: CartItemSideCreateOrConnectWithoutCartItemInput | CartItemSideCreateOrConnectWithoutCartItemInput[]
+    upsert?: CartItemSideUpsertWithWhereUniqueWithoutCartItemInput | CartItemSideUpsertWithWhereUniqueWithoutCartItemInput[]
+    createMany?: CartItemSideCreateManyCartItemInputEnvelope
+    set?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+    disconnect?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+    delete?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+    connect?: CartItemSideWhereUniqueInput | CartItemSideWhereUniqueInput[]
+    update?: CartItemSideUpdateWithWhereUniqueWithoutCartItemInput | CartItemSideUpdateWithWhereUniqueWithoutCartItemInput[]
+    updateMany?: CartItemSideUpdateManyWithWhereWithoutCartItemInput | CartItemSideUpdateManyWithWhereWithoutCartItemInput[]
+    deleteMany?: CartItemSideScalarWhereInput | CartItemSideScalarWhereInput[]
+  }
+
+  export type ItemCreateNestedOneWithoutSideGroupsInput = {
+    create?: XOR<ItemCreateWithoutSideGroupsInput, ItemUncheckedCreateWithoutSideGroupsInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutSideGroupsInput
+    connect?: ItemWhereUniqueInput
+  }
+
+  export type SideOptionCreateNestedManyWithoutSideGroupInput = {
+    create?: XOR<SideOptionCreateWithoutSideGroupInput, SideOptionUncheckedCreateWithoutSideGroupInput> | SideOptionCreateWithoutSideGroupInput[] | SideOptionUncheckedCreateWithoutSideGroupInput[]
+    connectOrCreate?: SideOptionCreateOrConnectWithoutSideGroupInput | SideOptionCreateOrConnectWithoutSideGroupInput[]
+    createMany?: SideOptionCreateManySideGroupInputEnvelope
+    connect?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+  }
+
+  export type SideOptionUncheckedCreateNestedManyWithoutSideGroupInput = {
+    create?: XOR<SideOptionCreateWithoutSideGroupInput, SideOptionUncheckedCreateWithoutSideGroupInput> | SideOptionCreateWithoutSideGroupInput[] | SideOptionUncheckedCreateWithoutSideGroupInput[]
+    connectOrCreate?: SideOptionCreateOrConnectWithoutSideGroupInput | SideOptionCreateOrConnectWithoutSideGroupInput[]
+    createMany?: SideOptionCreateManySideGroupInputEnvelope
+    connect?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+  }
+
+  export type EnumSideGroupTypeFieldUpdateOperationsInput = {
+    set?: $Enums.SideGroupType
+  }
+
+  export type ItemUpdateOneRequiredWithoutSideGroupsNestedInput = {
+    create?: XOR<ItemCreateWithoutSideGroupsInput, ItemUncheckedCreateWithoutSideGroupsInput>
+    connectOrCreate?: ItemCreateOrConnectWithoutSideGroupsInput
+    upsert?: ItemUpsertWithoutSideGroupsInput
+    connect?: ItemWhereUniqueInput
+    update?: XOR<XOR<ItemUpdateToOneWithWhereWithoutSideGroupsInput, ItemUpdateWithoutSideGroupsInput>, ItemUncheckedUpdateWithoutSideGroupsInput>
+  }
+
+  export type SideOptionUpdateManyWithoutSideGroupNestedInput = {
+    create?: XOR<SideOptionCreateWithoutSideGroupInput, SideOptionUncheckedCreateWithoutSideGroupInput> | SideOptionCreateWithoutSideGroupInput[] | SideOptionUncheckedCreateWithoutSideGroupInput[]
+    connectOrCreate?: SideOptionCreateOrConnectWithoutSideGroupInput | SideOptionCreateOrConnectWithoutSideGroupInput[]
+    upsert?: SideOptionUpsertWithWhereUniqueWithoutSideGroupInput | SideOptionUpsertWithWhereUniqueWithoutSideGroupInput[]
+    createMany?: SideOptionCreateManySideGroupInputEnvelope
+    set?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+    disconnect?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+    delete?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+    connect?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+    update?: SideOptionUpdateWithWhereUniqueWithoutSideGroupInput | SideOptionUpdateWithWhereUniqueWithoutSideGroupInput[]
+    updateMany?: SideOptionUpdateManyWithWhereWithoutSideGroupInput | SideOptionUpdateManyWithWhereWithoutSideGroupInput[]
+    deleteMany?: SideOptionScalarWhereInput | SideOptionScalarWhereInput[]
+  }
+
+  export type SideOptionUncheckedUpdateManyWithoutSideGroupNestedInput = {
+    create?: XOR<SideOptionCreateWithoutSideGroupInput, SideOptionUncheckedCreateWithoutSideGroupInput> | SideOptionCreateWithoutSideGroupInput[] | SideOptionUncheckedCreateWithoutSideGroupInput[]
+    connectOrCreate?: SideOptionCreateOrConnectWithoutSideGroupInput | SideOptionCreateOrConnectWithoutSideGroupInput[]
+    upsert?: SideOptionUpsertWithWhereUniqueWithoutSideGroupInput | SideOptionUpsertWithWhereUniqueWithoutSideGroupInput[]
+    createMany?: SideOptionCreateManySideGroupInputEnvelope
+    set?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+    disconnect?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+    delete?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+    connect?: SideOptionWhereUniqueInput | SideOptionWhereUniqueInput[]
+    update?: SideOptionUpdateWithWhereUniqueWithoutSideGroupInput | SideOptionUpdateWithWhereUniqueWithoutSideGroupInput[]
+    updateMany?: SideOptionUpdateManyWithWhereWithoutSideGroupInput | SideOptionUpdateManyWithWhereWithoutSideGroupInput[]
+    deleteMany?: SideOptionScalarWhereInput | SideOptionScalarWhereInput[]
+  }
+
+  export type SideGroupCreateNestedOneWithoutOptionsInput = {
+    create?: XOR<SideGroupCreateWithoutOptionsInput, SideGroupUncheckedCreateWithoutOptionsInput>
+    connectOrCreate?: SideGroupCreateOrConnectWithoutOptionsInput
+    connect?: SideGroupWhereUniqueInput
+  }
+
+  export type SideGroupUpdateOneRequiredWithoutOptionsNestedInput = {
+    create?: XOR<SideGroupCreateWithoutOptionsInput, SideGroupUncheckedCreateWithoutOptionsInput>
+    connectOrCreate?: SideGroupCreateOrConnectWithoutOptionsInput
+    upsert?: SideGroupUpsertWithoutOptionsInput
+    connect?: SideGroupWhereUniqueInput
+    update?: XOR<XOR<SideGroupUpdateToOneWithWhereWithoutOptionsInput, SideGroupUpdateWithoutOptionsInput>, SideGroupUncheckedUpdateWithoutOptionsInput>
+  }
+
+  export type CartItemCreateNestedOneWithoutSidesInput = {
+    create?: XOR<CartItemCreateWithoutSidesInput, CartItemUncheckedCreateWithoutSidesInput>
+    connectOrCreate?: CartItemCreateOrConnectWithoutSidesInput
+    connect?: CartItemWhereUniqueInput
+  }
+
+  export type CartItemUpdateOneRequiredWithoutSidesNestedInput = {
+    create?: XOR<CartItemCreateWithoutSidesInput, CartItemUncheckedCreateWithoutSidesInput>
+    connectOrCreate?: CartItemCreateOrConnectWithoutSidesInput
+    upsert?: CartItemUpsertWithoutSidesInput
+    connect?: CartItemWhereUniqueInput
+    update?: XOR<XOR<CartItemUpdateToOneWithWhereWithoutSidesInput, CartItemUpdateWithoutSidesInput>, CartItemUncheckedUpdateWithoutSidesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -12852,6 +17424,23 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumSideGroupTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.SideGroupType | EnumSideGroupTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SideGroupType[] | ListEnumSideGroupTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SideGroupType[] | ListEnumSideGroupTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSideGroupTypeFilter<$PrismaModel> | $Enums.SideGroupType
+  }
+
+  export type NestedEnumSideGroupTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SideGroupType | EnumSideGroupTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.SideGroupType[] | ListEnumSideGroupTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SideGroupType[] | ListEnumSideGroupTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumSideGroupTypeWithAggregatesFilter<$PrismaModel> | $Enums.SideGroupType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSideGroupTypeFilter<$PrismaModel>
+    _max?: NestedEnumSideGroupTypeFilter<$PrismaModel>
+  }
+
   export type TypesCreateWithoutItemsInput = {
     id?: string
     name: string
@@ -12894,6 +17483,36 @@ export namespace Prisma {
 
   export type OrderCreateManyProductInputEnvelope = {
     data: OrderCreateManyProductInput | OrderCreateManyProductInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SideGroupCreateWithoutItemInput = {
+    id?: string
+    title: string
+    type: $Enums.SideGroupType
+    required?: boolean
+    maxSelect?: number | null
+    createdAt?: Date | string
+    options?: SideOptionCreateNestedManyWithoutSideGroupInput
+  }
+
+  export type SideGroupUncheckedCreateWithoutItemInput = {
+    id?: string
+    title: string
+    type: $Enums.SideGroupType
+    required?: boolean
+    maxSelect?: number | null
+    createdAt?: Date | string
+    options?: SideOptionUncheckedCreateNestedManyWithoutSideGroupInput
+  }
+
+  export type SideGroupCreateOrConnectWithoutItemInput = {
+    where: SideGroupWhereUniqueInput
+    create: XOR<SideGroupCreateWithoutItemInput, SideGroupUncheckedCreateWithoutItemInput>
+  }
+
+  export type SideGroupCreateManyItemInputEnvelope = {
+    data: SideGroupCreateManyItemInput | SideGroupCreateManyItemInput[]
     skipDuplicates?: boolean
   }
 
@@ -12948,6 +17567,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     userId?: StringFilter<"Order"> | string
     productId?: StringFilter<"Order"> | string
+  }
+
+  export type SideGroupUpsertWithWhereUniqueWithoutItemInput = {
+    where: SideGroupWhereUniqueInput
+    update: XOR<SideGroupUpdateWithoutItemInput, SideGroupUncheckedUpdateWithoutItemInput>
+    create: XOR<SideGroupCreateWithoutItemInput, SideGroupUncheckedCreateWithoutItemInput>
+  }
+
+  export type SideGroupUpdateWithWhereUniqueWithoutItemInput = {
+    where: SideGroupWhereUniqueInput
+    data: XOR<SideGroupUpdateWithoutItemInput, SideGroupUncheckedUpdateWithoutItemInput>
+  }
+
+  export type SideGroupUpdateManyWithWhereWithoutItemInput = {
+    where: SideGroupScalarWhereInput
+    data: XOR<SideGroupUpdateManyMutationInput, SideGroupUncheckedUpdateManyWithoutItemInput>
+  }
+
+  export type SideGroupScalarWhereInput = {
+    AND?: SideGroupScalarWhereInput | SideGroupScalarWhereInput[]
+    OR?: SideGroupScalarWhereInput[]
+    NOT?: SideGroupScalarWhereInput | SideGroupScalarWhereInput[]
+    id?: StringFilter<"SideGroup"> | string
+    itemId?: StringFilter<"SideGroup"> | string
+    title?: StringFilter<"SideGroup"> | string
+    type?: EnumSideGroupTypeFilter<"SideGroup"> | $Enums.SideGroupType
+    required?: BoolFilter<"SideGroup"> | boolean
+    maxSelect?: IntNullableFilter<"SideGroup"> | number | null
+    createdAt?: DateTimeFilter<"SideGroup"> | Date | string
   }
 
   export type OrderCreateWithoutUserInput = {
@@ -13005,6 +17653,7 @@ export namespace Prisma {
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
     orders?: OrderCreateNestedManyWithoutProductInput
+    sideGroups?: SideGroupCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutTypeInput = {
@@ -13020,6 +17669,7 @@ export namespace Prisma {
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
     orders?: OrderUncheckedCreateNestedManyWithoutProductInput
+    sideGroups?: SideGroupUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutTypeInput = {
@@ -13098,6 +17748,7 @@ export namespace Prisma {
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
     type: TypesCreateNestedOneWithoutItemsInput
+    sideGroups?: SideGroupCreateNestedManyWithoutItemInput
   }
 
   export type ItemUncheckedCreateWithoutOrdersInput = {
@@ -13113,6 +17764,7 @@ export namespace Prisma {
     isCaterable?: boolean
     cateringDescription?: string | null
     cateringPriceInCents?: number | null
+    sideGroups?: SideGroupUncheckedCreateNestedManyWithoutItemInput
   }
 
   export type ItemCreateOrConnectWithoutOrdersInput = {
@@ -13169,6 +17821,7 @@ export namespace Prisma {
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
     type?: TypesUpdateOneRequiredWithoutItemsNestedInput
+    sideGroups?: SideGroupUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutOrdersInput = {
@@ -13184,6 +17837,7 @@ export namespace Prisma {
     isCaterable?: BoolFieldUpdateOperationsInput | boolean
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    sideGroups?: SideGroupUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type CartItemCreateWithoutCartInput = {
@@ -13204,6 +17858,7 @@ export namespace Prisma {
     customerPhone?: string | null
     price?: number | null
     quantity?: number | null
+    sides?: CartItemSideCreateNestedManyWithoutCartItemInput
   }
 
   export type CartItemUncheckedCreateWithoutCartInput = {
@@ -13224,6 +17879,7 @@ export namespace Prisma {
     customerPhone?: string | null
     price?: number | null
     quantity?: number | null
+    sides?: CartItemSideUncheckedCreateNestedManyWithoutCartItemInput
   }
 
   export type CartItemCreateOrConnectWithoutCartInput = {
@@ -13295,6 +17951,32 @@ export namespace Prisma {
     create: XOR<CartCreateWithoutItemsInput, CartUncheckedCreateWithoutItemsInput>
   }
 
+  export type CartItemSideCreateWithoutCartItemInput = {
+    id?: string
+    sideGroupId: string
+    optionId: string
+    label: string
+    priceInCents?: number | null
+  }
+
+  export type CartItemSideUncheckedCreateWithoutCartItemInput = {
+    id?: string
+    sideGroupId: string
+    optionId: string
+    label: string
+    priceInCents?: number | null
+  }
+
+  export type CartItemSideCreateOrConnectWithoutCartItemInput = {
+    where: CartItemSideWhereUniqueInput
+    create: XOR<CartItemSideCreateWithoutCartItemInput, CartItemSideUncheckedCreateWithoutCartItemInput>
+  }
+
+  export type CartItemSideCreateManyCartItemInputEnvelope = {
+    data: CartItemSideCreateManyCartItemInput | CartItemSideCreateManyCartItemInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CartUpsertWithoutItemsInput = {
     update: XOR<CartUpdateWithoutItemsInput, CartUncheckedUpdateWithoutItemsInput>
     create: XOR<CartCreateWithoutItemsInput, CartUncheckedCreateWithoutItemsInput>
@@ -13320,12 +18002,336 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
   }
 
+  export type CartItemSideUpsertWithWhereUniqueWithoutCartItemInput = {
+    where: CartItemSideWhereUniqueInput
+    update: XOR<CartItemSideUpdateWithoutCartItemInput, CartItemSideUncheckedUpdateWithoutCartItemInput>
+    create: XOR<CartItemSideCreateWithoutCartItemInput, CartItemSideUncheckedCreateWithoutCartItemInput>
+  }
+
+  export type CartItemSideUpdateWithWhereUniqueWithoutCartItemInput = {
+    where: CartItemSideWhereUniqueInput
+    data: XOR<CartItemSideUpdateWithoutCartItemInput, CartItemSideUncheckedUpdateWithoutCartItemInput>
+  }
+
+  export type CartItemSideUpdateManyWithWhereWithoutCartItemInput = {
+    where: CartItemSideScalarWhereInput
+    data: XOR<CartItemSideUpdateManyMutationInput, CartItemSideUncheckedUpdateManyWithoutCartItemInput>
+  }
+
+  export type CartItemSideScalarWhereInput = {
+    AND?: CartItemSideScalarWhereInput | CartItemSideScalarWhereInput[]
+    OR?: CartItemSideScalarWhereInput[]
+    NOT?: CartItemSideScalarWhereInput | CartItemSideScalarWhereInput[]
+    id?: StringFilter<"CartItemSide"> | string
+    cartItemId?: StringFilter<"CartItemSide"> | string
+    sideGroupId?: StringFilter<"CartItemSide"> | string
+    optionId?: StringFilter<"CartItemSide"> | string
+    label?: StringFilter<"CartItemSide"> | string
+    priceInCents?: IntNullableFilter<"CartItemSide"> | number | null
+  }
+
+  export type ItemCreateWithoutSideGroupsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    priceInCents: number
+    slug: string
+    isAvailableForPurchase?: boolean
+    featured?: boolean
+    image?: string | null
+    isCaterable?: boolean
+    cateringDescription?: string | null
+    cateringPriceInCents?: number | null
+    type: TypesCreateNestedOneWithoutItemsInput
+    orders?: OrderCreateNestedManyWithoutProductInput
+  }
+
+  export type ItemUncheckedCreateWithoutSideGroupsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    priceInCents: number
+    slug: string
+    isAvailableForPurchase?: boolean
+    featured?: boolean
+    image?: string | null
+    typeId: string
+    isCaterable?: boolean
+    cateringDescription?: string | null
+    cateringPriceInCents?: number | null
+    orders?: OrderUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ItemCreateOrConnectWithoutSideGroupsInput = {
+    where: ItemWhereUniqueInput
+    create: XOR<ItemCreateWithoutSideGroupsInput, ItemUncheckedCreateWithoutSideGroupsInput>
+  }
+
+  export type SideOptionCreateWithoutSideGroupInput = {
+    id?: string
+    label: string
+    priceInCents?: number | null
+    linkedItemId?: string | null
+  }
+
+  export type SideOptionUncheckedCreateWithoutSideGroupInput = {
+    id?: string
+    label: string
+    priceInCents?: number | null
+    linkedItemId?: string | null
+  }
+
+  export type SideOptionCreateOrConnectWithoutSideGroupInput = {
+    where: SideOptionWhereUniqueInput
+    create: XOR<SideOptionCreateWithoutSideGroupInput, SideOptionUncheckedCreateWithoutSideGroupInput>
+  }
+
+  export type SideOptionCreateManySideGroupInputEnvelope = {
+    data: SideOptionCreateManySideGroupInput | SideOptionCreateManySideGroupInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemUpsertWithoutSideGroupsInput = {
+    update: XOR<ItemUpdateWithoutSideGroupsInput, ItemUncheckedUpdateWithoutSideGroupsInput>
+    create: XOR<ItemCreateWithoutSideGroupsInput, ItemUncheckedCreateWithoutSideGroupsInput>
+    where?: ItemWhereInput
+  }
+
+  export type ItemUpdateToOneWithWhereWithoutSideGroupsInput = {
+    where?: ItemWhereInput
+    data: XOR<ItemUpdateWithoutSideGroupsInput, ItemUncheckedUpdateWithoutSideGroupsInput>
+  }
+
+  export type ItemUpdateWithoutSideGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    priceInCents?: IntFieldUpdateOperationsInput | number
+    slug?: StringFieldUpdateOperationsInput | string
+    isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isCaterable?: BoolFieldUpdateOperationsInput | boolean
+    cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: TypesUpdateOneRequiredWithoutItemsNestedInput
+    orders?: OrderUpdateManyWithoutProductNestedInput
+  }
+
+  export type ItemUncheckedUpdateWithoutSideGroupsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    priceInCents?: IntFieldUpdateOperationsInput | number
+    slug?: StringFieldUpdateOperationsInput | string
+    isAvailableForPurchase?: BoolFieldUpdateOperationsInput | boolean
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    typeId?: StringFieldUpdateOperationsInput | string
+    isCaterable?: BoolFieldUpdateOperationsInput | boolean
+    cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type SideOptionUpsertWithWhereUniqueWithoutSideGroupInput = {
+    where: SideOptionWhereUniqueInput
+    update: XOR<SideOptionUpdateWithoutSideGroupInput, SideOptionUncheckedUpdateWithoutSideGroupInput>
+    create: XOR<SideOptionCreateWithoutSideGroupInput, SideOptionUncheckedCreateWithoutSideGroupInput>
+  }
+
+  export type SideOptionUpdateWithWhereUniqueWithoutSideGroupInput = {
+    where: SideOptionWhereUniqueInput
+    data: XOR<SideOptionUpdateWithoutSideGroupInput, SideOptionUncheckedUpdateWithoutSideGroupInput>
+  }
+
+  export type SideOptionUpdateManyWithWhereWithoutSideGroupInput = {
+    where: SideOptionScalarWhereInput
+    data: XOR<SideOptionUpdateManyMutationInput, SideOptionUncheckedUpdateManyWithoutSideGroupInput>
+  }
+
+  export type SideOptionScalarWhereInput = {
+    AND?: SideOptionScalarWhereInput | SideOptionScalarWhereInput[]
+    OR?: SideOptionScalarWhereInput[]
+    NOT?: SideOptionScalarWhereInput | SideOptionScalarWhereInput[]
+    id?: StringFilter<"SideOption"> | string
+    sideGroupId?: StringFilter<"SideOption"> | string
+    label?: StringFilter<"SideOption"> | string
+    priceInCents?: IntNullableFilter<"SideOption"> | number | null
+    linkedItemId?: StringNullableFilter<"SideOption"> | string | null
+  }
+
+  export type SideGroupCreateWithoutOptionsInput = {
+    id?: string
+    title: string
+    type: $Enums.SideGroupType
+    required?: boolean
+    maxSelect?: number | null
+    createdAt?: Date | string
+    item: ItemCreateNestedOneWithoutSideGroupsInput
+  }
+
+  export type SideGroupUncheckedCreateWithoutOptionsInput = {
+    id?: string
+    itemId: string
+    title: string
+    type: $Enums.SideGroupType
+    required?: boolean
+    maxSelect?: number | null
+    createdAt?: Date | string
+  }
+
+  export type SideGroupCreateOrConnectWithoutOptionsInput = {
+    where: SideGroupWhereUniqueInput
+    create: XOR<SideGroupCreateWithoutOptionsInput, SideGroupUncheckedCreateWithoutOptionsInput>
+  }
+
+  export type SideGroupUpsertWithoutOptionsInput = {
+    update: XOR<SideGroupUpdateWithoutOptionsInput, SideGroupUncheckedUpdateWithoutOptionsInput>
+    create: XOR<SideGroupCreateWithoutOptionsInput, SideGroupUncheckedCreateWithoutOptionsInput>
+    where?: SideGroupWhereInput
+  }
+
+  export type SideGroupUpdateToOneWithWhereWithoutOptionsInput = {
+    where?: SideGroupWhereInput
+    data: XOR<SideGroupUpdateWithoutOptionsInput, SideGroupUncheckedUpdateWithoutOptionsInput>
+  }
+
+  export type SideGroupUpdateWithoutOptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    item?: ItemUpdateOneRequiredWithoutSideGroupsNestedInput
+  }
+
+  export type SideGroupUncheckedUpdateWithoutOptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    itemId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CartItemCreateWithoutSidesInput = {
+    id?: string
+    image?: string | null
+    productId?: string | null
+    name?: string | null
+    orderType?: string | null
+    pickupDay?: Date | string | null
+    pickupTime?: string | null
+    deliveryAddress?: string | null
+    deliveryLat?: number | null
+    deliveryLng?: number | null
+    deliveryPlaceId?: string | null
+    apt?: string | null
+    instructions?: string | null
+    customerName?: string | null
+    customerPhone?: string | null
+    price?: number | null
+    quantity?: number | null
+    cart: CartCreateNestedOneWithoutItemsInput
+  }
+
+  export type CartItemUncheckedCreateWithoutSidesInput = {
+    id?: string
+    image?: string | null
+    productId?: string | null
+    name?: string | null
+    orderType?: string | null
+    pickupDay?: Date | string | null
+    pickupTime?: string | null
+    deliveryAddress?: string | null
+    deliveryLat?: number | null
+    deliveryLng?: number | null
+    deliveryPlaceId?: string | null
+    apt?: string | null
+    instructions?: string | null
+    customerName?: string | null
+    customerPhone?: string | null
+    price?: number | null
+    quantity?: number | null
+    cartId: string
+  }
+
+  export type CartItemCreateOrConnectWithoutSidesInput = {
+    where: CartItemWhereUniqueInput
+    create: XOR<CartItemCreateWithoutSidesInput, CartItemUncheckedCreateWithoutSidesInput>
+  }
+
+  export type CartItemUpsertWithoutSidesInput = {
+    update: XOR<CartItemUpdateWithoutSidesInput, CartItemUncheckedUpdateWithoutSidesInput>
+    create: XOR<CartItemCreateWithoutSidesInput, CartItemUncheckedCreateWithoutSidesInput>
+    where?: CartItemWhereInput
+  }
+
+  export type CartItemUpdateToOneWithWhereWithoutSidesInput = {
+    where?: CartItemWhereInput
+    data: XOR<CartItemUpdateWithoutSidesInput, CartItemUncheckedUpdateWithoutSidesInput>
+  }
+
+  export type CartItemUpdateWithoutSidesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    productId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    cart?: CartUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type CartItemUncheckedUpdateWithoutSidesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    productId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    orderType?: NullableStringFieldUpdateOperationsInput | string | null
+    pickupDay?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pickupTime?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryLng?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryPlaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    apt?: NullableStringFieldUpdateOperationsInput | string | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableIntFieldUpdateOperationsInput | number | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    cartId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type OrderCreateManyProductInput = {
     id?: string
     pricePaidInCents: number
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+  }
+
+  export type SideGroupCreateManyItemInput = {
+    id?: string
+    title: string
+    type: $Enums.SideGroupType
+    required?: boolean
+    maxSelect?: number | null
+    createdAt?: Date | string
   }
 
   export type OrderUpdateWithoutProductInput = {
@@ -13350,6 +18356,35 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SideGroupUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    options?: SideOptionUpdateManyWithoutSideGroupNestedInput
+  }
+
+  export type SideGroupUncheckedUpdateWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    options?: SideOptionUncheckedUpdateManyWithoutSideGroupNestedInput
+  }
+
+  export type SideGroupUncheckedUpdateManyWithoutItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumSideGroupTypeFieldUpdateOperationsInput | $Enums.SideGroupType
+    required?: BoolFieldUpdateOperationsInput | boolean
+    maxSelect?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderCreateManyUserInput = {
@@ -13411,6 +18446,7 @@ export namespace Prisma {
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
     orders?: OrderUpdateManyWithoutProductNestedInput
+    sideGroups?: SideGroupUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateWithoutTypeInput = {
@@ -13426,6 +18462,7 @@ export namespace Prisma {
     cateringDescription?: NullableStringFieldUpdateOperationsInput | string | null
     cateringPriceInCents?: NullableIntFieldUpdateOperationsInput | number | null
     orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
+    sideGroups?: SideGroupUncheckedUpdateManyWithoutItemNestedInput
   }
 
   export type ItemUncheckedUpdateManyWithoutTypeInput = {
@@ -13480,6 +18517,7 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    sides?: CartItemSideUpdateManyWithoutCartItemNestedInput
   }
 
   export type CartItemUncheckedUpdateWithoutCartInput = {
@@ -13500,6 +18538,7 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    sides?: CartItemSideUncheckedUpdateManyWithoutCartItemNestedInput
   }
 
   export type CartItemUncheckedUpdateManyWithoutCartInput = {
@@ -13520,6 +18559,66 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     price?: NullableIntFieldUpdateOperationsInput | number | null
     quantity?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type CartItemSideCreateManyCartItemInput = {
+    id?: string
+    sideGroupId: string
+    optionId: string
+    label: string
+    priceInCents?: number | null
+  }
+
+  export type CartItemSideUpdateWithoutCartItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type CartItemSideUncheckedUpdateWithoutCartItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type CartItemSideUncheckedUpdateManyWithoutCartItemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sideGroupId?: StringFieldUpdateOperationsInput | string
+    optionId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type SideOptionCreateManySideGroupInput = {
+    id?: string
+    label: string
+    priceInCents?: number | null
+    linkedItemId?: string | null
+  }
+
+  export type SideOptionUpdateWithoutSideGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    linkedItemId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SideOptionUncheckedUpdateWithoutSideGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    linkedItemId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SideOptionUncheckedUpdateManyWithoutSideGroupInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    priceInCents?: NullableIntFieldUpdateOperationsInput | number | null
+    linkedItemId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

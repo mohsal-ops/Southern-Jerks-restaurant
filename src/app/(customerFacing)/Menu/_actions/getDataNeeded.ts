@@ -1,75 +1,94 @@
-'use server'
+"use server";
 
-import db from "@/db/db"
-import { cache } from "@/lib/handleCaching"
+import db from "@/db/db";
+import { cache } from "@/lib/handleCaching";
 
-
-
-export const GetCateringProducts = cache(async () => {
+export const GetCateringProducts = cache(
+  async () => {
     const products = await db.item.findMany({
-    where:{
-      isCaterable:true,
-    }
-  })
-    return products
-
-}, ['cater-products-fun'],{tags:['catering-products'],  revalidate: 60 * 15})
-
-
-
-export const GetProducts = cache(async () => {
-    const products = await db.item.findMany()
-    return products
-
-}, ['products-fun'],{tags:['products'] ,  revalidate: 60 * 15})
-
-export const GetFeaturedProducts = cache(async () => {
-    const products = await db.item.findMany({
-        where: {isAvailableForPurchase: true, featured: true },
+      include: {
+        sideGroups: {
+          include: {
+            options: true,
+          },
+        },
+      },
+      where: {
+        isCaterable: true,
+      },
     });
-    console.log("products from server", products)
-    return products
+    return products;
+  },
+  ["cater-products-fun"],
+  { tags: ["catering-products"], revalidate: 60 * 15 },
+);
 
+export const GetProducts = cache(
+  async () => {
+    const products = await db.item.findMany({
+      include: {
+        sideGroups: {
+          include: {
+            options: true,
+          },
+        },
+      },
+    });
+    return products;
+  },
+  ["products-fun"],
+  { tags: ["products"], revalidate: 60 * 15 },
+);
 
-}, ['featured-products-fun'],{tags:['featured-products'], revalidate: 60 * 15}) // 15 minutes})
+export const GetFeaturedProducts = cache(
+  async () => {
+    const products = await db.item.findMany({
+      include: {
+        sideGroups: {
+          include: {
+            options: true,
+          },
+        },
+      },
+      where: { isAvailableForPurchase: true, featured: true },
+    });
+    console.log("products from server", products);
+    return products;
+  },
+  ["featured-products-fun"],
+  { tags: ["featured-products"], revalidate: 60 * 15 },
+); // 15 minutes})
 
-
-
-
-export const GetGategories = cache(async () => {
-    const types = await db.types.findMany({orderBy:{createdAt:"asc"}})
+export const GetGategories = cache(
+  async () => {
+    const types = await db.types.findMany({ orderBy: { createdAt: "asc" } });
     if (types.length > 1) {
-        // Move the last element to the front
-        const last = types.pop();
-        types.unshift(last!); // non-null assertion since we checked length
+      // Move the last element to the front
+      const last = types.pop();
+      types.unshift(last!); // non-null assertion since we checked length
     }
-    return types
+    return types;
+  },
+  ["categories-fun"],
+  { tags: ["categories"], revalidate: 60 * 60 * 24 },
+);
 
-}, ['categories-fun'],{tags:['categories'], revalidate: 60 * 60 * 24})
+export const GetPlaces = cache(
+  async () => {
+    const places = await db.location.findMany();
+    return places;
+  },
+  ["location"],
+  { tags: ["location"], revalidate: 60 * 60 * 24 * 15 },
+); // 15 days
 
-export const GetPlaces = cache(async () => {
-    const places = await db.location.findMany()
-    return places
+export async function GetCartItems(cartId: string | null) {
+  if (!cartId) return { items: [] };
+  const cart = await db.cart.findUnique({
+    where: { id: cartId },
+    include: { items: true },
+  });
 
-}, ['location'],{tags:['location'], revalidate: 60 * 60 * 24 * 15 }) // 15 days
-
-
-export async function GetCartItems (cartId : string | null) {
-
-    if (!cartId) return { items: [] };
-    const cart = await db.cart.findUnique({
-        where: { id: cartId },
-        include: { items: true }
-    });
-
-
-    if(!cart ) return {items:[]}
-
-    return cart
+  if (!cart) return { items: [] };
+  return cart;
 }
-
-
-  
-
-
-

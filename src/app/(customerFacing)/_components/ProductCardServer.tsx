@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CartItem } from '../../../../generated/prisma';
 import ProductCardClient, { AllDishesCardClient, PopularDishesCardClient } from './productCardClient';
+import { SideGroupWithOptions } from './schedualePickupModal';
 
 type productObjectPath = {
     id: string;
@@ -10,11 +11,13 @@ type productObjectPath = {
     description: string | null ;
     image: string | null ;
     cartItems: CartItem[]
+    sideGroups: SideGroupWithOptions[]
+    orderType: "pickup" | "delivery" | null
 };
 
 
 
-export default function ProductCardServer({ id, name, priceInCents, description, image, cartItems }: productObjectPath) {
+export default function ProductCardServer({ id, name, priceInCents, description, image, cartItems, sideGroups, orderType }: productObjectPath) {
   return (
     <ProductCardClient
       id={id}
@@ -23,13 +26,15 @@ export default function ProductCardServer({ id, name, priceInCents, description,
       description={!description ? "": description}
       image={image}
       cartItems={cartItems}
+      sideGroups={sideGroups}
+      orderType={orderType}
     />
   );
 }
 
 
 
-export function PopularDishesCardServer({ id, name, priceInCents, description, image, cartItems }: productObjectPath) {
+export function PopularDishesCardServer({ id, name, priceInCents, description, image, cartItems, sideGroups, orderType }: productObjectPath) {
   return (
     <PopularDishesCardClient
       id={id}
@@ -38,12 +43,13 @@ export function PopularDishesCardServer({ id, name, priceInCents, description, i
       description={!description ? "": description}
       image={image}
       cartItems={cartItems}
+      sideGroups={sideGroups}
+      orderType={orderType}
     />
   );
 }
 
-export function AllDishesCardServer({ id, name, priceInCents, description, image, cartItems }: productObjectPath) {
-  return (
+export function AllDishesCardServer({ id, name, priceInCents, description, image, cartItems, sideGroups, orderType }: productObjectPath) {  return (
     <AllDishesCardClient
       id={id}
       name={name}
@@ -51,6 +57,8 @@ export function AllDishesCardServer({ id, name, priceInCents, description, image
       description={!description ? "": description}
       image={image}
       cartItems={cartItems}
+      sideGroups={sideGroups}
+      orderType={orderType}
     />
   );
 }

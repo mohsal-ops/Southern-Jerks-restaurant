@@ -7,11 +7,12 @@ import { GetFeaturedProducts, GetGategories } from '../_actions/getDataNeeded'
 import { ProductCardSkeleton } from '../../_components/ProductCardServer'
 import { useCart } from '@/app/providers/CartProvider'
 import { CartItem, Item, Types } from 'generated/prisma'
+import { ItemWithSides } from '../../page'
 
 
 type PropsTypes = {
     gategories: Types[],
-    products: Item[],
+    products: ItemWithSides[],
 
 } & React.HTMLAttributes<HTMLDivElement>
 
@@ -171,7 +172,7 @@ console.log(choice)
 
 
 
-export function AllDishes({ cartItems ,Products }: {cartItems:CartItem[],  Products: Item[] }) {
+export function AllDishes({ cartItems ,Products }: {cartItems:CartItem[],  Products: ItemWithSides[] }) {
 
     return (
         <div className="flex space-y-6  w-full">

@@ -4,6 +4,7 @@ import { z } from "zod";
 import fs from "node:fs/promises";
 import db from "@/db/db";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { content } from "googleapis/build/src/apis/content";
 
 const imageSchema = z
   .instanceof(File)
@@ -17,6 +18,7 @@ const imageSchema = z
 
 const DataSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
+  content: z.string().min(20, "Content must be at least 20 characters").optional(),
   description: z.string().min(10, "Description must be at least 10 characters"),
   image: imageSchema,
 });
@@ -55,16 +57,21 @@ export default async function AddPost(
 
     const imagePath = `/blogImages/${crypto.randomUUID()}-${parsed.data.image.name}`;
 
-    await fs.writeFile(
+    if(imagePath && parsed.data.image.size > 0 && parsed.data.image.type.startsWith("image/")) {
+      await fs.writeFile(
       `public${imagePath}`,
       new Uint8Array(await parsed.data.image.arrayBuffer())
     );
+    }
+
+    
 
     console.log("Image saved to:", `public${imagePath}`);
 
     await db.post.create({
       data: {
         title: parsed.data.title,
+        content: parsed.data.content,
         description: parsed.data.description,
         image: imagePath,
       },
