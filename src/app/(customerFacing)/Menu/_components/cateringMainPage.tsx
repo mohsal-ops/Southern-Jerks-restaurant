@@ -161,7 +161,7 @@ console.log(choice)
                 </div>
 
                 <div id="Products">
-                    <AllDishes cartItems={cartItems}  Products={products} />
+                    <AllDishes orderType={null} cartItems={cartItems}  Products={products} />
 
                 </div>
             </div>
@@ -172,7 +172,7 @@ console.log(choice)
 
 
 
-export function AllDishes({ cartItems ,Products }: {cartItems:CartItem[],  Products: ItemWithSides[] }) {
+export function AllDishes({ cartItems ,Products, orderType }: {cartItems:CartItem[],  Products: ItemWithSides[], orderType: string | null }) {
 
     return (
         <div className="flex space-y-6  w-full">
@@ -186,7 +186,7 @@ export function AllDishes({ cartItems ,Products }: {cartItems:CartItem[],  Produ
                         </>
                     }
                 >
-                    <AllDishesSuspense cartItems={cartItems}  products={Products} />
+                    <AllDishesSuspense orderType={null} cartItems={cartItems}  products={Products} />
                 </Suspense>
             </div>
         </div>
