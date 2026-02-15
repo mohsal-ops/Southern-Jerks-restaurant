@@ -52,7 +52,6 @@ export default function ProductCardClient({
                 </CardHeader> */}
         <CardContent className="flex items-end relative h-full p-0 w-full text-center ">
             <div className="relative top-0 h-full w-full ">
-              {image && (
                 <Image
                 src={image ? image : fallbackImg}
                 fill
@@ -60,9 +59,7 @@ export default function ProductCardClient({
                 priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
                 className="object-cover "
-              />
-              )}
-              
+              />              
             </div>
           <div className="absolute z-10 flex items-end h-full w-full p-3 ">
             <div className="flex  flex-col gap-4 z-20 ">
