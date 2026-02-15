@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/formatters";
 import { Plus } from "lucide-react";
-import Image from "next/image";
+import Image from "next/image"
+import fallbackImg from "/public/Image-fallback.png"
 import React, { useState } from "react";
 import { PiHeartStraightThin } from "react-icons/pi";
 import SchedulePickupDialog, { SideGroupWithOptions } from "./schedualePickupModal";
@@ -50,19 +51,20 @@ export default function ProductCardClient({
         {/* <CardHeader className="relative w-full h-5/6 aspect-video">
                 </CardHeader> */}
         <CardContent className="flex items-end relative h-full p-0 w-full text-center ">
-          {image && (
-            <div className="relative top-0 h-full w-full bg-black ">
-              <Image
-                src={image}
+            <div className="relative top-0 h-full w-full ">
+              {image && (
+                <Image
+                src={image ? image : fallbackImg}
                 fill
                 alt={name}
                 priority
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
                 className="object-cover "
               />
+              )}
+              
             </div>
-          )}
-          <div className="absolute z-10 flex items-end h-full bg-black w-full p-3 ">
+          <div className="absolute z-10 flex items-end h-full w-full p-3 ">
             <div className="flex  flex-col gap-4 z-20 ">
               <CardTitle className="font-semibold text-lg text-white ">
                 {name}
@@ -119,10 +121,10 @@ export function PopularDishesCardClient({
         {/* <CardHeader className="relative w-full h-5/6 aspect-video">
                 </CardHeader> */}
         <CardContent className=" flex items-end relative h-full p-0 w-full text-center ">
-          {image && (
+         
             <div className="relative top-0 h-full w-full ">
               <Image
-                src={image}
+                src={image ? image : fallbackImg}
                 fill
                 alt={name}
                 priority
@@ -130,7 +132,7 @@ export function PopularDishesCardClient({
                 className="object-cover "
               />
             </div>
-          )}
+        
           <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
             <div className="flex gap-2 items-center  ">
               <Button
@@ -144,7 +146,7 @@ export function PopularDishesCardClient({
           </div>
         </CardContent>
       </Card>
-      <div className="flex bg-black flex-col gap-1 px-2 font-semibold w-full ">
+      <div className="flex  flex-col gap-1 px-2 font-semibold w-full ">
         <p>{name}</p>
         <p className="text-neutral-600">{formatCurrency(priceInCents / 100)}</p>
       </div>
@@ -195,9 +197,9 @@ export function AllDishesCardClient({
         {/* <CardHeader className="relative w-full h-5/6 aspect-video">
                 </CardHeader> */}
         <CardContent className="flex items-end relative h-full p-0 w-full text-center ">
-          {image && (
             <div className="relative top-0 h-full w-full ">
-              <Image
+              {image && (
+                <Image
                 src={image}
                 fill
                 alt={name}
@@ -205,8 +207,9 @@ export function AllDishesCardClient({
                 className="object-cover "
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
               />
+              )}
+              
             </div>
-          )}
           <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
             <div className="flex gap-2 items-center  ">
               <Button

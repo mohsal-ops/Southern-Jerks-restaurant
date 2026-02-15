@@ -118,7 +118,7 @@ export default function PickupDetails({
         throw new Error("Failed adding delevey details");
       }
 
-      
+
     } catch (error) {
       console.error(error);
       toast(`${error}`);

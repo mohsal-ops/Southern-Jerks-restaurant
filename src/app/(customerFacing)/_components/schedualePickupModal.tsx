@@ -128,7 +128,7 @@ function AddProductCard({
               src={product.image}
               alt="product image"
               fill
-              className="object-cover bg-black w-full h-full rounded-lg"
+              className="object-cover  w-full h-full rounded-lg"
             />
           </div>
         )}
