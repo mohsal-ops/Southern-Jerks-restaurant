@@ -80,10 +80,10 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
       link: "/catering"
     },
     
-    {
-      name: "Kids Zone",
-      link: "/KidsZone"
-    },
+    // {
+    //   name: "Kids Zone",
+    //   link: "/KidsZone"
+    // },
     {
       name: "Blog",
       link: "/Blog",
