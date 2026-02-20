@@ -52,7 +52,6 @@ export const GetFeaturedProducts = cache(
       },
       where: { isAvailableForPurchase: true, featured: true },
     });
-    console.log("products from server", products);
     return products;
   },
   ["featured-products-fun"],

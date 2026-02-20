@@ -73,7 +73,7 @@ function LocalBusinessSchema() {
 
 
 export const metadata = {
-  title: "Southern Jerks | Caribbean Wings & Sandwiches in Houston",
+  title: "Southern Jerks | Jerk Fried Chicken & Sandwiches in Houston",
   description:
     "Southern Jerks serves bold Caribbean flavors, juicy chicken wings, and stacked sandwiches in Houston. Fresh, flavorful, and unforgettable.",
 
@@ -82,7 +82,7 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "Southern Jerks | Caribbean Wings & Sandwiches",
+    title: "Southern Jerks | Jerk Fried Chicken & Sandwiches",
     description:
       "Bold Caribbean flavors, juicy wings, and stacked sandwiches made fresh at Southern Jerks in Houston.",
     url: "https://southernjerks.com",

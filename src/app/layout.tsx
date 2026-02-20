@@ -4,7 +4,7 @@ import "./globals.css";
 import { CartProvider } from "./providers/CartProvider";
 
 export const metadata: Metadata = {
-  title: "Southern Jerks | Caribbean Wings & Sandwiches in Houston",
+  title: "Southern Jerks | Jerk Fried Chicken & Sandwiches in Houston",
   description:
     "Order delicious, gluten-free, fat-free snow cones for schools, corporate events, and festivals in NYC. Book online or request a quote!",
   icons: {

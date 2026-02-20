@@ -48,8 +48,6 @@ export default function ProductCardClient({
         className="flex  overflow-hidden gap-5 h-72 flex-col w-72 "
         key={id}
       >
-        {/* <CardHeader className="relative w-full h-5/6 aspect-video">
-                </CardHeader> */}
         <CardContent className="flex items-end relative h-full p-0 w-full text-center ">
             <div className="relative top-0 h-full w-full ">
                 <Image

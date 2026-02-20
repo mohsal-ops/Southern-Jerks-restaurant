@@ -87,28 +87,30 @@ export default function PickupDetails({
     }
     try {
       const res = await fetch("/api/cart/addDelivery", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        address: selectedPlace.address,
-        lat: selectedPlace.lat,
-        lng: selectedPlace.lng,
-        placeId: selectedPlace.placeId,
-        apt,
-        instructions,
-        orderType,
-        customerName,
-        customerPhone
-      }),
-    });
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address: selectedPlace.address,
+          lat: selectedPlace.lat,
+          lng: selectedPlace.lng,
+          placeId: selectedPlace.placeId,
+          apt,
+          instructions,
+          orderType,
+          customerName,
+          customerPhone,
+        }),
+      });
 
-    await mutate(["/api/cart/get", cartId]);
-    router.refresh();
-    onOpenChange(false);
+      await mutate(["/api/cart/get", cartId]);
+      router.refresh();
+      onOpenChange(false);
 
-    if (res.ok) {
+      if (res.ok) {
         const data = await res.json();
-        await mutate(["/api/cart/get", cartId]).then(() => {router.refresh()})
+        await mutate(["/api/cart/get", cartId]).then(() => {
+          router.refresh();
+        });
         toast(`${data.message}`);
       }
 
@@ -117,16 +119,12 @@ export default function PickupDetails({
         toast(`${data.message}`);
         throw new Error("Failed adding delevey details");
       }
-
-
     } catch (error) {
       console.error(error);
       toast(`${error}`);
     } finally {
       setIsLoading(false);
     }
-
-    
   };
 
   const handleAddToCart = async (Day: Date | null, Time: string | null) => {
@@ -147,8 +145,10 @@ export default function PickupDetails({
       });
       if (res.ok) {
         const data = await res.json();
-        await mutate(["/api/cart/get", cartId]).then(() => {router.refresh()})
-        
+        await mutate(["/api/cart/get", cartId]).then(() => {
+          router.refresh();
+        });
+
         toast(`${data.message}`);
       }
 
@@ -184,18 +184,18 @@ export default function PickupDetails({
     !!a && a.toDateString() === b.toDateString();
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open}  onOpenChange={onOpenChange}>
       <DialogContent
         aria-describedby={undefined}
-        className="flex flex-col gap-4 justify-between  overflow-hidden  "
+        className="flex flex-col gap-4 justify-between  overflow-scroll max-h-[95vh] scrollbar-thin scrollbar-track-gray-100 "
       >
-        <DialogHeader className="p-5 flex-none ">
+        <DialogHeader className="px-5 py-3 flex-none ">
           <DialogTitle>
             {!showSchedule ? "Order Details" : "Schedule Pickup"}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col space-y-8 flex-1 p-2">
+        <div className="flex flex-col space-y-8 flex-1 px-2">
           {orderType === "delivery" && !selectedPlace && (
             <HereAutocomplete
               onSelect={(place) => {
@@ -242,7 +242,19 @@ export default function PickupDetails({
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
               />
-
+              <div className="border rounded-xl p-3 bg-stone-50 text-sm space-y-1">
+                <p className="font-semibold">
+                  ⭐ Earn Rewards With Every Order
+                </p>
+                <p>• 1 point for every $1 spent</p>
+                <p>• 100 points = Free Regular Side</p>
+                <p>• 500 points = Free 5 Piece Combo</p>
+                <p>• 800 points = Free 8 Piece Combo</p>
+                <p className="text-xs text-muted-foreground pt-1">
+                  Use your phone number at checkout to collect and redeem
+                  points.
+                </p>
+              </div>
               <textarea
                 placeholder="Delivery instructions"
                 value={instructions}
@@ -327,16 +339,16 @@ export default function PickupDetails({
                   )}
                   {/* Time Slots */}
                   <div
-                    className={`${showMoreDays && "h-28"} flex flex-col max-h-72  overflow-hidden `}
+                    className={`${showMoreDays && "h-28"} flex flex-col max-h-72 overflow-hidden `}
                   >
                     <p className="font-medium mb-2">Available times:</p>
-                    <div className="w-full h-full overflow-auto ">
+                    <div className="w-full h-full overflow-auto scrollbar-thin scrollbar-thumb-gray-300 ">
                       <div>
                         {timeSlots.map((t) => (
                           <div
                             key={t}
                             onClick={() => setSelectedTime(t)}
-                            className="flex items-center w-full py-4 px-2 space-x-4 border-b cursor-pointer"
+                            className="flex items-center w-full py-3 px-2 space-x-4 border-b cursor-pointer"
                           >
                             <Checkbox
                               checked={selectedTime === t}
@@ -346,6 +358,28 @@ export default function PickupDetails({
                           </div>
                         ))}
                       </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 pt-3">
+                    <input
+                      className="border rounded-xl p-3"
+                      placeholder="Phone number"
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value)}
+                    />
+
+                    <div className="border rounded-xl p-3 bg-stone-50 text-sm space-y-1">
+                      <p className="font-semibold">
+                        ⭐ Earn Rewards With Every Order
+                      </p>
+                      <p>• 1 point for every $1 spent</p>
+                      <p>• 100 points = Free Regular Side</p>
+                      <p>• 500 points = Free 5 Piece Combo</p>
+                      <p>• 800 points = Free 8 Piece Combo</p>
+
+                      <p className="text-xs text-muted-foreground pt-1">
+                        Use your phone number to collect and redeem points.
+                      </p>
                     </div>
                   </div>
                 </div>

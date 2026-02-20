@@ -118,9 +118,9 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
                         <SheetTitle>Your Cart</SheetTitle>
                     </SheetHeader>
                     {/* Cart items */}
-                    <div className="flex-1 overflow-y-auto  px-4  space-y-4">
+                    <div className="flex-1 overflow-y-auto px-4  space-y-4">
                         {quantity == 0 ? (
-                            <div className="text-center text-muted-foreground mt-10">
+                            <div className="text-center text-muted-foreground  mt-10">
                                 Your cart is empty.
                             </div>
                         ) : (

@@ -75,7 +75,7 @@ type Product = {
 //             </div>
 
 //       <p className="text-center text-sm text-muted-foreground">
-//         📍 Southern Jerks | Caribbean Wings & Sandwiches in Houston
+//         📍 Southern Jerks | Jerk Fried Chicken & Sandwiches in Houston
 //       </p>
 //     </div>
 //   );
