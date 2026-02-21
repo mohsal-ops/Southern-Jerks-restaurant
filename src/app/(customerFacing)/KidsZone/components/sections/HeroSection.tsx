@@ -37,13 +37,13 @@ const HeroSection = () => {
         🥤
       </div>
 
-      <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
+      <div className="container mx-auto px-4 py-20 md:py-24 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-8">
             <Star className="w-4 h-4 text-primary" fill="currentColor" />
             <span className="text-primary text-sm font-semibold tracking-wide">
-              #1 Family Restaurant in Austin
+              #1 Family Restaurant in Huston
             </span>
           </div>
 
