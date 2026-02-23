@@ -40,7 +40,7 @@ const HeroSection = () => {
       </div>
       <div className="container mx-auto px-4 py-20 md:py-24 relative z-10">
          <div className="w-full px-2 bg-amber-500/90 text-black text-xs sm:text-sm py-1 flex items-center justify-center font-medium tracking-wide">
-        Preview Mode • Kids Game Zone Demo available until Feb 25 before final
+        Preview Mode • Kids Game Zone Demo available until Feb 26 before final
         deployment
       </div>
         <div className="max-w-3xl mx-auto text-center">
