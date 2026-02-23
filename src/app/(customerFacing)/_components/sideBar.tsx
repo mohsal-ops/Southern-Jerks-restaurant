@@ -75,9 +75,11 @@ export default function AppSideBar() {
                 >
                   <div className="flex items-center gap-2">
                     {obj.name === "Kids Zone" && (
-                      <Gamepad2 strokeWidth={1.5} className="w-5 h-5" />
+                     <Gamepad2 strokeWidth={1.5} className="w-5 h-5" />
+                     
                     )}
                     {obj.name}
+
                   </div>
                 </Link>
               ))}

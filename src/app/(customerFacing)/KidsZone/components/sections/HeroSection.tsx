@@ -5,6 +5,9 @@ import Link from "next/link";
 const HeroSection = () => {
   return (
     <section className="hero-section w-full sm:pt-0 pt-3 relative overflow-hidden">
+
+     
+
       {/* Decorative grid */}
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -13,7 +16,6 @@ const HeroSection = () => {
           backgroundSize: "32px 32px",
         }}
       />
-
       {/* Floating food emojis */}
       <div className="absolute top-24 left-[10%] text-5xl opacity-20 animate-bounce-gentle select-none">
         🍔
@@ -36,8 +38,11 @@ const HeroSection = () => {
       >
         🥤
       </div>
-
       <div className="container mx-auto px-4 py-20 md:py-24 relative z-10">
+         <div className="w-full px-2 bg-amber-500/90 text-black text-xs sm:text-sm py-1 flex items-center justify-center font-medium tracking-wide">
+        Preview Mode • Kids Game Zone Demo available until Feb 25 before final
+        deployment
+      </div>
         <div className="max-w-3xl mx-auto text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-8">
@@ -111,7 +116,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-
       {/* Scroll indicator */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce-gentle">
         <ChevronDown className="w-5 h-5 text-white/20" />
