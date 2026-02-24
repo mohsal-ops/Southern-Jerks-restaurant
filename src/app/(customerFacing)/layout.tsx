@@ -14,13 +14,25 @@ export default async function Customerlayout({
 
   return (
     <SidebarProvider>
-      <main className="flex relative flex-col w-full  pb-10 ">
+      <main className="flex relative flex-col w-full  pb- ">
         <div className="fixed top-0 left-0 right-0 z-50">
           <TopNavBar initialCartId={cartId} />
         </div>
         <div className="flex flex-col md:items-center   ">{children}</div>
-        <div className="flex w-full justify-center">
+        <div className="flex flex-col w-full items-center ">
           <Footer />
+          <div className="text-xs font-medium mt-2 text-black text-center py-3 bg-amber-200 w-full border-t border-white/10">
+            © {new Date().getFullYear()} Southern Jerks. All Rights Reserved.
+            Website by{" "}
+            <a
+              href="https://www.instagram.com/vegastar.digital/"
+              target="_blank"
+              className="underline hover:text-primary"
+            >
+              Vega Star Digital
+            </a>{" "}
+            — MOHAMMED BEN SALAH
+          </div>
         </div>
       </main>
       <Toaster
