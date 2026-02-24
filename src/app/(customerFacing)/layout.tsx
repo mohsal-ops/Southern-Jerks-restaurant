@@ -21,7 +21,7 @@ export default async function Customerlayout({
         <div className="flex flex-col md:items-center   ">{children}</div>
         <div className="flex flex-col w-full items-center ">
           <Footer />
-          <div className="text-xs font-medium mt-2 text-black text-center py-3 bg-amber-200 w-full border-t border-white/10">
+          <div className="text-xs  mt-2 text-black text-center p-4 md:py-3 bg-stone-200 w-full border-t border-white/10">
             © {new Date().getFullYear()} Southern Jerks. All Rights Reserved.
             Website by{" "}
             <a
