@@ -30,10 +30,10 @@ export default function AppSideBar() {
       name: "Catering",
       link: "/catering",
     },
-    {
-      name: "Kids Zone",
-      link: "/KidsZone",
-    },
+    // {
+    //   name: "Kids Zone",
+    //   link: "/KidsZone",
+    // },
     {
       name: "Gift Card",
       link: "/GiftCard",
