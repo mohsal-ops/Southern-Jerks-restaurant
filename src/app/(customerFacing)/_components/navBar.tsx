@@ -89,6 +89,10 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
       name: "Catering",
       link: "/catering",
     },
+     {
+      name: "Gift Card",
+      link: "/GiftCard",
+    },
 
     // {
     //   name: "Kids Zone",
