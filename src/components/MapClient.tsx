@@ -11,7 +11,13 @@ export default function MapClient({ lat, lng, className }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!mapRef.current || !(window as any).H) return;
+  let map: any;
+
+  function initMap() {
+    if (!mapRef.current || !(window as any).H) {
+      setTimeout(initMap, 100);
+      return;
+    }
 
     const H = (window as any).H;
 
@@ -21,43 +27,41 @@ export default function MapClient({ lat, lng, className }: Props) {
 
     const defaultLayers = platform.createDefaultLayers();
 
-    const map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
+    map = new H.Map(mapRef.current, defaultLayers.vector.normal.map, {
       center: { lat, lng },
       zoom: 14,
       pixelRatio: window.devicePixelRatio || 1,
     });
 
-    // Enable interactions
-    const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     const ui = H.ui.UI.createDefault(map, defaultLayers);
 
-    // Marker
     const marker = new H.map.Marker({ lat, lng });
     map.addObject(marker);
 
-    marker.addEventListener("tap", async () => {
-      const position = marker.getGeometry(); // <-- THIS line fixes your error
-
+    marker.addEventListener("tap", () => {
+      const position = marker.getGeometry();
       map.setCenter(position, true);
       map.setZoom(16, true);
 
       const bubble = new H.ui.InfoBubble(position, {
-        content: `
-      <strong>Southern Jerks</strong><br/>
-      Click map to open in Google Maps
-    `,
+        content: `<strong>Southern Jerks</strong><br/>Click map to open in Google Maps`,
       });
+
       ui.addBubble(bubble);
     });
 
-    // 👉 Open Google Maps on click
     map.addEventListener("tap", () => {
-      const url = `https://www.google.com/maps?q=${lat},${lng}`;
-      window.open(url, "_blank");
+      window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
     });
+  }
 
-    return () => map.dispose();
-  }, [lat, lng]);
+  initMap();
+
+  return () => {
+    if (map) map.dispose();
+  };
+}, [lat, lng]);
 
   return <div ref={mapRef} className={className} />;
 }

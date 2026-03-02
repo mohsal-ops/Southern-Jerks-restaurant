@@ -43,75 +43,58 @@ html body[data-scroll-locked] {
 ================================ */
 
 :root {
-  /* Layout */
+   /* Sidebar sizes */
   --sidebar-width: 20rem;
   --sidebar-width-mobile: 20rem;
   --sidebar-width-icon: 6rem;
-  --sidebar-transition: 300ms;
+  --sidebar-transition: 300ms; /* animation duration/ease */
 
-  /* Radius */
-  --radius: 0.75rem;
 
-  /* Core colors */
   --background: 0 0% 100%;
-  --foreground: 0 0% 8%;
+  --foreground: 222.2 47.4% 11.2%;
 
-  --primary: 48 96% 53%;
-  --primary-foreground: 0 0% 5%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
 
-  --secondary: 48 15% 93%;
-  --secondary-foreground: 0 0% 15%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
 
-  --accent: 0 0% 8%;
-  --accent-foreground: 48 96% 53%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
 
-  --muted: 48 10% 94%;
-  --muted-foreground: 0 0% 40%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
 
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 98%;
-
-  --border: 48 15% 88%;
-  --input: 48 15% 88%;
-  --ring: 48 96% 53%;
-
-  --card: 48 20% 97%;
-  --card-foreground: 0 0% 8%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 8%;
+  --popover-foreground: 222.2 47.4% 11.2%;
 
-  /* Brand */
-  --sunshine: 48 96% 53%;
-  --sunshine-foreground: 0 0% 5%;
-  --gold: 45 93% 47%;
-  --gold-foreground: 0 0% 100%;
-  --ketchup: 0 80% 50%;
-  --ketchup-foreground: 0 0% 100%;
-  --mustard: 45 90% 50%;
-  --pickle: 142 50% 45%;
-  --pickle-foreground: 0 0% 100%;
-  --cream: 48 30% 96%;
-  --dark: 0 0% 8%;
-  --dark-foreground: 48 96% 53%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
 
-  /* Sidebar */
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 0 0% 8%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 48 96% 53%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
 
-  /* Shadows */
-  --shadow-soft: 0 4px 24px -6px hsl(0 0% 0% / 0.08);
-  --shadow-game: 0 8px 32px -8px hsl(48 96% 53% / 0.2),
-                 0 4px 16px -4px hsl(0 0% 0% / 0.06);
-  --shadow-button: 0 4px 16px -2px hsl(48 96% 53% / 0.35);
-  --shadow-card: 0 2px 20px -4px hsl(0 0% 0% / 0.06);
-  --shadow-glow: 0 0 40px -8px hsl(48 96% 53% / 0.3);
+  --radius: 0.5rem;
+
+  --sidebar: hsl(0 0% 98%);
+
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+
+  --sidebar-primary: hsl(240 5.9% 10%);
+
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+
+  --sidebar-border: hsl(220 13% 91%);
+
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
 /* Dark mode tokens */
@@ -136,15 +119,19 @@ html body[data-scroll-locked] {
 
 @theme {
   /* Layout */
+    /* Container */
   --container-padding: 2rem;
   --container-2xl: 1400px;
 
-  /* Radius */
+  /* Border Radius */
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  /* Core */
+  /* Colors */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -154,54 +141,32 @@ html body[data-scroll-locked] {
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
 
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
 
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
 
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
 
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
 
-  /* Brand */
-  --color-sunshine: hsl(var(--sunshine));
-  --color-sunshine-foreground: hsl(var(--sunshine-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
 
-  --color-gold: hsl(var(--gold));
-  --color-gold-foreground: hsl(var(--gold-foreground));
+  --color-sidebar: oklch(0.985 0 0);
+  --color-sidebar-foreground: oklch(0.145 0 0);
+  --color-sidebar-primary: oklch(0.205 0 0);
+  --color-sidebar-primary-foreground: oklch(0.985 0 0);
+  --color-sidebar-accent: oklch(0.97 0 0);
+  --color-sidebar-accent-foreground: oklch(0.205 0 0);
+  --color-sidebar-border: oklch(0.922 0 0);
+  --color-sidebar-ring: oklch(0.708 0 0);
 
-  --color-ketchup: hsl(var(--ketchup));
-  --color-ketchup-foreground: hsl(var(--ketchup-foreground));
-
-  --color-mustard: hsl(var(--mustard));
-
-  --color-pickle: hsl(var(--pickle));
-  --color-pickle-foreground: hsl(var(--pickle-foreground));
-
-  --color-cream: hsl(var(--cream));
-
-  --color-dark: hsl(var(--dark));
-  --color-dark-foreground: hsl(var(--dark-foreground));
-
-  /* Sidebar */
-  --color-sidebar: hsl(var(--sidebar));
-  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
-  --color-sidebar-primary: hsl(var(--sidebar-primary));
-  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
-  --color-sidebar-accent: hsl(var(--sidebar-accent));
-  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
-  --color-sidebar-border: hsl(var(--sidebar-border));
-  --color-sidebar-ring: hsl(var(--sidebar-ring));
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
 }
 
 /* ================================

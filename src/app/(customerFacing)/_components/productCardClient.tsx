@@ -45,7 +45,7 @@ export default function ProductCardClient({
   return (
     <div className="space-y-3">
       <Card
-        className="flex  overflow-hidden gap-5 h-72 flex-col w-72 "
+        className="flex  overflow-hidden gap-5 h-40 flex-col w-40"
         key={id}
       >
         <CardContent className="flex items-end relative h-full p-0 w-full text-center ">
@@ -60,11 +60,7 @@ export default function ProductCardClient({
               />              
             </div>
           <div className="absolute z-10 flex items-end h-full w-full p-3 ">
-            <div className="flex  flex-col gap-4 z-20 ">
-              <CardTitle className="font-semibold text-lg text-white ">
-                {name}
-              </CardTitle>
-            </div>
+            
             <div className="flex gap-2 items-center absolute right-2 z-40 ">
               <Button
                 onClick={() => setOpen(true)}
@@ -161,7 +157,6 @@ export function AllDishesCardClient({
   priceInCents,
   description,
   image,
-  cartItems,
   sideGroups,
   orderType
 }: productObjectPath) {

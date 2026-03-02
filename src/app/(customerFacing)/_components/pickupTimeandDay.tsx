@@ -182,6 +182,7 @@ export default function PickupDetails({
 
   const isSameDay = (a: Date | null, b: Date) =>
     !!a && a.toDateString() === b.toDateString();
+  console.log(orderType)
 
   return (
     <Dialog open={open}  onOpenChange={onOpenChange}>
@@ -209,7 +210,7 @@ export default function PickupDetails({
             />
           )}
 
-          {orderType === "delivery" && selectedPlace && (
+          {orderType === "delivery" || orderType === null && selectedPlace && (
             <div className="flex flex-col gap-3">
               <div className="border p-3 rounded-xl flex justify-between items-center">
                 <div>
@@ -263,6 +264,7 @@ export default function PickupDetails({
               />
             </div>
           )}
+          
           {showSchedule ||
             (orderType === "pickup" && (
               <>
