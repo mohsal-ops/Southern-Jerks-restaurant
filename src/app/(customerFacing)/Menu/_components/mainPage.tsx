@@ -10,6 +10,7 @@ import { useCart } from "@/app/providers/CartProvider";
 import { CartItem, Item, Location, Types } from "generated/prisma";
 import { CarFrontIcon, StoreIcon } from "lucide-react";
 import { ItemWithSides } from "../../page";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 type PropsTypes = {
   places: Location[];
@@ -217,17 +218,13 @@ export default function MainPageMenu({
                 ) : (
                   "Schedule pickup"
                 )
+              ) : selectedDay != null || selectedTime != null ? (
+                <div className="flex items-center gap-2">
+                  <CarFrontIcon size={17} />
+                  <h1>{"Delivery to " + selectedAddress}</h1>
+                </div>
               ) : (
-                selectedDay != null || selectedTime != null ? (
-                  <div className="flex items-center gap-2">
-                    <CarFrontIcon size={17} />
-                    <h1>{"Delivery to "+selectedAddress}</h1>
-                  </div>
-                ) : (
-                   "Select delivery location"
-
-                )
-               
+                "Select delivery location"
               )}
 
               <span>▼</span>
@@ -291,7 +288,11 @@ export default function MainPageMenu({
 
         <div id="Products" className="min-h-56 ">
           {filtered && filtered.length > 0 ? (
-            <AllDishes choice={choice} cartItems={cartItems} Products={filtered} />
+            <AllDishes
+              choice={choice}
+              cartItems={cartItems}
+              Products={filtered}
+            />
           ) : query ? (
             <span className="text-gray-500 text-center  ">
               No products found
@@ -306,7 +307,11 @@ export default function MainPageMenu({
                 <h2 className="text-xl font-semibold font-serif ">
                   {Category.category.name}
                 </h2>
-                <AllDishes choice={choice} cartItems={cartItems} Products={Category.products} />
+                <AllDishes
+                  choice={choice}
+                  cartItems={cartItems}
+                  Products={Category.products}
+                />
               </section>
             ))
           )}
@@ -320,27 +325,53 @@ export default function MainPageMenu({
 export function PopularDishes({
   cartItems,
   Poularproducts,
-  choice
+  choice,
 }: {
   cartItems: CartItem[];
   Poularproducts: ItemWithSides[] | undefined;
-  choice: "pickup" | "delivery" | null
+  choice: "pickup" | "delivery" | null;
 }) {
   const products = Poularproducts;
+  const scrollRef = useRef<HTMLDivElement>(null); // add: import { useRef } from "react";
+
+  const scrollRight = () => {
+    scrollRef.current?.scrollBy({ left: 320, behavior: "smooth" });
+  };
   return (
     <div className="flex-col space-y-6  w-full ">
-      <div className="grid grid-flow-col justify-start gap-4 w-full no-scrollbar overflow-auto  py-2">
-        <Suspense
-          fallback={
-            <>
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-            </>
-          }
+      <div className="relative">
+        <div
+          ref={scrollRef}
+          className=" grid grid-flow-col justify-start gap-4 w-full no-scrollbar overflow-auto z-0  py-2"
         >
-          <PopularDishesSuspense orderType={choice} cartItems={cartItems} products={products} />
-        </Suspense>
+          <Suspense
+            fallback={
+              <>
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+              </>
+            }
+          >
+            <PopularDishesSuspense
+              orderType={choice}
+              cartItems={cartItems}
+              products={products}
+            />
+          </Suspense>
+          {/* Scroll-right arrow */}
+          <button
+            onClick={scrollRight}
+            aria-label="Scroll right"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-50
+                             flex items-center justify-center
+                             w-10 h-10 rounded-full shadow-md
+                             bg-yellow-400 text-black
+                             hover:bg-yellow-500 transition-colors"
+          >
+            <MdKeyboardArrowRight size={24} />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -349,11 +380,11 @@ export function PopularDishes({
 export function AllDishes({
   cartItems,
   Products,
-  choice
+  choice,
 }: {
   cartItems: CartItem[];
   Products: ItemWithSides[];
-  choice: "pickup" | "delivery" | null
+  choice: "pickup" | "delivery" | null;
 }) {
   return (
     <div className="flex space-y-6  w-full">
@@ -367,7 +398,11 @@ export function AllDishes({
             </>
           }
         >
-          <AllDishesSuspense orderType={choice} cartItems={cartItems} products={Products} />
+          <AllDishesSuspense
+            orderType={choice}
+            cartItems={cartItems}
+            products={Products}
+          />
         </Suspense>
       </div>
     </div>

@@ -65,3 +65,7 @@ export default function MapClient({ lat, lng, className }: Props) {
 
   return <div ref={mapRef} className={className} />;
 }
+
+
+
+

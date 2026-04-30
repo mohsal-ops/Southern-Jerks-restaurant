@@ -54,7 +54,7 @@ const HeroSection = () => {
 
           <h1 className="text-5xl md:text-7xl font-display font-black text-white mb-6 leading-[1.1] tracking-tight">
             Good Food,{" "}
-            <span className="text-primary relative inline-block">
+            <span className="text-primary text relative inline-block">
               Great Fun
               <svg
                 className="absolute -bottom-1 left-0 w-full"

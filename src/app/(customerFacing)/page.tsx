@@ -47,6 +47,7 @@ import {
   SideGroup,
   SideOption,
 } from "generated/prisma";
+import { SecondSectionFeatured } from "./_components/FeaturedSection";
 
 export type ItemWithSides = Item & {
   sideGroups: (SideGroup & {
@@ -119,6 +120,13 @@ export const metadata = {
     images: ["/general/mainImage.jpg"],
   },
 };
+function SectionDivider() {
+  return (
+    <div className="w-full flex justify-center px-4">
+      <div className="h-px w-full max-w-[85vw] bg-linear-to-r from-transparent via-stone-300 to-transparent" />
+    </div>
+  );
+}
 
 export default async function Home() {
   // Server-side fetch for SEO
@@ -140,46 +148,58 @@ export default async function Home() {
 
       <div className="flex  pt-20 flex-col gap-5 items-center justify-center    [&>*:not(:first-child)]:m-2">
         <TopSection />
+        <SectionDivider />
         <SecondSection products={products} cartItems={cart?.items ?? []} />
+        <SectionDivider />
         <ThirdSectionClient />
+        <SectionDivider />
         <FadeIn delay={100}>
           <ReviewsSection />
         </FadeIn>
+        <SectionDivider />
         <FadeIn delay={200}>
           <div className="p-2 w-full flex justify-center">
             <OrderDirectlyfromOUrWebsite />
           </div>
         </FadeIn>
+        <SectionDivider />
         <FadeIn delay={300}>
-          <div className=" w-full flex justify-center">
+          <div className="w-full flex justify-center">
             <Featuring />
           </div>
         </FadeIn>
+        <SectionDivider />
         <FadeIn delay={400}>
           <DistinctiveFeatures />
         </FadeIn>
-        {/* <div className="p-2 w-full">
-          <RewardsProgram />
-        </div> */}
+        <SectionDivider />
         <FadeIn delay={500}>
           <div className="p-4 w-full flex justify-center">
             <Frequentlyaskedquestions />
           </div>
         </FadeIn>
-
+        <SectionDivider />
         <OurLocation places={places} lat={lat} lng={lng} />
-
-        
       </div>
     </>
   );
 }
 
+// Replace the entire TopSection function with this:
 export function TopSection() {
   return (
-    <div className="flex relative overflow-hidden h-svh sm:flex-row  sm:w-[85%] flex-col bg-stone-100 sm:rounded-3xl sm:p-2 ">
-      <div className="sm:relative absolute z-30 bottom-20  flex flex-col gap-8 items-start justify-end mt-10   md:mb-20 md:w-1/2 p-5 md:p-12">
-        <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-15 ">
+    <div className="flex relative overflow-hidden h-svh sm:flex-row sm:w-[85%] flex-col bg-stone-100 sm:rounded-3xl sm:p-2">
+      <div className="sm:relative absolute z-30 bottom-20 flex flex-col gap-6 items-start justify-end mt-10 md:mb-20 md:w-1/2 p-5 md:p-12">
+        <Image
+          alt="Southern Jerks logo"
+          src={Logo}
+          width={120}
+          height={120}
+          className="w-auto h-auto "
+          priority
+        />
+
+        <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-15">
           <h1 className="text-yellow-400">Bold Caribbean flavors</h1> juicy
           wings, and stacked sandwiches
         </span>
@@ -187,25 +207,22 @@ export function TopSection() {
           perfectly seasoned, and packed with flavor — made fresh so every bite
           hits just right.
         </span>
-
         <Link href="/Menu">
           <Button size="lg" variant="mainButton">
-            Order now
+            View our menu
             <MdKeyboardArrowRight />
           </Button>
         </Link>
       </div>
-      <div className="md:w-1/2 w-full  sm:rounded-3xl overflow-hidden h-full">
+
+      <div className="md:w-1/2 w-full sm:rounded-3xl overflow-hidden h-full">
         <Image
           priority
-          alt="best snow cone in New York city "
+          alt="Southern Jerks bold Caribbean food"
           src={mainImg}
-          className="object-cover h-full "
+          className="object-cover h-full"
         />
-        <div
-          className="sm:hidden absolute top-0 bg-auto bg-black/30 backdrop-blur-none z-20 w-full
-         h-full"
-        ></div>
+        <div className="sm:hidden absolute top-0 bg-auto bg-black/30 backdrop-blur-none z-20 w-full h-full"></div>
       </div>
     </div>
   );
@@ -218,34 +235,7 @@ export function SecondSection({
   products: ItemWithSides[];
   cartItems: CartItem[];
 }) {
-  return (
-    <div className="flex-col space-y-1 p-3 sm:w-[85vw] w-full overflow-hidden">
-      <div className="flex justify-between">
-        <PageHeader>Featured</PageHeader>
-        <Link href="/Menu">
-          <Button size="lg" variant="outline" className="h-12  text-left">
-            View Menu
-          </Button>
-        </Link>
-      </div>
-      <div className="grid grid-flow-col justify-start gap-8 w-full  overflow-auto no-scrollbar ">
-        <Suspense
-          fallback={
-            <>
-              {" "}
-              <HomeFeaturedSkeleton />{" "}
-            </>
-          }
-        >
-          <ProductSuspense
-            orderType={null}
-            cartItems={cartItems}
-            products={products}
-          />
-        </Suspense>
-      </div>
-    </div>
-  );
+  return <SecondSectionFeatured products={products} cartItems={cartItems} />;
 }
 
 function ReviewCard({
@@ -277,33 +267,45 @@ function ReviewCard({
   );
 }
 export function ReviewsSection() {
-  const reviews = [
-    {
-      name: "Terrence B.",
-      review:
-        "This was some good eatin! Chicken has a nice coating and is crispy. The jerk flavor in the breading sets this apart from others. And the sauce options were flavorful.",
-      link: "/general/reviews/review1.jpg",
-    },
-    {
-      name: "	Paris B.",
-      review:
-        "I've been addicted since I first tried them. Literally went back that same day for dinner . Now I've told my job about and we decided to get them for lunch. 10 out 10 recommend! Go give it a try",
-      link: "/general/reviews/review2.jpg",
-    },
-    {
-      name: "Candice T.",
-      review:
-        "Food is do good. Owners are super nice. Chicken is amazing. Didn't care for the rice. Fries are good. Mac n cheese looks delicious. Bad area, long wait. But food is so good!",
-      link: "/general/reviews/review3.jpg",
-    },
-  ];
+ const reviews = [
+  {
+    name: "Terrence B.",
+    review:
+      "This was some good eatin! Chicken has a nice coating and is crispy. The jerk flavor in the breading sets this apart from others. The sauce options were next level.",
+    link: "https://api.dicebear.com/7.x/micah/svg?seed=TerenceB&backgroundColor=b6e3f4",
+  },
+  {
+    name: "Sofia M.",
+    review:
+      "I've tried Caribbean food all over Houston and Southern Jerks is hands down the best. The seasoning is bold without being overpowering. My whole family is obsessed now!",
+    link: "https://api.dicebear.com/7.x/micah/svg?seed=SofiaM&backgroundColor=ffd5dc",
+  },
+  {
+    name: "James L.",
+    review:
+      "Came in on my lunch break and ended up going back for dinner the same day. The jerk chicken sandwich is unreal. Fast service, friendly staff — highly recommend.",
+    link: "https://api.dicebear.com/7.x/micah/svg?seed=JamesL&backgroundColor=c0aede",
+  },
+  {
+    name: "Amara N.",
+    review:
+      "As someone who grew up eating Caribbean food, I'm very picky. Southern Jerks nailed the authentic flavor. Crispy, juicy, perfectly spiced. Will be a regular for sure.",
+    link: "https://api.dicebear.com/7.x/micah/svg?seed=AmaraN&backgroundColor=d1f5c0",
+  },
+  {
+    name: "Paris B.",
+    review:
+      "I've been addicted since I first tried them. Went back that same day for dinner. Told my whole job and we've been ordering for team lunch ever since. 10/10, no debate.",
+    link: "https://api.dicebear.com/7.x/micah/svg?seed=ParisB&backgroundColor=ffeaa7",
+  },
+];
   return (
     <div className=" flex flex-col items-center  md:w-[85vw] p-10 space-y-10 bg-gray-100 rounded-4xl">
       <div className="text-center space-y-4">
         <PageHeader>What our guests are saying</PageHeader>
       </div>
 
-      <div className="grid grid-cols-1  md:grid-cols-3 sm:w-10/12 w-full  gap-6 ">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 sm:w-11/12 w-full gap-6">
         {reviews.map((Rev, key) => (
           <ReviewCard
             key={key}
@@ -326,26 +328,7 @@ export function OrderDirectlyfromOUrWebsite() {
         alt="best snow cone in NYC"
         className="object-cover w-full h-full"
       />
-      <div className="p-1 - absolute  md:left-30  md:top-1/3 sm:w-200 ">
-        <Card className=" md:p-8 md:space-y-4 bg-neutral-900 text-white rounded-3xl  md:w-180">
-          <CardHeader>
-            <PageHeader>Order From Our Website</PageHeader>
-          </CardHeader>
-          <CardContent className="font-semibold md:text-lg text-sm  text-accent-foground ">
-            Order directly from our website to save money in fees, get faster
-            service, earn free food via our rewards program, and support local
-            business.
-          </CardContent>
-          <CardFooter>
-            <Link href="/Menu">
-              <Button size="lg" variant="mainButton">
-                Order Online
-                <MdKeyboardArrowRight />
-              </Button>
-            </Link>
-          </CardFooter>
-        </Card>
-      </div>
+   
     </div>
   );
 }
@@ -443,7 +426,7 @@ export function RewardsProgram() {
           <CardFooter>
             <Link href="/Menu">
               <Button size="lg" variant="mainButton">
-                Order Online
+                View online
                 <MdKeyboardArrowRight />
               </Button>
             </Link>
@@ -592,7 +575,7 @@ export function Footer() {
           <div className="flex flex-col gap-2">
             <Button variant="link">
               <Link className="text-start" href="/Menu">
-                Order now
+                View our menu
               </Link>
             </Button>
           </div>
@@ -600,7 +583,7 @@ export function Footer() {
         <div className="md:h-full flex flex-col gap-4 justify-between h-1/5  w-full pt-2  md:w-1/5 ">
           <Link href="/Menu">
             <Button size="sm" className="w-full" variant="mainButton">
-              Order now
+              View our menu
               <MdKeyboardArrowRight />
             </Button>
           </Link>

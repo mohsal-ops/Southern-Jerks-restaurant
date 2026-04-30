@@ -23,6 +23,10 @@ export default function AppSideBar() {
   }, [pathname]);
   const links = [
     {
+      name: "Home",
+      link: "/",
+    },
+    {
       name: "Menu",
       link: "/Menu",
     },
@@ -30,15 +34,15 @@ export default function AppSideBar() {
       name: "Catering",
       link: "/catering",
     },
-    // {
-    //   name: "Kids Zone",
-    //   link: "/KidsZone",
-    // },
+    {
+      name: "Kids Zone",
+      link: "/KidsZone",
+    },
     {
       name: "Gift Card",
       link: "/GiftCard",
     },
-     {
+    {
       name: "Rewards",
       link: "/rewards",
     },
@@ -70,16 +74,19 @@ export default function AppSideBar() {
               {links.map((obj, key) => (
                 <Link
                   key={key}
-                  className="hover:bg-zinc-100 hover:duration-300 rounded-md text-center px-2 font-medium py-2"
-                  href={`${obj.link}`}
+                  href={obj.link}
+                  className={[
+                    "w-full text-center px-4 py-2 rounded-md font-medium transition-colors",
+                    pathname === obj.link
+                      ? "bg-yellow-400 text-stone-900" 
+                      : "text-stone-700 hover:bg-stone-100"
+                  ].join(" ")}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center gap-2">
                     {obj.name === "Kids Zone" && (
-                     <Gamepad2 strokeWidth={1.5} className="w-5 h-5" />
-                     
+                      <Gamepad2 strokeWidth={1.5} className="w-5 h-5" />
                     )}
                     {obj.name}
-
                   </div>
                 </Link>
               ))}

@@ -31,7 +31,7 @@ export default async function Customerlayout({
             >
               Vega Star Digital
             </a>{" "}
-            — MOHAMMED BEN SALAH
+            — MOHAMMED BENSALAH
           </div>
         </div>
       </main>

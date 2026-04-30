@@ -82,6 +82,10 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
   const cartItems = (CartResObj?.cart?.items ?? []) as CartItem[];
   const links = [
     {
+      name: "Home",
+      link: "/",
+    },
+    {
       name: "Menu",
       link: "/Menu",
     },
@@ -89,15 +93,15 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
       name: "Catering",
       link: "/catering",
     },
-     {
+    {
       name: "Gift Card",
       link: "/GiftCard",
     },
 
-    // {
-    //   name: "Kids Zone",
-    //   link: "/KidsZone",
-    // },
+    {
+      name: "Kids Zone",
+      link: "/KidsZone",
+    },
     {
       name: "Rewards",
       link: "/rewards",
@@ -127,24 +131,46 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
 
       <div className="hidden md:flex justify-between h-16 md:h-20 md:w-[80%]  items-center ">
         <div className="flex items-center justify-center w-auto ">
-          <Link href="/">
-            <Image
-              alt="snow cone logo"
-              className="w-auto h-auto"
-              src={Logo}
-              height={60}
-              width={60}
-            />
-          </Link>
+          <Image
+            alt="snow cone logo"
+            className="w-auto h-auto"
+            src={Logo}
+            height={60}
+            width={60}
+          />
         </div>
         <div className="flex justify-end gap-4 items-center">
           <div className="flex overflow-auto gap-2 justify-center w-full py-1">
             {links.map((obj, key) => {
+              console.log(pathname)
+              const isActive =
+                (obj.link === pathname )
+                
+
+              return (
+                <Link key={key} href={obj.link}>
+                  <Button
+                    className={[
+                      "text-md rounded-md  font-medium transition-colors duration-150 flex items-center gap-2",
+                      isActive
+                        ? "bg-yellow-400 text-stone-900" // active: yellow bg, dark text
+                        : "text-stone-700  hover:bg-stone-100 ", // inactive: orange text, subtle yellow hover
+                    ].join(" ")}
+                  >
+                    {obj.name === "Kids Zone" && (
+                      <Gamepad2 strokeWidth={1.5} className="w-4 h-4" />
+                    )}
+                    {obj.name}
+                  </Button>
+                </Link>
+              );
+            })}
+            {/* {links.map((obj, key) => {
               const isActive = pathname == "/" + obj.link;
               return (
                 <Button
                   key={key}
-                  className={`font-medium text-md ${isActive && "bg-stone-200 text-accent-foreground "}`}
+                  className={`font-medium text-md ${isActive && "bg-yellow-400 text-black "}`}
                   variant="ghost"
                 >
                   <Link href={obj.link} className=" text-gray-600">
@@ -157,7 +183,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
                   </Link>
                 </Button>
               );
-            })}
+            })} */}
           </div>
           <div>
             <CartSideBar cartId={cartId} cartItems={cartItems} />
