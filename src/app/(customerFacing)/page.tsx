@@ -14,7 +14,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { FaStar } from "react-icons/fa6";
+import { FaStar, FaTiktok } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PiPackageFill } from "react-icons/pi";
 import { MdOutlineFamilyRestroom } from "react-icons/md";
@@ -48,6 +48,7 @@ import {
   SideOption,
 } from "generated/prisma";
 import { SecondSectionFeatured } from "./_components/FeaturedSection";
+import { OurLocation } from "./_components/OurLocation";
 
 export type ItemWithSides = Item & {
   sideGroups: (SideGroup & {
@@ -179,7 +180,7 @@ export default async function Home() {
           </div>
         </FadeIn>
         <SectionDivider />
-        <OurLocation places={places} lat={lat} lng={lng} />
+        <OurLocationComponent places={places} lat={lat} lng={lng} />
       </div>
     </>
   );
@@ -476,13 +477,7 @@ export function Frequentlyaskedquestions() {
   );
 }
 
-type placeObject = {
-  name: string;
-  lat: number;
-  lng: number;
-};
-
-export function OurLocation({
+export function OurLocationComponent({
   places,
   lat,
   lng,
@@ -491,51 +486,65 @@ export function OurLocation({
   lat: number;
   lng: number;
 }) {
-  return (
-    <div className=" flex text-sm flex-col sm:flex-row sm:justify-center  sm:items-center p-4  sm:space-x-10 sm:pr-10 h-170 sm:h-80 w-full sm:w-[75%] sm:space-y-0 space-y-5 pb-10 bg-stone-200 rounded-4xl">
-      <div className=" h-75   sm:h-full sm:w-140 w-full rounded-4xl  overflow-hidden">
-        <MapClient lat={lat} lng={lng} className="h-full w-full " />
-      </div>
+  return (<OurLocation places={places} lat={lat} lng={lng} />
+    
+  )}
 
-      <div className="flex flex-col items-end justify-end h-2/3 sm:h-full w-full text-md font-medium space-y-5">
-        <div className="flex  flex-col sm:justify-between sm:h-10/12 w-full h-full sm:pt-5  space-y-10 ">
-          <span className="w-full ">
-            <p className="sm:text-lg">Southern Jerks</p>
-            <p className="text-gray-500"> Houston, TX</p>
-          </span>
-          <span className="flex flex-col sm:items-end sm:flex-row w-full h-ful sm:space-y-0 space-y-10">
-            <div className="space-y-3 w-1/2 ">
-              <h2 className="text-gray-500 ">Address</h2>
-              <h3 className="w-2/3  ">2950 Gears Rd. Houston, TX 77067</h3>
-            </div>
-            <div className="space-y-3">
-              <h2 className="text-gray-500 ">Contact</h2>
-              <h3>
-                (346) 242-0328
-                <br />
-                contact@southernjerks.com
-              </h3>
-            </div>
-          </span>
-        </div>
-        <div className="flex justify-between items-center w-full py-2 border  border-t-gray-300">
-          <div>
-            <p>Workinh Days</p>
-            <span>Tuesday to Sunday</span>
-          </div>
-          <div>
-            <Link href="/catering">
-              <Button size="sm" variant="mainButton">
-                Catering
-                <MdKeyboardArrowRight />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+// export function OurLocation({
+//   places,
+//   lat,
+//   lng,
+// }: {
+//   places: Location[];
+//   lat: number;
+//   lng: number;
+// }) {
+//   return (
+//     <div className=" flex text-sm flex-col sm:flex-row sm:justify-center  sm:items-center p-4  sm:space-x-10 sm:pr-10 h-170 sm:h-80 w-full sm:w-[75%] sm:space-y-0 space-y-5 pb-10 bg-stone-200 rounded-4xl">
+//       <div className=" h-75   sm:h-full sm:w-140 w-full rounded-4xl  overflow-hidden">
+//         <MapClient lat={lat} lng={lng} className="h-full w-full " />
+//       </div>
+
+//       <div className="flex flex-col items-end justify-end h-2/3 sm:h-full w-full text-md font-medium space-y-5">
+//         <div className="flex  flex-col sm:justify-between sm:h-10/12 w-full h-full sm:pt-5  space-y-10 ">
+//           <span className="w-full ">
+//             <p className="sm:text-lg">Southern Jerks</p>
+//             <p className="text-gray-500"> Houston, TX</p>
+//           </span>
+//           <span className="flex flex-col sm:items-end sm:flex-row w-full h-ful sm:space-y-0 space-y-10">
+//             <div className="space-y-3 w-1/2 ">
+//               <h2 className="text-gray-500 ">Address</h2>
+//               <h3 className="w-2/3  ">2950 Gears Rd. Houston, TX 77067</h3>
+//             </div>
+//             <div className="space-y-3">
+//               <h2 className="text-gray-500 ">Contact</h2>
+//               <h3>
+//                 (346) 242-0328
+//                 <br />
+//                 contact@southernjerks.com
+//               </h3>
+//             </div>
+//           </span>
+//         </div>
+//         <div className="flex justify-between items-center w-full py-2 border  border-t-gray-300">
+//           <div>
+//             <p>Workinh Days</p>
+//             <span>Tuesday to Sunday</span>
+//           </div>
+//           <div>
+//             <Link href="/catering">
+//               <Button size="sm" variant="mainButton">
+//                 Catering
+//                 <MdKeyboardArrowRight />
+//               </Button>
+//             </Link>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 export function Footer() {
   return (
     <div className="flex w-full text-sm gap-4 items-center md:py-10  justify-between md:justify-center flex-col h-140 sm:h-60 sm:space-x-10  sm:pr-10  md:w-[98%] bg-stone-200 rounded-4xl">
@@ -588,12 +597,16 @@ export function Footer() {
             </Button>
           </Link>
           <div className="w-full flex gap-4  justify-center">
+            <Link href="https://www.tiktok.com/@southernjerkshtx?is_from_webapp=1&sender_device=pc">
+              <FaTiktok size={24} />
+            </Link>
             <Link href="https://www.instagram.com/southernjerkshtx/?hl=en">
               <PiInstagramLogoFill size={25} />
             </Link>
             <Link href="https://www.facebook.com/p/Southern-Jerks-100076329252325">
               <FaFacebook size={25} />
             </Link>
+            
           </div>
         </div>
       </div>

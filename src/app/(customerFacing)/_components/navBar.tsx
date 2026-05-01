@@ -142,7 +142,6 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
         <div className="flex justify-end gap-4 items-center">
           <div className="flex overflow-auto gap-2 justify-center w-full py-1">
             {links.map((obj, key) => {
-              console.log(pathname)
               const isActive =
                 (obj.link === pathname )
                 

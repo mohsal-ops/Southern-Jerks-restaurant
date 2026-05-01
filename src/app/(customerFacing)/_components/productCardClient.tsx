@@ -45,7 +45,7 @@ export default function ProductCardClient({
   };
 
   return (
-    <Link href={`/Menu`} className="space-y-2 bg-stone-300 p-2 rounded-2xl">
+    <Link href={`/Menu`} className="space-y-2 bg-stone-200 p-2 rounded-2xl">
       <Card
         className="flex  rounded-2xl overflow-hidden gap-5 sm:[h-60 w-60]  h-36 flex-col w-36  "
         key={id}
@@ -95,7 +95,7 @@ export function PopularDishesCardClient({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 bg-stone-200 p-2 rounded-2xl">
       <Card
         className="flex rounded-2xl overflow-hidden gap-5 sm:[h-60 w-60]  h-36 flex-col w-36  "
         key={id}
@@ -114,7 +114,7 @@ export function PopularDishesCardClient({
             />
           </div>
 
-          <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
+          {/* <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
             <div className="flex gap-2 items-center  ">
               <Button
                 onClick={() => setOpen(true)}
@@ -124,7 +124,7 @@ export function PopularDishesCardClient({
                 <Plus className="stroke-1" size={28} />
               </Button>
             </div>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
       <div className="flex  flex-col gap-1 px-2 font-semibold w-full ">
@@ -193,7 +193,7 @@ export function AllDishesCardClient({
               />
             )}
           </div>
-          <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
+          {/* <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
             <div className="flex gap-2 items-center  ">
               <Button
                 onClick={() => setOpen(true)}
@@ -203,7 +203,7 @@ export function AllDishesCardClient({
                 <Plus className="stroke-1" size={28} />
               </Button>
             </div>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
       <SchedulePickupDialog
