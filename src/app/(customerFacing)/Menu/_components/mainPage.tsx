@@ -19,6 +19,14 @@ type PropsTypes = {
   featuredProducts: ItemWithSides[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
+function SectionDivider() {
+  return (
+    <div className="w-full flex justify-center px-4">
+      <div className="h-px w-full max-w-[85vw] bg-linear-to-r from-transparent via-stone-300 to-transparent" />
+    </div>
+  );
+}
+
 export default function MainPageMenu({
   featuredProducts,
   style,
@@ -38,6 +46,45 @@ export default function MainPageMenu({
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const { cartItems, cartId, mutate } = useCart();
+  const { isOpen, label } = getOpenStatus();
+
+  // Add this helper at the top of your component (or in a utils file):
+  function getOpenStatus() {
+    const HOURS = [
+      { open: 11, close: 22 }, // Sunday   11AM–10PM
+      { open: null, close: null }, // Monday   Closed
+      { open: 11, close: 22 }, // Tuesday  11AM–10PM
+      { open: 11, close: 22 }, // Wednesday
+      { open: 11, close: 22 }, // Thursday
+      { open: 11, close: 23 }, // Friday   11AM–11PM
+      { open: 11, close: 23 }, // Saturday 11AM–11PM
+    ];
+
+    const now = new Date(
+      new Date().toLocaleString("en-US", { timeZone: "America/Chicago" }),
+    );
+    const day = now.getDay();
+    const hour = now.getHours() + now.getMinutes() / 60;
+    const todayHours = HOURS[day];
+
+    if (!todayHours.open) return { isOpen: false, label: "Closed today" };
+
+    if (hour >= todayHours.open && hour < todayHours.close) {
+      const closeHour = todayHours.close;
+      const displayClose =
+        closeHour >= 12
+          ? `${closeHour > 12 ? closeHour - 12 : closeHour}:00 PM`
+          : `${closeHour}:00 AM`;
+      return { isOpen: true, label: `Open now · Closes ${displayClose}` };
+    }
+
+    const openHour = todayHours.open;
+    const displayOpen =
+      openHour >= 12
+        ? `${openHour > 12 ? openHour - 12 : openHour}:00 PM`
+        : `${openHour}:00 AM`;
+    return { isOpen: false, label: `Closed · Opens ${displayOpen}` };
+  }
 
   // Tracks the serachbar so it fiex it or un-fix it
   useEffect(() => {
@@ -163,10 +210,23 @@ export default function MainPageMenu({
           <p className="tracking-tight font-serif  text-xl text-center">
             Southern jerks Chicken Wings, Sandwiches, Caribbean
           </p>
-          <p className="flex text-sm justify-center sm:justify-start items-center font-semibold w-4/5 gap-1  text-neutral-600 text-center  ">
+          <span className="flex text-sm space-x-2 justify-center sm:justify-start items-center font-semibold w-4/5 gap-1  text-neutral-600 text-center  ">
             <FaLocationPin className="md:block hidden" />
-            2950 Gears Rd. Houston, TX 77067
-          </p>
+            <p>2950 Gears Rd. Houston, TX 77067</p>
+
+            <p className="flex items-center gap-1.5 text-sm font-medium">
+              <span
+                className={`w-2 h-2 rounded-full underline ${
+                  isOpen ? "bg-green-500" : "bg-red-500"
+                }`}
+              />
+              <span
+                className={`underline ${isOpen ? "text-green-600" : "text-red-500"}`}
+              >
+                {label}
+              </span>
+            </p>
+          </span>
         </div>
         <div id="PickupOrDelivery " className="text-sm flex  p">
           <div className="flex flex-col sm:flex-row w-full sm:w-1/2  gap-4 font-semibold text-gray-600">
@@ -177,8 +237,8 @@ export default function MainPageMenu({
                   type="radio"
                   name="orderType"
                   value="delivery"
-                  checked={choice === "delivery"}
-                  onChange={() => setChoice("delivery")}
+                  // checked={choice === "delivery"}
+                  // onChange={() => setChoice("delivery")}
                   className="hidden peer"
                 />
 
@@ -312,6 +372,7 @@ export default function MainPageMenu({
                   cartItems={cartItems}
                   Products={Category.products}
                 />
+                  <SectionDivider />
               </section>
             ))
           )}
@@ -342,7 +403,7 @@ export function PopularDishes({
       <div className="relative">
         <div
           ref={scrollRef}
-          className=" grid grid-flow-col justify-start gap-4 w-full no-scrollbar overflow-auto z-0  py-2"
+          className=" grid grid-flow-col justify-start gap-2 w-full no-scrollbar overflow-auto z-0  py-2"
         >
           <Suspense
             fallback={

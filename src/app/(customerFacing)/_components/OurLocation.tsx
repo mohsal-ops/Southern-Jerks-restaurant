@@ -27,7 +27,7 @@ export function OurLocation({
   lng: number;
 }) {
   const [showHours, setShowHours] = useState(false);
-  const todayIdx = new Date().getDay();
+  const todayIdx =  new Date(new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })).getDay();
   const today = HOURS[todayIdx];
   const todayLabel =
     today.open === "Closed"

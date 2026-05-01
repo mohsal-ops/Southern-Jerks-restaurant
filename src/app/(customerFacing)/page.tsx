@@ -487,7 +487,7 @@ export function OurLocationComponent({
   lng: number;
 }) {
   return (<OurLocation places={places} lat={lat} lng={lng} />
-    
+
   )}
 
 // export function OurLocation({

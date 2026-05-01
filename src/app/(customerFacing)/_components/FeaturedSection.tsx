@@ -70,7 +70,7 @@ export function SecondSectionFeatured({
         {/* Scrollable row */}
         <div
           ref={scrollRef}
-          className="grid grid-flow-col justify-start gap-4  w-full overflow-auto no-scrollbar"
+          className="grid grid-flow-col justify-start gap-2  w-full overflow-auto no-scrollbar"
         >
           <Suspense fallback={<><HomeFeaturedSkeleton /></>}>
             <ProductSuspense

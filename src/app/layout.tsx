@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { CartProvider } from "./providers/CartProvider";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Southern Jerks | Jerk Fried Chicken & Sandwiches in Houston",
