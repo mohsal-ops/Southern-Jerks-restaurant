@@ -19,9 +19,11 @@
         "name": "next"
       }
     ],
-    "baseUrl": "",
+    "baseUrl": ".",
     "paths": {
-     "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "generated/prisma": ["./generated/prisma/index.d.ts"],
+      "generated/prisma/*": ["./generated/prisma/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
