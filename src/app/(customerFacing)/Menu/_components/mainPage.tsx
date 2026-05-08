@@ -27,6 +27,48 @@ function SectionDivider() {
   );
 }
 
+const CATEGORY_ORDER = [
+  "A LA Carte",
+  "Dipping Sauces",
+  "Entrees",
+  "No Bones ",
+  "Family Dinners",
+  "Kid's Meal 12 & Under ",
+  "Sides ",
+  "Extras ",
+  "Desert",
+  // any category not listed here will appear at the end
+];
+
+
+// 0
+// : 
+// "Desert"
+// 1
+// : 
+// "Entrees"
+// 2
+// : 
+// "Extras "
+// 3
+// : 
+// "Kid's Meal 12 & Under "
+// 4
+// : 
+// "No Bones "
+// 5
+// : 
+// "Sides "
+// 6
+// : 
+// "Family Dinners"
+// 7
+// : 
+// "A LA Carte"
+// 8
+// : 
+// "Dipping Sauces"
+
 export default function MainPageMenu({
   featuredProducts,
   style,
@@ -51,13 +93,13 @@ export default function MainPageMenu({
   // Add this helper at the top of your component (or in a utils file):
   function getOpenStatus() {
     const HOURS = [
-      { open: 11, close: 22 }, // Sunday   11AM–10PM
-      { open: null, close: null }, // Monday   Closed
-      { open: 11, close: 22 }, // Tuesday  11AM–10PM
-      { open: 11, close: 22 }, // Wednesday
-      { open: 11, close: 22 }, // Thursday
-      { open: 11, close: 23 }, // Friday   11AM–11PM
-      { open: 11, close: 23 }, // Saturday 11AM–11PM
+      { open: 11, close: 16 }, // Sunday    11AM–4PM
+      { open: null, close: null }, // Monday    Closed
+      { open: 11, close: 21 }, // Tuesday   11AM–9PM
+      { open: 11, close: 21 }, // Wednesday 11AM–9PM
+      { open: 11, close: 21 }, // Thursday  11AM–9PM
+      { open: 11, close: 21 }, // Friday    11AM–9PM
+      { open: 12, close: 20 }, // Saturday  12PM–8PM
     ];
 
     const now = new Date(
@@ -154,11 +196,21 @@ export default function MainPageMenu({
   }, [cartItems]);
 
   const grouped = React.useMemo(() => {
-    return gategories?.map((category) => ({
+    const sorted = [...gategories].sort((a, b) => {
+      const aIndex = CATEGORY_ORDER.indexOf(a.name);
+      const bIndex = CATEGORY_ORDER.indexOf(b.name);
+      const aOrder = aIndex === -1 ? 999 : aIndex;
+      const bOrder = bIndex === -1 ? 999 : bIndex;
+      return aOrder - bOrder;
+    });
+
+    return sorted.map((category) => ({
       category,
       products: products.filter((p) => p.typeId === category.id),
     }));
   }, [gategories, products]);
+  console.log("DB category names:", gategories.map(c => c.name));
+
 
   return (
     <div
@@ -180,8 +232,8 @@ export default function MainPageMenu({
             />
           </div>
           <div className="flex flex-col py-2 font-bold gap-1  w-full ">
-            {gategories &&
-              gategories.map((cat) => (
+            {grouped &&
+              grouped.map(({ category: cat }) => (
                 <Button
                   key={cat.id}
                   onClick={() =>
@@ -324,8 +376,8 @@ export default function MainPageMenu({
             />
           </div>
           <div className="flex items-center gap-2 overflow-auto">
-            {gategories &&
-              gategories.map((cat) => (
+            {grouped &&
+              grouped.map(({ category: cat }) => (
                 <Button
                   key={cat.id}
                   onClick={() =>
@@ -372,7 +424,7 @@ export default function MainPageMenu({
                   cartItems={cartItems}
                   Products={Category.products}
                 />
-                  <SectionDivider />
+                <SectionDivider />
               </section>
             ))
           )}

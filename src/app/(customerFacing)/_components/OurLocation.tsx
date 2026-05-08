@@ -8,13 +8,13 @@ import MapClient from "@/components/MapClient";
 import { Location } from "generated/prisma";
 
 const HOURS = [
-  { day: "Sunday", open: "11:00 AM", close: "10:00 PM" },
+  { day: "Sunday", open: "11:00 AM", close: "4:00 PM" },
   { day: "Monday", open: "Closed", close: "" },
-  { day: "Tuesday", open: "11:00 AM", close: "10:00 PM" },
-  { day: "Wednesday", open: "11:00 AM", close: "10:00 PM" },
-  { day: "Thursday", open: "11:00 AM", close: "10:00 PM" },
-  { day: "Friday", open: "11:00 AM", close: "11:00 PM" },
-  { day: "Saturday", open: "11:00 AM", close: "11:00 PM" },
+  { day: "Tuesday", open: "11:00 AM", close: "9:00 PM" },
+  { day: "Wednesday", open: "11:00 AM", close: "9:00 PM" },
+  { day: "Thursday", open: "11:00 AM", close: "9:00 PM" },
+  { day: "Friday", open: "11:00 AM", close: "9:00 PM" },
+  { day: "Saturday", open: "12:00 PM", close: "8:00 PM" },
 ];
 
 export function OurLocation({
