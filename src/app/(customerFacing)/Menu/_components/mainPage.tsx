@@ -19,13 +19,7 @@ type PropsTypes = {
   featuredProducts: ItemWithSides[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
-function SectionDivider() {
-  return (
-    <div className="w-full flex justify-center px-4">
-      <div className="h-px w-full max-w-[85vw] bg-linear-to-r from-transparent via-stone-300 to-transparent" />
-    </div>
-  );
-}
+
 
 const CATEGORY_ORDER = [
   "A LA Carte",
@@ -424,7 +418,6 @@ export default function MainPageMenu({
                   cartItems={cartItems}
                   Products={Category.products}
                 />
-                <SectionDivider />
               </section>
             ))
           )}
