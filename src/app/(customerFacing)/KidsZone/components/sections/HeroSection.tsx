@@ -87,7 +87,7 @@ const HeroSection = () => {
             <Button
               size="lg"
               variant="outline"
-              className="rounded-xl text-base px-8 h-12 border-white/15 hover:text-white/80 bg-white/5 text-white"
+              className="rounded-xl text-base px-8 h-12 border-white/15 hover:text-black bg-white/5 text-white"
             >
               <Link href="/Menu">View Menu</Link>
             </Button>
