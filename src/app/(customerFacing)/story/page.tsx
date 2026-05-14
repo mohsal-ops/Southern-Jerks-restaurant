@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import pic2 from "@/../public/general/generalPages/partners.jpg";
-import pic3 from "@/../public/general/generalPages/vibe.jpg";
+import pic3 from "@/../public/general/generalPages/mother.jpg";
 import pic4 from "@/../public/general/generalPages/enjoy.jpg";
 
 import jabrilPhoto from "@/../public/general/generalPages/jabril.jpg"
@@ -11,18 +11,6 @@ import jordanPhoto from "@/../public/general/generalPages/jordan.jpg";
 
 const partners = [
   {
-    name: "Jordan Riddick",
-    role: "Owner & CEO",
-    initials: "JR",
-    photo: jordanPhoto,
-    bio: [
-      "Jordan Riddick is a seasoned financial and accounting professional with over 15 years of experience helping businesses strengthen their financial foundation and drive sustainable growth. With deep expertise in Gross Profit, EBITDA, financial statement preparation, budgeting, and forecasting, Jordan brings a comprehensive and strategic approach to every organization he works with.",
-      "Throughout his career Jordan has proven himself as more than just a numbers expert — he is a results-driven leader who understands the bigger picture. He has successfully guided companies through rebuilding accounting departments, led new software implementations, and introduced strategic cost-cutting measures that simultaneously fuel expansion and long-term growth.",
-      "As Owner and CEO, Jordan combines extensive technical knowledge with a forward-thinking mindset, making him a trusted partner for businesses looking to optimize their operations and position themselves for lasting success.",
-    ],
-    accent: "#1a6b3c",
-  },
-   {
     name: "Jabril Riddick",
     role: "Partner & CCO",
     initials: "JR",
@@ -33,6 +21,18 @@ const partners = [
       "As Partner and Chief Culinary Officer, Jabril brings the kind of culinary artistry and operational leadership that not only elevates the dining experience, but ensures the business is built to thrive.",
     ],
     accent: "#c85a1e",
+  },
+  {
+    name: "Jordan Riddick",
+    role: "Partner & CEO",
+    initials: "JR",
+    photo: jordanPhoto,
+    bio: [
+      "Jordan Riddick is a seasoned financial and accounting professional with over 15 years of experience helping businesses strengthen their financial foundation and drive sustainable growth. With deep expertise in Gross Profit, EBITDA, financial statement preparation, budgeting, and forecasting, Jordan brings a comprehensive and strategic approach to every organization he works with.",
+      "Throughout his career Jordan has proven himself as more than just a numbers expert — he is a results-driven leader who understands the bigger picture. He has successfully guided companies through rebuilding accounting departments, led new software implementations, and introduced strategic cost-cutting measures that simultaneously fuel expansion and long-term growth.",
+      "As Owner and CEO, Jordan combines extensive technical knowledge with a forward-thinking mindset, making him a trusted partner for businesses looking to optimize their operations and position themselves for lasting success.",
+    ],
+    accent: "#1a6b3c",
   },
 ];
 
@@ -92,7 +92,7 @@ export default function Page() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="space-y-6"
+          className="space-y-6 "
         >
           <p className="text-xs font-semibold tracking-widest uppercase text-[#c85a1e]">
             How It Started
@@ -120,11 +120,12 @@ export default function Page() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: "easeOut" }}
+          className="h-full"
         >
           <Image
             src={pic3}
             alt="The Southern Jerks experience"
-            className="rounded-3xl object-cover w-full aspect-4/3"
+            className="rounded-3xl object-top w-full h-full  aspect-4/3"
           />
         </motion.div>
       </section>

@@ -73,7 +73,7 @@ model Order {
   userId           String
   productId        String
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product          Item     @relation(fields: [productId], references: [id], onDelete: Restrict)
+  product          Item     @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Cart {

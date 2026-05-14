@@ -2,7 +2,7 @@ import GamesSection from "./components/sections/GamesSection";
 import HeroSection from "./components/sections/HeroSection";
 
 export default function KidsZone() {
-  const isUnlocked = false; // flip to true once he pays
+  const isUnlocked = true; // flip to true once he pays
 
   return (
     <div className="relative">

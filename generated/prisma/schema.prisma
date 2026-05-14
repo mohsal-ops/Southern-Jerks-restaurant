@@ -69,7 +69,7 @@ model Order {
   userId           String
   productId        String
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product          Item     @relation(fields: [productId], references: [id], onDelete: Restrict)
+  product          Item     @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Cart {
@@ -130,22 +130,20 @@ model SideGroup {
 }
 
 model SideOption {
-  id           String  @id @default(uuid())
+  id           String    @id @default(uuid())
   sideGroupId  String
   label        String // "No Pickles", "Golden Ranch"
   priceInCents Int? // null = free
   linkedItemId String? // for Recommended Sides (points to Item)
-
-  sideGroup SideGroup @relation(fields: [sideGroupId], references: [id], onDelete: Cascade)
+  sideGroup    SideGroup @relation(fields: [sideGroupId], references: [id], onDelete: Cascade)
 }
 
 model CartItemSide {
-  id           String @id @default(uuid())
+  id           String   @id @default(uuid())
   cartItemId   String
   sideGroupId  String
   optionId     String
   label        String
   priceInCents Int? // snapshot price at order time
-
-  cartItem CartItem @relation(fields: [cartItemId], references: [id], onDelete: Cascade)
+  cartItem     CartItem @relation(fields: [cartItemId], references: [id], onDelete: Cascade)
 }

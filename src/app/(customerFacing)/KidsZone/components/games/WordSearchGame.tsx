@@ -4,20 +4,79 @@ import { RotateCcw, Trophy } from "lucide-react";
 import type { Difficulty } from "./mazeConfigs";
 import DifficultySelector from "./DifficultySelector";
 
-const configs: Record<Difficulty, { rows: number; cols: number; words: string[]; name: string; emoji: string }> = {
-  easy: { rows: 8, cols: 8, words: ["WINGS", "FRIES", "BURGER", "SAUCE"], name: "Easy", emoji: "🌟" },
-  medium: { rows: 10, cols: 10, words: ["WINGS", "FRIES", "BURGER", "TENDERS", "RANCH", "CRISPY"], name: "Medium", emoji: "⭐" },
-  hard: { rows: 12, cols: 12, words: ["WINGS", "FRIES", "BURGER", "TENDERS", "SANDWICH", "CHICKEN", "CRISPY", "GRILLED"], name: "Hard", emoji: "🔥" },
-  expert: { rows: 14, cols: 14, words: ["WINGS", "FRIES", "BURGER", "TENDERS", "SANDWICH", "CHICKEN", "CRISPY", "GRILLED", "NUGGETS", "STRIPS"], name: "Expert", emoji: "💎" },
+const configs: Record<
+  Difficulty,
+  { rows: number; cols: number; words: string[]; name: string; emoji: string }
+> = {
+  easy: {
+    rows: 8,
+    cols: 8,
+    words: ["WINGS", "FRIES", "BURGER", "SAUCE"],
+    name: "Easy",
+    emoji: "🌟",
+  },
+  medium: {
+    rows: 10,
+    cols: 10,
+    words: ["WINGS", "FRIES", "BURGER", "TENDERS", "RANCH", "CRISPY"],
+    name: "Medium",
+    emoji: "⭐",
+  },
+  hard: {
+    rows: 12,
+    cols: 12,
+    words: [
+      "WINGS",
+      "FRIES",
+      "BURGER",
+      "TENDERS",
+      "SANDWICH",
+      "CHICKEN",
+      "CRISPY",
+      "GRILLED",
+    ],
+    name: "Hard",
+    emoji: "🔥",
+  },
+  expert: {
+    rows: 14,
+    cols: 14,
+    words: [
+      "WINGS",
+      "FRIES",
+      "BURGER",
+      "TENDERS",
+      "SANDWICH",
+      "CHICKEN",
+      "CRISPY",
+      "GRILLED",
+      "NUGGETS",
+      "STRIPS",
+    ],
+    name: "Expert",
+    emoji: "💎",
+  },
 };
 
 type Pos = { r: number; c: number };
 type Placement = { word: string; cells: Pos[] };
 
-function generateGrid(rows: number, cols: number, words: string[]): { grid: string[][]; placements: Placement[] } {
-  const grid: string[][] = Array.from({ length: rows }, () => Array(cols).fill(""));
+function generateGrid(
+  rows: number,
+  cols: number,
+  words: string[],
+): { grid: string[][]; placements: Placement[] } {
+  const grid: string[][] = Array.from({ length: rows }, () =>
+    Array(cols).fill(""),
+  );
   const placements: Placement[] = [];
-  const dirs = [[0, 1], [1, 0], [1, 1], [0, -1], [-1, 0]];
+  const dirs = [
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [0, -1],
+    [-1, 0],
+  ];
 
   for (const word of [...words].sort((a, b) => b.length - a.length)) {
     let placed = false;
@@ -32,13 +91,19 @@ function generateGrid(rows: number, cols: number, words: string[]): { grid: stri
       let ok = true;
       const cells: Pos[] = [];
       for (let i = 0; i < word.length; i++) {
-        const cr = r + dr * i, cc = c + dc * i;
-        if (grid[cr][cc] !== "" && grid[cr][cc] !== word[i]) { ok = false; break; }
+        const cr = r + dr * i,
+          cc = c + dc * i;
+        if (grid[cr][cc] !== "" && grid[cr][cc] !== word[i]) {
+          ok = false;
+          break;
+        }
         cells.push({ r: cr, c: cc });
       }
       if (!ok) continue;
 
-      cells.forEach((p, i) => { grid[p.r][p.c] = word[i]; });
+      cells.forEach((p, i) => {
+        grid[p.r][p.c] = word[i];
+      });
       placements.push({ word, cells });
       placed = true;
     }
@@ -46,7 +111,8 @@ function generateGrid(rows: number, cols: number, words: string[]): { grid: stri
 
   for (let r = 0; r < rows; r++)
     for (let c = 0; c < cols; c++)
-      if (grid[r][c] === "") grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      if (grid[r][c] === "")
+        grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
 
   return { grid, placements };
 }
@@ -54,7 +120,9 @@ function generateGrid(rows: number, cols: number, words: string[]): { grid: stri
 const WordSearchGame = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
   const config = configs[difficulty];
-  const [{ grid, placements }, setData] = useState(() => generateGrid(config.rows, config.cols, config.words));
+  const [{ grid, placements }, setData] = useState(() =>
+    generateGrid(config.rows, config.cols, config.words),
+  );
   const [foundWords, setFoundWords] = useState<Set<string>>(new Set());
   const [dragStart, setDragStart] = useState<Pos | null>(null);
   const [dragEnd, setDragEnd] = useState<Pos | null>(null);
@@ -68,24 +136,38 @@ const WordSearchGame = () => {
     setDragEnd(null);
   }, []);
 
-  const handleDifficultyChange = (d: Difficulty) => { setDifficulty(d); resetGame(d); };
+  const handleDifficultyChange = (d: Difficulty) => {
+    setDifficulty(d);
+    resetGame(d);
+  };
 
   const getCellsInLine = (a: Pos, b: Pos): Pos[] | null => {
-    const dr = Math.sign(b.r - a.r), dc = Math.sign(b.c - a.c);
-    const lenR = Math.abs(b.r - a.r), lenC = Math.abs(b.c - a.c);
+    const dr = Math.sign(b.r - a.r),
+      dc = Math.sign(b.c - a.c);
+    const lenR = Math.abs(b.r - a.r),
+      lenC = Math.abs(b.c - a.c);
     if (lenR !== 0 && lenC !== 0 && lenR !== lenC) return null;
     const len = Math.max(lenR, lenC);
     if (len === 0) return [{ r: a.r, c: a.c }];
-    return Array.from({ length: len + 1 }, (_, i) => ({ r: a.r + dr * i, c: a.c + dc * i }));
+    return Array.from({ length: len + 1 }, (_, i) => ({
+      r: a.r + dr * i,
+      c: a.c + dc * i,
+    }));
   };
 
   const checkSelection = (start: Pos, end: Pos) => {
     const cells = getCellsInLine(start, end);
-    if (cells && cells.length > 1) {
-      const word = cells.map((p) => grid[p.r][p.c]).join("");
-      const revWord = [...word].reverse().join("");
-      const match = placements.find((p) => (p.word === word || p.word === revWord) && !foundWords.has(p.word));
-      if (match) setFoundWords((prev) => new Set(prev).add(match.word));
+    if (!cells || cells.length <= 1) return;
+
+    const word = cells.map((p) => grid[p.r][p.c]).join("");
+    const revWord = [...word].reverse().join("");
+
+    const match = placements.find(
+      (p) => (p.word === word || p.word === revWord) && !foundWords.has(p.word),
+    );
+
+    if (match) {
+      setFoundWords((prev) => new Set(prev).add(match.word));
     }
   };
 
@@ -121,21 +203,33 @@ const WordSearchGame = () => {
   const dragCells = getDragCells();
 
   const isFound = (r: number, c: number) =>
-    placements.some((p) => foundWords.has(p.word) && p.cells.some((cell) => cell.r === r && cell.c === c));
+    placements.some(
+      (p) =>
+        foundWords.has(p.word) &&
+        p.cells.some((cell) => cell.r === r && cell.c === c),
+    );
 
   const hasWon = foundWords.size === placements.length && placements.length > 0;
 
   return (
     <div className="game-card">
       <div className="text-center mb-4">
-        <p className="text-muted-foreground text-sm mb-4">Find all the hidden food words!</p>
-        <DifficultySelector currentDifficulty={difficulty} onSelect={handleDifficultyChange} configs={configs} />
+        <p className="text-muted-foreground text-sm mb-4">
+          Find all the hidden food words!
+        </p>
+        <DifficultySelector
+          currentDifficulty={difficulty}
+          onSelect={handleDifficultyChange}
+          configs={configs}
+        />
       </div>
 
       {hasWon && (
         <div className="bg-pickle/10 border-2 border-pickle rounded-xl p-4 mb-4 text-center animate-celebrate">
           <Trophy className="w-10 h-10 text-mustard mx-auto mb-2" />
-          <p className="text-lg font-display text-pickle">🎉 Found them all! 🎉</p>
+          <p className="text-lg font-display text-pickle">
+            🎉 Found them all! 🎉
+          </p>
         </div>
       )}
 
@@ -143,18 +237,30 @@ const WordSearchGame = () => {
         {/* Word Bank */}
         <div className="flex flex-wrap gap-2 justify-center">
           {config.words.map((w) => (
-            <span key={w} className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-              foundWords.has(w) ? "bg-pickle/20 text-pickle line-through" : "bg-secondary text-foreground"
-            }`}>{w}</span>
+            <span
+              key={w}
+              className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+                foundWords.has(w)
+                  ? "bg-pickle/20 text-pickle line-through"
+                  : "bg-secondary text-foreground"
+              }`}
+            >
+              {w}
+            </span>
           ))}
         </div>
 
-        <p className="text-xs text-muted-foreground">Drag across letters to select a word</p>
+        <p className="text-xs text-muted-foreground">
+          Drag across letters to select a word
+        </p>
 
         {/* Grid */}
         <div
           className="grid gap-0.5 bg-border p-1 rounded-xl shadow-game select-none"
-          style={{ gridTemplateColumns: `repeat(${config.cols}, 28px)`, touchAction: "none" }}
+          style={{
+            gridTemplateColumns: `repeat(${config.cols}, 28px)`,
+            touchAction: "none",
+          }}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
         >
@@ -162,28 +268,38 @@ const WordSearchGame = () => {
             row.map((letter, c) => (
               <button
                 key={`${r}-${c}`}
-                onPointerDown={(e) => { e.preventDefault(); handlePointerDown(r, c); }}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  handlePointerDown(r, c);
+                }}
                 onPointerEnter={() => handlePointerEnter(r, c)}
                 className={`w-7 h-7 text-xs font-bold rounded transition-all ${
                   dragCells.has(`${r}-${c}`)
                     ? "bg-primary text-primary-foreground scale-110"
                     : isFound(r, c)
-                    ? "bg-pickle/20 text-pickle"
-                    : "bg-cream text-foreground hover:bg-primary/10"
+                      ? "bg-primary text-pickle ring-1 ring-pickle"
+                      : "bg-cream text-foreground hover:bg-primary/10"
                 }`}
               >
                 {letter}
               </button>
-            ))
+            )),
           )}
         </div>
 
         <div className="bg-secondary/50 rounded-xl px-4 py-2 text-center">
           <p className="text-xs text-muted-foreground">Found</p>
-          <p className="text-xl font-display text-primary">{foundWords.size}/{placements.length}</p>
+          <p className="text-xl font-display text-primary">
+            {foundWords.size}/{placements.length}
+          </p>
         </div>
 
-        <Button onClick={() => resetGame(difficulty)} variant="secondary" size="sm" className="gap-2">
+        <Button
+          onClick={() => resetGame(difficulty)}
+          variant="secondary"
+          size="sm"
+          className="gap-2"
+        >
           <RotateCcw className="w-4 h-4" /> New Puzzle
         </Button>
       </div>
