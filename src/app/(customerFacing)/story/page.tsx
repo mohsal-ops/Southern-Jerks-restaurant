@@ -125,7 +125,7 @@ export default function Page() {
           <Image
             src={pic3}
             alt="The Southern Jerks experience"
-            className="rounded-3xl object-top w-full h-full  aspect-4/3"
+            className="rounded-3xl object-cover w-full h-full  aspect-4/3"
           />
         </motion.div>
       </section>
