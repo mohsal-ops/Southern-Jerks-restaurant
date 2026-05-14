@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import pic2 from "@/../public/general/generalPages/partners.jpg";
-import pic3 from "@/../public/general/generalPages/mother.jpg";
+import pic3 from "@/../public/general/generalPages/grandmother.jpg";
 import pic4 from "@/../public/general/generalPages/enjoy.jpg";
 
 import jabrilPhoto from "@/../public/general/generalPages/jabril.jpg"
