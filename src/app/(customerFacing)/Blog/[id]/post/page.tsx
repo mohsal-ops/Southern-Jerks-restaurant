@@ -1,98 +1,98 @@
 import Image from "next/image";
-import db from "@/db/db";
-import { notFound } from "next/navigation";
 import Link from "next/link";
+import db from "@/db/db";
+import PostCard from "@/app/(customerFacing)/_components/PostCard";
+import InstagramFeed from "../../_components/InstagramFeed";
 
-interface PageProps {
-  params: Promise<{ id: string }>;
-}
+export const metadata = {
+  title: "Southern Jerks Journal | Caribbean Food & Culture",
+  description:
+    "Discover stories, flavors, and behind-the-scenes from Southern Jerks – the home of authentic Caribbean fusion cuisine.",
+  openGraph: {
+    title: "Southern Jerks Journal",
+    description: "Stories, culture and food from Southern Jerks restaurant.",
+  },
+};
 
-export async function generateMetadata({ params }: PageProps) {
-  const { id } = await params;
-
-  const post = await db.post.findUnique({
-    where: { id: id },
+export default async function BlogPage() {
+  const posts = await db.post.findMany({
+    orderBy: { createdAt: "desc" },
   });
-
-  if (!post) return {};
-
-  return {
-    title: `${post.title} | Southern Jerks Journal`,
-    description: post.description,
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      images: [post.image],
-    },
-  };
-}
-
-export default async function Post({ params }: PageProps) {
-  const { id } = await params;
-
-  const post = await db.post.findUnique({
-    where: { id: id },
-  });
-
-  if (!post) return notFound();
 
   return (
-    <article className="min-h-screen  bg-[#0f0f0f] text-white">
-      {/* HERO */}
-      <section className="relative  w-screen sm:w-[80vw] h-[80vh] flex items-end">
-        {post.image && (
-          <Image
-            src={post.image}
-            alt={post.title}
-            fill
-            priority
-            className="object-contain opacity-60"
-          />
-        )}
-        <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
+    <div className="min-h-screen w-full bg-[#0f0f0f] text-white">
 
-        <div className="relative z-10 p-10 max-w-4xl">
-          <Link href="/Blog" className="text-sm text-[#f4b400] hover:underline">
-            ← Back to Journal
-          </Link>
+      {/* HERO FEATURED — only show if there are posts */}
+      {posts.length > 0 && (() => {
+        const [featured, ...rest] = posts;
+        return (
+          <>
+            <section className="relative h-screen sm:h-[80vh] flex items-end">
+              <Image
+                src={featured.image}
+                alt={featured.title}
+                fill
+                priority
+                className="object-cover opacity-60"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
+              <div className="relative z-10 p-10 max-w-4xl">
+                <span className="uppercase tracking-widest text-[#f4b400] text-sm">
+                  Featured Story
+                </span>
+                <h1 className="text-3xl md:text-6xl font-bold mt-3 leading-tight">
+                  {featured.title}
+                </h1>
+                <p className="mt-4 text-lg text-gray-300 line-clamp-3">
+                  {featured.description}
+                </p>
+                <Link
+                  href={`/Blog/${featured.id}/post`}
+                  className="inline-block mt-6 px-6 py-3 bg-[#f4b400] text-black font-semibold rounded-full hover:scale-105 transition"
+                >
+                  Read Story →
+                </Link>
+              </div>
+            </section>
 
-          <h1 className="text-3xl md:text-5xl font-bold mt-4 leading-tight">
-            {post.title}
-          </h1>
-          <div className="prose p-2 prose-invert prose-lg max-w-none">
-          <p className="text-md text-gray-300 leading-relaxed">
-            {post.description}
-          </p>
+            {/* MAGAZINE GRID */}
+            {rest.length > 0 && (
+              <section className="max-w-7xl mx-auto px-6 py-20">
+                <h2 className="text-3xl font-bold mb-10">
+                  Latest from the Kitchen
+                </h2>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                  {rest.map((post) => (
+                    <PostCard key={post.id} post={post} />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        );
+      })()}
+
+      {/* Show message if no blog posts yet */}
+      {posts.length === 0 && (
+        <div className="py-40 text-center text-muted-foreground">
+          <p className="text-xl text-gray-500">No stories yet — check back soon.</p>
         </div>
-        </div>
-      </section>
+      )}
 
-      {/* ARTICLE BODY */}
-      <section className="max-w-3xl mx-auto px-6 py-20">
-        <div className="prose prose-invert prose-lg max-w-none">
-          <p className="text-xl text-gray-300 leading-relaxed">
-            {post.content}
-          </p>
-        </div>
-      </section>
-
-      {/* BRAND SIGNATURE */}
-      <section className="bg-[#161616] py-16 text-center">
-        <h3 className="text-2xl font-bold text-[#f4b400]">
-          Southern Jerks Journal
+      {/* BRAND STATEMENT */}
+      <section className="bg-[#f4b400] text-black py-20 text-center">
+        <h3 className="text-4xl font-bold">
+          This is not fast food. This is culture.
         </h3>
-        <p className="mt-3 text-gray-400">
-          Caribbean heat. Brooklyn hustle. Global flavor.
+        <p className="mt-4 max-w-2xl mx-auto text-lg">
+          Every dish, every recipe, every story is built from heritage,
+          heat, and hustle.
         </p>
-
-        <Link
-          href="/Menu"
-          className="inline-block mt-6 px-6 py-3 bg-[#f4b400] 
-                     text-black font-semibold rounded-full hover:scale-105 transition"
-        >
-          View Menu →
-        </Link>
       </section>
-    </article>
+
+      {/* INSTAGRAM FEED */}
+      <InstagramFeed />
+
+    </div>
   );
 }

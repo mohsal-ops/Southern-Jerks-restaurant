@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-analytics/data": "^6.0.0",
     "@heroui/modal": "^2.2.23",
     "@heroui/system": "^2.4.22",
     "@heroui/theme": "^2.4.22",
@@ -64,7 +65,7 @@
   },
   "devDependencies": {
     "@googlemaps/js-api-loader": "^1.16.10",
-    "@types/google.maps": "^3.58.1",
+    "@types/google.maps": "^3.64.1",
     "@types/node": "^20.19.29",
     "@types/nodemailer": "^7.0.9",
     "@types/react": "^19.2.8",

@@ -3,6 +3,7 @@ import { TopNavBar } from "./_components/navBar";
 import { Footer } from "./page";
 import { Toaster } from "sonner";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 export default async function Customerlayout({
   children,
@@ -21,7 +22,7 @@ export default async function Customerlayout({
         <div className="flex flex-col md:items-center   ">{children}</div>
         <div className="flex flex-col w-full items-center ">
           <Footer />
-          <div className="text-xs  mt-2 text-black text-center p-4 md:py-3 bg-stone-200 w-full border-t border-white/10">
+          <div className="relative text-xs  mt-2 text-black text-center p-4 md:py-3 bg-stone-200 w-full border-t border-white/10">
             © {new Date().getFullYear()} Southern Jerks. All Rights Reserved.
             Website by{" "}
             <a
@@ -32,7 +33,14 @@ export default async function Customerlayout({
               Vega Star Digital
             </a>{" "}
             — MOHAMMED BENSALAH
+            <Link
+            href="/admin/login"
+            className="absolute right-1 text-xs text-stone-400 hover:text-stone-600"
+          >
+            Admin
+          </Link>
           </div>
+          
         </div>
       </main>
       <Toaster
