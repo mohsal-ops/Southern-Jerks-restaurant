@@ -34,7 +34,7 @@ export default async function Customerlayout({
             </a>{" "}
             — MOHAMMED BENSALAH
             <Link
-            href="/admin/login"
+            href="/login"
             className="absolute right-1 text-xs text-stone-400 hover:text-stone-600"
           >
             Admin

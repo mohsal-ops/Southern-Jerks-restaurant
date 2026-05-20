@@ -22,7 +22,7 @@ export default function InstagramFeed() {
           <h2 className="text-3xl font-bold mt-1">Latest from Instagram</h2>
         </div>
         <a
-          href="https://www.instagram.com/vegastar.digital/?hl=en"
+          href="https://www.instagram.com/southernjerkshtx/?hl=en"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-white transition-colors border border-gray-700 rounded-full px-4 py-2 hover:border-white"
@@ -41,7 +41,7 @@ export default function InstagramFeed() {
             <circle cx="12" cy="12" r="4" />
             <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
           </svg>
-          @vegastar.digital
+          @southernjerkshtx
         </a>
       </div>
 
