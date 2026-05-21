@@ -275,7 +275,7 @@ export default async function Page() {
               <SEOTip done={data.featuredItems >= 3} text="3+ featured items on home page" action="Set featured" href="/admin/menuItems" />
               <SEOTip done={data.totalLocations >= 1} text="Location added (helps local SEO in Houston)" action="Add location" href="/admin/places" />
               <div className="mt-4 bg-stone-50 rounded-xl p-3 flex gap-2">
-                <Zap size={14} className="text-[#c85a1e] flex-shrink-0 mt-0.5" />
+                <Zap size={14} className="text-[#c85a1e] shrink-0 mt-0.5" />
                 <p className="text-xs text-stone-500 leading-relaxed">
                   <span className="font-semibold text-stone-700">Pro tip:</span>{" "}
                   Posting 2–3 blog posts per week about your food, events, or recipes is the single biggest thing you can do to rank higher on Google.

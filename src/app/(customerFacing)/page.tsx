@@ -570,7 +570,7 @@ export function Footer() {
               <Link href="/Menu">Menu</Link>
             </Button>
             <Button variant="link">
-              <Link href="/Blog">Blog</Link>
+              <Link href="/Blog">Press</Link>
             </Button>
           </div>
           <div className="flex flex-col gap-2">

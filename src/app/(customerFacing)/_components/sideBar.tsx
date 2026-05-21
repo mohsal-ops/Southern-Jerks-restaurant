@@ -47,7 +47,7 @@ export default function AppSideBar() {
       link: "/rewards",
     },
     {
-      name: "Blog",
+      name: "Press",
       link: "/Blog",
     },
     {

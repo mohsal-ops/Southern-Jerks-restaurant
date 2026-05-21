@@ -107,7 +107,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
       link: "/rewards",
     },
     {
-      name: "Blog",
+      name: "Press",
       link: "/Blog",
     },
     {
