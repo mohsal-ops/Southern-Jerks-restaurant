@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import db from "@/db/db";
 import PostCard from "../_components/PostCard";
+import InstagramFeed from "./_components/InstagramFeed";
 
 export const metadata = {
   title: "Southern Jerks Journal | Caribbean Food & Culture",
@@ -9,8 +10,7 @@ export const metadata = {
     "Discover stories, flavors, and behind-the-scenes from Southern Jerks – the home of authentic Caribbean fusion cuisine.",
   openGraph: {
     title: "Southern Jerks Journal",
-    description:
-      "Stories, culture and food from Southern Jerks restaurant.",
+    description: "Stories, culture and food from Southern Jerks restaurant.",
   },
 };
 
@@ -19,62 +19,65 @@ export default async function BlogPage() {
     orderBy: { createdAt: "desc" },
   });
 
-  if (!posts.length) {
-    return (
-      <div className="py-20 text-center text-muted-foreground">
-        No stories yet.
-      </div>
-    );
-  }
-
-  const [featured, ...rest] = posts;
-
   return (
     <div className="min-h-screen w-full bg-[#0f0f0f] text-white">
-      
-      {/* HERO FEATURED */}
-      <section className="relative h-screen sm:h-[80vh] flex items-end">
-        <Image
-          src={featured.image}
-          alt={featured.title}
-          fill
-          priority
-          className="object-cover  opacity-60"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
 
-        <div className="relative z-10 p-10 max-w-4xl">
-          <span className="uppercase tracking-widest text-[#f4b400] text-sm">
-            Featured Story
-          </span>
-          <h1 className="text-3xl md:text-6xl font-bold mt-3 leading-tight">
-            {featured.title}
-          </h1>
-          <p className="mt-4 text-lg text-gray-300 line-clamp-3">
-            {featured.description}
-          </p>
+      {/* HERO FEATURED — only show if there are posts */}
+      {posts.length > 0 && (() => {
+        const [featured, ...rest] = posts;
+        return (
+          <>
+            <section className="relative h-screen sm:h-[80vh] flex items-end">
+              <Image
+                src={featured.image}
+                alt={featured.title}
+                fill
+                priority
+                className="object-cover opacity-60"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-black via-black/70 to-transparent" />
+              <div className="relative z-10 p-10 max-w-4xl">
+                <span className="uppercase tracking-widest text-[#f4b400] text-sm">
+                  Featured Story
+                </span>
+                <h1 className="text-3xl md:text-6xl font-bold mt-3 leading-tight">
+                  {featured.title}
+                </h1>
+                <p className="mt-4 text-lg text-gray-300 line-clamp-3">
+                  {featured.description}
+                </p>
+                <Link
+                  href={`/Blog/${featured.id}/post`}
+                  className="inline-block mt-6 px-6 py-3 bg-[#f4b400] text-black font-semibold rounded-full hover:scale-105 transition"
+                >
+                  Read Story →
+                </Link>
+              </div>
+            </section>
 
-          <Link
-            href={`/Blog/${featured.id}/post`}
-            className="inline-block mt-6 px-6 py-3 bg-[#f4b400] text-black font-semibold rounded-full hover:scale-105 transition"
-          >
-            Read Story →
-          </Link>
+            {/* MAGAZINE GRID */}
+            {rest.length > 0 && (
+              <section className="max-w-7xl mx-auto px-6 py-20">
+                <h2 className="text-3xl font-bold mb-10">
+                  Latest from the Kitchen
+                </h2>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                  {rest.map((post) => (
+                    <PostCard key={post.id} post={post} />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        );
+      })()}
+
+      {/* Show message if no blog posts yet */}
+      {posts.length === 0 && (
+        <div className="py-40 text-center text-muted-foreground">
+          <p className="text-xl text-gray-500">No stories yet — check back soon.</p>
         </div>
-      </section>
-
-      {/* MAGAZINE GRID */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold mb-10">
-          Latest from the Kitchen
-        </h2>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {rest.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-      </section>
+      )}
 
       {/* BRAND STATEMENT */}
       <section className="bg-[#f4b400] text-black py-20 text-center">
@@ -86,6 +89,10 @@ export default async function BlogPage() {
           heat, and hustle.
         </p>
       </section>
+
+      {/* INSTAGRAM FEED */}
+      <InstagramFeed />
+
     </div>
   );
 }

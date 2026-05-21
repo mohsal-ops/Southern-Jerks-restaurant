@@ -47,7 +47,7 @@ export default function InstagramFeed() {
 
       {/* Behold Widget */}
       {/* @ts-ignore */}
-      <behold-widget feed-id="8s90dtGqNm7T2vv65Bxo"></behold-widget>
+      <behold-widget feed-id="mc5zTVdPm3NfXbOO3S3g"></behold-widget>
     </section>
   );
 }
