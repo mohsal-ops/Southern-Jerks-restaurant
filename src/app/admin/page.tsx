@@ -17,7 +17,7 @@ import {
 import { ReactNode } from "react";
 import TrafficSourceChart from "./_components/charts/trafficSources";
 
-const isUnlocked = false; // 🔒 flip to true when ready
+const isUnlocked = true; // 🔒 flip to true when ready
 
 const HOURS = [
   { day: "Sunday",    open: 11, close: 16 },
@@ -285,7 +285,7 @@ export default async function Page() {
       {/* ── OVERLAY — fixed so it sits above page content but below the layout navbar ── */}
       {!isUnlocked && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm pointer-events-auto"
-          style={{ top: "56px" }} 
+          style={{ top: "56px" }}
         >
           <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4 flex flex-col items-center gap-4 text-center">
             <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center">
@@ -313,3 +313,314 @@ export default async function Page() {
     </>
   );
 }
+
+// // src/app/admin/analytics/page.tsx
+
+// import {
+//   getTrafficData,
+//   getEngagementData,
+//   getTrafficSources,
+//   getTopPages,
+//   getConversionData,
+//   getDeviceData,
+//   getSeoData,
+//   getPageSpeedData,
+// } from "@/lib/analytics";
+// import { TrendingUp, TrendingDown } from "lucide-react";
+
+// // ── Delta pill ──────────────────────────────────────────────
+// function Delta({ value, unit = "%" }: { value: number; unit?: string }) {
+//   if (value > 0)
+//     return (
+//       <span className="inline-flex items-center gap-0.5 text-[11px] font-medium px-1.5 py-0.5 rounded-full bg-green-100 text-green-800">
+//         <TrendingUp className="w-3 h-3" /> +{value}{unit}
+//       </span>
+//     );
+//   if (value < 0)
+//     return (
+//       <span className="inline-flex items-center gap-0.5 text-[11px] font-medium px-1.5 py-0.5 rounded-full bg-red-100 text-red-800">
+//         <TrendingDown className="w-3 h-3" /> {value}{unit}
+//       </span>
+//     );
+//   return null;
+// }
+
+// // ── Big stat card ────────────────────────────────────────────
+// function StatCard({
+//   label, value, delta, deltaUnit, accent, sub,
+// }: {
+//   label: string; value: string | number; delta?: number;
+//   deltaUnit?: string; accent?: string; sub?: string;
+// }) {
+//   return (
+//     <div className={`rounded-2xl p-5 flex flex-col gap-2 ${accent ?? "bg-muted/60"}`}>
+//       <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">{label}</p>
+//       <p className="text-3xl font-semibold tracking-tight leading-none">{value}</p>
+//       <div className="flex items-center gap-2 min-h-[20px]">
+//         {delta !== undefined && <Delta value={delta} unit={deltaUnit} />}
+//         {sub && <span className="text-xs text-muted-foreground">{sub}</span>}
+//       </div>
+//     </div>
+//   );
+// }
+
+// // ── Section header ───────────────────────────────────────────
+// function SectionHead({ icon, title, source }: { icon: string; title: string; source: string }) {
+//   return (
+//     <div className="flex items-center justify-between mb-4">
+//       <div className="flex items-center gap-2">
+//         <span className="text-lg">{icon}</span>
+//         <h2 className="text-base font-semibold">{title}</h2>
+//       </div>
+//       <span className="text-[10px] font-medium px-2 py-0.5 rounded-full border border-border text-muted-foreground">
+//         {source}
+//       </span>
+//     </div>
+//   );
+// }
+
+// // ── Rank badge ───────────────────────────────────────────────
+// function RankBadge({ pos }: { pos: number }) {
+//   if (pos <= 3) return <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">#{pos} 🔥</span>;
+//   if (pos <= 10) return <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">#{pos}</span>;
+//   return <span className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-muted text-muted-foreground">#{pos}</span>;
+// }
+
+// // ── Bar ──────────────────────────────────────────────────────
+// function Bar({ pct, color }: { pct: number; color: string }) {
+//   return (
+//     <div className="flex-1 bg-muted rounded-full h-1.5 overflow-hidden">
+//       <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
+//     </div>
+//   );
+// }
+
+// // ── Page ─────────────────────────────────────────────────────
+// export default async function AnalyticsPage() {
+//   const [traffic, engagement, sources, topPages, conversions, devices, seo, speed] =
+//     await Promise.all([
+//       getTrafficData(), getEngagementData(), getTrafficSources(),
+//       getTopPages(), getConversionData(), getDeviceData(),
+//       getSeoData(), getPageSpeedData(),
+//     ]);
+
+//   return (
+//     <div className="max-w-5xl mx-auto p-6 space-y-10 pb-20">
+
+//       {/* ── Header ─────────────────────────────────────────── */}
+//       <div className="flex items-end justify-between border-b pb-5">
+//         <div>
+//           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1">Restaurant dashboard</p>
+//           <h1 className="text-2xl font-bold tracking-tight">Website Analytics</h1>
+//         </div>
+//         <span className="text-xs text-muted-foreground">Last 30 days</span>
+//       </div>
+
+//       {/* ── Traffic ────────────────────────────────────────── */}
+//       <section>
+//         <SectionHead icon="📈" title="Traffic" source="Google Analytics" />
+//         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+//           <StatCard label="Unique visitors" value={traffic.uniqueVisitors.toLocaleString()} delta={traffic.uniqueVisitorsDelta} deltaUnit="%" accent="bg-blue-50 dark:bg-blue-950/30" />
+//           <StatCard label="Total visits" value={traffic.totalVisits.toLocaleString()} delta={traffic.totalVisitsDelta} deltaUnit="%" />
+//           <StatCard label="Page views" value={traffic.pageViews.toLocaleString()} delta={traffic.pageViewsDelta} deltaUnit="%" />
+//           <StatCard label="Bounce rate" value={`${traffic.bounceRate}%`} delta={traffic.bounceRateDelta} deltaUnit=" pts" sub="lower = better" />
+//         </div>
+//       </section>
+
+//       {/* ── Traffic Sources + Engagement side by side ───────── */}
+//       <div className="grid lg:grid-cols-2 gap-6">
+
+//         {/* Sources */}
+//         <section className="rounded-2xl border p-5">
+//           <p className="text-sm font-semibold mb-4">Where visitors come from</p>
+//           <div className="space-y-3">
+//             {sources.length === 0 && <p className="text-sm text-muted-foreground">No data yet</p>}
+//             {sources.map((s) => (
+//               <div key={s.name} className="flex items-center gap-3">
+//                 <span className="text-xs text-muted-foreground w-28 shrink-0">{s.name}</span>
+//                 <Bar pct={s.percentage} color={s.color} />
+//                 <span className="text-xs font-semibold w-8 text-right tabular-nums">{s.percentage}%</span>
+//               </div>
+//             ))}
+//           </div>
+//         </section>
+
+//         {/* Engagement */}
+//         <section className="rounded-2xl border p-5">
+//           <p className="text-sm font-semibold mb-4">How people engage</p>
+//           <div className="grid grid-cols-2 gap-3">
+//             {[
+//               { label: "Avg session", value: engagement.avgSessionDuration, sub: "target 3min+" },
+//               { label: "Pages/session", value: String(engagement.pagesPerSession), sub: "higher = better" },
+//               { label: "Return visitors", value: `${engagement.returningVisitors}%`, sub: "loyalty" },
+//               { label: "Top exit page", value: engagement.topExitPage, sub: `${engagement.exitRate}% leave here` },
+//             ].map((item) => (
+//               <div key={item.label} className="bg-muted/50 rounded-xl p-3">
+//                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{item.label}</p>
+//                 <p className="text-base font-semibold truncate">{item.value}</p>
+//                 <p className="text-[11px] text-muted-foreground mt-0.5">{item.sub}</p>
+//               </div>
+//             ))}
+//           </div>
+//         </section>
+//       </div>
+
+//       {/* ── Top Pages ────────────────────────────────────────── */}
+//       <section>
+//         <SectionHead icon="📄" title="Top pages" source="Google Analytics" />
+//         <div className="rounded-2xl border overflow-hidden">
+//           <div className="grid grid-cols-[1fr_80px_100px_80px] text-[11px] uppercase tracking-widest text-muted-foreground font-medium bg-muted/40 px-5 py-2.5 border-b">
+//             <span>Page</span><span className="text-right">Views</span>
+//             <span className="text-right">Avg time</span><span className="text-right">Exit</span>
+//           </div>
+//           {topPages.length === 0 && (
+//             <p className="px-5 py-4 text-sm text-muted-foreground">No page data yet</p>
+//           )}
+//           {topPages.map((page, i) => (
+//             <div
+//               key={page.page}
+//               className={`grid grid-cols-[1fr_80px_100px_80px] px-5 py-3 items-center text-sm ${
+//                 i < topPages.length - 1 ? "border-b" : ""
+//               }`}
+//             >
+//               <span className="font-mono text-xs text-muted-foreground truncate pr-4">{page.page}</span>
+//               <span className="text-right font-medium tabular-nums">{page.views.toLocaleString()}</span>
+//               <span className="text-right text-muted-foreground tabular-nums">{page.avgTime}</span>
+//               <span className={`text-right font-medium tabular-nums ${page.exitRate > 35 ? "text-red-600" : "text-muted-foreground"}`}>
+//                 {page.exitRate}%
+//               </span>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       {/* ── SEO ──────────────────────────────────────────────── */}
+//       <section>
+//         <SectionHead icon="🔍" title="SEO" source="Search Console" />
+
+//         {/* 4 big stats */}
+//         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+//           <StatCard label="Organic clicks" value={seo.organicTraffic.toLocaleString()} accent="bg-green-50 dark:bg-green-950/30" />
+//           <StatCard label="Impressions" value={seo.impressions.toLocaleString()} />
+//           <StatCard label="Click-through rate" value={`${seo.ctr}%`} sub="avg across all searches" />
+//           <StatCard label="Avg position" value={`#${seo.avgPosition}`} sub="Google ranking" accent={seo.avgPosition <= 10 ? "bg-amber-50 dark:bg-amber-950/30" : undefined} />
+//         </div>
+
+//         {/* Keywords */}
+//         <div className="rounded-2xl border overflow-hidden">
+//           <div className="px-5 py-3 border-b bg-muted/40">
+//             <p className="text-sm font-semibold">Keyword rankings</p>
+//           </div>
+//           <div className="grid grid-cols-[1fr_70px_60px_60px_80px] text-[11px] uppercase tracking-widest text-muted-foreground font-medium bg-muted/20 px-5 py-2 border-b">
+//             <span>Keyword</span><span className="text-center">Position</span>
+//             <span className="text-right">Clicks</span><span className="text-right">CTR</span>
+//             <span className="text-right">Rank</span>
+//           </div>
+//           {seo.keywords.length === 0 && (
+//             <p className="px-5 py-4 text-sm text-muted-foreground">No keyword data yet</p>
+//           )}
+//           {seo.keywords.map((kw, i) => (
+//             <div
+//               key={kw.keyword}
+//               className={`grid grid-cols-[1fr_70px_60px_60px_80px] px-5 py-3 items-center text-sm ${
+//                 i < seo.keywords.length - 1 ? "border-b" : ""
+//               }`}
+//             >
+//               <span className="truncate pr-4 font-medium">{kw.keyword}</span>
+//               <span className="text-center"><RankBadge pos={kw.position} /></span>
+//               <span className="text-right tabular-nums text-muted-foreground">{kw.clicks}</span>
+//               <span className="text-right tabular-nums text-muted-foreground">{kw.ctr}%</span>
+//               <div className="flex justify-end">
+//                 <RankBadge pos={kw.position} />
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       {/* ── Conversions + Device + Speed ─────────────────────── */}
+//       <div className="grid lg:grid-cols-3 gap-6">
+
+//         {/* Conversions */}
+//         <section className="rounded-2xl border p-5">
+//           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-4">Conversions</p>
+//           <div className="space-y-4">
+//             <div>
+//               <p className="text-3xl font-bold">{conversions.conversionRate}%</p>
+//               <p className="text-xs text-muted-foreground mt-1">conversion rate</p>
+//             </div>
+//             <div className="border-t pt-4">
+//               <p className="text-2xl font-semibold">{conversions.goalCompletions.toLocaleString()}</p>
+//               <div className="flex items-center gap-2 mt-1">
+//                 <p className="text-xs text-muted-foreground">goal completions</p>
+//                 {conversions.goalsDelta !== 0 && <Delta value={conversions.goalsDelta} unit="" />}
+//               </div>
+//             </div>
+//             <div className="border-t pt-4">
+//               <p className="text-xl font-semibold">{speed.performanceScore}/100</p>
+//               <p className="text-xs text-muted-foreground mt-1">PageSpeed score</p>
+//             </div>
+//           </div>
+//         </section>
+
+//         {/* Devices */}
+//         <section className="rounded-2xl border p-5">
+//           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-4">Devices</p>
+//           {devices.length === 0 ? (
+//             <p className="text-sm text-muted-foreground">No device data yet</p>
+//           ) : (
+//             <div className="space-y-4">
+//               {devices.map((d) => (
+//                 <div key={d.label}>
+//                   <div className="flex justify-between items-baseline mb-1.5">
+//                     <span className="text-sm font-medium">{d.label}</span>
+//                     <span className="text-xl font-bold tabular-nums">{d.value}%</span>
+//                   </div>
+//                   <Bar pct={d.value} color={d.color} />
+//                 </div>
+//               ))}
+//             </div>
+//           )}
+//         </section>
+
+//         {/* Page Speed */}
+//         <section className="rounded-2xl border p-5">
+//           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-4">Page speed</p>
+//           {speed.loadSpeed === null ? (
+//             <div className="space-y-2">
+//               <p className="text-sm text-muted-foreground">Not connected</p>
+//               <p className="text-xs text-muted-foreground leading-relaxed">
+//                 Add <code className="bg-muted px-1 rounded">PAGESPEED_API_KEY</code> to <code className="bg-muted px-1 rounded">.env.local</code> to see load speed, FCP, LCP, CLS.
+//               </p>
+//             </div>
+//           ) : (
+//             <div className="space-y-4">
+//               <div>
+//                 <p className="text-3xl font-bold">{speed.loadSpeed}s</p>
+//                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full mt-1 inline-block ${
+//                   speed.loadSpeed < 3 ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+//                 }`}>
+//                   {speed.loadSpeed < 3 ? "Good" : "Needs work"}
+//                 </span>
+//               </div>
+//               <div className="grid grid-cols-2 gap-2 border-t pt-4">
+//                 {[
+//                   { label: "FCP", value: speed.fcp },
+//                   { label: "LCP", value: speed.lcp },
+//                   { label: "CLS", value: speed.cls },
+//                   { label: "TBT", value: speed.tbt },
+//                 ].map((m) => (
+//                   <div key={m.label} className="bg-muted/50 rounded-lg p-2 text-center">
+//                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{m.label}</p>
+//                     <p className="text-sm font-semibold mt-0.5">{m.value}</p>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           )}
+//         </section>
+//       </div>
+
+//     </div>
+//   );
+// }
