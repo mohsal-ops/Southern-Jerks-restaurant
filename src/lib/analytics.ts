@@ -1,8 +1,4 @@
-// lib/analytics.ts
-// ─────────────────────────────────────────────────────────
-// Real data fetching for GA4, Search Console, PageSpeed
-// Run once: npm install @google-analytics/data googleapis
-// ─────────────────────────────────────────────────────────
+// lib/analytics.ts  →  src/lib/analytics.ts
 
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { google } from "googleapis";
@@ -13,13 +9,11 @@ const credentials = {
 };
 
 const GA4_PROPERTY_ID = process.env.GA4_PROPERTY_ID!;
-const PAGESPEED_API_KEY = process.env.PAGESPEED_API_KEY!;
-const SITE_URL = process.env.SITE_URL!; // e.g. https://yourrestaurant.com
+const PAGESPEED_API_KEY = process.env.PAGESPEED_API_KEY;   // optional — won't crash if missing
+const SITE_URL = process.env.SITE_URL!;
 
-// ── GA4 client ────────────────────────────────────────────
 const ga4 = new BetaAnalyticsDataClient({ credentials });
 
-// ── Search Console client ─────────────────────────────────
 const auth = new google.auth.GoogleAuth({
   credentials,
   scopes: ["https://www.googleapis.com/auth/webmasters.readonly"],
@@ -27,332 +21,369 @@ const auth = new google.auth.GoogleAuth({
 const searchconsole = google.searchconsole({ version: "v1", auth });
 
 // ─────────────────────────────────────────────────────────
-// 1. Traffic overview (GA4)
+// 1. Traffic
 // ─────────────────────────────────────────────────────────
 export async function getTrafficData() {
-  
-  const [current, previous] = await Promise.all([
-    ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
-      dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-      metrics: [
-        { name: "activeUsers" },
-        { name: "sessions" },
-        { name: "screenPageViews" },
-        { name: "bounceRate" },
-      ],
-    }),
-    ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
-      dateRanges: [{ startDate: "60daysAgo", endDate: "31daysAgo" }],
-      metrics: [
-        { name: "activeUsers" },
-        { name: "sessions" },
-        { name: "screenPageViews" },
-        { name: "bounceRate" },
-      ],
-    }),
-  ]);
+  try {
+    const [current, previous] = await Promise.all([
+      ga4.runReport({
+        property: `properties/${GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+        metrics: [
+          { name: "activeUsers" },
+          { name: "sessions" },
+          { name: "screenPageViews" },
+          { name: "bounceRate" },
+        ],
+      }),
+      ga4.runReport({
+        property: `properties/${GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate: "60daysAgo", endDate: "31daysAgo" }],
+        metrics: [
+          { name: "activeUsers" },
+          { name: "sessions" },
+          { name: "screenPageViews" },
+          { name: "bounceRate" },
+        ],
+      }),
+    ]);
 
-  const cur = current[0].rows?.[0]?.metricValues;
-  const prev = previous[0].rows?.[0]?.metricValues;
+    const cur = current[0].rows?.[0]?.metricValues;
+    const prev = previous[0].rows?.[0]?.metricValues;
+    const delta = (c: number, p: number) =>
+      p === 0 ? 0 : Math.round(((c - p) / p) * 100);
 
-  const delta = (c: number, p: number) =>
-    p === 0 ? 0 : Math.round(((c - p) / p) * 100);
+    const uv  = parseInt(cur?.[0]?.value ?? "0");
+    const tv  = parseInt(cur?.[1]?.value ?? "0");
+    const pv  = parseInt(cur?.[2]?.value ?? "0");
+    const br  = Math.round(parseFloat(cur?.[3]?.value ?? "0") * 100);
+    const uvP = parseInt(prev?.[0]?.value ?? "0");
+    const tvP = parseInt(prev?.[1]?.value ?? "0");
+    const pvP = parseInt(prev?.[2]?.value ?? "0");
+    const brP = Math.round(parseFloat(prev?.[3]?.value ?? "0") * 100);
 
-  const uv = parseInt(cur?.[0]?.value ?? "0");
-  const tv = parseInt(cur?.[1]?.value ?? "0");
-  const pv = parseInt(cur?.[2]?.value ?? "0");
-  const br = Math.round(parseFloat(cur?.[3]?.value ?? "0") * 100);
-
-  const uvP = parseInt(prev?.[0]?.value ?? "0");
-  const tvP = parseInt(prev?.[1]?.value ?? "0");
-  const pvP = parseInt(prev?.[2]?.value ?? "0");
-  const brP = Math.round(parseFloat(prev?.[3]?.value ?? "0") * 100);
-
-  return {
-    uniqueVisitors: uv,
-    totalVisits: tv,
-    pageViews: pv,
-    bounceRate: br,
-    uniqueVisitorsDelta: delta(uv, uvP),
-    totalVisitsDelta: delta(tv, tvP),
-    pageViewsDelta: delta(pv, pvP),
-    bounceRateDelta: br - brP, // points change (negative = improved)
-  };
+    return {
+      uniqueVisitors: uv, totalVisits: tv, pageViews: pv, bounceRate: br,
+      uniqueVisitorsDelta: delta(uv, uvP), totalVisitsDelta: delta(tv, tvP),
+      pageViewsDelta: delta(pv, pvP), bounceRateDelta: br - brP,
+    };
+  } catch (e) {
+    console.error("getTrafficData failed:", e);
+    return {
+      uniqueVisitors: 0, totalVisits: 0, pageViews: 0, bounceRate: 0,
+      uniqueVisitorsDelta: 0, totalVisitsDelta: 0, pageViewsDelta: 0, bounceRateDelta: 0,
+    };
+  }
 }
 
 // ─────────────────────────────────────────────────────────
-// 2. Engagement (GA4)
+// 2. Engagement
 // ─────────────────────────────────────────────────────────
 export async function getEngagementData() {
+  try {
+    const [engagement, exitPages, newVsReturn] = await Promise.all([
+      ga4.runReport({
+        property: `properties/${GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+        metrics: [
+          { name: "averageSessionDuration" },
+          { name: "screenPageViewsPerSession" },
+        ],
+      }),
+      ga4.runReport({
+        property: `properties/${GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+        dimensions: [{ name: "pagePath" }],
+        metrics: [{ name: "exitRate" }],
+        orderBys: [{ metric: { metricName: "exitRate" }, desc: true }],
+        limit: 1,
+      }),
+      ga4.runReport({
+        property: `properties/${GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+        dimensions: [{ name: "newVsReturning" }],
+        metrics: [{ name: "activeUsers" }],
+      }),
+    ]);
 
-  const [engagement, exitPages, newVsReturn] = await Promise.all([
-    ga4.runReport({
+    const engRow     = engagement[0].rows?.[0]?.metricValues;
+    const rawSeconds = parseFloat(engRow?.[0]?.value ?? "0");
+    const minutes    = Math.floor(rawSeconds / 60);
+    const seconds    = Math.round(rawSeconds % 60);
+
+    const exitRow    = exitPages[0].rows?.[0];
+    const topExitPage = exitRow?.dimensionValues?.[0]?.value ?? "/";
+    const exitRate   = Math.round(parseFloat(exitRow?.metricValues?.[0]?.value ?? "0") * 100);
+
+    const rows       = newVsReturn[0].rows ?? [];
+    const returning  = rows.find((r) => r.dimensionValues?.[0]?.value === "returning");
+    const newUsers   = rows.find((r) => r.dimensionValues?.[0]?.value === "new");
+    const retCount   = parseInt(returning?.metricValues?.[0]?.value ?? "0");
+    const newCount   = parseInt(newUsers?.metricValues?.[0]?.value   ?? "0");
+    const total      = retCount + newCount;
+    const returningPct = total === 0 ? 0 : Math.round((retCount / total) * 100);
+
+    return {
+      avgSessionDuration: `${minutes}m ${seconds}s`,
+      pagesPerSession: parseFloat(parseFloat(engRow?.[1]?.value ?? "0").toFixed(1)),
+      returningVisitors: returningPct,
+      topExitPage,
+      exitRate,
+    };
+  } catch (e) {
+    console.error("getEngagementData failed:", e);
+    return { avgSessionDuration: "0m 0s", pagesPerSession: 0, returningVisitors: 0, topExitPage: "/", exitRate: 0 };
+  }
+}
+
+// ─────────────────────────────────────────────────────────
+// 3. Traffic Sources
+// ─────────────────────────────────────────────────────────
+export async function getTrafficSources() {
+  try {
+    const [response] = await ga4.runReport({
       property: `properties/${GA4_PROPERTY_ID}`,
       dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-      metrics: [
-        { name: "averageSessionDuration" },
-        { name: "screenPageViewsPerSession" },
-      ],
-    }),
-    ga4.runReport({
+      dimensions: [{ name: "sessionDefaultChannelGroup" }],
+      metrics: [{ name: "sessions" }],
+      orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
+    });
+
+    const rows = response.rows ?? [];
+    const totalSessions = rows.reduce(
+      (sum, r) => sum + parseInt(r.metricValues?.[0]?.value ?? "0"), 0
+    );
+
+    const colorMap: Record<string, string> = {
+      "Organic Search": "bg-blue-500",
+      Direct: "bg-emerald-600",
+      "Organic Social": "bg-orange-500",
+      Referral: "bg-amber-600",
+      Email: "bg-gray-400",
+      Paid: "bg-purple-500",
+    };
+
+    return rows.slice(0, 6).map((row) => {
+      const name = row.dimensionValues?.[0]?.value ?? "Other";
+      const sessions = parseInt(row.metricValues?.[0]?.value ?? "0");
+      return {
+        name,
+        percentage: totalSessions === 0 ? 0 : Math.round((sessions / totalSessions) * 100),
+        color: colorMap[name] ?? "bg-gray-400",
+      };
+    });
+  } catch (e) {
+    console.error("getTrafficSources failed:", e);
+    return [];
+  }
+}
+
+// ─────────────────────────────────────────────────────────
+// 4. Top Pages
+// ─────────────────────────────────────────────────────────
+export async function getTopPages() {
+  try {
+    const [response] = await ga4.runReport({
       property: `properties/${GA4_PROPERTY_ID}`,
       dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
       dimensions: [{ name: "pagePath" }],
-      metrics: [{ name: "bounceRate" }],
-      orderBys: [{ metric: { metricName: "bounceRate" }, desc: true }],
-      limit: 1,
-    }),
-    ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
-      dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-      dimensions: [{ name: "newVsReturning" }],
-      metrics: [{ name: "activeUsers" }],
-    }),
-  ]);
+      metrics: [
+        { name: "screenPageViews" },
+        { name: "averageSessionDuration" },
+        { name: "exitRate" },
+      ],
+      orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
+      limit: 8,
+    });
 
-  const engRow = engagement[0].rows?.[0]?.metricValues;
-  const rawSeconds = parseFloat(engRow?.[0]?.value ?? "0");
-  const minutes = Math.floor(rawSeconds / 60);
-  const seconds = Math.round(rawSeconds % 60);
-
-  const exitRow = exitPages[0].rows?.[0];
-  const topExitPage = exitRow?.dimensionValues?.[0]?.value ?? "/";
-  const exitRate = Math.round(
-    parseFloat(exitRow?.metricValues?.[0]?.value ?? "0") * 100
-  );
-
-  const rows = newVsReturn[0].rows ?? [];
-  const returning = rows.find(
-    (r) => r.dimensionValues?.[0]?.value === "returning"
-  );
-  const newUsers = rows.find(
-    (r) => r.dimensionValues?.[0]?.value === "new"
-  );
-  const retCount = parseInt(returning?.metricValues?.[0]?.value ?? "0");
-  const newCount = parseInt(newUsers?.metricValues?.[0]?.value ?? "0");
-  const total = retCount + newCount;
-  const returningPct = total === 0 ? 0 : Math.round((retCount / total) * 100);
-
-  return {
-    avgSessionDuration: `${minutes}m ${seconds}s`,
-    pagesPerSession: parseFloat(
-      parseFloat(engRow?.[1]?.value ?? "0").toFixed(1)
-    ),
-    returningVisitors: returningPct,
-    topExitPage,
-    exitRate,
-  };
+    return (response.rows ?? []).map((row) => {
+      const rawSecs = parseFloat(row.metricValues?.[1]?.value ?? "0");
+      const m = Math.floor(rawSecs / 60);
+      const s = Math.round(rawSecs % 60);
+      return {
+        page: row.dimensionValues?.[0]?.value ?? "/",
+        views: parseInt(row.metricValues?.[0]?.value ?? "0"),
+        avgTime: `${m}m ${s}s`,
+        exitRate: Math.round(parseFloat(row.metricValues?.[2]?.value ?? "0") * 100),
+      };
+    });
+  } catch (e) {
+    console.error("getTopPages failed:", e);
+    return [];
+  }
 }
 
 // ─────────────────────────────────────────────────────────
-// 3. Traffic sources (GA4)
-// ─────────────────────────────────────────────────────────
-export async function getTrafficSources() {
-  const [response] = await ga4.runReport({
-    property: `properties/${GA4_PROPERTY_ID}`,
-    dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-    dimensions: [{ name: "sessionDefaultChannelGroup" }],
-    metrics: [{ name: "sessions" }],
-    orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
-  });
-
-  const rows = response.rows ?? [];
-  const totalSessions = rows.reduce(
-    (sum, r) => sum + parseInt(r.metricValues?.[0]?.value ?? "0"),
-    0
-  );
-
-  const colorMap: Record<string, string> = {
-    "Organic Search": "bg-blue-500",
-    Direct: "bg-emerald-600",
-    "Organic Social": "bg-orange-500",
-    Referral: "bg-amber-600",
-    Email: "bg-gray-400",
-    Paid: "bg-purple-500",
-  };
-
-  return rows.slice(0, 6).map((row) => {
-    const name = row.dimensionValues?.[0]?.value ?? "Other";
-    const sessions = parseInt(row.metricValues?.[0]?.value ?? "0");
-    return {
-      name,
-      percentage:
-        totalSessions === 0 ? 0 : Math.round((sessions / totalSessions) * 100),
-      color: colorMap[name] ?? "bg-gray-400",
-    };
-  });
-}
-
-// ─────────────────────────────────────────────────────────
-// 4. Top pages (GA4)
-// ─────────────────────────────────────────────────────────
-export async function getTopPages() {
-  const [response] = await ga4.runReport({
-    property: `properties/${GA4_PROPERTY_ID}`,
-    dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-    dimensions: [{ name: "pagePath" }],
-    metrics: [
-      { name: "screenPageViews" },
-      { name: "averageSessionDuration" },
-      { name: "sessions" },
-    ],
-    orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
-    limit: 8,
-  });
-
-  return (response.rows ?? []).map((row) => {
-    const rawSecs = parseFloat(row.metricValues?.[1]?.value ?? "0");
-    const m = Math.floor(rawSecs / 60);
-    const s = Math.round(rawSecs % 60);
-    return {
-      page: row.dimensionValues?.[0]?.value ?? "/",
-      views: parseInt(row.metricValues?.[0]?.value ?? "0"),
-      avgTime: `${m}m ${s}s`,
-      exitRate:0,
-    };
-  });
-}
-
-// ─────────────────────────────────────────────────────────
-// 5. Conversions (GA4)
+// 5. Conversions
 // ─────────────────────────────────────────────────────────
 export async function getConversionData() {
-  const [conv, prevConv] = await Promise.all([
-    ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
-      dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-      metrics: [
-        { name: "conversions" },
-        { name: "sessionConversionRate" },
-        // "form_submission" counts reservation form completions
-      ],
-    }),
-    ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
-      dateRanges: [{ startDate: "60daysAgo", endDate: "31daysAgo" }],
-      metrics: [{ name: "conversions" }],
-    }),
-  ]);
+  try {
+    const [conv, prevConv] = await Promise.all([
+      ga4.runReport({
+        property: `properties/${GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+        metrics: [{ name: "conversions" }, { name: "sessionConversionRate" }],
+      }),
+      ga4.runReport({
+        property: `properties/${GA4_PROPERTY_ID}`,
+        dateRanges: [{ startDate: "60daysAgo", endDate: "31daysAgo" }],
+        metrics: [{ name: "conversions" }],
+      }),
+    ]);
 
-  const curRow = conv[0].rows?.[0]?.metricValues;
-  const prevCount = parseInt(
-    prevConv[0].rows?.[0]?.metricValues?.[0]?.value ?? "0"
-  );
-  const goals = parseInt(curRow?.[0]?.value ?? "0");
+    const curRow    = conv[0].rows?.[0]?.metricValues;
+    const prevCount = parseInt(prevConv[0].rows?.[0]?.metricValues?.[0]?.value ?? "0");
+    const goals     = parseInt(curRow?.[0]?.value ?? "0");
 
-  return {
-    conversionRate: parseFloat(
-      (parseFloat(curRow?.[1]?.value ?? "0") * 100).toFixed(1)
-    ),
-    goalCompletions: goals,
-    goalsDelta: goals - prevCount,
-  };
+    return {
+      conversionRate: parseFloat((parseFloat(curRow?.[1]?.value ?? "0") * 100).toFixed(1)),
+      goalCompletions: goals,
+      goalsDelta: goals - prevCount,
+    };
+  } catch (e) {
+    console.error("getConversionData failed:", e);
+    return { conversionRate: 0, goalCompletions: 0, goalsDelta: 0 };
+  }
 }
 
 // ─────────────────────────────────────────────────────────
-// 6. Device breakdown (GA4)
+// 6. Device breakdown
 // ─────────────────────────────────────────────────────────
 export async function getDeviceData() {
-  const [response] = await ga4.runReport({
-    property: `properties/${GA4_PROPERTY_ID}`,
-    dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-    dimensions: [{ name: "deviceCategory" }],
-    metrics: [{ name: "sessions" }],
-  });
+  try {
+    const [response] = await ga4.runReport({
+      property: `properties/${GA4_PROPERTY_ID}`,
+      dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+      dimensions: [{ name: "deviceCategory" }],
+      metrics: [{ name: "sessions" }],
+    });
 
-  const rows = response.rows ?? [];
-  const total = rows.reduce(
-    (s, r) => s + parseInt(r.metricValues?.[0]?.value ?? "0"),
-    0
-  );
+    const rows  = response.rows ?? [];
+    const total = rows.reduce(
+      (s, r) => s + parseInt(r.metricValues?.[0]?.value ?? "0"), 0
+    );
 
-  const colorMap: Record<string, string> = {
-    mobile: "bg-blue-500",
-    desktop: "bg-emerald-600",
-    tablet: "bg-gray-400",
-  };
-
-  return rows.map((row) => {
-    const label = row.dimensionValues?.[0]?.value ?? "other";
-    const sessions = parseInt(row.metricValues?.[0]?.value ?? "0");
-    return {
-      label: label.charAt(0).toUpperCase() + label.slice(1),
-      value: total === 0 ? 0 : Math.round((sessions / total) * 100),
-      color: colorMap[label] ?? "bg-gray-400",
+    const colorMap: Record<string, string> = {
+      mobile:  "bg-blue-500",
+      desktop: "bg-emerald-600",
+      tablet:  "bg-gray-400",
     };
-  });
+
+    return rows.map((row) => {
+      const label    = row.dimensionValues?.[0]?.value ?? "other";
+      const sessions = parseInt(row.metricValues?.[0]?.value ?? "0");
+      return {
+        label: label.charAt(0).toUpperCase() + label.slice(1),
+        value: total === 0 ? 0 : Math.round((sessions / total) * 100),
+        color: colorMap[label] ?? "bg-gray-400",
+      };
+    });
+  } catch (e) {
+    console.error("getDeviceData failed:", e);
+    return [];
+  }
 }
 
 // ─────────────────────────────────────────────────────────
 // 7. SEO — Search Console
 // ─────────────────────────────────────────────────────────
 export async function getSeoData() {
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-  const startDate = thirtyDaysAgo.toISOString().split("T")[0];
-  const endDate = new Date().toISOString().split("T")[0];
+  const fallback = { organicTraffic: 0, impressions: 0, ctr: 0, avgPosition: 0, keywords: [], error: "" };
 
-  const [overview, keywords] = await Promise.all([
-    searchconsole.searchanalytics.query({
-      siteUrl: SITE_URL,
-      requestBody: {
-        startDate,
-        endDate,
-        dimensions: [],
-      },
-    }),
-    searchconsole.searchanalytics.query({
-      siteUrl: SITE_URL,
-      requestBody: {
-        startDate,
-        endDate,
-        dimensions: ["query"],
-        rowLimit: 10,
-       
-      },
-    }),
-  ]);
+  try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const startDate = thirtyDaysAgo.toISOString().split("T")[0];
+    const endDate   = new Date().toISOString().split("T")[0];
 
-  const ov = overview.data.rows?.[0];
+    const [overview, keywords] = await Promise.all([
+      searchconsole.searchanalytics.query({
+        siteUrl: SITE_URL,
+        requestBody: { startDate, endDate },
+      }),
+      searchconsole.searchanalytics.query({
+        siteUrl: SITE_URL,
+        requestBody: {
+          startDate, endDate,
+          dimensions: ["query"],
+          rowLimit: 10,
+        },
+      }),
+    ]);
 
-  return {
-    organicTraffic: Math.round(ov?.clicks ?? 0),
-    impressions: Math.round(ov?.impressions ?? 0),
-    ctr: parseFloat(((ov?.ctr ?? 0) * 100).toFixed(1)),
-    avgPosition: parseFloat((ov?.position ?? 0).toFixed(1)),
-    keywords: (keywords.data.rows ?? []).map((row) => ({
-      keyword: (row.keys?.[0] ?? "").toLowerCase(),
-      position: Math.round(row.position ?? 0),
-      clicks: Math.round(row.clicks ?? 0),
-      ctr: parseFloat(((row.ctr ?? 0) * 100).toFixed(1)),
-    })),
-  };
+    const ov = overview.data.rows?.[0];
+
+    return {
+      organicTraffic: Math.round(ov?.clicks    ?? 0),
+      impressions:    Math.round(ov?.impressions ?? 0),
+      ctr:            parseFloat(((ov?.ctr      ?? 0) * 100).toFixed(1)),
+      avgPosition:    parseFloat((ov?.position   ?? 0).toFixed(1)),
+      keywords: (keywords.data.rows ?? []).map((row) => ({
+        keyword:  (row.keys?.[0] ?? "").toLowerCase(),
+        position: Math.round(row.position ?? 0),
+        clicks:   Math.round(row.clicks   ?? 0),
+        ctr:      parseFloat(((row.ctr    ?? 0) * 100).toFixed(1)),
+      })),
+      error: "",
+    };
+  } catch (e: any) {
+    const status  = e?.status ?? e?.code ?? "unknown";
+    const message = status === 403
+      ? "403 — check SITE_URL format and service account permissions"
+      : `Search Console error ${status}`;
+    console.error("getSeoData failed:", message);
+    return { ...fallback, error: message };
+  }
 }
 
 // ─────────────────────────────────────────────────────────
-// 8. PageSpeed Insights
+// 8. PageSpeed
 // ─────────────────────────────────────────────────────────
 export async function getPageSpeedData() {
-  const url = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(
-    SITE_URL
-  )}&key=${PAGESPEED_API_KEY}&strategy=mobile&category=performance`;
-
-  const res = await fetch(url, { next: { revalidate: 3600 } }); // cache 1 hour
-  const data = await res.json();
-
-  const lhr = data.lighthouseResult;
-  const audits = lhr?.audits;
-
-  return {
-    performanceScore: Math.round((lhr?.categories?.performance?.score ?? 0) * 100),
-    loadSpeed: parseFloat(
-      (audits?.["interactive"]?.numericValue / 1000).toFixed(1)
-    ),
-    fcp: audits?.["first-contentful-paint"]?.displayValue ?? "–",
-    lcp: audits?.["largest-contentful-paint"]?.displayValue ?? "–",
-    cls: audits?.["cumulative-layout-shift"]?.displayValue ?? "–",
-    tbt: audits?.["total-blocking-time"]?.displayValue ?? "–",
+  // Safe fallback — shown when key is missing or API fails
+  const fallback = {
+    performanceScore: 0,
+    loadSpeed: null as number | null,   // null = "not available" (avoids NaN)
+    fcp: "–", lcp: "–", cls: "–", tbt: "–",
+    error: "",
   };
+
+  // No key configured — return fallback silently
+  if (!PAGESPEED_API_KEY) {
+    return { ...fallback, error: "PAGESPEED_API_KEY not set in .env.local" };
+  }
+
+  try {
+    const url = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(
+      SITE_URL
+    )}&key=${PAGESPEED_API_KEY}&strategy=mobile&category=performance`;
+
+    const res  = await fetch(url, { next: { revalidate: 3600 } });
+    const data = await res.json();
+
+    // API key invalid or quota exceeded
+    if (data.error) {
+      console.error("PageSpeed API error:", data.error.message);
+      return { ...fallback, error: data.error.message };
+    }
+
+    const lhr    = data.lighthouseResult;
+    const audits = lhr?.audits;
+
+    const rawSpeed = audits?.["interactive"]?.numericValue;
+
+    return {
+      performanceScore: Math.round((lhr?.categories?.performance?.score ?? 0) * 100),
+      // Guard against undefined/NaN
+      loadSpeed: rawSpeed != null ? parseFloat((rawSpeed / 1000).toFixed(1)) : null,
+      fcp: audits?.["first-contentful-paint"]?.displayValue    ?? "–",
+      lcp: audits?.["largest-contentful-paint"]?.displayValue  ?? "–",
+      cls: audits?.["cumulative-layout-shift"]?.displayValue   ?? "–",
+      tbt: audits?.["total-blocking-time"]?.displayValue       ?? "–",
+      error: "",
+    };
+  } catch (e: any) {
+    console.error("getPageSpeedData failed:", e?.message);
+    return { ...fallback, error: e?.message ?? "unknown error" };
+  }
 }
