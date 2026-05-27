@@ -30,19 +30,7 @@ const searchconsole = google.searchconsole({ version: "v1", auth });
 // 1. Traffic overview (GA4)
 // ─────────────────────────────────────────────────────────
 export async function getTrafficData() {
-     try {
-    const [response] = await ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
-      dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-      metrics: [{ name: "activeUsers" }],
-    });
-    console.log("✅ GA4 works:", response.rows?.[0]);
-    return { uniqueVisitors: 0, totalVisits: 0, pageViews: 0, bounceRate: 0,
-      uniqueVisitorsDelta: 0, totalVisitsDelta: 0, pageViewsDelta: 0, bounceRateDelta: 0 };
-  } catch (e) {
-    console.error("❌ GA4 error:", JSON.stringify(e, null, 2));
-    throw e;
-  }
+  
   const [current, previous] = await Promise.all([
     ga4.runReport({
       property: `properties/${GA4_PROPERTY_ID}`,
@@ -98,19 +86,7 @@ export async function getTrafficData() {
 // 2. Engagement (GA4)
 // ─────────────────────────────────────────────────────────
 export async function getEngagementData() {
-      try {
-    console.log("Testing engagement...");
-    const [r] = await ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
-      dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-      metrics: [{ name: "averageSessionDuration" }],
-    });
-    console.log("✅ engagement works");
-    return { avgSessionDuration: "0m 0s", pagesPerSession: 0, returningVisitors: 0, topExitPage: "/", exitRate: 0 };
-  } catch (e) {
-    console.error("❌ engagement failed:", e);
-    throw e;
-  }
+
   const [engagement, exitPages, newVsReturn] = await Promise.all([
     ga4.runReport({
       property: `properties/${GA4_PROPERTY_ID}`,
