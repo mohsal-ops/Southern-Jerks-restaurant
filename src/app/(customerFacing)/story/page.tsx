@@ -16,8 +16,8 @@ const partners = [
     initials: "JR",
     photo: jabrilPhoto,
     bio: [
-      "Jabril Riddick is a seasoned culinary professional with over 15 years of hands-on experience in the food industry. His journey from line cook to Executive Chef is a testament to his dedication, passion, and unmatched work ethic — giving him a rare, ground-level understanding of every aspect of restaurant operations.",
-      "Jabril's expertise spans every position in the industry, providing him with an invaluable perspective on how a kitchen should run efficiently and with the highest standards. Throughout his career he has played a key role in opening several restaurants — crafting menus, organizing front and back of house operations, and building the right teams from the ground up.",
+      "Jabril Riddick is a seasoned culinary professional with over 15 years of hands-on experience in the food industry. His journey from line cook to Executive Chef is a testament to his dedication, passion, and unmatched work ethic giving him a rare, ground-level understanding of every aspect of restaurant operations.",
+      "Jabril's expertise spans every position in the industry, providing him with an invaluable perspective on how a kitchen should run efficiently and with the highest standards. Throughout his career he has played a key role in opening several restaurants crafting menus, organizing front and back of house operations, and building the right teams from the ground up.",
       "As Partner and Chief Culinary Officer, Jabril brings the kind of culinary artistry and operational leadership that not only elevates the dining experience, but ensures the business is built to thrive.",
     ],
     accent: "#c85a1e",
@@ -29,7 +29,7 @@ const partners = [
     photo: jordanPhoto,
     bio: [
       "Jordan Riddick is a seasoned financial and accounting professional with over 15 years of experience helping businesses strengthen their financial foundation and drive sustainable growth. With deep expertise in Gross Profit, EBITDA, financial statement preparation, budgeting, and forecasting, Jordan brings a comprehensive and strategic approach to every organization he works with.",
-      "Throughout his career Jordan has proven himself as more than just a numbers expert — he is a results-driven leader who understands the bigger picture. He has successfully guided companies through rebuilding accounting departments, led new software implementations, and introduced strategic cost-cutting measures that simultaneously fuel expansion and long-term growth.",
+      "Throughout his career Jordan has proven himself as more than just a numbers expert he is a results-driven leader who understands the bigger picture. He has successfully guided companies through rebuilding accounting departments, led new software implementations, and introduced strategic cost-cutting measures that simultaneously fuel expansion and long-term growth.",
       "As Owner and CEO, Jordan combines extensive technical knowledge with a forward-thinking mindset, making him a trusted partner for businesses looking to optimize their operations and position themselves for lasting success.",
     ],
     accent: "#1a6b3c",
@@ -79,7 +79,7 @@ export default function Page() {
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.35 }}
             className="text-lg md:text-xl text-gray-300 max-w-2xl leading-relaxed"
           >
-            Some of life's greatest gifts are the things you love most —
+            Some of life's greatest gifts are the things you love most
             and for the owners of Southern Jerks, that's food and family.
           </motion.p>
         </motion.div>
@@ -102,14 +102,14 @@ export default function Page() {
           </h2>
           <p className="text-gray-600 text-lg leading-relaxed">
             Southern Jerks was born from a passion for sharing authentic,
-            heartfelt cuisine with the world — bringing together Caribbean-style
+            heartfelt cuisine with the world bringing together Caribbean-style
             recipes with a distinct Houston flair.
           </p>
           <p className="text-gray-600 text-lg leading-relaxed">
             At the heart of Southern Jerks is a rich family legacy. Owners
             Jabril and Jordan Riddick were raised on the flavors of their
             grandmother's Caribbean kitchen, where cherished recipes and
-            culinary secrets were passed down with love — from savory patties
+            culinary secrets were passed down with love from savory patties
             to iconic Caribbean Jerk Chicken and a host of other bold,
             vibrant flavors.
           </p>
@@ -197,7 +197,7 @@ export default function Page() {
           className="max-w-3xl mx-auto"
         >
           <p className="text-2xl md:text-4xl font-bold leading-snug">
-            "Southern Jerks is more than a restaurant —
+            "Southern Jerks is more than a restaurant
             <span className="text-yellow-400"> it's an experience."</span>
           </p>
           <p className="mt-6 text-gray-400 text-lg leading-relaxed">
@@ -230,12 +230,12 @@ export default function Page() {
             {
               icon: "🏡",
               title: "Family First",
-              text: "Every recipe carries the legacy of family. We cook the way our grandmother cooked — with love, intention, and nothing to hide.",
+              text: "Every recipe carries the legacy of family. We cook the way our grandmother cooked with love, intention, and nothing to hide.",
             },
             {
               icon: "🌶️",
               title: "Bold Authenticity",
-              text: "No shortcuts, no compromises. Caribbean flavors done right, every single time — because Houston deserves the real thing.",
+              text: "No shortcuts, no compromises. Caribbean flavors done right, every single time because Houston deserves the real thing.",
             },
             {
               icon: "🤝",
@@ -279,7 +279,7 @@ export default function Page() {
               This Is Just the Beginning
             </h2>
             <p className="text-gray-300 text-lg leading-relaxed mb-8">
-              Houston's appetite for genuine Caribbean flavor is wide open —
+              Houston's appetite for genuine Caribbean flavor is wide open
               and Southern Jerks is here to fill it, one unforgettable
               plate at a time.
             </p>

@@ -1,101 +1,120 @@
 "use server";
 
 import { z } from "zod";
-import fs from "node:fs/promises";
 import db from "@/db/db";
 import { notFound } from "next/navigation";
 import { revalidatePath, revalidateTag } from "next/cache";
 
-const fileSchema = z.instanceof(File, { error: "Required" });
+// ── Image storage ────────────────────────────────────────────────────────────
+// On Vercel, the filesystem is READ-ONLY — fs.writeFile will silently fail.
+// We use Vercel Blob (free tier: 1GB) in production, and local fs in dev.
+// Setup: run `npm install @vercel/blob` then add BLOB_READ_WRITE_TOKEN to
+// your Vercel project settings (Storage → Blob → Connect → copy token).
+
+async function saveImage(file: File, folder = "products"): Promise<string> {
+  const isDev = process.env.NODE_ENV === "development";
+
+  if (isDev) {
+    // Local dev — write to public folder as before
+    const fs = await import("node:fs/promises");
+    await fs.mkdir(`public/${folder}`, { recursive: true });
+    const path = `/${folder}/${crypto.randomUUID()}-${file.name}`;
+    await fs.writeFile(`public${path}`, new Uint8Array(await file.arrayBuffer()));
+    return path;
+  } else {
+    // Production (Vercel) — upload to Vercel Blob
+    const { put } = await import("@vercel/blob");
+    const blob = await put(
+      `${folder}/${crypto.randomUUID()}-${file.name}`,
+      file,
+      { access: "public" }
+    );
+    return blob.url; // full https:// URL
+  }
+}
+
+async function deleteImage(imagePath: string) {
+  try {
+    const isDev = process.env.NODE_ENV === "development";
+    if (isDev && imagePath.startsWith("/")) {
+      const fs = await import("node:fs/promises");
+      await fs.unlink(`public${imagePath}`);
+    } else if (imagePath.startsWith("https://")) {
+      const { del } = await import("@vercel/blob");
+      await del(imagePath);
+    }
+  } catch (err) {
+    console.warn("Image delete failed, skipping:", err);
+  }
+}
+
+// ── Schemas ──────────────────────────────────────────────────────────────────
 const imageSchema = z
   .instanceof(File)
   .optional()
   .refine(
     (file) => !file || file.size === 0 || file.type.startsWith("image/"),
-    { message: "Invalid image file" },
+    { message: "Invalid image file" }
   );
 
 const addSchema = z.object({
   name: z.string().min(2),
-
   description: z.preprocess(
     (val) => (val === "" ? undefined : val),
-    z.union([z.string().min(2), z.undefined()]),
+    z.union([z.string().min(2), z.undefined()])
   ),
-
   priceInCents: z.coerce.number().int().min(1),
-
   category: z
     .string()
     .min(1)
     .refine((val) => !val.startsWith("[object]"), {
-      error: "Invalid category format",
+      message: "Invalid category format",
     }),
-
   isCaterable: z.preprocess((val) => val === "true", z.boolean()).optional(),
-
   cateringDescription: z
     .preprocess((val) => (val === "" ? undefined : val), z.string())
     .optional(),
-
   cateringPriceInCents: z.coerce.number().optional(),
-
   image: imageSchema.optional(),
 });
 
+const editSchema = addSchema.extend({
+  image: imageSchema.optional(),
+});
+
+// ── Add product ──────────────────────────────────────────────────────────────
 export default async function AddProduct(
-  prevSatate: unknown,
-  formData: FormData,
+  prevState: unknown,
+  formData: FormData
 ) {
   try {
     const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
-    if (result.success === false) {
-      console.log(result.error.issues);
-
-      return {
-        error: Object.assign({}, result.error.issues),
-      };
-    }
-    function createSlug(arg: string) {
-      return arg
-        .toLowerCase()
-        .replace(/ /g, "-")
-        .replace(/[^\w-]+/g, "") as string;
-    }
-    const slugExistiong = async (slug: string) => {
-      return await db.item.findUnique({ where: { slug: slug } });
-    };
-
-    const slug = createSlug(result.data.name);
-    if (await slugExistiong(slug)) {
-      return { message: "name already exist" };
+    if (!result.success) {
+      console.log("Validation errors:", result.error.issues);
+      return { error: Object.assign({}, result.error.issues) };
     }
 
-    const data = { ...result.data, slug };
+    const { data } = result;
 
-    await fs.mkdir("public/products", { recursive: true });
+    // Check for duplicate slug
+    function createSlug(str: string) {
+      return str.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+    }
+    const slug = createSlug(data.name);
+    const existing = await db.item.findUnique({ where: { slug } });
+    if (existing) return { message: "name already exist" };
+
+    // Handle image
     const file = data.image;
-
-    const isValidImage =
-      file && file.size > 0 && file.type.startsWith("image/");
-
-    const image = isValidImage
-      ? `/products/${crypto.randomUUID()}-${file.name}`
-      : null;
-
-    if (isValidImage) {
-      await fs.writeFile(
-        `public${image}`,
-        new Uint8Array(await file.arrayBuffer()),
-      );
-    }
+    const isValidImage = file && file.size > 0 && file.type.startsWith("image/");
+    const image = isValidImage ? await saveImage(file) : null;
 
     await db.item.create({
       data: {
         name: data.name,
         description: data.description,
         priceInCents: data.priceInCents,
-        slug: data.slug,
+        slug,
         typeId: data.category,
         isCaterable: data.isCaterable,
         cateringDescription: data.cateringDescription,
@@ -103,55 +122,38 @@ export default async function AddProduct(
         image,
       },
     });
+
     revalidatePath("/admin");
     revalidatePath("/admin/menuItems");
     revalidatePath("/Menu");
     revalidateTag("products");
     return { message: "item added succefuly" };
   } catch (error) {
-    return { message: error };
+    console.error("AddProduct error:", error);
+    return { message: String(error) };
   }
 }
 
-const editSchema = addSchema.extend({
-  file: fileSchema.optional(),
-  image: imageSchema.optional(),
-});
-
+// ── Update product ───────────────────────────────────────────────────────────
 export async function updateProduct(
   id: string,
   prevState: unknown,
-  formData: FormData,
+  formData: FormData
 ) {
   const result = editSchema.safeParse(Object.fromEntries(formData.entries()));
-  if (result.success === false) {
-    return { error: result.error.issues };
-  }
+  if (!result.success) return { error: result.error.issues };
 
-  const data = result.data;
+  const { data } = result;
   const item = await db.item.findUnique({ where: { id } });
-  if (item == null) return notFound();
+  if (!item) return notFound();
 
   let image = item.image;
   const file = data.image;
-
   const isValidImage = file && file.size > 0 && file.type.startsWith("image/");
 
   if (isValidImage) {
-    try {
-      if (item.image) {
-        await fs.unlink(`public${item.image}`);
-      }
-
-      image = `/products/${crypto.randomUUID()}-${file.name}`;
-
-      await fs.writeFile(
-        `public${image}`,
-        new Uint8Array(await file.arrayBuffer()),
-      );
-    } catch (err) {
-      console.warn("File delete failed, skipping", err);
-    }
+    if (item.image) await deleteImage(item.image);
+    image = await saveImage(file);
   }
 
   await db.item.update({
@@ -168,37 +170,23 @@ export async function updateProduct(
   revalidatePath("/admin/menuItems");
   revalidatePath("/Menu");
   revalidateTag("products");
+  return { message: "item updated successfully" };
 }
 
-const categorySchema = z.object({
-  name: z.string().min(1),
-});
-export async function AddCategory(prevSatate: unknown, formData: FormData) {
-  try {
-    const result = categorySchema.safeParse(
-      Object.fromEntries(formData.entries()),
-    );
-    if (result.success === false) {
-      return { error: result.error.issues };
-    }
+// ── Category actions ─────────────────────────────────────────────────────────
+const categorySchema = z.object({ name: z.string().min(1) });
 
-    function createSlug(arg: string) {
-      return arg
-        .toLowerCase()
-        .replace(/ /g, "-")
-        .replace(/[^\w-]+/g, "") as string;
+export async function AddCategory(prevState: unknown, formData: FormData) {
+  try {
+    const result = categorySchema.safeParse(Object.fromEntries(formData.entries()));
+    if (!result.success) return { error: result.error.issues };
+
+    function createSlug(str: string) {
+      return str.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
     }
 
     const slug = createSlug(result.data.name);
-
-    const data = { ...result.data, slug };
-
-    await db.types.create({
-      data: {
-        name: data.name,
-        slug: data.slug,
-      },
-    });
+    await db.types.create({ data: { name: result.data.name, slug } });
 
     revalidatePath("/");
     revalidateTag("categories");
@@ -206,25 +194,21 @@ export async function AddCategory(prevSatate: unknown, formData: FormData) {
     return { message: "item added succefuly" };
   } catch (error: any) {
     if (error.code === "P2002" && error.meta?.target?.includes("slug")) {
-      return {
-        message: "This name already exists. Please choose a different one.",
-      };
+      return { message: "This name already exists. Please choose a different one." };
     }
-
-    return { message: error };
+    return { message: String(error) };
   }
 }
 
-export async function toglleAvalability(
-  id: string,
-  isAvailableForPurchase: boolean,
-) {
+// ── Item status toggles ──────────────────────────────────────────────────────
+export async function toglleAvalability(id: string, isAvailableForPurchase: boolean) {
   await db.item.update({ where: { id }, data: { isAvailableForPurchase } });
   revalidatePath("/");
   revalidatePath("/Menu");
   revalidateTag("products");
   revalidatePath("/admin/menuItems");
 }
+
 export async function toglleFeaturing(id: string, isFeatured: boolean) {
   await db.item.update({ where: { id }, data: { featured: isFeatured } });
   revalidatePath("/");
@@ -232,13 +216,17 @@ export async function toglleFeaturing(id: string, isFeatured: boolean) {
   revalidatePath("/Menu");
   revalidatePath("/admin/menuItems");
 }
+
 export async function DeleteMenuItem(id: string) {
+  const item = await db.item.findUnique({ where: { id } });
+  if (item?.image) await deleteImage(item.image);
   await db.item.delete({ where: { id } });
   revalidatePath("/");
   revalidatePath("/Menu");
   revalidateTag("products");
   revalidatePath("/admin/menuItems");
 }
+
 export async function DeleteCategory(id: string) {
   await db.types.delete({ where: { id } });
   revalidatePath("/");
@@ -247,8 +235,7 @@ export async function DeleteCategory(id: string) {
   revalidatePath("/admin/menuCategories");
 }
 
-
-
+// ── Sides ────────────────────────────────────────────────────────────────────
 type SideGroupInput = {
   title: string;
   type: "RECOMMENDED" | "NO" | "EXTRA" | "SPICE";
@@ -261,51 +248,37 @@ type SideGroupInput = {
   }[];
 };
 
-export async function addItemSides(
-  itemId: string,
-  groups: SideGroupInput[]
-) {
-
+export async function addItemSides(itemId: string, groups: SideGroupInput[]) {
   try {
-    // Remove old groups (safe re-save)
-  await db.sideGroup.deleteMany({
-    where: { itemId },
-  });
+    await db.sideGroup.deleteMany({ where: { itemId } });
 
-
-
-  // Create new groups
-  for (const group of groups) {
-    if (!group.options.length) continue
-    await db.sideGroup.create({
-      data: {
-        itemId,
-        title: group.title,
-        type: group.type,
-        required: group.required ?? false,
-        maxSelect: group.maxSelect ?? null,
-        options: {
-          create: group.options.map((opt) => ({
-            label: opt.label ?? "",
-            priceInCents: opt.priceInCents ?? null,
-            linkedItemId: opt.linkedItemId ?? null,
-          })),
+    for (const group of groups) {
+      if (!group.options.length) continue;
+      await db.sideGroup.create({
+        data: {
+          itemId,
+          title: group.title,
+          type: group.type,
+          required: group.required ?? false,
+          maxSelect: group.maxSelect ?? null,
+          options: {
+            create: group.options.map((opt) => ({
+              label: opt.label ?? "",
+              priceInCents: opt.priceInCents ?? null,
+              linkedItemId: opt.linkedItemId ?? null,
+            })),
+          },
         },
-      },
-    });
-  }
-   revalidatePath("/admin");
+      });
+    }
+
+    revalidatePath("/admin");
     revalidatePath("/admin/menuItems");
     revalidatePath("/Menu");
     revalidateTag("products");
     return { message: "group added successfully" };
-    
   } catch (error) {
     console.error("Error adding sides:", error);
-     return { message: error };
-    
+    return { message: String(error) };
   }
- return { ok: true };
 }
-
-

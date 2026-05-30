@@ -205,7 +205,7 @@ export function TopSection() {
           wings, and stacked sandwiches
         </span>
         <span className="font-semibold text-white sm:text-zinc-400 text-md">
-          perfectly seasoned, and packed with flavor — made fresh so every bite
+          perfectly seasoned, and packed with flavor made fresh so every bite
           hits just right.
         </span>
         <Link href="/Menu">
@@ -284,7 +284,7 @@ export function ReviewsSection() {
   {
     name: "James L.",
     review:
-      "Came in on my lunch break and ended up going back for dinner the same day. The jerk chicken sandwich is unreal. Fast service, friendly staff — highly recommend.",
+      "Came in on my lunch break and ended up going back for dinner the same day. The jerk chicken sandwich is unreal. Fast service, friendly staff highly recommend.",
     link: "https://api.dicebear.com/7.x/micah/svg?seed=JamesL&backgroundColor=c0aede",
   },
   {
@@ -347,7 +347,7 @@ export function DistinctiveFeatures() {
           <PageHeader>Only flavor that hits</PageHeader>
           <p className="text-lg font-medium text-neutral-600">
             From juicy wings to stacked sandwiches, every dish is made with
-            care, quality ingredients, and big Caribbean flavor — because
+            care, quality ingredients, and big Caribbean flavor because
             average isn’t our thing.
           </p>
         </div>
@@ -575,10 +575,13 @@ export function Footer() {
           </div>
           <div className="flex flex-col gap-2">
             <Button variant="link">
-              <Link href="/Catering">Catering</Link>
+              <Link href="/catering">Catering</Link>
             </Button>
             <Button variant="link">
               <Link href="/GiftCard">Gift Card</Link>
+            </Button>
+            <Button variant="link">
+              <Link href="/KidsZone">Kids Zone</Link>
             </Button>
           </div>
           <div className="flex flex-col gap-2">

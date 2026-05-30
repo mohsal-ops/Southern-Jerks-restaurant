@@ -1,3 +1,5 @@
+'use client'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,8 +8,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
 import { Post } from "generated/prisma";
+import { deletePost } from "../../_actions/AddPost";
+import { useState } from "react";
 
 export default function PostsTable({ posts }: { posts: Post[] }) {
+    const [deletingId, setDeletingId] = useState<string | null>(null);
+
   return (
     <div className="rounded-xl border bg-white p-5 shadow-sm">
       <h3 className="font-semibold mb-4">Recent Posts</h3>
@@ -37,8 +43,16 @@ export default function PostsTable({ posts }: { posts: Post[] }) {
                 <MoreVertical className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem className="text-red-600">
-                  Delete
+                <DropdownMenuItem
+                  className="text-red-600 cursor-pointer"
+                  disabled={deletingId === post.id}
+                  onClick={async () => {
+                    setDeletingId(post.id);
+                    await deletePost(post.id);
+                    setDeletingId(null);
+                  }}
+                >
+                  {deletingId === post.id ? "Deleting..." : "Delete"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

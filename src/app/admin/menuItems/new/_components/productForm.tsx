@@ -20,7 +20,7 @@ import { Label } from "@radix-ui/react-label";
 import {  Item } from "generated/prisma";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 
 const initialState = {
   message: "",
@@ -47,6 +47,12 @@ export default function ProductForm({
   const [cateringPriceInCents, setCateringPriceInCents] = useState<number>(
     item?.cateringPriceInCents || 0,
   );
+   const hiddenCategoryRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (hiddenCategoryRef.current) {
+      hiddenCategoryRef.current.value = CategoryId;
+    }
+  }, [CategoryId]);
 
   const { toast } = useToast();
   useEffect(() => {
@@ -149,12 +155,12 @@ export default function ProductForm({
           </Link>
 
           {/* Hidden Input to send selected category */}
-          <Input
+          <input
             type="hidden"
             id="category"
-            required
             name="category"
-            value={CategoryId}
+            ref={hiddenCategoryRef}
+            defaultValue={item?.typeId || ""}
           />
         </div>
 

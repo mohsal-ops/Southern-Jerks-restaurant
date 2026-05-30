@@ -274,69 +274,7 @@ export default function MainPageMenu({
             </p>
           </span>
         </div>
-        <div id="PickupOrDelivery " className="text-sm flex  p">
-          <div className="flex flex-col sm:flex-row w-full sm:w-1/2  gap-4 font-semibold text-gray-600">
-            {/* Delivery */}
-            <div className="bg-stone-200 w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden">
-              <label className="cursor-pointer w-1/2 relative">
-                <input
-                  type="radio"
-                  name="orderType"
-                  value="delivery"
-                  // checked={choice === "delivery"}
-                  // onChange={() => setChoice("delivery")}
-                  className="hidden peer"
-                />
-
-                <div className="h-full bg-stone-200 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
-                  Delivery
-                </div>
-              </label>
-
-              {/* Pickup */}
-              <label className="cursor-pointer h-full relative w-1/2">
-                <input
-                  type="radio"
-                  name="orderType"
-                  value="pickup"
-                  checked={choice === "pickup"}
-                  onChange={() => setChoice("pickup")}
-                  className="hidden peer"
-                />
-                <div className=" h-full bg-stone-200 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
-                  Pickup
-                </div>
-              </label>
-            </div>
-
-            <Button
-              variant="outline"
-              onClick={() => setOpen(true)}
-              className="w-full sm:w-2/3 h-11 text-sm rounded-lg hover:bg-stone-200 shadow-xs justify-between"
-            >
-              {choice === "pickup" ? (
-                selectedDay != null || selectedTime != null ? (
-                  <div className="flex items-center gap-2">
-                    <StoreIcon size={17} />
-                    <h1>{selectedDay?.toDateString()}</h1>{" "}
-                    <h1>{selectedTime}</h1>
-                  </div>
-                ) : (
-                  "Schedule pickup"
-                )
-              ) : selectedDay != null || selectedTime != null ? (
-                <div className="flex items-center gap-2">
-                  <CarFrontIcon size={17} />
-                  <h1>{"Delivery to " + selectedAddress}</h1>
-                </div>
-              ) : (
-                "Select delivery location"
-              )}
-
-              <span>▼</span>
-            </Button>
-          </div>
-        </div>
+      {/* the comented code at the bottom of select delivery/pickup it's place is here  */}
         <div ref={placeholderRef} id="popularDishes">
           <h2 className="text-xl font-semibold font-serif ">Popular</h2>
           {featuredProducts && featuredProducts?.length > 0 ? (
@@ -514,3 +452,64 @@ export function AllDishes({
     </div>
   );
 }
+{/* <div id="PickupOrDelivery " className="text-sm flex  p">
+          <div className="flex flex-col sm:flex-row w-full sm:w-1/2  gap-4 font-semibold text-gray-600">
+            <div className="bg-stone-200 w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden">
+              <label className="cursor-pointer w-1/2 relative">
+                <input
+                  type="radio"
+                  name="orderType"
+                  value="delivery"
+                   checked={choice === "delivery"}
+                   onChange={() => setChoice("delivery")}
+                  className="hidden peer"
+                />
+
+                <div className="h-full bg-stone-200 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
+                  Delivery
+                </div>
+              </label>
+
+              <label className="cursor-pointer h-full relative w-1/2">
+                <input
+                  type="radio"
+                  name="orderType"
+                  value="pickup"
+                  checked={choice === "pickup"}
+                  onChange={() => setChoice("pickup")}
+                  className="hidden peer"
+                />
+                <div className=" h-full bg-stone-200 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
+                  Pickup
+                </div>
+              </label>
+            </div>
+
+            <Button
+              variant="outline"
+              onClick={() => setOpen(true)}
+              className="w-full sm:w-2/3 h-11 text-sm rounded-lg hover:bg-stone-200 shadow-xs justify-between"
+            >
+              {choice === "pickup" ? (
+                selectedDay != null || selectedTime != null ? (
+                  <div className="flex items-center gap-2">
+                    <StoreIcon size={17} />
+                    <h1>{selectedDay?.toDateString()}</h1>{" "}
+                    <h1>{selectedTime}</h1>
+                  </div>
+                ) : (
+                  "Schedule pickup"
+                )
+              ) : selectedDay != null || selectedTime != null ? (
+                <div className="flex items-center gap-2">
+                  <CarFrontIcon size={17} />
+                  <h1>{"Delivery to " + selectedAddress}</h1>
+                </div>
+              ) : (
+                "Select delivery location"
+              )}
+
+              <span>▼</span>
+            </Button>
+          </div>
+        </div> */}

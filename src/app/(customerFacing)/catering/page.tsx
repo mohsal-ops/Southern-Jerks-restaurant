@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -15,9 +15,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import img from "public/general/3rdsection/SouthernJerks-Sep25-42.jpg";
-
-
-
 
 export default function CateringPage() {
   const [open, setOpen] = useState(false);
@@ -107,14 +104,14 @@ export default function CateringPage() {
           <div className="flex gap-4 justify-center md:justify-start  ">
             <Button
               variant="mainButton"
-              className="drop-shadow-lg hover:bg-yellow-500" 
+              className="drop-shadow-lg hover:bg-yellow-500"
               size="lg"
               onClick={() => setOpen(true)}
             >
               Request a Quote
             </Button>
             <Button variant="outline" size="lg" onClick={scrollToPackages}>
-              See Menu
+              See Catering Menu
             </Button>
           </div>
         </div>
@@ -153,16 +150,22 @@ export default function CateringPage() {
       </section>
 
       {/* Menu / Packages */}
-      <section ref={packagesRef} className="max-w-6xl w-full space-y-10 pb-4 px-2">
+      <section
+        ref={packagesRef}
+        className="max-w-6xl w-full space-y-10 pb-4 px-2"
+      >
         <div className="flex flex-col gap-4 sm:flex-row justify-between items-center">
           <h2 className="text-3xl font-bold">Catering Menu</h2>
           <Button
             size="lg"
             variant="outline"
             className="h-12  text-left"
-            onClick={() =>
-              window.open("/southern-jerks-catering-menu.pdf", "_blank")
-            }
+            onClick={() => {
+              const link = document.createElement("a");
+              link.href = "/southern-jerks-catering-menu.pdf";
+              link.download = "Southern-Jerks-Catering-Menu.pdf";
+              link.click();
+            }}
           >
             Download Menu
           </Button>
@@ -235,7 +238,11 @@ export default function CateringPage() {
                 setFormData({ ...formData, Notes: e.target.value })
               }
             />
-            <Button type="submit" variant="mainButton" className="w-full text-md">
+            <Button
+              type="submit"
+              variant="mainButton"
+              className="w-full text-md"
+            >
               Send Request
             </Button>
           </form>
@@ -244,5 +251,3 @@ export default function CateringPage() {
     </div>
   );
 }
-
-

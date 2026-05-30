@@ -44,7 +44,7 @@ const HeroSection = () => {
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-8">
             <Star className="w-4 h-4 text-primary" fill="currentColor" />
             <span className="text-primary text-sm font-semibold tracking-wide">
-              #1 Family Restaurant in Huston
+              #1 Family Restaurant in Houston
             </span>
           </div>
 

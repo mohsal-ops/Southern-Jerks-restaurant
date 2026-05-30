@@ -32,7 +32,7 @@ export function ThirdSectionComponent() {
 
       <main className="grid grid-cols-2  sm:grid-cols-3  md:grid-cols-3  w-full gap-6 ">
         {images.map((image,i)=>(
-          <HoverCard key={i} src={image} title="Lovely moment at Southern Jerks :)" />
+          <HoverCard key={i} src={image}  />
         ))}
         
         
@@ -44,10 +44,8 @@ export function ThirdSectionComponent() {
 
 export function HoverCard({
   src,
-  title,
 }: {
   src: StaticImageData;
-  title: string;
 }) {
   const [loaded, setLoaded] = useState(false);
   const MotionImage = motion.create(Image);
@@ -68,7 +66,7 @@ export function HoverCard({
       <MotionImage
         loading="lazy"
         src={src}
-        alt={title}
+        alt="Best fried chicken in Houston"
         className="object-cover w-full h-full"
         onLoadingComplete={() => setLoaded(true)}
         initial={{ opacity: 0 }}
@@ -90,10 +88,7 @@ export function HoverCard({
         className="absolute inset-0 bg-black/40 flex items-end p-4"
         style={{ pointerEvents: "none" }}
       >
-        <motion.h3 className="text-white text-lg font-semibold">
-          {title}
-        </motion.h3>
-      </motion.div>
+     </motion.div>
     </motion.div>
   )
 }

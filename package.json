@@ -34,6 +34,7 @@
     "@stripe/react-stripe-js": "^5.0.0",
     "@stripe/stripe-js": "^8.0.0",
     "@tailwindcss/postcss": "^4.1.18",
+    "@vercel/blob": "^2.4.0",
     "autoprefixer": "^10.4.23",
     "class-variance-authority": "^0.7.1",
     "date-fns": "^4.1.0",

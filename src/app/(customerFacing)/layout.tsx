@@ -23,7 +23,7 @@ export default async function Customerlayout({
         <div className="flex flex-col w-full items-center ">
           <Footer />
           <div className="relative text-xs  mt-2 text-black text-center p-4 md:py-3 bg-stone-200 w-full border-t border-white/10">
-            © {new Date().getFullYear()} Southern Jerks. All Rights Reserved.
+            © {new Date().getFullYear()} Southern Jerk Co LLC. All rights reserved. 
             Website by{" "}
             <a
               href="https://www.instagram.com/vegastar.digital/"

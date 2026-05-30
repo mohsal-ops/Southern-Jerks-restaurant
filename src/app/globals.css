@@ -5,6 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 
+.LcvUkwqF__Container {
+  display: none !important;
+}
+
 /* Hide scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
