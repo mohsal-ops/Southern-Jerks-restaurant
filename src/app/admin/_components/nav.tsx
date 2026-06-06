@@ -12,7 +12,9 @@ import {
   ShoppingBag,
   BookOpen,
   MapPin,
+  Newspaper,
 } from "lucide-react";
+import { TbBrandStorybook } from "react-icons/tb";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -20,6 +22,7 @@ const navItems = [
   { href: "/admin/menuCategories", label: "Categories", icon: Tag },
   { href: "/admin/users", label: "Customers", icon: Users },
   { href: "/admin/orders", label: "Sales", icon: ShoppingBag },
+  { href: "/admin/story", label: "Our Story", icon: Newspaper },
   { href: "/admin/Blog", label: "Blog", icon: BookOpen },
   { href: "/admin/places", label: "Places", icon: MapPin },
 ];

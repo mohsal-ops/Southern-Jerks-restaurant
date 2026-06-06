@@ -30,7 +30,6 @@ const CATEGORY_ORDER = [
   "Kid's Meal 12 & Under ",
   "Sides ",
   "Extras ",
-  "Desert",
   // any category not listed here will appear at the end
 ];
 

@@ -15,6 +15,7 @@ export default function Adminlayout({
         <NavLink href="/admin/menuCategories">Menu Categories</NavLink>
         <NavLink href="/admin/orders">Sales</NavLink>
         <NavLink href="/admin/Blog">Blog</NavLink>
+        <NavLink href="/admin/story">Our Story</NavLink>
         <NavLink href="/admin/places">Places</NavLink>
       </AdminNav>
       <div className="container  overflow-auto">{children}</div>

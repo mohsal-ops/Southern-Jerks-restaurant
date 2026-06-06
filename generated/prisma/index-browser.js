@@ -166,6 +166,18 @@ exports.Prisma.PostScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PartnerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  role: 'role',
+  bio: 'bio',
+  image: 'image',
+  order: 'order',
+  accent: 'accent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   pricePaidInCents: 'pricePaidInCents',
@@ -258,6 +270,7 @@ exports.Prisma.ModelName = {
   Types: 'Types',
   Location: 'Location',
   Post: 'Post',
+  Partner: 'Partner',
   Order: 'Order',
   Cart: 'Cart',
   CartItem: 'CartItem',

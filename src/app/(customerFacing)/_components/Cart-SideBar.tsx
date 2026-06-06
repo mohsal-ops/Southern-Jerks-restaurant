@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { PiShoppingCartSimpleFill } from 'react-icons/pi';
@@ -10,7 +11,7 @@ import Image from 'next/image';
 import { Minus, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useSWRConfig } from 'swr';
-import { useCart } from '@/app/providers/CartProvider';
+import { useCart } from '@/app/providers/CartProvider'
 
 
 export default function CartSideBar({ cartItems: initialItems, cartId }: { cartId: string | null, cartItems: CartItem[] }) {
