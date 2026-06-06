@@ -340,7 +340,7 @@ export function DistinctiveFeatures() {
         <Image
           loading="lazy"
           src={img2}
-          alt="Refreshing snow cones"
+          alt="Distinctive Features"
           className="object-cover md:w-[45%] w-full h-full rounded-3xl"
         />
         <div className="flex flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
@@ -363,7 +363,7 @@ export function DistinctiveFeatures() {
         <Image
           loading="lazy"
           src={img3}
-          alt="Refreshing snow cones"
+          alt="Distinctive Features"
           className="object-cover flex items-start bg-amber-200 md:order-2 order-1 md:w-[45%] w-full h-full rounded-3xl"
         />
       </div>
