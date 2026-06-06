@@ -20,7 +20,7 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           priority
           className="object-cover brightness-[0.45]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -96,7 +96,7 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           <Image
             src={pic3}
             alt="The Southern Jerks experience"
-            className="rounded-3xl object-cover w-full h-full aspect-[4/3]"
+            className="rounded-3xl object-cover w-full h-full aspect-4/3"
           />
         </motion.div>
       </section>
@@ -137,11 +137,11 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
                       alt={person.name}
                       width={288}
                       height={384}
-                      className="object-cover w-full aspect-[3/4] rounded-3xl"
+                      className="object-cover w-full aspect-3/4 rounded-3xl"
                     />
                   ) : (
                     <div
-                      className="w-full aspect-[3/4] rounded-3xl flex items-center justify-center text-5xl font-bold text-white"
+                      className="w-full aspect-3/4 rounded-3xl flex items-center justify-center text-5xl font-bold text-white"
                       style={{ background: person.accent }}
                     >
                       {person.name[0]}
@@ -256,9 +256,9 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           <Image
             src={pic4}
             alt="Southern Jerks dining experience"
-            className="w-full object-cover max-h-[500px]"
+            className="w-full object-cover max-h-125"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
           <div className="absolute bottom-0 left-0 p-10 md:p-16 text-white max-w-2xl">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               This Is Just the Beginning

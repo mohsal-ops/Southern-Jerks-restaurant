@@ -184,9 +184,9 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
               );
             })} */}
           </div>
-          {/* <div>
+          <div>
             <CartSideBar cartId={cartId} cartItems={cartItems} />
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
