@@ -14,10 +14,10 @@ import {
   MapPin,
   Newspaper,
 } from "lucide-react";
-import { TbBrandStorybook } from "react-icons/tb";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  // { href: "/admin/analytics", label: "Analytics", icon: LayoutDashboard },
   { href: "/admin/menuItems", label: "Menu Items", icon: UtensilsCrossed },
   { href: "/admin/menuCategories", label: "Categories", icon: Tag },
   { href: "/admin/users", label: "Customers", icon: Users },

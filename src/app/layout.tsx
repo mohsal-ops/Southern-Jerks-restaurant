@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from "./providers/CartProvider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 // Suppress TypeScript error for side-effect CSS import when no CSS module types are declared
 // @ts-ignore
 import "./globals.css";
@@ -13,13 +14,13 @@ export const metadata: Metadata = {
     template: "%s | Southern Jerks Houston",
     // %s = page name, so Menu page becomes: "Menu | Southern Jerks Houston"
   },
- 
+
   // ── DESCRIPTION ──────────────────────────────────────────────────────────
   // This is the gray text under the blue link. Keep it under 160 characters.
   // This is what currently says "SkyTab Restaurant." — MUST fix this.
   description:
     "Southern Jerks serves Houston's best crispy fried chicken at 2950 Gears Rd. Open Tues–Fri 11am–9pm, Sat 12–8pm, Sun 11am–4pm. Order online or visit us today!",
- 
+
   // ── KEYWORDS ─────────────────────────────────────────────────────────────
   // Google doesn't rank on keywords alone anymore but it still helps signal
   keywords: [
@@ -34,14 +35,14 @@ export const metadata: Metadata = {
     "chicken wings Houston",
     "Black-owned restaurant Houston",
   ],
- 
+
   // ── CANONICAL URL ────────────────────────────────────────────────────────
   // Tells Google the official URL of your site (prevents duplicate content)
   metadataBase: new URL("https://southernjerkshtx.com"),
   alternates: {
     canonical: "/",
   },
- 
+
   // ── OPEN GRAPH (Facebook, WhatsApp, iMessage previews) ───────────────────
   openGraph: {
     type: "website",
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
       },
     ],
   },
- 
+
   // ── TWITTER / X CARD ─────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
       "Houston's crispiest fried chicken at 2950 Gears Rd. Open now! 🐔",
     images: ["/og-image.jpg"],
   },
- 
+
   // ── ROBOTS ───────────────────────────────────────────────────────────────
   // Tells Google: index this page AND follow all links on it
   robots: {
@@ -82,14 +83,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
- 
+
   // ── VERIFICATION ─────────────────────────────────────────────────────────
   // Paste your Google Search Console verification code here once you set it up
   // verification: {
   //   google: "paste-your-verification-code-here",
   // },
 };
-
 
 export default function RootLayout({
   children,
@@ -109,7 +109,7 @@ export default function RootLayout({
               description:
                 "Houston's best crispy fried chicken restaurant. Famous for wings, tenders, and southern-style comfort food.",
               url: "https://southernjerkshtx.com",
-              telephone: "(346) 242-0328", 
+              telephone: "(346) 242-0328",
               email: "Contact@southernjerkshtx.com",
               image: "https://southernjerkshtx.com/og-image.jpg",
               logo: "https://southernjerkshtx.com/logo.png",
@@ -171,6 +171,7 @@ export default function RootLayout({
       </head>
       <body>
         <CartProvider>{children}</CartProvider>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
       </body>
     </html>
   );

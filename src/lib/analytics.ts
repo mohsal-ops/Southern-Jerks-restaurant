@@ -1,300 +1,459 @@
-// lib/analytics.ts  →  src/lib/analytics.ts
+// src/lib/analytics.ts
+// ─────────────────────────────────────────────────────────────────────────────
+// DIAGNOSIS: Why GA4 returns 0 but Search Console works
+//
+// ROOT CAUSES (in order of likelihood):
+//
+// 1. SERVICE ACCOUNT NOT ADDED TO GA4 PROPERTY
+//    Search Console and GA4 are completely separate permission systems.
+//    Adding the service account to Search Console does NOT grant GA4 access.
+//    Fix: analytics.google.com → Admin → Property Access Management → Add User
+//         Paste service account email → Role: Viewer → Add
+//
+// 2. WRONG PROPERTY ID FORMAT
+//    GA4_PROPERTY_ID must be ONLY the numeric ID: e.g. "123456789"
+//    NOT the Measurement ID: "G-XXXXXXXXXX"  ← this causes INVALID_ARGUMENT
+//    NOT with prefix: "properties/123456789"  ← also causes errors
+//    Find it: analytics.google.com → Admin → Property Settings → Property ID
+//
+// 3. GA4 DATA API NOT ENABLED
+//    "Google Analytics Data API" must be enabled in Google Cloud Console.
+//    This is different from "Google Analytics API" (the old Universal Analytics one).
+//    Fix: console.cloud.google.com → APIs & Services → Library
+//         Search "Google Analytics Data API" → Enable
+//
+// 4. ERRORS SWALLOWED SILENTLY
+//    Every function wraps in try/catch and returns 0 fallbacks.
+//    The actual error was never visible. Fixed below with structured error returns.
+//
+// WHY SEARCH CONSOLE WORKS:
+//    googleapis uses a different underlying auth client (google-auth-library)
+//    that handles token negotiation differently from @google-analytics/data.
+//    The service account was added to Search Console specifically, so it works.
+//    GA4 uses a separate IAM system entirely.
+//
+// DEBUGGING: Set DEBUG_ANALYTICS=true in .env.local to see raw API responses.
+// ─────────────────────────────────────────────────────────────────────────────
 
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { google } from "googleapis";
+import type { protos } from "@google-analytics/data";
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+export type TrafficData = {
+  uniqueVisitors: number;
+  totalVisits: number;
+  pageViews: number;
+  bounceRate: number;
+  uniqueVisitorsDelta: number;
+  totalVisitsDelta: number;
+  pageViewsDelta: number;
+  bounceRateDelta: number;
+  _error?: string;
+};
+
+export type DailyPoint = {
+  date: string;  // "May 1"
+  users: number;
+  sessions: number;
+};
+
+export type EngagementData = {
+  avgSessionDuration: string;
+  pagesPerSession: number;
+  returningVisitors: number;
+  topExitPage: string;
+  exitRate: number;
+  _error?: string;
+};
+
+export type TrafficSource = {
+  name: string;
+  percentage: number;
+  sessions: number;
+};
+
+export type PageData = {
+  page: string;
+  views: number;
+  avgTime: string;
+  exitRate: number;
+};
+
+export type ConversionData = {
+  conversionRate: number;
+  goalCompletions: number;
+  goalsDelta: number;
+  _error?: string;
+};
+
+export type DeviceData = {
+  label: string;
+  value: number;
+  sessions: number;
+};
+
+export type KeywordData = {
+  keyword: string;
+  position: number;
+  clicks: number;
+  ctr: number;
+};
+
+export type SeoData = {
+  organicTraffic: number;
+  impressions: number;
+  ctr: number;
+  avgPosition: number;
+  keywords: KeywordData[];
+  _error?: string;
+};
+
+export type PageSpeedData = {
+  performanceScore: number;
+  loadSpeed: number | null;
+  fcp: string;
+  lcp: string;
+  cls: string;
+  tbt: string;
+  _error?: string;
+};
+
+// ── Clients ───────────────────────────────────────────────────────────────────
+
+const DEBUG = process.env.DEBUG_ANALYTICS === "true";
+
+function debugLog(label: string, data: unknown) {
+  if (!DEBUG) return;
+  console.log(`\n╔══ [Analytics Debug] ${label} ══`);
+  try {
+    console.log(JSON.stringify(data, null, 2).slice(0, 3000));
+  } catch {
+    console.log(String(data));
+  }
+  console.log(`╚${"═".repeat(40)}\n`);
+}
 
 const credentials = {
   client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!,
   private_key: process.env.GOOGLE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
 };
 
+// GA4_PROPERTY_ID must be ONLY the number — no "properties/" prefix, no "G-" prefix
 const GA4_PROPERTY_ID = process.env.GA4_PROPERTY_ID!;
-const PAGESPEED_API_KEY = process.env.PAGESPEED_API_KEY;   // optional — won't crash if missing
+const PAGESPEED_API_KEY = process.env.PAGESPEED_API_KEY;
 const SITE_URL = process.env.SITE_URL!;
 
 const ga4 = new BetaAnalyticsDataClient({ credentials });
 
-const auth = new google.auth.GoogleAuth({
+const gscAuth = new google.auth.GoogleAuth({
   credentials,
   scopes: ["https://www.googleapis.com/auth/webmasters.readonly"],
 });
-const searchconsole = google.searchconsole({ version: "v1", auth });
+const searchconsole = google.searchconsole({ version: "v1", auth: gscAuth });
 
-// ─────────────────────────────────────────────────────────
-// 1. Traffic
-// ─────────────────────────────────────────────────────────
-export async function getTrafficData() {
+// ── Core GA4 helper ───────────────────────────────────────────────────────────
+// Single reusable function — reduces duplication and surfaces real errors
+
+type GA4ReportRequest = protos.google.analytics.data.v1beta.IRunReportRequest;
+
+async function runGA4(request: Omit<GA4ReportRequest, "property">) {
   try {
-    const [current, previous] = await Promise.all([
-      ga4.runReport({
-        property: `properties/${GA4_PROPERTY_ID}`,
-        dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-        metrics: [
-          { name: "activeUsers" },
-          { name: "sessions" },
-          { name: "screenPageViews" },
-          { name: "bounceRate" },
-        ],
-      }),
-      ga4.runReport({
-        property: `properties/${GA4_PROPERTY_ID}`,
-        dateRanges: [{ startDate: "60daysAgo", endDate: "31daysAgo" }],
-        metrics: [
-          { name: "activeUsers" },
-          { name: "sessions" },
-          { name: "screenPageViews" },
-          { name: "bounceRate" },
-        ],
-      }),
-    ]);
+    const [response] = await ga4.runReport({
+      property: `properties/${GA4_PROPERTY_ID}`,
+      ...request,
+    });
 
-    const cur = current[0].rows?.[0]?.metricValues;
-    const prev = previous[0].rows?.[0]?.metricValues;
-    const delta = (c: number, p: number) =>
-      p === 0 ? 0 : Math.round(((c - p) / p) * 100);
+    return response;
+  } catch (error: any) {
+    console.error(
+      "GA4 REQUEST FAILED:",
+      JSON.stringify(request, null, 2)
+    );
 
-    const uv  = parseInt(cur?.[0]?.value ?? "0");
-    const tv  = parseInt(cur?.[1]?.value ?? "0");
-    const pv  = parseInt(cur?.[2]?.value ?? "0");
-    const br  = Math.round(parseFloat(cur?.[3]?.value ?? "0") * 100);
-    const uvP = parseInt(prev?.[0]?.value ?? "0");
-    const tvP = parseInt(prev?.[1]?.value ?? "0");
-    const pvP = parseInt(prev?.[2]?.value ?? "0");
-    const brP = Math.round(parseFloat(prev?.[3]?.value ?? "0") * 100);
+    console.error(
+      "GA4 ERROR:",
+      error.details || error.message
+    );
 
-    return {
-      uniqueVisitors: uv, totalVisits: tv, pageViews: pv, bounceRate: br,
-      uniqueVisitorsDelta: delta(uv, uvP), totalVisitsDelta: delta(tv, tvP),
-      pageViewsDelta: delta(pv, pvP), bounceRateDelta: br - brP,
-    };
-  } catch (e) {
-    console.error("getTrafficData failed:", e);
-    return {
-      uniqueVisitors: 0, totalVisits: 0, pageViews: 0, bounceRate: 0,
-      uniqueVisitorsDelta: 0, totalVisitsDelta: 0, pageViewsDelta: 0, bounceRateDelta: 0,
-    };
+    throw error;
   }
 }
 
-// ─────────────────────────────────────────────────────────
-// 2. Engagement
-// ─────────────────────────────────────────────────────────
-export async function getEngagementData() {
+function pct(delta: number, prev: number): number {
+  return prev === 0 ? 0 : Math.round(((delta - prev) / prev) * 100);
+}
+
+function parseNum(val?: string | null): number {
+  return parseInt(val ?? "0", 10) || 0;
+}
+
+function parseFloat2(val?: string | null): number {
+  return parseFloat(val ?? "0") || 0;
+}
+
+// ── 1. Traffic overview ───────────────────────────────────────────────────────
+
+export async function getTrafficData(): Promise<TrafficData> {
+  const fallback: TrafficData = {
+    uniqueVisitors: 0, totalVisits: 0, pageViews: 0, bounceRate: 0,
+    uniqueVisitorsDelta: 0, totalVisitsDelta: 0, pageViewsDelta: 0, bounceRateDelta: 0,
+  };
   try {
-    const [engagement, exitPages, newVsReturn] = await Promise.all([
-      ga4.runReport({
-        property: `properties/${GA4_PROPERTY_ID}`,
+    const metrics = [
+      { name: "activeUsers" },
+      { name: "sessions" },
+      { name: "screenPageViews" },
+      { name: "bounceRate" },
+    ];
+    const [cur, prev] = await Promise.all([
+      runGA4({ dateRanges: [{ startDate: "30daysAgo", endDate: "today" }], metrics }),
+      runGA4({ dateRanges: [{ startDate: "60daysAgo", endDate: "31daysAgo" }], metrics }),
+    ]);
+
+    const c = cur.rows?.[0]?.metricValues;
+    const p = prev.rows?.[0]?.metricValues;
+
+    const uv = parseNum(c?.[0]?.value);
+    const tv = parseNum(c?.[1]?.value);
+    const pv = parseNum(c?.[2]?.value);
+    // bounceRate in GA4 is 0–1 float; multiply by 100
+    const br = Math.round(parseFloat2(c?.[3]?.value) * 100);
+
+    const uvP = parseNum(p?.[0]?.value);
+    const tvP = parseNum(p?.[1]?.value);
+    const pvP = parseNum(p?.[2]?.value);
+    const brP = Math.round(parseFloat2(p?.[3]?.value) * 100);
+    console.log("Current period", { uv, tv, pv, br });
+    console.log("Previous period", { uv: uvP, tv: tvP, pv: pvP, br: brP });
+
+    return {
+      uniqueVisitors: uv, totalVisits: tv, pageViews: pv, bounceRate: br,
+      uniqueVisitorsDelta: pct(uv, uvP),
+      totalVisitsDelta: pct(tv, tvP),
+      pageViewsDelta: pct(pv, pvP),
+      bounceRateDelta: br - brP,
+      
+    };
+  } catch (e: any) {
+    const msg = e?.details || e?.message || String(e);
+    console.error("[getTrafficData]", msg);
+    debugLog("getTrafficData ERROR", e);
+    return { ...fallback, _error: msg };
+  }
+}
+
+// ── 2. Daily traffic trend (for line chart) ───────────────────────────────────
+
+export async function getDailyTraffic(): Promise<DailyPoint[]> {
+  try {
+    const response = await runGA4({
+      dateRanges: [{ startDate: "29daysAgo", endDate: "today" }],
+      dimensions: [{ name: "date" }],
+      metrics: [{ name: "activeUsers" }, { name: "sessions" }],
+      orderBys: [{ dimension: { dimensionName: "date" } }],
+    });
+
+    return (response.rows ?? []).map((row) => {
+      // GA4 date format: "20240101" → "Jan 1"
+      const raw = row.dimensionValues?.[0]?.value ?? "";
+      const d = new Date(`${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}`);
+      const date = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      return {
+        date,
+        users: parseNum(row.metricValues?.[0]?.value),
+        sessions: parseNum(row.metricValues?.[1]?.value),
+      };
+    });
+  } catch (e: any) {
+    console.error("[getDailyTraffic]", e?.details || e?.message);
+    return [];
+  }
+}
+
+// ── 3. Engagement ─────────────────────────────────────────────────────────────
+
+export async function getEngagementData(): Promise<EngagementData> {
+  const fallback: EngagementData = {
+    avgSessionDuration: "0m 0s", pagesPerSession: 0,
+    returningVisitors: 0, topExitPage: "/", exitRate: 0,
+  };
+  try {
+    const [durationRes, exitRes, nvr] = await Promise.all([
+      runGA4({
         dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-        metrics: [
-          { name: "averageSessionDuration" },
-          { name: "screenPageViewsPerSession" },
-        ],
+        metrics: [{ name: "averageSessionDuration" }, { name: "screenPageViewsPerSession" }],
       }),
-      ga4.runReport({
-        property: `properties/${GA4_PROPERTY_ID}`,
-        dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-        dimensions: [{ name: "pagePath" }],
-        metrics: [{ name: "exitRate" }],
-        orderBys: [{ metric: { metricName: "exitRate" }, desc: true }],
-        limit: 1,
-      }),
-      ga4.runReport({
-        property: `properties/${GA4_PROPERTY_ID}`,
+      runGA4({
+  dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+  dimensions: [{ name: "pagePath" }],
+  metrics: [{ name: "screenPageViews" }],
+  limit: 1,
+}),
+      runGA4({
         dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
         dimensions: [{ name: "newVsReturning" }],
         metrics: [{ name: "activeUsers" }],
       }),
     ]);
 
-    const engRow     = engagement[0].rows?.[0]?.metricValues;
-    const rawSeconds = parseFloat(engRow?.[0]?.value ?? "0");
-    const minutes    = Math.floor(rawSeconds / 60);
-    const seconds    = Math.round(rawSeconds % 60);
+    const mv = durationRes.rows?.[0]?.metricValues;
+    const rawSec = parseFloat2(mv?.[0]?.value);
+    const min = Math.floor(rawSec / 60);
+    const sec = Math.round(rawSec % 60);
 
-    const exitRow    = exitPages[0].rows?.[0];
+    const exitRow = exitRes.rows?.[0];
     const topExitPage = exitRow?.dimensionValues?.[0]?.value ?? "/";
-    const exitRate   = Math.round(parseFloat(exitRow?.metricValues?.[0]?.value ?? "0") * 100);
+    const exitRate = Math.round(parseFloat2(exitRow?.metricValues?.[0]?.value) * 100);
 
-    const rows       = newVsReturn[0].rows ?? [];
-    const returning  = rows.find((r) => r.dimensionValues?.[0]?.value === "returning");
-    const newUsers   = rows.find((r) => r.dimensionValues?.[0]?.value === "new");
-    const retCount   = parseInt(returning?.metricValues?.[0]?.value ?? "0");
-    const newCount   = parseInt(newUsers?.metricValues?.[0]?.value   ?? "0");
-    const total      = retCount + newCount;
-    const returningPct = total === 0 ? 0 : Math.round((retCount / total) * 100);
+    const rows = nvr.rows ?? [];
+    const ret = rows.find((r) => r.dimensionValues?.[0]?.value === "returning");
+    const newU = rows.find((r) => r.dimensionValues?.[0]?.value === "new");
+    const retN = parseNum(ret?.metricValues?.[0]?.value);
+    const newN = parseNum(newU?.metricValues?.[0]?.value);
+    const total = retN + newN;
 
     return {
-      avgSessionDuration: `${minutes}m ${seconds}s`,
-      pagesPerSession: parseFloat(parseFloat(engRow?.[1]?.value ?? "0").toFixed(1)),
-      returningVisitors: returningPct,
+      avgSessionDuration: `${min}m ${sec}s`,
+      pagesPerSession: parseFloat(parseFloat2(mv?.[1]?.value).toFixed(1)),
+      returningVisitors: total === 0 ? 0 : Math.round((retN / total) * 100),
       topExitPage,
       exitRate,
     };
-  } catch (e) {
-    console.error("getEngagementData failed:", e);
-    return { avgSessionDuration: "0m 0s", pagesPerSession: 0, returningVisitors: 0, topExitPage: "/", exitRate: 0 };
+  } catch (e: any) {
+    const msg = e?.details || e?.message || String(e);
+    console.error("[getEngagementData]", msg);
+    return { ...fallback, _error: msg };
   }
 }
 
-// ─────────────────────────────────────────────────────────
-// 3. Traffic Sources
-// ─────────────────────────────────────────────────────────
-export async function getTrafficSources() {
+// ── 4. Traffic sources ────────────────────────────────────────────────────────
+
+export async function getTrafficSources(): Promise<TrafficSource[]> {
   try {
-    const [response] = await ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
+    const response = await runGA4({
       dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
       dimensions: [{ name: "sessionDefaultChannelGroup" }],
       metrics: [{ name: "sessions" }],
       orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
+      limit: 6,
     });
 
     const rows = response.rows ?? [];
-    const totalSessions = rows.reduce(
-      (sum, r) => sum + parseInt(r.metricValues?.[0]?.value ?? "0"), 0
-    );
+    const totalSessions = rows.reduce((s, r) => s + parseNum(r.metricValues?.[0]?.value), 0);
 
-    const colorMap: Record<string, string> = {
-      "Organic Search": "bg-blue-500",
-      Direct: "bg-emerald-600",
-      "Organic Social": "bg-orange-500",
-      Referral: "bg-amber-600",
-      Email: "bg-gray-400",
-      Paid: "bg-purple-500",
-    };
-
-    return rows.slice(0, 6).map((row) => {
+    return rows.map((row) => {
       const name = row.dimensionValues?.[0]?.value ?? "Other";
-      const sessions = parseInt(row.metricValues?.[0]?.value ?? "0");
+      const sessions = parseNum(row.metricValues?.[0]?.value);
       return {
         name,
+        sessions,
         percentage: totalSessions === 0 ? 0 : Math.round((sessions / totalSessions) * 100),
-        color: colorMap[name] ?? "bg-gray-400",
       };
     });
-  } catch (e) {
-    console.error("getTrafficSources failed:", e);
+  } catch (e: any) {
+    console.error("[getTrafficSources]", e?.details || e?.message);
     return [];
   }
 }
 
-// ─────────────────────────────────────────────────────────
-// 4. Top Pages
-// ─────────────────────────────────────────────────────────
-export async function getTopPages() {
+// ── 5. Top pages ──────────────────────────────────────────────────────────────
+
+export async function getTopPages(): Promise<PageData[]> {
   try {
-    const [response] = await ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
-      dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-      dimensions: [{ name: "pagePath" }],
-      metrics: [
-        { name: "screenPageViews" },
-        { name: "averageSessionDuration" },
-        { name: "exitRate" },
-      ],
-      orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
-      limit: 8,
-    });
+    const response = await runGA4({
+  dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
+  dimensions: [{ name: "pagePath" }],
+  metrics: [{ name: "screenPageViews" }],
+  limit: 8,
+});
+
+console.log(JSON.stringify(response, null, 2));
 
     return (response.rows ?? []).map((row) => {
-      const rawSecs = parseFloat(row.metricValues?.[1]?.value ?? "0");
-      const m = Math.floor(rawSecs / 60);
-      const s = Math.round(rawSecs % 60);
+      const rawSec = parseFloat2(row.metricValues?.[1]?.value);
+      const m = Math.floor(rawSec / 60);
+      const s = Math.round(rawSec % 60);
       return {
         page: row.dimensionValues?.[0]?.value ?? "/",
-        views: parseInt(row.metricValues?.[0]?.value ?? "0"),
+        views: parseNum(row.metricValues?.[0]?.value),
         avgTime: `${m}m ${s}s`,
-        exitRate: Math.round(parseFloat(row.metricValues?.[2]?.value ?? "0") * 100),
+        exitRate: Math.round(parseFloat2(row.metricValues?.[2]?.value) * 100),
       };
     });
-  } catch (e) {
-    console.error("getTopPages failed:", e);
+  } catch (e: any) {
+    console.error("[getTopPages]", e?.details || e?.message);
     return [];
   }
 }
 
-// ─────────────────────────────────────────────────────────
-// 5. Conversions
-// ─────────────────────────────────────────────────────────
-export async function getConversionData() {
+// ── 6. Conversions ────────────────────────────────────────────────────────────
+
+export async function getConversionData(): Promise<ConversionData> {
+  const fallback: ConversionData = { conversionRate: 0, goalCompletions: 0, goalsDelta: 0 };
   try {
-    const [conv, prevConv] = await Promise.all([
-      ga4.runReport({
-        property: `properties/${GA4_PROPERTY_ID}`,
-        dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
-        metrics: [{ name: "conversions" }, { name: "sessionConversionRate" }],
-      }),
-      ga4.runReport({
-        property: `properties/${GA4_PROPERTY_ID}`,
-        dateRanges: [{ startDate: "60daysAgo", endDate: "31daysAgo" }],
-        metrics: [{ name: "conversions" }],
-      }),
+    const metrics = [{ name: "conversions" }, { name: "sessionConversionRate" }];
+    const [cur, prev] = await Promise.all([
+      runGA4({ dateRanges: [{ startDate: "30daysAgo", endDate: "today" }], metrics }),
+      runGA4({ dateRanges: [{ startDate: "60daysAgo", endDate: "31daysAgo" }], metrics }),
     ]);
 
-    const curRow    = conv[0].rows?.[0]?.metricValues;
-    const prevCount = parseInt(prevConv[0].rows?.[0]?.metricValues?.[0]?.value ?? "0");
-    const goals     = parseInt(curRow?.[0]?.value ?? "0");
+    const c = cur.rows?.[0]?.metricValues;
+    const goals = parseNum(c?.[0]?.value);
+    const prevGoals = parseNum(prev.rows?.[0]?.metricValues?.[0]?.value);
 
     return {
-      conversionRate: parseFloat((parseFloat(curRow?.[1]?.value ?? "0") * 100).toFixed(1)),
+      conversionRate: parseFloat((parseFloat2(c?.[1]?.value) * 100).toFixed(1)),
       goalCompletions: goals,
-      goalsDelta: goals - prevCount,
+      goalsDelta: goals - prevGoals,
     };
-  } catch (e) {
-    console.error("getConversionData failed:", e);
-    return { conversionRate: 0, goalCompletions: 0, goalsDelta: 0 };
+  } catch (e: any) {
+    const msg = e?.details || e?.message || String(e);
+    console.error("[getConversionData]", msg);
+    return { ...fallback, _error: msg };
   }
 }
 
-// ─────────────────────────────────────────────────────────
-// 6. Device breakdown
-// ─────────────────────────────────────────────────────────
-export async function getDeviceData() {
+// ── 7. Devices ────────────────────────────────────────────────────────────────
+
+export async function getDeviceData(): Promise<DeviceData[]> {
   try {
-    const [response] = await ga4.runReport({
-      property: `properties/${GA4_PROPERTY_ID}`,
+    const response = await runGA4({
       dateRanges: [{ startDate: "30daysAgo", endDate: "today" }],
       dimensions: [{ name: "deviceCategory" }],
       metrics: [{ name: "sessions" }],
     });
 
-    const rows  = response.rows ?? [];
-    const total = rows.reduce(
-      (s, r) => s + parseInt(r.metricValues?.[0]?.value ?? "0"), 0
-    );
-
-    const colorMap: Record<string, string> = {
-      mobile:  "bg-blue-500",
-      desktop: "bg-emerald-600",
-      tablet:  "bg-gray-400",
-    };
+    const rows = response.rows ?? [];
+    const total = rows.reduce((s, r) => s + parseNum(r.metricValues?.[0]?.value), 0);
 
     return rows.map((row) => {
-      const label    = row.dimensionValues?.[0]?.value ?? "other";
-      const sessions = parseInt(row.metricValues?.[0]?.value ?? "0");
+      const raw = row.dimensionValues?.[0]?.value ?? "other";
+      const sessions = parseNum(row.metricValues?.[0]?.value);
       return {
-        label: label.charAt(0).toUpperCase() + label.slice(1),
+        label: raw.charAt(0).toUpperCase() + raw.slice(1),
+        sessions,
         value: total === 0 ? 0 : Math.round((sessions / total) * 100),
-        color: colorMap[label] ?? "bg-gray-400",
       };
     });
-  } catch (e) {
-    console.error("getDeviceData failed:", e);
+  } catch (e: any) {
+    console.error("[getDeviceData]", e?.details || e?.message);
     return [];
   }
 }
 
-// ─────────────────────────────────────────────────────────
-// 7. SEO — Search Console
-// ─────────────────────────────────────────────────────────
-export async function getSeoData() {
-  const fallback = { organicTraffic: 0, impressions: 0, ctr: 0, avgPosition: 0, keywords: [], error: "" };
+// ── 8. SEO — Search Console ───────────────────────────────────────────────────
 
+export async function getSeoData(): Promise<SeoData> {
+  const fallback: SeoData = {
+    organicTraffic: 0, impressions: 0, ctr: 0, avgPosition: 0, keywords: [],
+  };
   try {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const startDate = thirtyDaysAgo.toISOString().split("T")[0];
-    const endDate   = new Date().toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split("T")[0];
 
     const [overview, keywords] = await Promise.all([
       searchconsole.searchanalytics.query({
@@ -303,87 +462,80 @@ export async function getSeoData() {
       }),
       searchconsole.searchanalytics.query({
         siteUrl: SITE_URL,
-        requestBody: {
-          startDate, endDate,
-          dimensions: ["query"],
-          rowLimit: 10,
-        },
+        requestBody: { startDate, endDate, dimensions: ["query"], rowLimit: 10 },
       }),
     ]);
 
-    const ov = overview.data.rows?.[0];
+    debugLog("Search Console overview", overview.data);
+    debugLog("Search Console keywords", keywords.data);
 
+    const ov = overview.data.rows?.[0];
     return {
-      organicTraffic: Math.round(ov?.clicks    ?? 0),
-      impressions:    Math.round(ov?.impressions ?? 0),
-      ctr:            parseFloat(((ov?.ctr      ?? 0) * 100).toFixed(1)),
-      avgPosition:    parseFloat((ov?.position   ?? 0).toFixed(1)),
+      organicTraffic: Math.round(ov?.clicks ?? 0),
+      impressions: Math.round(ov?.impressions ?? 0),
+      ctr: parseFloat(((ov?.ctr ?? 0) * 100).toFixed(1)),
+      avgPosition: parseFloat((ov?.position ?? 0).toFixed(1)),
       keywords: (keywords.data.rows ?? []).map((row) => ({
-        keyword:  (row.keys?.[0] ?? "").toLowerCase(),
+        keyword: (row.keys?.[0] ?? "").toLowerCase(),
         position: Math.round(row.position ?? 0),
-        clicks:   Math.round(row.clicks   ?? 0),
-        ctr:      parseFloat(((row.ctr    ?? 0) * 100).toFixed(1)),
+        clicks: Math.round(row.clicks ?? 0),
+        ctr: parseFloat(((row.ctr ?? 0) * 100).toFixed(1)),
       })),
-      error: "",
     };
   } catch (e: any) {
-    const status  = e?.status ?? e?.code ?? "unknown";
-    const message = status === 403
-      ? "403 — check SITE_URL format and service account permissions"
-      : `Search Console error ${status}`;
-    console.error("getSeoData failed:", message);
-    return { ...fallback, error: message };
+    const status = e?.status ?? e?.code ?? "unknown";
+    const msg = status === 403
+      ? "403 — service account missing from Search Console or wrong SITE_URL format"
+      : `Error ${status}: ${e?.message}`;
+    console.error("[getSeoData]", msg);
+    return { ...fallback, _error: msg };
   }
 }
 
-// ─────────────────────────────────────────────────────────
-// 8. PageSpeed
-// ─────────────────────────────────────────────────────────
-export async function getPageSpeedData() {
-  // Safe fallback — shown when key is missing or API fails
-  const fallback = {
-    performanceScore: 0,
-    loadSpeed: null as number | null,   // null = "not available" (avoids NaN)
+// ── 9. PageSpeed ──────────────────────────────────────────────────────────────
+
+export async function getPageSpeedData(): Promise<PageSpeedData> {
+  const fallback: PageSpeedData = {
+    performanceScore: 0, loadSpeed: null,
     fcp: "–", lcp: "–", cls: "–", tbt: "–",
-    error: "",
   };
 
-  // No key configured — return fallback silently
   if (!PAGESPEED_API_KEY) {
-    return { ...fallback, error: "PAGESPEED_API_KEY not set in .env.local" };
+    return { ...fallback, _error: "PAGESPEED_API_KEY not set" };
   }
 
   try {
-    const url = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(
-      SITE_URL
-    )}&key=${PAGESPEED_API_KEY}&strategy=mobile&category=performance`;
+    const url =
+      `https://www.googleapis.com/pagespeedonline/v5/runPagespeed` +
+      `?url=${encodeURIComponent(SITE_URL)}&key=${PAGESPEED_API_KEY}` +
+      `&strategy=mobile&category=performance`;
 
-    const res  = await fetch(url, { next: { revalidate: 3600 } });
+    const res = await fetch(url, { next: { revalidate: 3600 } });
     const data = await res.json();
 
-    // API key invalid or quota exceeded
+    debugLog("PageSpeed response", {
+      error: data.error,
+      score: data.lighthouseResult?.categories?.performance?.score,
+    });
+
     if (data.error) {
-      console.error("PageSpeed API error:", data.error.message);
-      return { ...fallback, error: data.error.message };
+      return { ...fallback, _error: data.error.message };
     }
 
-    const lhr    = data.lighthouseResult;
+    const lhr = data.lighthouseResult;
     const audits = lhr?.audits;
-
     const rawSpeed = audits?.["interactive"]?.numericValue;
 
     return {
       performanceScore: Math.round((lhr?.categories?.performance?.score ?? 0) * 100),
-      // Guard against undefined/NaN
       loadSpeed: rawSpeed != null ? parseFloat((rawSpeed / 1000).toFixed(1)) : null,
-      fcp: audits?.["first-contentful-paint"]?.displayValue    ?? "–",
-      lcp: audits?.["largest-contentful-paint"]?.displayValue  ?? "–",
-      cls: audits?.["cumulative-layout-shift"]?.displayValue   ?? "–",
-      tbt: audits?.["total-blocking-time"]?.displayValue       ?? "–",
-      error: "",
+      fcp: audits?.["first-contentful-paint"]?.displayValue ?? "–",
+      lcp: audits?.["largest-contentful-paint"]?.displayValue ?? "–",
+      cls: audits?.["cumulative-layout-shift"]?.displayValue ?? "–",
+      tbt: audits?.["total-blocking-time"]?.displayValue ?? "–",
     };
   } catch (e: any) {
-    console.error("getPageSpeedData failed:", e?.message);
-    return { ...fallback, error: e?.message ?? "unknown error" };
+    console.error("[getPageSpeedData]", e?.message);
+    return { ...fallback, _error: e?.message };
   }
 }
