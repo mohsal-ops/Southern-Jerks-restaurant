@@ -225,8 +225,7 @@ export async function getTrafficData(): Promise<TrafficData> {
     const tvP = parseNum(p?.[1]?.value);
     const pvP = parseNum(p?.[2]?.value);
     const brP = Math.round(parseFloat2(p?.[3]?.value) * 100);
-    console.log("Current period", { uv, tv, pv, br });
-    console.log("Previous period", { uv: uvP, tv: tvP, pv: pvP, br: brP });
+
 
     return {
       uniqueVisitors: uv, totalVisits: tv, pageViews: pv, bounceRate: br,
@@ -369,7 +368,6 @@ export async function getTopPages(): Promise<PageData[]> {
   limit: 8,
 });
 
-console.log(JSON.stringify(response, null, 2));
 
     return (response.rows ?? []).map((row) => {
       const rawSec = parseFloat2(row.metricValues?.[1]?.value);
@@ -494,48 +492,56 @@ export async function getSeoData(): Promise<SeoData> {
 
 // ── 9. PageSpeed ──────────────────────────────────────────────────────────────
 
-export async function getPageSpeedData(): Promise<PageSpeedData> {
+export async function getPageSpeedData(
+  pageUrl?: string  // optional — defaults to your homepage
+): Promise<PageSpeedData> {
   const fallback: PageSpeedData = {
     performanceScore: 0, loadSpeed: null,
     fcp: "–", lcp: "–", cls: "–", tbt: "–",
   };
 
-  if (!PAGESPEED_API_KEY) {
+  const apiKey = process.env.PAGESPEED_API_KEY;
+
+  // Use dedicated pagespeed URL, not the sc-domain: Search Console one
+  const baseUrl = process.env.PAGESPEED_SITE_URL ?? "https://southernjerkshtx.com";
+  const targetUrl = pageUrl ?? baseUrl;
+
+  if (!apiKey) {
     return { ...fallback, _error: "PAGESPEED_API_KEY not set" };
   }
 
   try {
-    const url =
-      `https://www.googleapis.com/pagespeedonline/v5/runPagespeed` +
-      `?url=${encodeURIComponent(SITE_URL)}&key=${PAGESPEED_API_KEY}` +
-      `&strategy=mobile&category=performance`;
+    const endpoint = new URL(
+      "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+    );
+    endpoint.searchParams.set("url", targetUrl);
+    endpoint.searchParams.set("key", apiKey);
+    endpoint.searchParams.set("strategy", "mobile");
+    endpoint.searchParams.set("category", "performance");
 
-    const res = await fetch(url, { next: { revalidate: 3600 } });
-    const data = await res.json();
+    const res = await fetch(endpoint.toString(), { next: { revalidate: 3600 } });
 
-    debugLog("PageSpeed response", {
-      error: data.error,
-      score: data.lighthouseResult?.categories?.performance?.score,
-    });
-
-    if (data.error) {
-      return { ...fallback, _error: data.error.message };
+    if (!res.ok) {
+      const errText = await res.text();
+      return { ...fallback, _error: `HTTP ${res.status}: ${errText.slice(0, 200)}` };
     }
 
-    const lhr = data.lighthouseResult;
-    const audits = lhr?.audits;
+    const data = await res.json();
+    if (data.error) return { ...fallback, _error: data.error.message };
+
+    const audits = data.lighthouseResult?.audits;
+    const score  = data.lighthouseResult?.categories?.performance?.score;
     const rawSpeed = audits?.["interactive"]?.numericValue;
 
     return {
-      performanceScore: Math.round((lhr?.categories?.performance?.score ?? 0) * 100),
+      performanceScore: Math.round((score ?? 0) * 100),
       loadSpeed: rawSpeed != null ? parseFloat((rawSpeed / 1000).toFixed(1)) : null,
-      fcp: audits?.["first-contentful-paint"]?.displayValue ?? "–",
+      fcp: audits?.["first-contentful-paint"]?.displayValue  ?? "–",
       lcp: audits?.["largest-contentful-paint"]?.displayValue ?? "–",
-      cls: audits?.["cumulative-layout-shift"]?.displayValue ?? "–",
-      tbt: audits?.["total-blocking-time"]?.displayValue ?? "–",
+      cls: audits?.["cumulative-layout-shift"]?.displayValue  ?? "–",
+      tbt: audits?.["total-blocking-time"]?.displayValue      ?? "–",
     };
   } catch (e: any) {
-    console.error("[getPageSpeedData]", e?.message);
     return { ...fallback, _error: e?.message };
   }
 }

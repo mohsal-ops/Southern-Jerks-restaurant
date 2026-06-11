@@ -33,7 +33,7 @@ export default function AddPartnerForm({
         onClick={() => setOpen((v) => !v)}
         className="w-full px-6 py-4 flex items-center gap-3 hover:bg-stone-50 transition-colors text-left"
       >
-        <div className="w-7 h-7 rounded-full bg-stone-900 flex items-center justify-center flex-shrink-0">
+        <div className="w-7 h-7 rounded-full bg-stone-900 flex items-center justify-center shrink-0">
           <Plus className="w-4 h-4 text-white" />
         </div>
         <p className="font-semibold text-stone-700 flex-1">Add new partner</p>
@@ -52,11 +52,11 @@ export default function AddPartnerForm({
           {/* Photo */}
           <div className="flex items-start gap-5">
             <div
-              className="relative w-24 h-32 rounded-2xl overflow-hidden flex-shrink-0 cursor-pointer border-2 border-dashed border-stone-200 hover:border-stone-400 transition-colors"
+              className="relative w-24 h-32 rounded-2xl overflow-hidden shrink-0 cursor-pointer border-2 border-dashed border-stone-200 hover:border-stone-400 transition-colors"
               onClick={() => fileRef.current?.click()}
             >
               {preview ? (
-                <Image src={preview} alt="Preview" fill className="object-cover" />
+                <Image priority src={preview} alt="Preview" fill className="object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-stone-400 text-xs text-center px-2">
                   Click to upload

@@ -144,7 +144,7 @@ const MazeGame = () => {
                   {cell.isGoal && (
                     <>
                       <rect x={c * config.cellSize + config.wallThickness / 2} y={r * config.cellSize + config.wallThickness / 2} width={config.cellSize} height={config.cellSize} fill="hsl(var(--pickle) / 0.1)" />
-                      <image href={goalImages[difficulty].src} x={c * config.cellSize + config.wallThickness / 2 + 2} y={r * config.cellSize + config.wallThickness / 2 + 2} width={config.cellSize - 4} height={config.cellSize - 4} preserveAspectRatio="xMidYMid slice" clipPath="inset(0 round 4px)" />
+                      <image  href={goalImages[difficulty].src} x={c * config.cellSize + config.wallThickness / 2 + 2} y={r * config.cellSize + config.wallThickness / 2 + 2} width={config.cellSize - 4} height={config.cellSize - 4} preserveAspectRatio="xMidYMid slice" clipPath="inset(0 round 4px)" />
                     </>
                   )}
                 </g>

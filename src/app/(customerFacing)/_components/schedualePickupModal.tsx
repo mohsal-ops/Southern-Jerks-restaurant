@@ -125,6 +125,7 @@ function AddProductCard({
         {product.image && (
           <div className="relative flex w-full h-72 items-center gap-4">
             <Image
+              priority
               src={product.image}
               alt="product image"
               fill

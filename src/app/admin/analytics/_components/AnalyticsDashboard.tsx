@@ -594,15 +594,7 @@ export function AnalyticsDashboard({
                 <p className="text-[32px] font-semibold tracking-tight leading-none tabular-nums">
                   {speed.loadSpeed}s
                 </p>
-                <span
-                  className={`mb-1 text-[11px] font-medium px-2 py-0.5 rounded-full
-                    ${speed.loadSpeed < 3
-                      ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
-                      : "bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400"
-                    }`}
-                >
-                  {speed.loadSpeed < 3 ? "Good" : "Slow"}
-                </span>
+
               </div>
               <div className="grid grid-cols-2 gap-2 border-t border-border pt-4">
                 {[

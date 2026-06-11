@@ -29,11 +29,12 @@ export default function PartnerForm({ partner }: { partner: Partner }) {
         {/* Photo */}
         <div className="flex items-start gap-5">
           <div
-            className="relative w-24 h-32 rounded-2xl overflow-hidden flex-shrink-0 cursor-pointer border-2 border-dashed border-stone-200 hover:border-stone-400 transition-colors"
+            className="relative w-24 h-32 rounded-2xl overflow-hidden shrink-0 cursor-pointer border-2 border-dashed border-stone-200 hover:border-stone-400 transition-colors"
             onClick={() => fileRef.current?.click()}
           >
             {preview || partner.image ? (
-              <Image
+              <Image 
+                priority
                 src={preview ?? partner.image!}
                 alt={partner.name}
                 fill

@@ -11,7 +11,7 @@ export default function Adminlayout({
     <>
       <AdminNav>
         <NavLink href="/admin">Dashbord</NavLink>
-        {/* <NavLink href="/admin/analytics">Analytics</NavLink> */}
+        <NavLink href="/admin/analytics">Analytics</NavLink>
         <NavLink href="/admin/menuItems">Menu items</NavLink>
         <NavLink href="/admin/menuCategories">Menu Categories</NavLink>
         <NavLink href="/admin/orders">Sales</NavLink>

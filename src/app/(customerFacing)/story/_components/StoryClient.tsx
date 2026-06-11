@@ -94,6 +94,7 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           className="h-full"
         >
           <Image
+            priority
             src={pic3}
             alt="The Southern Jerks experience"
             className="rounded-3xl object-cover w-full h-full aspect-4/3"
@@ -133,6 +134,7 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
                 <div className="relative shrink-0 w-full md:w-72">
                   {person.image ? (
                     <Image
+                      priority
                       src={person.image}
                       alt={person.name}
                       width={288}
@@ -254,6 +256,7 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           className="relative rounded-3xl overflow-hidden"
         >
           <Image
+            priority
             src={pic4}
             alt="Southern Jerks dining experience"
             className="w-full object-cover max-h-125"

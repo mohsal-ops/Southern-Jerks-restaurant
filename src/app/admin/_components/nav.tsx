@@ -13,11 +13,12 @@ import {
   BookOpen,
   MapPin,
   Newspaper,
+  ChartArea,
 } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  // { href: "/admin/analytics", label: "Analytics", icon: LayoutDashboard },
+  { href: "/admin/analytics", label: "Analytics", icon: ChartArea },
   { href: "/admin/menuItems", label: "Menu Items", icon: UtensilsCrossed },
   { href: "/admin/menuCategories", label: "Categories", icon: Tag },
   { href: "/admin/users", label: "Customers", icon: Users },

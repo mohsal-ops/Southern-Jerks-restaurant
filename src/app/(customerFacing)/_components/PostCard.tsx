@@ -10,6 +10,7 @@ export default function PostCard({ post }: { post: Post }) {
     >
       <div className="relative h-60">
         <Image
+          priority
           src={post.image}
           alt={post.title}
           fill

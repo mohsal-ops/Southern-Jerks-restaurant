@@ -268,38 +268,38 @@ function ReviewCard({
   );
 }
 export function ReviewsSection() {
- const reviews = [
-  {
-    name: "Terrence B.",
-    review:
-      "This was some good eatin! Chicken has a nice coating and is crispy. The jerk flavor in the breading sets this apart from others. The sauce options were next level.",
-    link: "https://api.dicebear.com/7.x/micah/svg?seed=TerenceB&backgroundColor=b6e3f4",
-  },
-  {
-    name: "Sofia M.",
-    review:
-      "I've tried Caribbean food all over Houston and Southern Jerks is hands down the best. The seasoning is bold without being overpowering. My whole family is obsessed now!",
-    link: "https://api.dicebear.com/7.x/micah/svg?seed=SofiaM&backgroundColor=ffd5dc",
-  },
-  {
-    name: "James L.",
-    review:
-      "Came in on my lunch break and ended up going back for dinner the same day. The jerk chicken sandwich is unreal. Fast service, friendly staff highly recommend.",
-    link: "https://api.dicebear.com/7.x/micah/svg?seed=JamesL&backgroundColor=c0aede",
-  },
-  {
-    name: "Amara N.",
-    review:
-      "As someone who grew up eating Caribbean food, I'm very picky. Southern Jerks nailed the authentic flavor. Crispy, juicy, perfectly spiced. Will be a regular for sure.",
-    link: "https://api.dicebear.com/7.x/micah/svg?seed=AmaraN&backgroundColor=d1f5c0",
-  },
-  {
-    name: "Paris B.",
-    review:
-      "I've been addicted since I first tried them. Went back that same day for dinner. Told my whole job and we've been ordering for team lunch ever since. 10/10, no debate.",
-    link: "https://api.dicebear.com/7.x/micah/svg?seed=ParisB&backgroundColor=ffeaa7",
-  },
-];
+  const reviews = [
+    {
+      name: "Terrence B.",
+      review:
+        "This was some good eatin! Chicken has a nice coating and is crispy. The jerk flavor in the breading sets this apart from others. The sauce options were next level.",
+      link: "https://api.dicebear.com/7.x/micah/svg?seed=TerenceB&backgroundColor=b6e3f4",
+    },
+    {
+      name: "Sofia M.",
+      review:
+        "I've tried Caribbean food all over Houston and Southern Jerks is hands down the best. The seasoning is bold without being overpowering. My whole family is obsessed now!",
+      link: "https://api.dicebear.com/7.x/micah/svg?seed=SofiaM&backgroundColor=ffd5dc",
+    },
+    {
+      name: "James L.",
+      review:
+        "Came in on my lunch break and ended up going back for dinner the same day. The jerk chicken sandwich is unreal. Fast service, friendly staff highly recommend.",
+      link: "https://api.dicebear.com/7.x/micah/svg?seed=JamesL&backgroundColor=c0aede",
+    },
+    {
+      name: "Amara N.",
+      review:
+        "As someone who grew up eating Caribbean food, I'm very picky. Southern Jerks nailed the authentic flavor. Crispy, juicy, perfectly spiced. Will be a regular for sure.",
+      link: "https://api.dicebear.com/7.x/micah/svg?seed=AmaraN&backgroundColor=d1f5c0",
+    },
+    {
+      name: "Paris B.",
+      review:
+        "I've been addicted since I first tried them. Went back that same day for dinner. Told my whole job and we've been ordering for team lunch ever since. 10/10, no debate.",
+      link: "https://api.dicebear.com/7.x/micah/svg?seed=ParisB&backgroundColor=ffeaa7",
+    },
+  ];
   return (
     <div className=" flex flex-col items-center  md:w-[85vw] p-10 space-y-10 bg-gray-100 rounded-4xl">
       <div className="text-center space-y-4">
@@ -324,12 +324,12 @@ export function OrderDirectlyfromOUrWebsite() {
   return (
     <div className="relative flex items-end h-96 md:h-svh sm:w-[85vw]  rounded-3xl overflow-hidden   ">
       <Image
+        priority
         loading="lazy"
         src={mainImg}
         alt="best snow cone in NYC"
         className="object-cover w-full h-full"
       />
-   
     </div>
   );
 }
@@ -338,6 +338,7 @@ export function DistinctiveFeatures() {
     <div className="flex flex-col space-y-5 md:w-[85vw] rounded-3xl overflow-hidden ">
       <div className="flex md:flex-row flex-col justify-between  md:h-132 h-full">
         <Image
+          priority
           loading="lazy"
           src={img2}
           alt="Distinctive Features"
@@ -347,8 +348,8 @@ export function DistinctiveFeatures() {
           <PageHeader>Only flavor that hits</PageHeader>
           <p className="text-lg font-medium text-neutral-600">
             From juicy wings to stacked sandwiches, every dish is made with
-            care, quality ingredients, and big Caribbean flavor because
-            average isn’t our thing.
+            care, quality ingredients, and big Caribbean flavor because average
+            isn’t our thing.
           </p>
         </div>
       </div>
@@ -361,6 +362,7 @@ export function DistinctiveFeatures() {
           </p>
         </div>
         <Image
+          priority
           loading="lazy"
           src={img3}
           alt="Distinctive Features"
@@ -486,9 +488,8 @@ export function OurLocationComponent({
   lat: number;
   lng: number;
 }) {
-  return (<OurLocation places={places} lat={lat} lng={lng} />
-
-  )}
+  return <OurLocation places={places} lat={lat} lng={lng} />;
+}
 
 // export function OurLocation({
 //   places,
@@ -609,7 +610,6 @@ export function Footer() {
             <Link href="https://www.facebook.com/p/Southern-Jerks-100076329252325">
               <FaFacebook size={25} />
             </Link>
-            
           </div>
         </div>
       </div>

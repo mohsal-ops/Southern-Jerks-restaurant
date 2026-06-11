@@ -132,7 +132,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
       <div className="hidden md:flex justify-between h-16 md:h-20 md:w-[80%]  items-center ">
         <div className="flex items-center justify-center w-auto ">
           <Image
-            alt="snow cone logo"
+            alt="southern jerks logo"
             className="w-auto h-auto"
             src={Logo}
             height={60}
