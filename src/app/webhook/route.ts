@@ -44,8 +44,6 @@ const auth = new google.auth.JWT({
 const sheets = google.sheets({ version: "v4", auth });
 
 export async function POST(req: NextRequest) {
-  console.log("WEBHOOK HIT maaa nigga ");
-
   try {
     const sig = req.headers.get("stripe-signature");
     if (!sig) return new NextResponse("Missing signature", { status: 400 });
@@ -77,7 +75,9 @@ export async function POST(req: NextRequest) {
     });
 
     if (!cart || cart.items.length === 0) {
-      return new NextResponse("Cart empty", { status: 400 });
+      // Cart already emptied — this payment intent was already processed
+      // by a prior webhook delivery (Stripe retries on non-2xx responses).
+      return new NextResponse("Already processed", { status: 200 });
     }
     // Find or create user
     let user = await db.user.findUnique({
@@ -88,20 +88,17 @@ export async function POST(req: NextRequest) {
       user = await db.user.create({ data: { email }, select: { id: true } });
     }
 
-    console.error("user found or created ");
-
     // Create orders
     for (const cartItem of cart.items) {
       if (!cartItem.productId) continue;
 
       await db.order.create({
         data: {
-          userId: user.id, // or your real user logic
+          userId: user.id,
           productId: cartItem.productId,
           pricePaidInCents: (cartItem.price ?? 0) * (cartItem.quantity ?? 1),
         },
       });
-      console.log("order created for cart item ");
     }
 
     const first = cart.items[0];
@@ -139,8 +136,6 @@ export async function POST(req: NextRequest) {
         return sum + base + sides;
       }, 0) / 100;
 
-    console.log("lng", first.deliveryLat, "lat", first.deliveryLng);
-
     const row = [
       cart.id, // Order ID
       first.orderType || "pickup", // Type
@@ -148,8 +143,8 @@ export async function POST(req: NextRequest) {
       first.customerPhone || "",
       email,
       first.deliveryAddress || "",
-      first.deliveryLat || "Lat",
-      first.deliveryLng || "Lng",
+      first.deliveryLat ?? "",
+      first.deliveryLng ?? "",
       first.apt || "",
       first.instructions || "",
       first.pickupDay ? new Date(first.pickupDay).toDateString() : "",
@@ -168,13 +163,10 @@ export async function POST(req: NextRequest) {
         values: [row],
       },
     });
-    console.log("Order saved to sheet:");
-
     // Empty cart
-    await db.cartItem.deleteMany({ where: { cartId } })
-    revalidatePath("/Menu")
-    revalidatePath("/stripe/purchase-success")
-    console.log("Order saved to sheet and cart emptied:");
+    await db.cartItem.deleteMany({ where: { cartId } });
+    revalidatePath("/Menu");
+    revalidatePath("/stripe/purchase-success");
 
     return new NextResponse("Order saved to sheet", { status: 201 });
   } catch (err) {

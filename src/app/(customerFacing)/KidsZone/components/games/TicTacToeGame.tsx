@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { RotateCcw, Trophy } from "lucide-react";
 import type { Difficulty } from "./mazeConfigs";
@@ -124,7 +124,7 @@ const TicTacToeGame = () => {
   return (
     <div className="game-card">
       <div className="text-center mb-4">
-        <p className="text-muted-foreground text-sm mb-4">You're 🍗 — beat the 🍔 AI!</p>
+        <p className="text-muted-foreground text-sm mb-4">You&apos;re 🍗 — beat the 🍔 AI!</p>
         <DifficultySelector currentDifficulty={difficulty} onSelect={(d) => { setDifficulty(d); resetGame(); }} configs={configs} />
       </div>
 
@@ -138,7 +138,7 @@ const TicTacToeGame = () => {
       )}
       {isDraw && (
         <div className="bg-secondary border-2 border-border rounded-xl p-4 mb-4 text-center">
-          <p className="text-lg font-display text-muted-foreground">🤝 It's a draw!</p>
+          <p className="text-lg font-display text-muted-foreground">🤝 It&apos;s a draw!</p>
         </div>
       )}
 

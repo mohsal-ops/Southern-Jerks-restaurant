@@ -1,19 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ADMIN_COOKIE_NAME } from "@/lib/adminAuth";
+import { verifyAdminSessionToken } from "@/lib/adminSession";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only run on /admin routes
   if (!pathname.startsWith("/admin")) return NextResponse.next();
 
-  // Always allow the login page
-  if (pathname === "/login") return NextResponse.next();
+  const cookie = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
+  const session = await verifyAdminSessionToken(cookie);
 
-  // Check cookie
-  const auth = request.cookies.get("admin_auth")?.value;
-
-  if (auth !== process.env.ADMIN_SECRET) {
-    // Redirect everything else to login
+  if (!session) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

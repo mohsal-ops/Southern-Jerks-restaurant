@@ -4,7 +4,7 @@ import db from "@/db/db"; // prisma client
 
 export async function getOrCreateCart() {
   const cookieStore = cookies();
-  let cartId = (await cookieStore).get("cart_id")?.value;
+  const cartId = (await cookieStore).get("cart_id")?.value;
 
   if (!cartId) {
     const cart = await db.cart.create({ data: {} });

@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     pickupDay,
     sides,
   } = await req.json();
- console.log(sides)
+
   try {
     const cart = await getOrCreateCart();
     // Upsert item: if productId exists, increase qty
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
         message: "this item already exists/updated",
       });
     } else {
-      let cartItem = await db.cartItem.create({
+      const cartItem = await db.cartItem.create({
         data: {
           image,
           pickupDay,
@@ -58,7 +58,6 @@ export async function POST(req: Request) {
         where: { id: { in: optionIds } },
       })
 
-      console.log("side option | sideOptions ", sideOptions,optionIds);
       if (optionIds.length) {
         await db.cartItemSide.createMany({
           data: sideOptions.map((opt) => ({
@@ -75,11 +74,10 @@ export async function POST(req: Request) {
     revalidatePath("/");
     return NextResponse.json({ ok: true, message: "added succefuly" });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({
-      ok: false,
-      error,
-      message: "error while adding product",
-    });
+    console.error("Error adding to cart:", error);
+    return NextResponse.json(
+      { ok: false, message: "error while adding product" },
+      { status: 500 },
+    );
   }
 }

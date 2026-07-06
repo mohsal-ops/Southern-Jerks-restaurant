@@ -1,10 +1,28 @@
-"use client";
-
-import Image from "next/image";
+import type { Metadata } from "next";
 import logo from "public/logo.png";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Rewards | Earn Points on Jerk Chicken & Wings",
+  description:
+    "Join Southern Jerks Rewards in Houston, TX — earn points on every jerk chicken and wings order and redeem them for free sides and combos. No app required.",
+  keywords: [
+    "restaurant rewards Houston",
+    "loyalty program Houston restaurant",
+    "Southern Jerks rewards",
+  ],
+  alternates: {
+    canonical: "/rewards",
+  },
+  openGraph: {
+    title: "Rewards | Southern Jerks Houston",
+    description:
+      "Earn points on every order and redeem them for free sides and combos at Southern Jerks.",
+    url: "/rewards",
+  },
+};
 
 export default function RewardsPage() {
   return (

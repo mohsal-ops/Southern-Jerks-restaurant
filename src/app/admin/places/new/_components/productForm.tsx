@@ -51,7 +51,7 @@ export default function ProductForm({ item }: { item: Item | null }) {
           <Input
             type="file"
             required
-            id="iamge"
+            id="image"
             name="image"
             defaultValue={item?.name}
           />

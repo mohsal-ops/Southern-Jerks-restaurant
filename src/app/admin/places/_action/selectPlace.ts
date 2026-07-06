@@ -2,7 +2,6 @@ let map: any;
 let platform: any;
 let ui: any;
 let markers: any[] = [];
-let initialized = false;
 
 type Props = {
   mapRef: HTMLDivElement;
@@ -13,10 +12,24 @@ export default function initHerePlacePicker({
   mapRef,
   onPlaceAdded,
 }: Props) {
-  if (initialized) return;
-  initialized = true;
-
   const H = (window as any).H;
+
+  if (!H?.service?.Platform) {
+    window.setTimeout(() => {
+      initHerePlacePicker({ mapRef, onPlaceAdded });
+    }, 200);
+    return;
+  }
+
+  // Called again every time the map picker is reopened — mapRef is a brand
+  // new DOM node each time (React unmounts it on close), so any previous
+  // map instance is now bound to a detached element and needs to be torn
+  // down rather than reused.
+  if (map) {
+    map.dispose();
+    map = undefined;
+  }
+  markers = [];
 
   platform = new H.service.Platform({
     apikey: process.env.NEXT_PUBLIC_HERE_API_KEY,
@@ -25,15 +38,17 @@ export default function initHerePlacePicker({
   const defaultLayers = platform.createDefaultLayers();
 
   map = new H.Map(mapRef, defaultLayers.vector.normal.map, {
-  center: { lat: 40.7128, lng: -74.006 }, // New York, USA
-  zoom: 12,
-  pixelRatio: window.devicePixelRatio || 1,
-});
+    center: { lat: 29.9463, lng: -95.4642 }, // Southern Jerks, Houston, TX
+    zoom: 12,
+    pixelRatio: window.devicePixelRatio || 1,
+  });
   new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
   ui = H.ui.UI.createDefault(map, defaultLayers);
 
-  const input = document.getElementById("text-input") as HTMLInputElement;
-  const btn = document.getElementById("text-input-button") as HTMLButtonElement;
+  const input = document.getElementById("text-input") as HTMLInputElement | null;
+  const btn = document.getElementById("text-input-button") as HTMLButtonElement | null;
+
+  if (!input || !btn) return;
 
   btn.addEventListener("click", () => searchPlaces(input.value, onPlaceAdded));
   input.addEventListener("keydown", (e) => {

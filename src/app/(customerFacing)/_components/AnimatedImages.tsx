@@ -68,10 +68,9 @@ export function HoverCard({ src }: { src: StaticImageData }) {
 
       {/* Image */}
       <MotionImage
-        priority
-        loading="lazy"
         src={src}
-        alt="Best fried chicken in Houston"
+        alt="Southern Jerks jerk chicken and wings in Houston, TX"
+        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 28vw"
         className="object-cover w-full h-full"
         onLoadingComplete={() => setLoaded(true)}
         initial={{ opacity: 0 }}

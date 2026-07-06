@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import searchandGetPlaceAndAddToDataBase from "./_action/selectPlace";
 import { MapPin, Trash2, Plus, X } from "lucide-react";
 import { toast } from "sonner";
+import HereMapsScripts from "@/components/HereMapsScripts";
 
 type Place = {
   id: string;
@@ -69,6 +70,8 @@ export default function PlacesComponent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-stone-100 p-6">
+      <HereMapsScripts />
+
       {/* HEADER */}
       <div className="flex items-center justify-between mb-10">
         <div>

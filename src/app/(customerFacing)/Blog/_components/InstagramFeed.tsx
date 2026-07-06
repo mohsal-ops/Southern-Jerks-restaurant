@@ -46,7 +46,6 @@ export default function InstagramFeed() {
       </div>
 
       {/* Behold Widget */}
-      {/* @ts-ignore */}
       <behold-widget feed-id="mc5zTVdPm3NfXbOO3S3g"></behold-widget>
     </section>
   );

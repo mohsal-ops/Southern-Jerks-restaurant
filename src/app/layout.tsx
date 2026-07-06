@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from "./providers/CartProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
-// Suppress TypeScript error for side-effect CSS import when no CSS module types are declared
-// @ts-ignore
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -156,22 +153,15 @@ export default function RootLayout({
             }),
           }}
         />
-        {/* HERE Maps */}
-        <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" defer />
-        <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" defer />
-        <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" defer />
-        <script
-          src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"
-          defer
-        />
-        <link
-          rel="stylesheet"
-          href="https://js.api.here.com/v3/3.1/mapsjs-ui.css"
-        />
       </head>
       <body>
+        <a href="#main-content" className="skip-to-content">
+          Skip to main content
+        </a>
         <CartProvider>{children}</CartProvider>
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        )}
       </body>
     </html>
   );

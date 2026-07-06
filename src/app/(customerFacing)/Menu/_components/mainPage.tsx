@@ -34,33 +34,6 @@ const CATEGORY_ORDER = [
 ];
 
 
-// 0
-// : 
-// "Desert"
-// 1
-// : 
-// "Entrees"
-// 2
-// : 
-// "Extras "
-// 3
-// : 
-// "Kid's Meal 12 & Under "
-// 4
-// : 
-// "No Bones "
-// 5
-// : 
-// "Sides "
-// 6
-// : 
-// "Family Dinners"
-// 7
-// : 
-// "A LA Carte"
-// 8
-// : 
-// "Dipping Sauces"
 
 export default function MainPageMenu({
   featuredProducts,
@@ -202,7 +175,6 @@ export default function MainPageMenu({
       products: products.filter((p) => p.typeId === category.id),
     }));
   }, [gategories, products]);
-  console.log("DB category names:", gategories.map(c => c.name));
 
 
   return (
@@ -211,7 +183,7 @@ export default function MainPageMenu({
       className="flex flex-col md:flex-row gap-16 w-full lg:w-[80%] pt-20 "
     >
       <div className="relative hidden md:block w-2/12 py-5  ">
-        <div id="SearchBar&gategories" className="flex w-60 flex-col fixed">
+        <div id="desktop-search-categories" className="flex w-60 flex-col sticky top-24">
           <div className="flex  w-full justify-start items-center  border border-stone-300 rounded-xl outline-none focus-within:border-2 focus-within:border-black">
             {/* Search Input */}
             <PiMagnifyingGlass fontSize={21} className="mx-2" />

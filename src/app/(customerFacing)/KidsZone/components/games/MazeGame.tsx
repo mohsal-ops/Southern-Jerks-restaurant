@@ -116,7 +116,7 @@ const MazeGame = () => {
       )}
       {gameOver && !hasWon && (
         <div className="bg-ketchup/10 border-2 border-ketchup rounded-xl p-4 mb-4 text-center">
-          <p className="text-lg font-display text-ketchup">⏰ Time's up! Try again!</p>
+          <p className="text-lg font-display text-ketchup">⏰ Time&apos;s up! Try again!</p>
         </div>
       )}
 

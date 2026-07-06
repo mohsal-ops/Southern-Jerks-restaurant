@@ -120,6 +120,22 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.AdminScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  pendingEmail: 'pendingEmail',
+  passwordHash: 'passwordHash',
+  status: 'status',
+  emailVerifiedAt: 'emailVerifiedAt',
+  verificationToken: 'verificationToken',
+  verificationTokenExpiresAt: 'verificationTokenExpiresAt',
+  approvedById: 'approvedById',
+  approvedAt: 'approvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ItemScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -256,6 +272,13 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.AdminStatus = exports.$Enums.AdminStatus = {
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
 exports.SideGroupType = exports.$Enums.SideGroupType = {
   RECOMMENDED: 'RECOMMENDED',
   NO: 'NO',
@@ -265,6 +288,7 @@ exports.SideGroupType = exports.$Enums.SideGroupType = {
 };
 
 exports.Prisma.ModelName = {
+  Admin: 'Admin',
   Item: 'Item',
   User: 'User',
   Types: 'Types',

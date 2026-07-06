@@ -2,9 +2,13 @@
 // This is the API route that TrafficSourceChart calls
 
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
-import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/adminAuth";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const unauthorized = await requireAdmin(req);
+  if (unauthorized) return unauthorized;
+
   try {
     // ── Validate env vars first ─────────────────────────────────────────
     const propertyId = process.env.GA4_PROPERTY_ID;

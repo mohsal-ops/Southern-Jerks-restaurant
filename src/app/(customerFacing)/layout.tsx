@@ -1,6 +1,6 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { TopNavBar } from "./_components/navBar";
-import { Footer } from "./page";
+import { Footer } from "./_components/Footer";
 import { Toaster } from "sonner";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -19,7 +19,7 @@ export default async function Customerlayout({
         <div className="fixed top-0 left-0 right-0 z-50">
           <TopNavBar initialCartId={cartId} />
         </div>
-        <div className="flex flex-col md:items-center   ">{children}</div>
+        <div id="main-content" className="flex flex-col md:items-center   ">{children}</div>
         <div className="flex flex-col w-full items-center ">
           <Footer />
           <div className="relative text-xs  mt-2 text-black text-center p-4 md:py-3 bg-stone-200 w-full border-t border-white/10">
@@ -28,6 +28,7 @@ export default async function Customerlayout({
             <a
               href="https://www.instagram.com/vegastar.digital/"
               target="_blank"
+              rel="noopener noreferrer"
               className="underline hover:text-primary"
             >
               Vega Star Digital

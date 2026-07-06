@@ -59,7 +59,7 @@ function BlogTips() {
     <div className="rounded-xl border bg-white p-5 shadow-sm">
       <h3 className="font-semibold mb-3">Writing Tips</h3>
       <ul className="space-y-2 text-sm text-muted-foreground">
-        <li>• Use catchy titles with keywords like "Houston Caribbean food"</li>
+        <li>• Use catchy titles with keywords like &quot;Houston Caribbean food&quot;</li>
         <li>• Add eye-catching food photos</li>
         <li>• Keep paragraphs short and readable</li>
         <li>• Post about events, specials, new menu items</li>

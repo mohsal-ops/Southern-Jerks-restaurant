@@ -1,54 +1,29 @@
-import Image from "next/image";
-import mainImg from "@/../public/general/generalPages/mainImage.jpg";
-import img2 from "@/../public/general/generalPages/enjoy.jpg";
-import img3 from "@/../public/general/generalPages/vibe.jpg";
-import Link from "next/link";
-import PageHeader from "./_components/PageHeader";
+import type { Metadata } from "next";
 import { Suspense } from "react";
-import { ProductSuspense } from "./Menu/_components/ProductSuspense";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { PiInstagramLogoFill } from "react-icons/pi";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { FaStar, FaTiktok } from "react-icons/fa6";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { PiPackageFill } from "react-icons/pi";
-import { MdOutlineFamilyRestroom } from "react-icons/md";
-import { FaFacebook } from "react-icons/fa";
-import { BsBagCheckFill } from "react-icons/bs";
-import { TbPlant2Off } from "react-icons/tb";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import GetPlaces from "./_components/getPlaces";
-import Logo from "@/../public/general/logo/logo.png";
+import { cookies } from "next/headers";
 import {
   GetCartItems,
   GetFeaturedProducts,
 } from "./Menu/_actions/getDataNeeded";
-import { cookies } from "next/headers";
-import { Button } from "@/components/ui/button";
-import HomeFeaturedSkeleton from "./_skeletons/HomeFeaturedSkeleton";
-import dynamic from "next/dynamic";
-import FadeIn from "@/components/FadeIn";
-import MapClient from "@/components/MapClient";
+import GetPlaces from "./_components/getPlaces";
 import ThirdSectionClient from "./_components/ThirdSectionClient";
+import FadeIn from "@/components/FadeIn";
+import { OurLocation } from "./_components/OurLocation";
+import HomeFeaturedSkeleton from "./_skeletons/HomeFeaturedSkeleton";
 import {
-  CartItem,
+  TopSection,
+  SecondSection,
+  ReviewsSection,
+  OrderDirectlyfromOUrWebsite,
+  DistinctiveFeatures,
+  Featuring,
+  Frequentlyaskedquestions,
+} from "./_components/HomeSections";
+import {
   Item,
-  Location,
   SideGroup,
   SideOption,
 } from "generated/prisma";
-import { SecondSectionFeatured } from "./_components/FeaturedSection";
-import { OurLocation } from "./_components/OurLocation";
 
 export type ItemWithSides = Item & {
   sideGroups: (SideGroup & {
@@ -56,30 +31,96 @@ export type ItemWithSides = Item & {
   })[];
 };
 
-function LocalBusinessSchema() {
+export const metadata: Metadata = {
+  title: "Southern Jerks | Jerk Chicken, Wings & Caribbean Food in Houston",
+  description:
+    "Southern Jerks serves bold jerk chicken, crispy wings, loaded fries, and stacked sandwiches in Houston, TX. A family-friendly Caribbean-inspired kitchen with a kids menu, catering, and gift cards.",
+  keywords: [
+    "jerk chicken Houston",
+    "jerk wings Houston",
+    "Caribbean restaurant Houston",
+    "Caribbean food Houston",
+    "fried chicken Houston",
+    "loaded fries Houston",
+    "family restaurant Houston",
+    "kids restaurant Houston",
+    "Southern Jerks Houston",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: "/logo.png",
+  },
+  openGraph: {
+    title: "Southern Jerks | Jerk Chicken, Wings & Caribbean Food in Houston",
+    description:
+      "Bold jerk chicken, crispy wings, loaded fries, and stacked sandwiches made fresh at Southern Jerks in Houston.",
+    url: "/",
+    siteName: "Southern Jerks",
+    images: [
+      {
+        url: "/general/generalPages/mainImage.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Southern Jerks jerk chicken and wings in Houston, TX",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Southern Jerks | Caribbean Food in Houston",
+    description:
+      "Jerk chicken, wings, loaded fries, and bold Caribbean-inspired flavors you'll crave.",
+    images: ["/general/generalPages/mainImage.jpg"],
+  },
+};
+
+function FaqSchema() {
+  // Mirrors the questions/answers rendered in Frequentlyaskedquestions below —
+  // keep these in sync if that content changes.
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Restaurant",
-          name: "Southern Jerks",
-          image: "https://southernjerks.com/general/generalPages/mainImage.jpg", // replace later
-          priceRange: "$$",
-          servesCuisine: ["Caribbean", "Chicken Wings", "Sandwiches"],
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "EDIT STREET",
-            addressLocality: "Houston",
-            addressRegion: "TX",
-            postalCode: "EDIT ZIP",
-            addressCountry: "US",
-          },
-          url: "https://southernjerks.com",
-          sameAs: [
-            "https://www.instagram.com/southernjerks",
-            "https://www.facebook.com/southernjerks",
+          "@type": "FAQPage",
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "What are you known for?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "We're known for our crispy jerk chicken, wings, and bold southern flavors.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "What meals do you serve?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Chicken wings, sandwiches, Caribbean sides, and snacks.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "Do you offer delivery or takeout?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Yes! We offer both pickup and delivery.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "Where are you located?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "We are located at 2950 Gears Rd, Houston, TX 77067.",
+              },
+            },
           ],
         }),
       }}
@@ -87,40 +128,6 @@ function LocalBusinessSchema() {
   );
 }
 
-export const metadata = {
-  title: "Southern Jerks | Jerk Fried Chicken & Sandwiches in Houston",
-  description:
-    "Southern Jerks serves bold Caribbean flavors, juicy chicken wings, and stacked sandwiches in Houston. Fresh, flavorful, and unforgettable.",
-
-  icons: {
-    icon: "/logo.png",
-  },
-
-  openGraph: {
-    title: "Southern Jerks | Jerk Fried Chicken & Sandwiches",
-    description:
-      "Bold Caribbean flavors, juicy wings, and stacked sandwiches made fresh at Southern Jerks in Houston.",
-    url: "https://southernjerks.com",
-    siteName: "Southern Jerks",
-    images: [
-      {
-        url: "/general/generalPages/mainImage.jpg",
-        width: 1200,
-        height: 630,
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Southern Jerks | Caribbean Food in Houston",
-    description:
-      "Caribbean-inspired wings, sandwiches, and bold flavors you’ll crave.",
-    images: ["/general/mainImage.jpg"],
-  },
-};
 function SectionDivider() {
   return (
     <div className="w-full flex justify-center px-4">
@@ -129,497 +136,69 @@ function SectionDivider() {
   );
 }
 
-export default async function Home() {
-  // Server-side fetch for SEO
+async function FeaturedProductsSection() {
   const cartId = (await cookies()).get("cart_id")?.value;
-
-  const [products, cart, placesRes] = await Promise.all([
+  const [products, cart] = await Promise.all([
     GetFeaturedProducts(),
     cartId ? GetCartItems(cartId) : Promise.resolve(null),
-    GetPlaces(),
   ]);
 
-  const places: Location[] = placesRes?.places ?? [];
+  return <SecondSection products={products} cartItems={cart?.items ?? []} />;
+}
+
+async function LocationSection() {
+  const placesRes = await GetPlaces();
+  const places = placesRes?.places ?? [];
   const lat = places[0]?.lat ?? 0;
   const lng = places[0]?.lng ?? 0;
-  return (
-    <>
-      {/* ---------------- JSON-LD LocalBusiness ---------------- */}
-      <LocalBusinessSchema />
 
-      <div className="flex  pt-20 flex-col gap-5 items-center justify-center    [&>*:not(:first-child)]:m-2">
-        <TopSection />
-        <SectionDivider />
-        <SecondSection products={products} cartItems={cart?.items ?? []} />
-        <SectionDivider />
-        <ThirdSectionClient />
-        <SectionDivider />
-        <FadeIn delay={100}>
-          <ReviewsSection />
-        </FadeIn>
-        <SectionDivider />
-        <FadeIn delay={200}>
-          <div className="p-2 w-full flex justify-center">
-            <OrderDirectlyfromOUrWebsite />
-          </div>
-        </FadeIn>
-        <SectionDivider />
-        <FadeIn delay={300}>
-          <div className="w-full flex justify-center">
-            <Featuring />
-          </div>
-        </FadeIn>
-        <SectionDivider />
-        <FadeIn delay={400}>
-          <DistinctiveFeatures />
-        </FadeIn>
-        <SectionDivider />
-        <FadeIn delay={500}>
-          <div className="p-4 w-full flex justify-center">
-            <Frequentlyaskedquestions />
-          </div>
-        </FadeIn>
-        <SectionDivider />
-        <OurLocationComponent places={places} lat={lat} lng={lng} />
-      </div>
-    </>
-  );
-}
-
-// Replace the entire TopSection function with this:
-export function TopSection() {
-  return (
-    <div className="flex relative overflow-hidden h-svh sm:flex-row sm:w-[85%] flex-col bg-stone-100 sm:rounded-3xl sm:p-2">
-      <div className="sm:relative absolute z-30 bottom-20 flex flex-col gap-6 items-start justify-end mt-10 md:mb-20 md:w-1/2 p-5 md:p-12">
-        <Image
-          alt="Southern Jerks logo"
-          src={Logo}
-          width={120}
-          height={120}
-          className="w-auto h-auto "
-          priority
-        />
-
-        <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-15">
-          <h1 className="text-yellow-400">Bold Caribbean flavors</h1> juicy
-          wings, and stacked sandwiches
-        </span>
-        <span className="font-semibold text-white sm:text-zinc-400 text-md">
-          perfectly seasoned, and packed with flavor made fresh so every bite
-          hits just right.
-        </span>
-        <Link href="/Menu">
-          <Button size="lg" variant="mainButton">
-            View our menu
-            <MdKeyboardArrowRight />
-          </Button>
-        </Link>
-      </div>
-
-      <div className="md:w-1/2 w-full sm:rounded-3xl overflow-hidden h-full">
-        <Image
-          priority
-          alt="Southern Jerks bold Caribbean food"
-          src={mainImg}
-          className="object-cover h-full"
-        />
-        <div className="sm:hidden absolute top-0 bg-auto bg-black/30 backdrop-blur-none z-20 w-full h-full"></div>
-      </div>
-    </div>
-  );
-}
-
-export function SecondSection({
-  products,
-  cartItems,
-}: {
-  products: ItemWithSides[];
-  cartItems: CartItem[];
-}) {
-  return <SecondSectionFeatured products={products} cartItems={cartItems} />;
-}
-
-function ReviewCard({
-  link,
-  name,
-  review,
-}: {
-  link: string;
-  name: string;
-  review: string;
-}) {
-  return (
-    <Card className="w-full h-fit overflow-hidden rounded-2xl shadow-lg ">
-      <CardHeader className="flex flex-row">
-        {[...Array(5)].map((_, i) => (
-          <FaStar key={i} />
-        ))}
-        <FaStar />
-      </CardHeader>
-      <CardContent className="font-normal">{review}</CardContent>
-      <CardFooter className="flex justify-start gap-3">
-        <Avatar>
-          <AvatarImage src={link} alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <p className="text-lg font-semibold">{name}</p>
-      </CardFooter>
-    </Card>
-  );
-}
-export function ReviewsSection() {
-  const reviews = [
-    {
-      name: "Terrence B.",
-      review:
-        "This was some good eatin! Chicken has a nice coating and is crispy. The jerk flavor in the breading sets this apart from others. The sauce options were next level.",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=TerenceB&backgroundColor=b6e3f4",
-    },
-    {
-      name: "Sofia M.",
-      review:
-        "I've tried Caribbean food all over Houston and Southern Jerks is hands down the best. The seasoning is bold without being overpowering. My whole family is obsessed now!",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=SofiaM&backgroundColor=ffd5dc",
-    },
-    {
-      name: "James L.",
-      review:
-        "Came in on my lunch break and ended up going back for dinner the same day. The jerk chicken sandwich is unreal. Fast service, friendly staff highly recommend.",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=JamesL&backgroundColor=c0aede",
-    },
-    {
-      name: "Amara N.",
-      review:
-        "As someone who grew up eating Caribbean food, I'm very picky. Southern Jerks nailed the authentic flavor. Crispy, juicy, perfectly spiced. Will be a regular for sure.",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=AmaraN&backgroundColor=d1f5c0",
-    },
-    {
-      name: "Paris B.",
-      review:
-        "I've been addicted since I first tried them. Went back that same day for dinner. Told my whole job and we've been ordering for team lunch ever since. 10/10, no debate.",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=ParisB&backgroundColor=ffeaa7",
-    },
-  ];
-  return (
-    <div className=" flex flex-col items-center  md:w-[85vw] p-10 space-y-10 bg-gray-100 rounded-4xl">
-      <div className="text-center space-y-4">
-        <PageHeader>What our guests are saying</PageHeader>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 sm:w-11/12 w-full gap-6">
-        {reviews.map((Rev, key) => (
-          <ReviewCard
-            key={key}
-            link={Rev.link}
-            name={Rev.name}
-            review={Rev.review}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export function OrderDirectlyfromOUrWebsite() {
-  return (
-    <div className="relative flex items-end h-96 md:h-svh sm:w-[85vw]  rounded-3xl overflow-hidden   ">
-      <Image
-        priority
-        loading="lazy"
-        src={mainImg}
-        alt="best snow cone in NYC"
-        className="object-cover w-full h-full"
-      />
-    </div>
-  );
-}
-export function DistinctiveFeatures() {
-  return (
-    <div className="flex flex-col space-y-5 md:w-[85vw] rounded-3xl overflow-hidden ">
-      <div className="flex md:flex-row flex-col justify-between  md:h-132 h-full">
-        <Image
-          priority
-          loading="lazy"
-          src={img2}
-          alt="Distinctive Features"
-          className="object-cover md:w-[45%] w-full h-full rounded-3xl"
-        />
-        <div className="flex flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
-          <PageHeader>Only flavor that hits</PageHeader>
-          <p className="text-lg font-medium text-neutral-600">
-            From juicy wings to stacked sandwiches, every dish is made with
-            care, quality ingredients, and big Caribbean flavor because average
-            isn’t our thing.
-          </p>
-        </div>
-      </div>
-      <div className="flex md:flex-row flex-col justify-between md:h-132 h-full">
-        <div className="flex md:order-1 order-2 flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
-          <PageHeader>Bite, chill, and enjoy</PageHeader>
-          <p className="text-lg font-medium text-neutral-600">
-            Our dishes are made to elevate your experience, using quality
-            ingredients, balanced seasoning, and bold flavor in every bite.
-          </p>
-        </div>
-        <Image
-          priority
-          loading="lazy"
-          src={img3}
-          alt="Distinctive Features"
-          className="object-cover flex items-start bg-amber-200 md:order-2 order-1 md:w-[45%] w-full h-full rounded-3xl"
-        />
-      </div>
-    </div>
-  );
-}
-export function Featuring() {
-  const featuring = [
-    {
-      name: "Takeaway",
-      image: PiPackageFill,
-    },
-    {
-      name: "Family friendly",
-      image: MdOutlineFamilyRestroom,
-    },
-    {
-      name: "Catering",
-      image: BsBagCheckFill,
-    },
-    {
-      name: "Gluten-Free Options",
-      image: TbPlant2Off,
-    },
-  ];
-  return (
-    <div className=" flex flex-col gap-14 items-center py-16 w-full md:w-2no/3  ">
-      <PageHeader>Featuring</PageHeader>
-      <div className="grid md:grid-cols-4 grid-cols-2  w-full gap-10  text-lg font-semibold ">
-        {featuring.map((feature, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center gap-5 text-center"
-          >
-            <feature.image size={25} />
-            <span>{feature.name}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-export function RewardsProgram() {
-  return (
-    <div className="relative flex items-end max-h-svh  rounded-3xl overflow-hidden   ">
-      <Image
-        priority
-        src={mainImg}
-        alt="best snow cone in NYC"
-        className="object-cover w-full h-full"
-      />
-      <div className="p-1 - absolute  md:left-30  md:top-1/3 sm:w-200 ">
-        <Card className=" md:p-8 md:space-y-4 bg-stone-300 rounded-3xl md:w-180">
-          <CardHeader>
-            <PageHeader>1Cato Snow Cones Rewards</PageHeader>
-          </CardHeader>
-          <CardContent className="font-semibold text-lg text-accent-foground ">
-            Join our rewards program to earn points, get free items, and stay up
-            to date with us.
-          </CardContent>
-          <CardFooter>
-            <Link href="/Menu">
-              <Button size="lg" variant="mainButton">
-                View online
-                <MdKeyboardArrowRight />
-              </Button>
-            </Link>
-          </CardFooter>
-        </Card>
-      </div>
-    </div>
-  );
-}
-
-export function Frequentlyaskedquestions() {
-  return (
-    <div className="flex items-center w-full flex-col md:py-10 md:w-[85vw] overflow-hidden ">
-      <div className="mb-10">
-        <PageHeader>Frequently asked questions</PageHeader>
-      </div>
-      <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="item-1">
-          <AccordionTrigger>What are you known for?</AccordionTrigger>
-          <AccordionContent className="text-balance text-lg w-full font-medium bg-sidebar-accent p-4 ">
-            We’re known for our crispy jerk chicken, wings, and bold southern
-            flavors.{" "}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger>What meals do you serve?</AccordionTrigger>
-          <AccordionContent className="text-balance text-lg font-semibold bg-sidebar-accent p-4 ">
-            Chicken wings, Sandwiches, carribean sides, and snacks.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger>Do you offer delivery or takeout?</AccordionTrigger>
-          <AccordionContent className="text-balance  text-lg font-semibold bg-sidebar-accent p-4 ">
-            Yes! We offer both pickup and delivery.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-4">
-          <AccordionTrigger>Where are you located?</AccordionTrigger>
-          <AccordionContent className="text-balance text-lg font-semibold bg-sidebar-accent p-4 ">
-            We are located in{" "}
-            <p className="font-bold">2950 Gears Rd Houston, TX 77067</p>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      {/* Yes, we offer catering for events and groups. */}
-    </div>
-  );
-}
-
-export function OurLocationComponent({
-  places,
-  lat,
-  lng,
-}: {
-  places: Location[];
-  lat: number;
-  lng: number;
-}) {
   return <OurLocation places={places} lat={lat} lng={lng} />;
 }
 
-// export function OurLocation({
-//   places,
-//   lat,
-//   lng,
-// }: {
-//   places: Location[];
-//   lat: number;
-//   lng: number;
-// }) {
-//   return (
-//     <div className=" flex text-sm flex-col sm:flex-row sm:justify-center  sm:items-center p-4  sm:space-x-10 sm:pr-10 h-170 sm:h-80 w-full sm:w-[75%] sm:space-y-0 space-y-5 pb-10 bg-stone-200 rounded-4xl">
-//       <div className=" h-75   sm:h-full sm:w-140 w-full rounded-4xl  overflow-hidden">
-//         <MapClient lat={lat} lng={lng} className="h-full w-full " />
-//       </div>
-
-//       <div className="flex flex-col items-end justify-end h-2/3 sm:h-full w-full text-md font-medium space-y-5">
-//         <div className="flex  flex-col sm:justify-between sm:h-10/12 w-full h-full sm:pt-5  space-y-10 ">
-//           <span className="w-full ">
-//             <p className="sm:text-lg">Southern Jerks</p>
-//             <p className="text-gray-500"> Houston, TX</p>
-//           </span>
-//           <span className="flex flex-col sm:items-end sm:flex-row w-full h-ful sm:space-y-0 space-y-10">
-//             <div className="space-y-3 w-1/2 ">
-//               <h2 className="text-gray-500 ">Address</h2>
-//               <h3 className="w-2/3  ">2950 Gears Rd. Houston, TX 77067</h3>
-//             </div>
-//             <div className="space-y-3">
-//               <h2 className="text-gray-500 ">Contact</h2>
-//               <h3>
-//                 (346) 242-0328
-//                 <br />
-//                 contact@southernjerks.com
-//               </h3>
-//             </div>
-//           </span>
-//         </div>
-//         <div className="flex justify-between items-center w-full py-2 border  border-t-gray-300">
-//           <div>
-//             <p>Workinh Days</p>
-//             <span>Tuesday to Sunday</span>
-//           </div>
-//           <div>
-//             <Link href="/catering">
-//               <Button size="sm" variant="mainButton">
-//                 Catering
-//                 <MdKeyboardArrowRight />
-//               </Button>
-//             </Link>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-export function Footer() {
+export default function Home() {
+  // TopSection and the static sections below render immediately; the two
+  // DB-backed sections stream in behind Suspense so the hero image isn't
+  // blocked on the featured-products and places queries.
   return (
-    <div className="flex w-full text-sm gap-4 items-center md:py-10  justify-between md:justify-center flex-col h-140 sm:h-60 sm:space-x-10  sm:pr-10  md:w-[98%] bg-stone-200 rounded-4xl">
-      <div className=" flex flex-col md:flex-row  md:justify-center w-full h-4/5">
-        <div className="flex  items-start sm:h-full h-1/3 justify-center w-full md:w-32">
-          <Link href="/">
-            <Image
-              priority
-              alt="snow cone logo"
-              className="w-auto h-auto"
-              src={Logo}
-              height={70}
-              width={70}
-            />
-          </Link>
+    <div className="flex  pt-20 flex-col gap-5 items-center justify-center    [&>*:not(:first-child)]:m-2">
+      <FaqSchema />
+      <TopSection />
+      <SectionDivider />
+      <Suspense fallback={<HomeFeaturedSkeleton />}>
+        <FeaturedProductsSection />
+      </Suspense>
+      <SectionDivider />
+      <ThirdSectionClient />
+      <SectionDivider />
+      <FadeIn delay={100}>
+        <ReviewsSection />
+      </FadeIn>
+      <SectionDivider />
+      <FadeIn delay={200}>
+        <div className="p-2 w-full flex justify-center">
+          <OrderDirectlyfromOUrWebsite />
         </div>
-        <div className="flex text-start md:space-x-20 text-sm items-start p-4 md:justify-start md:pl-16 font-semibold w-full md:w-3/5 flex-col md:flex-row">
-          <div className="flex flex-col gap-2">
-            <Button variant="link">
-              <Link href="/">Home</Link>
-            </Button>
-            <Button variant="link">
-              <Link href="/Menu">Menu</Link>
-            </Button>
-            <Button variant="link">
-              <Link href="/Blog">Press</Link>
-            </Button>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Button variant="link">
-              <Link href="/catering">Catering</Link>
-            </Button>
-            <Button variant="link">
-              <Link href="/GiftCard">Gift Card</Link>
-            </Button>
-            <Button variant="link">
-              <Link href="/KidsZone">Kids Zone</Link>
-            </Button>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Button variant="link">
-              <Link className="text-start" href="/Menu">
-                View our menu
-              </Link>
-            </Button>
-          </div>
+      </FadeIn>
+      <SectionDivider />
+      <FadeIn delay={300}>
+        <div className="w-full flex justify-center">
+          <Featuring />
         </div>
-        <div className="md:h-full flex flex-col gap-4 justify-between h-1/5  w-full pt-2  md:w-1/5 ">
-          <Link href="/Menu">
-            <Button size="sm" className="w-full" variant="mainButton">
-              View our menu
-              <MdKeyboardArrowRight />
-            </Button>
-          </Link>
-          <div className="w-full flex gap-4  justify-center">
-            <Link href="https://www.tiktok.com/@southernjerkshtx?is_from_webapp=1&sender_device=pc">
-              <FaTiktok size={24} />
-            </Link>
-            <Link href="https://www.instagram.com/southernjerkshtx/?hl=en">
-              <PiInstagramLogoFill size={25} />
-            </Link>
-            <Link href="https://www.facebook.com/p/Southern-Jerks-100076329252325">
-              <FaFacebook size={25} />
-            </Link>
-          </div>
+      </FadeIn>
+      <SectionDivider />
+      <FadeIn delay={400}>
+        <DistinctiveFeatures />
+      </FadeIn>
+      <SectionDivider />
+      <FadeIn delay={500}>
+        <div className="p-4 w-full flex justify-center">
+          <Frequentlyaskedquestions />
         </div>
-      </div>
-      <div className="flex items-center  justify-center md:justify-start   w-full py-2  border md:w-2/3  border-t-gray-300">
-        <Button variant="link">
-          <Link className="text-gray-500" href="/terms">
-            Terms & Policies
-          </Link>
-        </Button>
-      </div>
+      </FadeIn>
+      <SectionDivider />
+      <Suspense fallback={<div className="h-40 w-full sm:w-[75%] animate-pulse bg-stone-100 rounded-4xl" />}>
+        <LocationSection />
+      </Suspense>
     </div>
   );
 }

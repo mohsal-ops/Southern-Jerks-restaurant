@@ -14,6 +14,8 @@ import {
   MapPin,
   Newspaper,
   ChartArea,
+  ShieldCheck,
+  UserCircle,
 } from "lucide-react";
 
 const navItems = [
@@ -26,9 +28,13 @@ const navItems = [
   { href: "/admin/story", label: "Our Story", icon: Newspaper },
   { href: "/admin/Blog", label: "Blog", icon: BookOpen },
   { href: "/admin/places", label: "Places", icon: MapPin },
+  { href: "/admin/team", label: "Team", icon: ShieldCheck },
 ];
 
 export function AdminNav({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const isProfileActive = pathname.startsWith("/admin/profile");
+
   return (
     <nav className="bg-stone-900 text-white flex items-center px-4 gap-1 h-14 border-b border-stone-800">
       {/* Logo */}
@@ -40,7 +46,19 @@ export function AdminNav({ children }: { children: ReactNode }) {
           Southern Jerks
         </span>
       </div>
-      {children}
+      <div className="flex items-center gap-1 flex-1">{children}</div>
+      <Link
+        href="/admin/profile"
+        aria-label="Your profile"
+        className={cn(
+          "flex items-center justify-center w-8 h-8 rounded-lg transition-colors",
+          isProfileActive
+            ? "bg-[#c85a1e] text-white"
+            : "text-stone-400 hover:text-white hover:bg-stone-800"
+        )}
+      >
+        <UserCircle size={18} />
+      </Link>
     </nav>
   );
 }

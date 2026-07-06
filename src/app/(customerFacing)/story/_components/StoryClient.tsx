@@ -50,8 +50,8 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.35 }}
             className="text-lg md:text-xl text-gray-300 max-w-2xl leading-relaxed"
           >
-            Some of life's greatest gifts are the things you love most
-            and for the owners of Southern Jerks, that's food and family.
+            Some of life&apos;s greatest gifts are the things you love most
+            and for the owners of Southern Jerks, that&apos;s food and family.
           </motion.p>
         </motion.div>
       </section>
@@ -69,7 +69,7 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
             How It Started
           </p>
           <h2 className="text-3xl md:text-4xl font-bold leading-snug">
-            Born from a grandmother's kitchen
+            Born from a grandmother&apos;s kitchen
           </h2>
           <p className="text-gray-600 text-lg leading-relaxed">
             Southern Jerks was born from a passion for sharing authentic,
@@ -79,7 +79,7 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           <p className="text-gray-600 text-lg leading-relaxed">
             At the heart of Southern Jerks is a rich family legacy. Owners
             Jabril and Jordan Riddick were raised on the flavors of their
-            grandmother's Caribbean kitchen, where cherished recipes and
+            grandmother&apos;s Caribbean kitchen, where cherished recipes and
             culinary secrets were passed down with love from savory patties
             to iconic Caribbean Jerk Chicken and a host of other bold,
             vibrant flavors.
@@ -94,7 +94,6 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           className="h-full"
         >
           <Image
-            priority
             src={pic3}
             alt="The Southern Jerks experience"
             className="rounded-3xl object-cover w-full h-full aspect-4/3"
@@ -134,7 +133,6 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
                 <div className="relative shrink-0 w-full md:w-72">
                   {person.image ? (
                     <Image
-                      priority
                       src={person.image}
                       alt={person.name}
                       width={288}
@@ -184,8 +182,8 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           className="max-w-3xl mx-auto"
         >
           <p className="text-2xl md:text-4xl font-bold leading-snug">
-            "Southern Jerks is more than a restaurant
-            <span className="text-yellow-400"> it's an experience."</span>
+            &quot;Southern Jerks is more than a restaurant
+            <span className="text-yellow-400"> it&apos;s an experience.&quot;</span>
           </p>
           <p className="mt-6 text-gray-400 text-lg leading-relaxed">
             Blending the authenticity of traditional Caribbean dishes with
@@ -256,7 +254,6 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           className="relative rounded-3xl overflow-hidden"
         >
           <Image
-            priority
             src={pic4}
             alt="Southern Jerks dining experience"
             className="w-full object-cover max-h-125"
@@ -267,7 +264,7 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
               This Is Just the Beginning
             </h2>
             <p className="text-gray-300 text-lg leading-relaxed mb-8">
-              Houston's appetite for genuine Caribbean flavor is wide open
+              Houston&apos;s appetite for genuine Caribbean flavor is wide open
               and Southern Jerks is here to fill it, one unforgettable
               plate at a time.
             </p>

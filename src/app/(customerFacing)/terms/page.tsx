@@ -1,3 +1,15 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms and Policies",
+  description:
+    "Terms of service, privacy policy, and ordering policies for Southern Jerks in Houston, TX.",
+  robots: { index: false, follow: true },
+  alternates: {
+    canonical: "/terms",
+  },
+};
+
 export default function TermsAndPolicies() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

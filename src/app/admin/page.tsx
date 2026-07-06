@@ -1,5 +1,4 @@
 import db from "@/db/db";
-import { formatNumber } from "@/lib/formatters";
 import Link from "next/link";
 import {
   PenLine,
@@ -141,7 +140,7 @@ export default async function Page() {
             <AlertCircle size={18} className="text-amber-500 flex-shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-semibold text-amber-800">{data.inactiveItems} menu item{data.inactiveItems > 1 ? "s" : ""} currently unavailable</p>
-              <p className="text-xs text-amber-600 mt-0.5">Customers can see these but can't order them</p>
+              <p className="text-xs text-amber-600 mt-0.5">Customers can see these but can&apos;t order them</p>
             </div>
             <Link href="/admin/menuItems" className="text-xs font-semibold text-amber-700 flex items-center gap-1">Fix <ArrowRight size={12} /></Link>
           </div>
@@ -293,7 +292,7 @@ export default async function Page() {
             </div>
             <h2 className="text-xl font-bold text-stone-900">Dashboard Coming Soon</h2>
             <p className="text-sm text-stone-500 leading-relaxed">
-              We're building you a powerful admin dashboard — SEO tools, blog management, menu control, and live analytics. Almost ready.
+              We&apos;re building you a powerful admin dashboard — SEO tools, blog management, menu control, and live analytics. Almost ready.
             </p>
             <div className="w-full">
               <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">

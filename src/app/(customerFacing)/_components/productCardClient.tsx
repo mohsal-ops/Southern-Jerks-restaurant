@@ -1,12 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/formatters";
-import { Plus } from "lucide-react";
 import Image from "next/image";
 import fallbackImg from "/public/Image-fallback.png";
 import React, { useState } from "react";
-import { PiHeartStraightThin } from "react-icons/pi";
 import SchedulePickupDialog, {
   SideGroupWithOptions,
 } from "./schedualePickupModal";
@@ -28,24 +25,10 @@ export default function ProductCardClient({
   id,
   name,
   priceInCents,
-  description,
   image,
-  sideGroups,
-  orderType,
 }: productObjectPath) {
-  const [open, setOpen] = useState(false);
-
-  const ProductInfos = {
-    id,
-    name,
-    priceInCents,
-    description,
-    image,
-    sideGroups,
-  };
-
   return (
-    <Link href={`/Menu`} className="space-y-2 bg-stone-200 p-2 rounded-2xl">
+    <Link href={`/Menu`} className="group space-y-2 bg-stone-200 p-2 rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
       <Card
         className="flex  rounded-2xl overflow-hidden gap-5 sm:[h-60 w-60]  h-36 flex-col w-36  "
         key={id}
@@ -53,14 +36,13 @@ export default function ProductCardClient({
         {/* <CardHeader className="relative w-full h-5/6 aspect-video">
                 </CardHeader> */}
         <CardContent className=" flex items-end relative h-full p-0 w-full text-center ">
-          <div className="relative top-0 h-full w-full ">
+          <div className="relative top-0 h-full w-full overflow-hidden">
             <Image
               src={image ? image : fallbackImg}
               fill
               alt={name}
-              priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-              className="object-cover "
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
 
@@ -70,7 +52,7 @@ export default function ProductCardClient({
         <p>{name}</p>
         <p className="text-neutral-600">{formatCurrency(priceInCents / 100)}</p>
       </div>
-  
+
     </Link>
   );
 }
@@ -95,7 +77,7 @@ export function PopularDishesCardClient({
   };
 
   return (
-    <div className="space-y-2 bg-stone-200 p-2 rounded-2xl">
+    <div className="group space-y-2 bg-stone-200 p-2 rounded-2xl transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
       <Card
         className="flex rounded-2xl overflow-hidden gap-5 sm:[h-60 w-60]  h-36 flex-col w-36  "
         key={id}
@@ -103,14 +85,13 @@ export function PopularDishesCardClient({
         {/* <CardHeader className="relative w-full h-5/6 aspect-video">
                 </CardHeader> */}
         <CardContent className=" flex items-end relative h-full p-0 w-full text-center ">
-          <div className="relative top-0 h-full w-full ">
+          <div className="relative top-0 h-full w-full overflow-hidden">
             <Image
               src={image ? image : fallbackImg}
               fill
               alt={name}
-              priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-              className="object-cover "
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
 
@@ -161,14 +142,14 @@ export function AllDishesCardClient({
   };
 
   return (
-    <div className="flex w-full space-x-2 md:rounded-2xl md:border border-y border-gray-200 md:p-0 p-2">
+    <div className="group flex w-full space-x-2 md:rounded-2xl md:border border-y border-gray-200 md:p-0 p-2 transition-colors duration-200 hover:border-gray-300">
       <div
         className={`flex py-3 flex-col justify-center gap-1 md:px-4 px-2 text-lg tracking-tight font-semibold ${image ? " w-3/5" : "w-full "}`}
       >
         <p>{name}</p>
         <p className="text-gray-500 text-sm font">
           {description?.split(" ").slice(0, 25).join(" ")}
-          {description?.split(" ").length! > 25 && "..."}
+          {(description?.split(" ").length ?? 0) > 25 && "..."}
         </p>
         <p className="text-gray-600 font-bold text-sm">
           {formatCurrency(priceInCents / 100)}
@@ -178,17 +159,15 @@ export function AllDishesCardClient({
         className={`flex md:rounded-l-none rounded-2xl overflow-hidden gap-5 md:h-50 h-36 flex-col  ${image ? " md:w-1/2 w-2/5" : "w-16 "} `}
         key={id}
       >
-        {/* <CardHeader className="relative w-full h-5/6 aspect-video">
-                </CardHeader> */}
+      
         <CardContent className="flex items-end relative h-full p-0 w-full text-center ">
-          <div className="relative top-0 h-full w-full ">
+          <div className="relative top-0 h-full w-full overflow-hidden">
             {image && (
               <Image
                 src={image}
                 fill
                 alt={name}
-                priority
-                className="object-cover "
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
               />
             )}

@@ -17,7 +17,7 @@ declare namespace H {
   namespace map {
     class Marker {
       constructor(position: { lat: number; lng: number })
-      addEventListener(event: string, cb: Function): void
+      addEventListener(event: string, cb: (...args: any[]) => void): void
     }
   }
 
