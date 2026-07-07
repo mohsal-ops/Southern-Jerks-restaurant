@@ -40,6 +40,13 @@ export const metadata: Metadata = {
     canonical: "/",
   },
 
+  // ── FAVICON ──────────────────────────────────────────────────────────────
+  // Set here (root layout) so every route gets it — a page-level metadata
+  // export only applies to that one route, not its siblings.
+  icons: {
+    icon: "/logo.png",
+  },
+
   // ── OPEN GRAPH (Facebook, WhatsApp, iMessage previews) ───────────────────
   openGraph: {
     type: "website",

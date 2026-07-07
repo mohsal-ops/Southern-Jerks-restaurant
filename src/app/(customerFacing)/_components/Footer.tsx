@@ -9,9 +9,9 @@ import Logo from "@/../public/general/logo/logo.png";
 
 export function Footer() {
   return (
-    <div className="flex w-full text-sm gap-4 items-center md:py-10  justify-between md:justify-center flex-col h-140 sm:h-60 sm:space-x-10  sm:pr-10  md:w-[98%] bg-stone-200 rounded-4xl">
-      <div className=" flex flex-col md:flex-row  md:justify-center w-full h-4/5">
-        <div className="flex  items-start sm:h-full h-1/3 justify-center w-full md:w-32">
+    <div className="flex w-[92%] mx-auto text-sm gap-6 items-center py-6 md:py-10 justify-center flex-col sm:space-x-10  sm:pr-10  md:w-[98%] bg-stone-200 rounded-4xl">
+      <div className=" flex flex-col md:flex-row  md:justify-center w-full">
+        <div className="flex  items-start justify-center w-full md:w-32">
           <Link href="/">
             <Image
               alt="Southern Jerks logo"
@@ -53,7 +53,7 @@ export function Footer() {
             </Button>
           </div>
         </div>
-        <div className="md:h-full flex flex-col gap-4 justify-between h-1/5  w-full pt-2  md:w-1/5 ">
+        <div className="flex flex-col gap-4 w-full pt-2  md:w-1/5 ">
           <Link href="/Menu">
             <Button size="sm" className="w-full" variant="mainButton">
               View our menu
@@ -91,7 +91,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="flex items-center  justify-center md:justify-start   w-full py-2  border md:w-2/3  border-t-gray-300">
+      <div className="flex items-center  justify-center md:justify-start   w-full pt-4  border-t md:w-2/3  border-gray-300">
         <Button variant="link">
           <Link className="text-gray-500" href="/terms">
             Terms & Policies

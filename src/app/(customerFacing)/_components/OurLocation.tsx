@@ -39,7 +39,7 @@ export function OurLocation({
     "https://www.google.com/maps/place/Southern+Jerks/@29.9461573,-95.4667466,17z/data=!4m15!1m8!3m7!1s0x8640c95bb7adafc3:0xddfe3901268f1b3!2s2950+Gears+Rd,+Houston,+TX+77067,+USA!3b1!8m2!3d29.9461206!4d-95.4641839!16s%2Fg%2F11bw3ym21k!3m5!1s0x8640c93ae409f1e5:0x89628db687ee16b3!8m2!3d29.9463373!4d-95.4643887!16s%2Fg%2F11xclc7vhb?entry=ttu";
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-stone-200 rounded-4xl w-full sm:w-[75%] font-bold ">
+    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-stone-200 rounded-4xl w-[92%] mx-auto sm:w-[75%] font-bold ">
       <HereMapsScripts />
       {/* Map */}
       <div className="sm:w-[45%] w-full h-56 sm:h-auto min-h-50 rounded-3xl overflow-hidden shrink-0">
