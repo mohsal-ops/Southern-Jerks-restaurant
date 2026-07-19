@@ -11,6 +11,7 @@ import { CartItem, Item, Location, Types } from "generated/prisma";
 import { CarFrontIcon, StoreIcon } from "lucide-react";
 import { ItemWithSides } from "../../page";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { HOURS } from "@/lib/hours";
 
 type PropsTypes = {
   places: Location[];
@@ -43,7 +44,8 @@ export default function MainPageMenu({
   products,
 }: PropsTypes) {
   const [filtered, setfiltered] = useState<ItemWithSides[] | undefined>();
-  const [choice, setChoice] = useState<"delivery" | "pickup" | null>("pickup");
+  // Starts unset so the (currently disabled) delivery/pickup toggle forces an explicit choice once re-enabled.
+  const [choice, setChoice] = useState<"delivery" | "pickup" | null>(null);
   const [query, setQuery] = useState("");
   const placeholderRef = useRef<HTMLDivElement | null>(null);
   const [isPinned, setIsPinned] = useState(false);
@@ -56,18 +58,7 @@ export default function MainPageMenu({
   const { cartItems, cartId, mutate } = useCart();
   const { isOpen, label } = getOpenStatus();
 
-  // Add this helper at the top of your component (or in a utils file):
   function getOpenStatus() {
-    const HOURS = [
-      { open: 11, close: 16 }, // Sunday    11AM–4PM
-      { open: null, close: null }, // Monday    Closed
-      { open: 11, close: 21 }, // Tuesday   11AM–9PM
-      { open: 11, close: 21 }, // Wednesday 11AM–9PM
-      { open: 11, close: 21 }, // Thursday  11AM–9PM
-      { open: 11, close: 21 }, // Friday    11AM–9PM
-      { open: 12, close: 20 }, // Saturday  12PM–8PM
-    ];
-
     const now = new Date(
       new Date().toLocaleString("en-US", { timeZone: "America/Chicago" }),
     );
@@ -75,7 +66,8 @@ export default function MainPageMenu({
     const hour = now.getHours() + now.getMinutes() / 60;
     const todayHours = HOURS[day];
 
-    if (!todayHours.open) return { isOpen: false, label: "Closed today" };
+    if (!todayHours.open || !todayHours.close)
+      return { isOpen: false, label: "Closed today" };
 
     if (hour >= todayHours.open && hour < todayHours.close) {
       const closeHour = todayHours.close;

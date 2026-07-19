@@ -258,6 +258,23 @@ exports.Prisma.CartItemSideScalarFieldEnum = {
   priceInCents: 'priceInCents'
 };
 
+exports.Prisma.GalleryImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  alt: 'alt',
+  order: 'order',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  review: 'review',
+  avatar: 'avatar',
+  order: 'order',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -300,7 +317,9 @@ exports.Prisma.ModelName = {
   CartItem: 'CartItem',
   SideGroup: 'SideGroup',
   SideOption: 'SideOption',
-  CartItemSide: 'CartItemSide'
+  CartItemSide: 'CartItemSide',
+  GalleryImage: 'GalleryImage',
+  Review: 'Review'
 };
 
 /**

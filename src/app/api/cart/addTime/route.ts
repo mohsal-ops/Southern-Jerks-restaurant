@@ -5,8 +5,8 @@ import db from "@/db/db";
 import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
-  const {pickupTime, pickupDay } = await req.json();
-  
+  const {pickupTime, pickupDay, orderType } = await req.json();
+
   try {
     const cart = await getOrCreateCart();
   // Upsert item: if productId exists, increase qty
@@ -14,13 +14,13 @@ export async function POST(req: Request) {
   if (existing) {
     await db.cartItem.update({
       where: { id: existing.id },
-      data: { pickupDay , pickupTime}
+      data: { pickupDay , pickupTime, orderType }
     });
     revalidatePath('cart')
   return NextResponse.json({ok:true , message : 'time updated'})
   } else {
     await db.cartItem.create({
-      data: {pickupDay,pickupTime, cartId: cart.id }
+      data: {pickupDay,pickupTime, orderType, cartId: cart.id }
     });
   }
     revalidatePath('cart')

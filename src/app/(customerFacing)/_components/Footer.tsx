@@ -6,6 +6,7 @@ import { PiInstagramLogoFill } from "react-icons/pi";
 import { FaTiktok } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa";
 import Logo from "@/../public/general/logo/logo.png";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export function Footer() {
   return (
@@ -14,7 +15,7 @@ export function Footer() {
         <div className="flex  items-start justify-center w-full md:w-32">
           <Link href="/">
             <Image
-              alt="Southern Jerks logo"
+              alt={`${SITE_CONFIG.name} logo`}
               className="w-auto h-auto"
               src={Logo}
               height={70}
@@ -62,28 +63,28 @@ export function Footer() {
           </Link>
           <div className="w-full flex gap-4  justify-center">
             <Link
-              href="https://www.tiktok.com/@southernjerkshtx?is_from_webapp=1&sender_device=pc"
+              href={SITE_CONFIG.tiktokUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Southern Jerks on TikTok"
+              aria-label={`${SITE_CONFIG.name} on TikTok`}
               className="transition-transform duration-150 hover:scale-110 hover:text-[#de9b00]"
             >
               <FaTiktok size={24} />
             </Link>
             <Link
-              href="https://www.instagram.com/southernjerkshtx/?hl=en"
+              href={SITE_CONFIG.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Southern Jerks on Instagram"
+              aria-label={`${SITE_CONFIG.name} on Instagram`}
               className="transition-transform duration-150 hover:scale-110 hover:text-[#de9b00]"
             >
               <PiInstagramLogoFill size={25} />
             </Link>
             <Link
-              href="https://www.facebook.com/p/Southern-Jerks-100076329252325"
+              href={SITE_CONFIG.facebookUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Southern Jerks on Facebook"
+              aria-label={`${SITE_CONFIG.name} on Facebook`}
               className="transition-transform duration-150 hover:scale-110 hover:text-[#de9b00]"
             >
               <FaFacebook size={25} />

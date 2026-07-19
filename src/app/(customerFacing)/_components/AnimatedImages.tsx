@@ -1,56 +1,37 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import PageHeader from "./PageHeader";
 import { motion } from "framer-motion";
-import Image, { StaticImageData } from "next/image";
-import img1 from "@/../public/general/3rdsection/SouthernJerks-Sep25-78.jpg";
-import img2 from "@/../public/general/3rdsection/SouthernJerks-Sep25-73.jpg";
-import img3 from "@/../public/general/3rdsection/SouthernJerks-Sep25-52.jpg";
-import img4 from "@/../public/general/3rdsection/SouthernJerks-Sep25-59.jpg";
-import img5 from "@/../public/general/3rdsection/SouthernJerks-Sep25-55.jpg";
-import img6 from "@/../public/general/3rdsection/SouthernJerks-Sep25-63.jpg";
-import img7 from "@/../public/general/3rdsection/SouthernJerks-Sep25-58.jpg";
-import img8 from "@/../public/general/3rdsection/SouthernJerks-Sep25-53.jpg";
-import img9 from "@/../public/general/3rdsection/SouthernJerks-Sep25-42.jpg";
-import img10 from "@/../public/general/3rdsection/SouthernJerks-Sep25-46.jpg";
-import img11 from "@/../public/general/3rdsection/SouthernJerks-Sep25-27.jpg";
-import img12 from "@/../public/general/3rdsection/SouthernJerks-Sep25-25.jpg";
+import Image from "next/image";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
-export function ThirdSectionComponent() {
-  const images = [
-    img1,
-    img2,
-    img3,
-    img4,
-    img5,
-    img6,
-    img7,
-    img8,
-    img9,
-    img10,
-    img11,
-    img12,
-  ];
+export type GalleryImageData = { url: string; alt: string };
+
+export function ThirdSectionComponent({
+  images,
+}: {
+  images: GalleryImageData[];
+}) {
   return (
     <div className=" sm:w-[85vw] p-2 space-y-10 ">
       <div className="space-y-4">
-        <PageHeader>Southern Jerks®</PageHeader>
+        <PageHeader>{SITE_CONFIG.home.galleryTitle}</PageHeader>
         <span className="font-medium text-neutral-600 text-lg">
           {" "}
-          Quiet Mouth. Loud Flavor.
+          {SITE_CONFIG.home.gallerySubtitle}
         </span>
       </div>
 
       <main className="grid grid-cols-2  sm:grid-cols-3  md:grid-cols-3  w-full gap-6 ">
         {images.map((image, i) => (
-          <HoverCard key={i} src={image} />
+          <HoverCard key={image.url + i} src={image.url} alt={image.alt} />
         ))}
       </main>
     </div>
   );
 }
 
-export function HoverCard({ src }: { src: StaticImageData }) {
+export function HoverCard({ src, alt }: { src: string; alt: string }) {
   const [loaded, setLoaded] = useState(false);
   const MotionImage = motion.create(Image);
 
@@ -69,10 +50,11 @@ export function HoverCard({ src }: { src: StaticImageData }) {
       {/* Image */}
       <MotionImage
         src={src}
-        alt="Southern Jerks jerk chicken and wings in Houston, TX"
+        alt={alt}
+        fill
         sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 28vw"
         className="object-cover w-full h-full"
-        onLoadingComplete={() => setLoaded(true)}
+        onLoad={() => setLoaded(true)}
         initial={{ opacity: 0 }}
         animate={{ opacity: loaded ? 1 : 0 }}
         transition={{ duration: 0.35, ease: "easeOut" }}

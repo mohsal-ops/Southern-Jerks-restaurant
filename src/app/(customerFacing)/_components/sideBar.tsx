@@ -10,8 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Gamepad2, TextAlignJustify } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import db from "@/db/db";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export default function AppSideBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,43 +20,7 @@ export default function AppSideBar() {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
-  const links = [
-    {
-      name: "Home",
-      link: "/",
-    },
-    {
-      name: "Menu",
-      link: "/Menu",
-    },
-    {
-      name: "Catering",
-      link: "/catering",
-    },
-    {
-      name: "Kids Zone",
-      link: "/KidsZone",
-    },
-    {
-      name: "Gift Card",
-      link: "/GiftCard",
-    },
-    {
-      name: "Rewards",
-      link: "/rewards",
-    },
-    {
-      name: "Press",
-      link: "/Blog",
-    },
-    {
-      name: "Our Story",
-      link: "/story",
-    },
-  ];
-  const hndleclick = async () => {
-    await fetch("/api/getcartId");
-  };
+  const links = SITE_CONFIG.navLinks;
 
   return (
     <>
@@ -74,19 +37,19 @@ export default function AppSideBar() {
               {links.map((obj, key) => (
                 <Link
                   key={key}
-                  href={obj.link}
+                  href={obj.href}
                   className={[
                     "w-full text-center px-4 py-2 rounded-md font-medium transition-colors",
-                    pathname === obj.link
-                      ? "bg-yellow-400 text-stone-900" 
+                    pathname === obj.href
+                      ? "bg-yellow-400 text-stone-900"
                       : "text-stone-700 hover:bg-stone-100"
                   ].join(" ")}
                 >
                   <div className="flex items-center justify-center gap-2">
-                    {obj.name === "Kids Zone" && (
+                    {obj.label === "Kids Zone" && (
                       <Gamepad2 strokeWidth={1.5} className="w-5 h-5" />
                     )}
-                    {obj.name}
+                    {obj.label}
                   </div>
                 </Link>
               ))}

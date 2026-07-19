@@ -18,7 +18,7 @@ export default function PartnerForm({ partner }: { partner: Partner }) {
       {/* Header */}
       <div className="px-6 py-4 border-b border-stone-100 flex items-center gap-3">
         <div
-          className="w-3 h-3 rounded-full flex-shrink-0"
+          className="w-3 h-3 rounded-full shrink-0"
           style={{ background: partner.accent }}
         />
         <p className="font-semibold text-stone-800">{partner.name}</p>

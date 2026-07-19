@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import img from "public/general/3rdsection/SouthernJerks-Sep25-42.jpg";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export default function CateringPageClient() {
   const [open, setOpen] = useState(false);
@@ -85,7 +86,7 @@ export default function CateringPageClient() {
         <div className="w-full sm:w-1/2 h-75 md:h-full relative overflow-hidden rounded-2xl">
           <Image
             src={img}
-            alt="Southern Jerks jerk chicken and wings catering trays for Houston events"
+            alt={`${SITE_CONFIG.name} jerk chicken and wings catering trays for ${SITE_CONFIG.city} events`}
             fill
             className="object-cover"
             priority
@@ -94,7 +95,7 @@ export default function CateringPageClient() {
 
         <div className="md:w-1/2  p-2 sm:p-4 text-center md:text-left space-y-4 z-10">
           <h1 className="text-4xl md:text-6xl font-extrabold text-yellow-400 drop-shadow-lg">
-            Bring Southern Jerks to Your Event
+            Bring {SITE_CONFIG.name} to Your Event
           </h1>
           <p className="text-lg md:text-xl text-white drop-shadow-lg">
             From corporate events to private parties, make your event
@@ -118,7 +119,7 @@ export default function CateringPageClient() {
 
       {/* Why Choose Us */}
       <section className="text-center max-w-6xl w-9/12 sm:w-full space-y-10">
-        <h2 className="text-3xl font-bold">Why Choose Southern Jerks?</h2>
+        <h2 className="text-3xl font-bold">Why Choose {SITE_CONFIG.name}?</h2>
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
           {[
             {

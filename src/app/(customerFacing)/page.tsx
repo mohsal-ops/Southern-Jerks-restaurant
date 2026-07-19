@@ -10,6 +10,7 @@ import ThirdSectionClient from "./_components/ThirdSectionClient";
 import FadeIn from "@/components/FadeIn";
 import { OurLocation } from "./_components/OurLocation";
 import HomeFeaturedSkeleton from "./_skeletons/HomeFeaturedSkeleton";
+import db from "@/db/db";
 import {
   TopSection,
   SecondSection,
@@ -155,6 +156,16 @@ async function LocationSection() {
   return <OurLocation places={places} lat={lat} lng={lng} />;
 }
 
+async function GallerySection() {
+  const images = await db.galleryImage.findMany({ orderBy: { order: "asc" } });
+  return <ThirdSectionClient images={images} />;
+}
+
+async function ReviewsDataSection() {
+  const reviews = await db.review.findMany({ orderBy: { order: "asc" } });
+  return <ReviewsSection reviews={reviews} />;
+}
+
 export default function Home() {
   // TopSection and the static sections below render immediately; the two
   // DB-backed sections stream in behind Suspense so the hero image isn't
@@ -168,10 +179,14 @@ export default function Home() {
         <FeaturedProductsSection />
       </Suspense>
       <SectionDivider />
-      <ThirdSectionClient />
+      <Suspense fallback={<div className="w-[85%] h-100 bg-gray-200 rounded-3xl animate-pulse" />}>
+        <GallerySection />
+      </Suspense>
       <SectionDivider />
       <FadeIn delay={100}>
-        <ReviewsSection />
+        <Suspense fallback={<div className="h-96 w-full md:w-[85vw] bg-gray-100 rounded-4xl animate-pulse" />}>
+          <ReviewsDataSection />
+        </Suspense>
       </FadeIn>
       <SectionDivider />
       <FadeIn delay={200}>

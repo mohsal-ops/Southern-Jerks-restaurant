@@ -11,6 +11,14 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+      },
+    ],
+  },
   experimental: {
     serverActions: {
       // Menu/blog/partner image uploads go through server actions; 10mb

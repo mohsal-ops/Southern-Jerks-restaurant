@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import mainImg from "@/../public/general/generalPages/mainImage.jpg";
-import img2 from "@/../public/general/generalPages/enjoy.jpg";
-import img3 from "@/../public/general/generalPages/vibe.jpg";
 import Logo from "@/../public/general/logo/logo.png";
 import PageHeader from "./PageHeader";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -28,13 +26,14 @@ import { Button } from "@/components/ui/button";
 import { CartItem } from "generated/prisma";
 import { SecondSectionFeatured } from "./FeaturedSection";
 import type { ItemWithSides } from "../page";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export function TopSection() {
   return (
     <div className="flex relative overflow-hidden h-svh sm:flex-row sm:w-[85%] flex-col bg-stone-100 sm:rounded-3xl sm:p-2">
       <div className="sm:relative absolute z-30 bottom-20 flex flex-col gap-6 items-start justify-end mt-10 md:mb-20 md:w-1/2 p-5 md:p-12">
         <Image
-          alt="Southern Jerks logo"
+          alt={`${SITE_CONFIG.name} logo`}
           src={Logo}
           width={120}
           height={120}
@@ -42,12 +41,11 @@ export function TopSection() {
         />
 
         <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-15">
-          <h1 className="text-yellow-400">Bold Caribbean flavors</h1> juicy
-          wings, and stacked sandwiches
+          <h1 className="text-yellow-400">{SITE_CONFIG.home.heroHeadline}</h1>{" "}
+          {SITE_CONFIG.home.heroSubHeadline}
         </span>
         <span className="font-semibold text-white sm:text-zinc-400 text-md">
-          perfectly seasoned, and packed with flavor made fresh so every bite
-          hits just right.
+          {SITE_CONFIG.subTagline}
         </span>
         <Link href="/Menu">
           <Button size="lg" variant="mainButton">
@@ -60,7 +58,7 @@ export function TopSection() {
       <div className="md:w-1/2 w-full sm:rounded-3xl overflow-hidden h-full">
         <Image
           priority
-          alt="Southern Jerks bold Caribbean food"
+          alt={`${SITE_CONFIG.name} bold Caribbean food`}
           src={mainImg}
           sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover h-full"
@@ -82,11 +80,11 @@ export function SecondSection({
 }
 
 function ReviewCard({
-  link,
+  avatar,
   name,
   review,
 }: {
-  link: string;
+  avatar: string;
   name: string;
   review: string;
 }) {
@@ -100,7 +98,7 @@ function ReviewCard({
       <CardContent className="font-normal">{review}</CardContent>
       <CardFooter className="flex justify-start gap-3">
         <Avatar>
-          <AvatarImage src={link} alt="" />
+          <AvatarImage src={avatar} alt="" />
           <AvatarFallback>{name.charAt(0)}</AvatarFallback>
         </Avatar>
         <p className="text-lg font-semibold">{name}</p>
@@ -109,39 +107,9 @@ function ReviewCard({
   );
 }
 
-export function ReviewsSection() {
-  const reviews = [
-    {
-      name: "Terrence B.",
-      review:
-        "This was some good eatin! Chicken has a nice coating and is crispy. The jerk flavor in the breading sets this apart from others. The sauce options were next level.",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=TerenceB&backgroundColor=b6e3f4",
-    },
-    {
-      name: "Sofia M.",
-      review:
-        "I've tried Caribbean food all over Houston and Southern Jerks is hands down the best. The seasoning is bold without being overpowering. My whole family is obsessed now!",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=SofiaM&backgroundColor=ffd5dc",
-    },
-    {
-      name: "James L.",
-      review:
-        "Came in on my lunch break and ended up going back for dinner the same day. The jerk chicken sandwich is unreal. Fast service, friendly staff highly recommend.",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=JamesL&backgroundColor=c0aede",
-    },
-    {
-      name: "Amara N.",
-      review:
-        "As someone who grew up eating Caribbean food, I'm very picky. Southern Jerks nailed the authentic flavor. Crispy, juicy, perfectly spiced. Will be a regular for sure.",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=AmaraN&backgroundColor=d1f5c0",
-    },
-    {
-      name: "Paris B.",
-      review:
-        "I've been addicted since I first tried them. Went back that same day for dinner. Told my whole job and we've been ordering for team lunch ever since. 10/10, no debate.",
-      link: "https://api.dicebear.com/7.x/micah/svg?seed=ParisB&backgroundColor=ffeaa7",
-    },
-  ];
+export type ReviewData = { name: string; review: string; avatar: string };
+
+export function ReviewsSection({ reviews }: { reviews: ReviewData[] }) {
   return (
     <div className=" flex flex-col items-center  md:w-[85vw] p-10 space-y-10 bg-gray-100 rounded-4xl">
       <div className="text-center space-y-4">
@@ -149,12 +117,12 @@ export function ReviewsSection() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 sm:w-11/12 w-full gap-6">
-        {reviews.map((Rev, key) => (
+        {reviews.map((rev, key) => (
           <ReviewCard
             key={key}
-            link={Rev.link}
-            name={Rev.name}
-            review={Rev.review}
+            avatar={rev.avatar}
+            name={rev.name}
+            review={rev.review}
           />
         ))}
       </div>
@@ -167,7 +135,7 @@ export function OrderDirectlyfromOUrWebsite() {
     <div className="relative flex items-end h-96 md:h-svh sm:w-[85vw]  rounded-3xl overflow-hidden   ">
       <Image
         src={mainImg}
-        alt="Southern Jerks jerk chicken plated and ready to order"
+        alt={`${SITE_CONFIG.name} jerk chicken plated and ready to order`}
         sizes="85vw"
         className="object-cover w-full h-full"
       />
@@ -176,35 +144,37 @@ export function OrderDirectlyfromOUrWebsite() {
 }
 
 export function DistinctiveFeatures() {
+  const [first, second] = SITE_CONFIG.home.distinctiveFeatures;
   return (
     <div className="flex flex-col space-y-5 md:w-[85vw] rounded-3xl overflow-hidden ">
       <div className="flex md:flex-row flex-col justify-between  md:h-132 h-full">
         <Image
-          src={img2}
-          alt="Distinctive Features"
+          src={first.image}
+          alt={first.title}
+          width={800}
+          height={600}
           sizes="(max-width: 768px) 100vw, 45vw"
           className="object-cover md:w-[45%] w-full h-full rounded-3xl"
         />
         <div className="flex flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
-          <PageHeader>Only flavor that hits</PageHeader>
+          <PageHeader>{first.title}</PageHeader>
           <p className="text-lg font-medium text-neutral-600">
-            From juicy wings to stacked sandwiches, every dish is made with
-            care, quality ingredients, and big Caribbean flavor because average
-            isn’t our thing.
+            {first.description}
           </p>
         </div>
       </div>
       <div className="flex md:flex-row flex-col justify-between md:h-132 h-full">
         <div className="flex md:order-1 order-2 flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
-          <PageHeader>Bite, chill, and enjoy</PageHeader>
+          <PageHeader>{second.title}</PageHeader>
           <p className="text-lg font-medium text-neutral-600">
-            Our dishes are made to elevate your experience, using quality
-            ingredients, balanced seasoning, and bold flavor in every bite.
+            {second.description}
           </p>
         </div>
         <Image
-          src={img3}
-          alt="Distinctive Features"
+          src={second.image}
+          alt={second.title}
+          width={800}
+          height={600}
           sizes="(max-width: 768px) 100vw, 45vw"
           className="object-cover flex items-start bg-amber-200 md:order-2 order-1 md:w-[45%] w-full h-full rounded-3xl"
         />
@@ -213,38 +183,30 @@ export function DistinctiveFeatures() {
   );
 }
 
+const FEATURING_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
+  PiPackageFill,
+  MdOutlineFamilyRestroom,
+  BsBagCheckFill,
+  TbPlant2Off,
+};
+
 export function Featuring() {
-  const featuring = [
-    {
-      name: "Takeaway",
-      image: PiPackageFill,
-    },
-    {
-      name: "Family friendly",
-      image: MdOutlineFamilyRestroom,
-    },
-    {
-      name: "Catering",
-      image: BsBagCheckFill,
-    },
-    {
-      name: "Gluten-Free Options",
-      image: TbPlant2Off,
-    },
-  ];
   return (
     <div className=" flex flex-col gap-14 items-center py-16 w-full md:w-2no/3  ">
       <PageHeader>Featuring</PageHeader>
       <div className="grid md:grid-cols-4 grid-cols-2  w-full gap-10  text-lg font-semibold ">
-        {featuring.map((feature, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center gap-5 text-center"
-          >
-            <feature.image size={25} />
-            <span>{feature.name}</span>
-          </div>
-        ))}
+        {SITE_CONFIG.home.featuring.map((feature, index) => {
+          const Icon = FEATURING_ICONS[feature.icon];
+          return (
+            <div
+              key={index}
+              className="flex flex-col items-center gap-5 text-center"
+            >
+              {Icon && <Icon size={25} />}
+              <span>{feature.name}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -257,32 +219,14 @@ export function Frequentlyaskedquestions() {
         <PageHeader>Frequently asked questions</PageHeader>
       </div>
       <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="item-1">
-          <AccordionTrigger>What are you known for?</AccordionTrigger>
-          <AccordionContent className="text-balance text-lg w-full font-medium bg-sidebar-accent p-4 ">
-            We’re known for our crispy jerk chicken, wings, and bold southern
-            flavors.{" "}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger>What meals do you serve?</AccordionTrigger>
-          <AccordionContent className="text-balance text-lg font-semibold bg-sidebar-accent p-4 ">
-            Chicken wings, Sandwiches, carribean sides, and snacks.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger>Do you offer delivery or takeout?</AccordionTrigger>
-          <AccordionContent className="text-balance  text-lg font-semibold bg-sidebar-accent p-4 ">
-            Yes! We offer both pickup and delivery.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-4">
-          <AccordionTrigger>Where are you located?</AccordionTrigger>
-          <AccordionContent className="text-balance text-lg font-semibold bg-sidebar-accent p-4 ">
-            We are located in{" "}
-            <p className="font-bold">2950 Gears Rd Houston, TX 77067</p>
-          </AccordionContent>
-        </AccordionItem>
+        {SITE_CONFIG.home.faq.map((item, i) => (
+          <AccordionItem key={i} value={`item-${i + 1}`}>
+            <AccordionTrigger>{item.question}</AccordionTrigger>
+            <AccordionContent className="text-balance text-lg w-full font-medium bg-sidebar-accent p-4 ">
+              {item.answer}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
       </Accordion>
     </div>
   );

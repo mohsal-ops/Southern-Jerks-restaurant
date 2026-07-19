@@ -1,10 +1,13 @@
-// app/api/cart/get/route.ts
-import db from "@/db/db";
-import { cookies } from "next/headers";
+// app/api/getcartId/route.ts
+import { getOrCreateCart } from "@/lib/cart";
 import { NextResponse } from "next/server";
 
+// Creating the cart eagerly here (called once on mount by CartProvider) instead of
+// lazily inside /api/cart/add means the cart+cookie usually already exist by the
+// time the user clicks "Add to Cart", cutting down on the window for duplicate
+// carts from rapid concurrent add requests.
 export async function GET() {
-  const cartId = (await cookies()).get("cart_id")?.value;
-  return NextResponse.json({ cartId: cartId || null });
+  const cart = await getOrCreateCart();
+  return NextResponse.json({ cartId: cart.id });
 }
 

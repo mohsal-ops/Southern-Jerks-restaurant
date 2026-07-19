@@ -85,7 +85,7 @@ export async function GetCartItems(cartId: string | null) {
   if (!cartId) return { items: [] };
   const cart = await db.cart.findUnique({
     where: { id: cartId },
-    include: { items: true },
+    include: { items: { include: { sides: true } } },
   });
 
   if (!cart) return { items: [] };

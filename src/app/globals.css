@@ -178,6 +178,7 @@ html body[data-scroll-locked] {
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-shake: shake 0.4s ease-in-out;
 }
 
 /* ================================
@@ -204,6 +205,12 @@ html body[data-scroll-locked] {
   0% { transform: scale(1); }
   50% { transform: scale(1.08); }
   100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
 }
 
 /* Referenced by --animate-accordion-down/up in the @theme block below.

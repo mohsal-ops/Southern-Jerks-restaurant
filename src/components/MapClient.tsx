@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 type Props = {
   lat: number;
@@ -45,7 +46,7 @@ export default function MapClient({ lat, lng, className }: Props) {
       map.setZoom(16, true);
 
       const bubble = new H.ui.InfoBubble(position, {
-        content: `<strong>Southern Jerks</strong><br/>Click map to open in Google Maps`,
+        content: `<strong>${SITE_CONFIG.name}</strong><br/>Click map to open in Google Maps`,
       });
 
       ui.addBubble(bubble);

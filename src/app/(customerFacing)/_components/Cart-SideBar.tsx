@@ -1,25 +1,26 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { PiShoppingCartSimpleFill } from 'react-icons/pi';
 import { formatCurrency } from '@/lib/formatters';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { CartItem } from '../../../../generated/prisma';
+import { CartItem, CartItemSide } from '../../../../generated/prisma';
 import Image from 'next/image';
 import { Minus, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useSWRConfig } from 'swr';
 import { useCart } from '@/app/providers/CartProvider'
 
+type CartItemWithSides = CartItem & { sides?: CartItemSide[] };
 
-export default function CartSideBar({ cartItems: initialItems, cartId }: { cartId: string | null, cartItems: CartItem[] }) {
+export default function CartSideBar({ cartItems: initialItems, cartId }: { cartId: string | null, cartItems: CartItemWithSides[] }) {
     const [isMobile, setIsMobile] = useState(false)
-    const [cartItems, setCartItems] = useState<CartItem[]>(initialItems)
+    const [cartItems, setCartItems] = useState<CartItemWithSides[]>(initialItems)
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname()
     const { mutate } = useCart()
+    const debounceTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
 
     // Close sheet automatically on route change
     useEffect(() => {
@@ -42,6 +43,13 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
         return () => window.removeEventListener("resize", handleResize)
     }, []);
 
+    // Clear any pending debounced quantity updates on unmount
+    useEffect(() => {
+        return () => {
+            Object.values(debounceTimers.current).forEach(clearTimeout);
+        };
+    }, []);
+
     //delete logic
 
     const deleteCartItem = async (productId: string) => {
@@ -60,7 +68,24 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
         }
     };
 
-
+    // Debounced so rapid +/- clicks don't fire a request per click; only the
+    // settled quantity is persisted to the DB (fixes it reverting on refresh).
+    const persistQuantity = (productId: string, quantity: number) => {
+        if (!cartId) return;
+        clearTimeout(debounceTimers.current[productId]);
+        debounceTimers.current[productId] = setTimeout(async () => {
+            try {
+                await fetch(`/api/cart/${cartId}/item/${productId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ quantity }),
+                });
+                await mutate(["/api/cart/get", cartId]);
+            } catch (error) {
+                console.error("Failed to update quantity:", error);
+            }
+        }, 500);
+    };
 
 
     const adjustQuantity = (productId: string, change: number) => {
@@ -78,12 +103,16 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
                 return updated.filter(item => item.id !== productId)
             }
 
+            if (target) persistQuantity(productId, target.quantity ?? 1);
+
             return updated;
         });
     };
 
 
     const quantity = cartItems[0] && !cartItems[0].image ? cartItems.length -1 : cartItems.length
+    // item.price is the per-unit finalPrice set in schedualePickupModal (base price + sides),
+    // so sides are already folded in here — no separate sides total needs to be added.
     const subtotal = cartItems.reduce((acc, item) => acc + (item.price ?? 0) * (item.quantity ?? 0), 0);
 
 
@@ -138,6 +167,16 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
                                     )}
                                     <div className="flex-1 space-y-2">
                                         <h3 className="text-sm font-medium">{item.name}</h3>
+                                        {item.sides && item.sides.length > 0 && (
+                                            <ul className="text-xs text-muted-foreground space-y-0.5">
+                                                {item.sides.map((side) => (
+                                                    <li key={side.id}>
+                                                        • {side.label}
+                                                        {side.priceInCents ? ` (+${formatCurrency(side.priceInCents / 100)})` : ""}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
                                         {/* Quantity adjuster */}
                                         <div className="flex items-center gap-2">
                                             <Button

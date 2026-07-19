@@ -18,7 +18,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { useCart } from "@/app/providers/CartProvider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Prisma, SideGroup, SideGroupType } from "generated/prisma";
-import PickupDetails from "./pickupTimeandDay";
+import { PickupDetailsContent } from "./pickupTimeandDay";
 
 /* ---------------- Types ---------------- */
 
@@ -89,6 +89,8 @@ function AddProductCard({
   setQuantity,
   selectedSides,
   setSelectedSides,
+  invalidGroupIds,
+  finalPrice,
 }: {
   product: Product;
   quantity: number;
@@ -97,6 +99,8 @@ function AddProductCard({
   setSelectedSides: React.Dispatch<
     React.SetStateAction<Record<string, string[]>>
   >;
+  invalidGroupIds: string[];
+  finalPrice: number;
 }) {
   const order: Record<SideGroupType, number> = {
     NO: 1,
@@ -161,8 +165,14 @@ function AddProductCard({
           const isSide = group.type === "SIDE";
           const isRequired = isSide || group.required;
           const isSatisfied = (selectedSides[group.id]?.length ?? 0) > 0;
+          const isInvalid = invalidGroupIds.includes(group.id);
           return (
-          <div key={group.id} className="space-y-2">
+          <div
+            key={group.id}
+            className={`space-y-2 rounded-lg transition-colors ${
+              isInvalid ? "border border-red-500 bg-red-50 p-2 animate-shake" : ""
+            }`}
+          >
             <div>
               <p className="font-medium">{group.title}</p>
               <p
@@ -180,7 +190,7 @@ function AddProductCard({
                   : "Choose any"}
               </p>
             </div>
-            
+
 
             {/* RADIO (Spice) */}
             {group.maxSelect === 1 ? (
@@ -251,6 +261,13 @@ function AddProductCard({
             )}
           </div>
         )})}
+
+        <div className="flex items-center justify-between pt-3 border-t">
+          <span className="font-semibold">Total</span>
+          <span className="font-semibold text-lg">
+            {formatCurrency((finalPrice * quantity) / 100)}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -278,6 +295,7 @@ export default function SchedulePickupDialog({
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [TimeExist, setTimeExist] = useState<boolean>(false);
+  const [invalidGroupIds, setInvalidGroupIds] = useState<string[]>([]);
 
   const router = useRouter();
   const { cartId, mutate, cartItems } = useCart();
@@ -315,9 +333,22 @@ export default function SchedulePickupDialog({
   const sidesTotal = calculateSidesTotal();
   const finalPrice = product.priceInCents + sidesTotal;
 
+  const getMissingRequiredGroupIds = () =>
+    product.sideGroups
+      .filter((group) => group.type === "SIDE" || group.required)
+      .filter((group) => (selectedSides[group.id]?.length ?? 0) === 0)
+      .map((group) => group.id);
+
   const handleAddToCart = async () => {
+    const missing = getMissingRequiredGroupIds();
+    if (missing.length > 0) {
+      setInvalidGroupIds(missing);
+      toast("Please select the required options before adding to cart");
+      setTimeout(() => setInvalidGroupIds([]), 500);
+      return;
+    }
+
     setIsLoading(true);
-    console.log("Adding to cart with sides:", selectedSides);
     try {
       const res = await fetch("/api/cart/add", {
         method: "POST",
@@ -350,15 +381,18 @@ export default function SchedulePickupDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger />
       <DialogContent className="flex flex-col justify-between max-h-[95vh]">
-        <DialogHeader className="p-2">
-          <DialogTitle>
-            {step === "details" ? "Order Details" : "Add to Cart"}
-          </DialogTitle>
-        </DialogHeader>
+        {step === "addCard" && (
+          <DialogHeader className="p-2">
+            <DialogTitle>Add to Cart</DialogTitle>
+          </DialogHeader>
+        )}
 
         <div className="flex-1 h-full overflow-auto px-2">
           {step === "details" && (
-            <PickupDetails orderType={orderType} open={open} onOpenChange={onOpenChange} />
+            <PickupDetailsContent
+              orderType={orderType}
+              onComplete={() => setStep("addCard")}
+            />
           )}
 
           {step === "addCard" && (
@@ -368,22 +402,13 @@ export default function SchedulePickupDialog({
               setQuantity={setQuantity}
               selectedSides={selectedSides}
               setSelectedSides={setSelectedSides}
+              invalidGroupIds={invalidGroupIds}
+              finalPrice={finalPrice}
             />
           )}
         </div>
 
         <DialogFooter className="p-3">
-          {step === "details" && (
-            <Button
-              size="md"
-              variant="mainButton"
-              className="w-full"
-              onClick={() => setStep("addCard")}
-            >
-              Continue
-            </Button>
-          )}
-
           {step === "addCard" && (
             <Button
               size="md"

@@ -7,16 +7,19 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import MapClient from "@/components/MapClient";
 import HereMapsScripts from "@/components/HereMapsScripts";
 import { Location } from "generated/prisma";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
-const HOURS = [
-  { day: "Sunday", open: "11:00 AM", close: "4:00 PM" },
-  { day: "Monday", open: "Closed", close: "" },
-  { day: "Tuesday", open: "11:00 AM", close: "9:00 PM" },
-  { day: "Wednesday", open: "11:00 AM", close: "9:00 PM" },
-  { day: "Thursday", open: "11:00 AM", close: "9:00 PM" },
-  { day: "Friday", open: "11:00 AM", close: "9:00 PM" },
-  { day: "Saturday", open: "12:00 PM", close: "8:00 PM" },
-];
+function formatHour(hour: number): string {
+  const period = hour >= 12 ? "PM" : "AM";
+  const display = hour % 12 === 0 ? 12 : hour % 12;
+  return `${display}:00 ${period}`;
+}
+
+const HOURS = SITE_CONFIG.hours.map((h) => ({
+  day: h.day,
+  open: h.open === null ? "Closed" : formatHour(h.open),
+  close: h.close === null ? "" : formatHour(h.close),
+}));
 
 export function OurLocation({
   places,
@@ -28,15 +31,14 @@ export function OurLocation({
   lng: number;
 }) {
   const [showHours, setShowHours] = useState(false);
-  const todayIdx =  new Date(new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })).getDay();
+  const todayIdx = new Date(new Date().toLocaleString("en-US", { timeZone: SITE_CONFIG.timezone })).getDay();
   const today = HOURS[todayIdx];
   const todayLabel =
     today.open === "Closed"
       ? "Closed today"
       : `Today: ${today.open} – ${today.close}`;
 
-  const mapsUrl =
-    "https://www.google.com/maps/place/Southern+Jerks/@29.9461573,-95.4667466,17z/data=!4m15!1m8!3m7!1s0x8640c95bb7adafc3:0xddfe3901268f1b3!2s2950+Gears+Rd,+Houston,+TX+77067,+USA!3b1!8m2!3d29.9461206!4d-95.4641839!16s%2Fg%2F11bw3ym21k!3m5!1s0x8640c93ae409f1e5:0x89628db687ee16b3!8m2!3d29.9463373!4d-95.4643887!16s%2Fg%2F11xclc7vhb?entry=ttu";
+  const mapsUrl = `${SITE_CONFIG.googleMapsUrl}?entry=ttu`;
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 p-4 bg-stone-200 rounded-4xl w-[92%] mx-auto sm:w-[75%] font-bold ">
@@ -51,25 +53,25 @@ export function OurLocation({
         {/* Top: name + address */}
         <div className="flex flex-col gap-4">
           <div>
-            <p className="text-sm text-gray-500">Southern Jerks</p>
-            <p className="text-xl font-semibold text-gray-900">Houston, TX</p>
+            <p className="text-sm text-gray-500">{SITE_CONFIG.name}</p>
+            <p className="text-xl font-semibold text-gray-900">{SITE_CONFIG.city}, {SITE_CONFIG.state}</p>
           </div>
 
           <div className="flex gap-8 mt-3">
             <div className="flex flex-col gap-1">
               <span className="text-xs text-gray-500">Address</span>
               <p className="text-sm leading-relaxed">
-                2950 Gears Rd
+                {SITE_CONFIG.street}
                 <br />
-                Houston, TX 77067
+                {SITE_CONFIG.city}, {SITE_CONFIG.state} {SITE_CONFIG.zip}
               </p>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-xs text-gray-500">Contact</span>
               <p className="text-sm leading-relaxed">
-                (346) 242-0328
+                {SITE_CONFIG.phone}
                 <br />
-                contact@southernjerks.com
+                {SITE_CONFIG.email}
               </p>
             </div>
           </div>

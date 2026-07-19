@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { GalleryImageData } from "./AnimatedImages";
 
 const ThirdSectionComponent = dynamic(
   () =>
@@ -15,6 +16,10 @@ const ThirdSectionComponent = dynamic(
   }
 );
 
-export default function ThirdSectionClient() {
-  return <ThirdSectionComponent />;
+export default function ThirdSectionClient({
+  images,
+}: {
+  images: GalleryImageData[];
+}) {
+  return <ThirdSectionComponent images={images} />;
 }

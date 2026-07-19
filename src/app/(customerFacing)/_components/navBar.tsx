@@ -10,6 +10,7 @@ import useSWR from "swr";
 import { usePathname } from "next/navigation";
 import { CartItem } from "generated/prisma";
 import { Gamepad2 } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export function SideBar({ pathname }: { pathname: string }) {
   return (
@@ -17,7 +18,7 @@ export function SideBar({ pathname }: { pathname: string }) {
       <div className="flex items-center justify-center pl-7">
         <Link href="/">
           <Image
-            alt="snow cone logo"
+            alt={`${SITE_CONFIG.name} logo`}
             priority
             className=" w-auto h-auto"
             src={Logo}
@@ -71,8 +72,6 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
     fetchCartId();
   }, []);
 
-  // 🧠 Pass a stable key and avoid dependency loops
-  console.log("Fetching cart with ID:", cartId);
   const { data: CartResObj } = useSWR(
     cartId ? ["/api/cart/get", cartId] : null,
     ([url, id]) => fetcher(url, id),
@@ -80,43 +79,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
   );
 
   const cartItems = (CartResObj?.cart?.items ?? []) as CartItem[];
-  const links = [
-    {
-      name: "Home",
-      link: "/",
-    },
-    {
-      name: "Menu",
-      link: "/Menu",
-    },
-    {
-      name: "Catering",
-      link: "/catering",
-    },
-    {
-      name: "Gift Card",
-      link: "/GiftCard",
-    },
-
-    {
-      name: "Kids Zone",
-      link: "/KidsZone",
-    },
-    {
-      name: "Rewards",
-      link: "/rewards",
-    },
-    {
-      name: "Press",
-      link: "/Blog",
-    },
-    {
-      name: "Our Story",
-      link: "/story",
-    },
-  ];
-
-  // setCartItems(cartItems)
+  const links = SITE_CONFIG.navLinks;
 
   return (
     <div className="bg-white flex justify-center ">
@@ -132,7 +95,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
       <div className="hidden md:flex justify-between h-16 md:h-20 md:w-[80%]  items-center ">
         <div className="flex items-center justify-center w-auto ">
           <Image
-            alt="southern jerks logo"
+            alt={`${SITE_CONFIG.name} logo`}
             className="w-auto h-auto"
             src={Logo}
             height={60}
@@ -142,12 +105,10 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
         <div className="flex justify-end gap-4 items-center">
           <div className="flex overflow-auto gap-2 justify-center w-full py-1">
             {links.map((obj, key) => {
-              const isActive =
-                (obj.link === pathname )
-                
+              const isActive = obj.href === pathname;
 
               return (
-                <Link key={key} href={obj.link}>
+                <Link key={key} href={obj.href}>
                   <Button
                     className={[
                       "text-md rounded-md  font-medium transition-colors duration-150 flex items-center gap-2",
@@ -156,33 +117,14 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
                         : "text-stone-700  hover:bg-stone-100 ", // inactive: orange text, subtle yellow hover
                     ].join(" ")}
                   >
-                    {obj.name === "Kids Zone" && (
+                    {obj.label === "Kids Zone" && (
                       <Gamepad2 strokeWidth={1.5} className="w-4 h-4" />
                     )}
-                    {obj.name}
+                    {obj.label}
                   </Button>
                 </Link>
               );
             })}
-            {/* {links.map((obj, key) => {
-              const isActive = pathname == "/" + obj.link;
-              return (
-                <Button
-                  key={key}
-                  className={`font-medium text-md ${isActive && "bg-yellow-400 text-black "}`}
-                  variant="ghost"
-                >
-                  <Link href={obj.link} className=" text-gray-600">
-                    <div className="flex items-center gap-2">
-                      {obj.name === "Kids Zone" && (
-                        <Gamepad2 strokeWidth={1.5} className="w-5 h-5" />
-                      )}
-                      {obj.name}
-                    </div>
-                  </Link>
-                </Button>
-              );
-            })} */}
           </div>
           <div>
             <CartSideBar cartId={cartId} cartItems={cartItems} />

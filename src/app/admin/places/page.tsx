@@ -69,7 +69,7 @@ export default function PlacesComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-stone-100 p-6">
+    <div className="min-h-screen bg-linear-to-b from-stone-50 to-stone-100 p-6">
       <HereMapsScripts />
 
       {/* HEADER */}
@@ -105,7 +105,7 @@ export default function PlacesComponent() {
 
       {/* MAP */}
       {showMap && (
-        <div className="w-full h-[520px] flex flex-col items-center mb-10">
+        <div className="w-full h-130 flex flex-col items-center mb-10">
           <div className="w-full max-w-3xl bg-white/80 backdrop-blur border border-stone-200 rounded-2xl p-3 shadow-sm flex gap-2">
             <input
               id="text-input"
