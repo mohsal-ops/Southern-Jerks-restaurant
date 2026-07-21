@@ -1,6 +1,8 @@
 // src/app/api/sendCateringEmail/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import db from "@/db/db";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,6 +41,20 @@ export async function POST(req: NextRequest) {
         <p><b>Notes:</b> ${Notes || "None"}</p>
       `,
     });
+
+    await db.cateringRequest.create({
+      data: {
+        name: Name,
+        email: Email,
+        phone: Phone,
+        eventType: EventType,
+        date: Date,
+        guests: Guests,
+        notes: Notes || null,
+      },
+    });
+    revalidatePath("/admin/catering");
+    revalidatePath("/admin");
 
     return NextResponse.json(
       { message: "Email sent successfully" },

@@ -1,29 +1,27 @@
 import { Toaster } from "@/components/ui/sonner";
-import { AdminNav, NavLink } from "./_components/nav";
+import { AdminNav } from "./_components/nav";
+import db from "@/db/db";
 
-export default function Adminlayout({
+export const dynamic = "force-dynamic";
+
+export default async function Adminlayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const dynamic = "force-dynamic";
+  // Surfaced as a badge on the Catering nav item so pending requests are
+  // visible from any admin page, not just the dashboard.
+  const newCateringCount = await db.cateringRequest.count({
+    where: { status: "new" },
+  });
+
   return (
-    <>
-      <AdminNav>
-        <NavLink href="/admin">Dashbord</NavLink>
-        <NavLink href="/admin/analytics">Analytics</NavLink>
-        <NavLink href="/admin/menuItems">Menu items</NavLink>
-        <NavLink href="/admin/menuCategories">Menu Categories</NavLink>
-        <NavLink href="/admin/orders">Sales</NavLink>
-        <NavLink href="/admin/Blog">Blog</NavLink>
-        <NavLink href="/admin/story">Our Story</NavLink>
-        {/* <NavLink href="/admin/gallery">Gallery</NavLink>
-        <NavLink href="/admin/reviews">Reviews</NavLink> */}
-        <NavLink href="/admin/places">Places</NavLink>
-        <NavLink href="/admin/team">Team</NavLink>
-      </AdminNav>
-      <div id="main-content" className="container pt-14 md:pt-0 overflow-auto">{children}</div>
+    <div className="min-h-screen bg-stone-50 md:flex">
+      <AdminNav newCateringCount={newCateringCount} />
+      <main id="main-content" className="min-w-0 flex-1 overflow-auto pt-14 md:pt-0">
+        {children}
+      </main>
       <Toaster expand richColors closeButton duration={6000} />
-    </>
+    </div>
   );
 }

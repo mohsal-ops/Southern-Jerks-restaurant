@@ -1,4 +1,10 @@
 // Restaurant operating hours by day of week (0 = Sunday ... 6 = Saturday), America/Chicago.
+// Used only for checkout time-slot filtering (a client component chain, see
+// pickupTimeandDay.tsx). The source of truth for hours shown elsewhere on the
+// site is now the BusinessHours table — see src/lib/getHours.ts and the
+// admin hours editor. If hours are changed in the admin, update this list to
+// match; threading DB hours down into the checkout dialog chain was out of
+// scope for that change.
 export const HOURS: { open: number | null; close: number | null }[] = [
   { open: 11, close: 16 }, // Sunday    11AM–4PM
   { open: null, close: null }, // Monday    Closed

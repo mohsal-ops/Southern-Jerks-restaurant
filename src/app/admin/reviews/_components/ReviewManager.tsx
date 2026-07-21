@@ -148,7 +148,7 @@ function ReviewRow({
 
   return (
     <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 flex gap-4 items-start">
-      <div className="flex flex-col gap-1 flex-shrink-0">
+      <div className="flex flex-col gap-1 shrink-0">
         <button
           type="button"
           onClick={onMoveUp}
@@ -176,7 +176,7 @@ function ReviewRow({
         <p className="font-semibold text-stone-800">{review.name}</p>
         <p className="text-sm text-stone-600 mt-1">{review.review}</p>
       </div>
-      <div className="flex gap-1 flex-shrink-0">
+      <div className="flex gap-1 shrink-0">
         <button
           type="button"
           onClick={() => setIsEditing(true)}

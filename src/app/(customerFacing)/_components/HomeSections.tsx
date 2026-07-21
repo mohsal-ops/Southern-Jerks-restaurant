@@ -28,7 +28,7 @@ import { SecondSectionFeatured } from "./FeaturedSection";
 import type { ItemWithSides } from "../page";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
-export function TopSection() {
+export function TopSection({ heroImage }: { heroImage: string }) {
   return (
     <div className="flex relative overflow-hidden h-svh sm:flex-row sm:w-[85%] flex-col bg-stone-100 sm:rounded-3xl sm:p-2">
       <div className="sm:relative absolute z-30 bottom-20 flex flex-col gap-6 items-start justify-end mt-10 md:mb-20 md:w-1/2 p-5 md:p-12">
@@ -55,13 +55,14 @@ export function TopSection() {
         </Link>
       </div>
 
-      <div className="md:w-1/2 w-full sm:rounded-3xl overflow-hidden h-full">
+      <div className="relative md:w-1/2 w-full sm:rounded-3xl overflow-hidden h-full">
         <Image
           priority
+          fill
           alt={`${SITE_CONFIG.name} bold Caribbean food`}
-          src={mainImg}
+          src={heroImage}
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover h-full"
+          className="object-cover"
         />
         <div className="sm:hidden absolute top-0 bg-auto bg-black/30 backdrop-blur-none z-20 w-full h-full"></div>
       </div>

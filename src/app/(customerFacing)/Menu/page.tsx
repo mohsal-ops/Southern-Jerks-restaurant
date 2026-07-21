@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { GetFeaturedProducts, GetGategories, GetPlaces, GetProducts } from './_actions/getDataNeeded'
 import MainPageMenu from './_components/mainPage'
+import { getBusinessHours } from '@/lib/getHours'
 
 export const metadata: Metadata = {
   title: "Menu | Jerk Chicken, Wings & Loaded Fries",
@@ -28,14 +29,15 @@ export const metadata: Metadata = {
 export default async function Menu() {
 
 
-   const [featuredProducts , places, categories, products] = await Promise.all([
+   const [featuredProducts , places, categories, products, hours] = await Promise.all([
     GetFeaturedProducts(),
     GetPlaces(),
     GetGategories(),
-    GetProducts()
+    GetProducts(),
+    getBusinessHours(),
    ])
   return (
-      <MainPageMenu featuredProducts={featuredProducts}  places={places} products={products} gategories={categories} />
+      <MainPageMenu featuredProducts={featuredProducts}  places={places} products={products} gategories={categories} hours={hours} />
   )
 }
 

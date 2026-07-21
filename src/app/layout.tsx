@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { CartProvider } from "./providers/CartProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+import { getBusinessHours } from "@/lib/getHours";
+import "./globals.css";
 
 export const metadata: Metadata = {
   // ── TITLE ────────────────────────────────────────────────────────────────
@@ -74,8 +76,8 @@ export const metadata: Metadata = {
   // },
 };
 
-function openingHoursSpecification() {
-  return SITE_CONFIG.hours
+function openingHoursSpecification(hours: { day: string; open: number | null; close: number | null }[]) {
+  return hours
     .filter((h) => h.open !== null && h.close !== null)
     .map((h) => ({
       "@type": "OpeningHoursSpecification",
@@ -85,11 +87,12 @@ function openingHoursSpecification() {
     }));
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const businessHours = await getBusinessHours();
   return (
     <html lang="en">
       <head>
@@ -121,7 +124,7 @@ export default function RootLayout({
                 latitude: SITE_CONFIG.lat,
                 longitude: SITE_CONFIG.lng,
               },
-              openingHoursSpecification: openingHoursSpecification(),
+              openingHoursSpecification: openingHoursSpecification(businessHours),
               sameAs: [
                 SITE_CONFIG.instagramUrl,
                 SITE_CONFIG.facebookUrl,

@@ -13,30 +13,16 @@ import {
   BookOpen,
   Zap,
   Images,
+  Mail,
 } from "lucide-react";
 import { ReactNode } from "react";
 import TrafficSourceChart from "./_components/charts/trafficSources";
-import { SITE_CONFIG } from "@/lib/siteConfig";
+import { getBusinessHours, getOpenStatus } from "@/lib/getHours";
 
 const isUnlocked = true; // 🔒 flip to true when ready
 
-function getHoustonStatus() {
-  const now = new Date(
-    new Date().toLocaleString("en-US", { timeZone: SITE_CONFIG.timezone })
-  );
-  const day = now.getDay();
-  const hour = now.getHours() + now.getMinutes() / 60;
-  const today = SITE_CONFIG.hours[day];
-  if (!today.open) return { isOpen: false, label: "Closed today", next: "Opens Tuesday 11:00 AM" };
-  if (hour >= today.open && hour < today.close!) {
-    const h = today.close!;
-    return { isOpen: true, label: "Open now", next: `Closes at ${h > 12 ? `${h - 12}:00 PM` : `${h}:00 AM`}` };
-  }
-  return { isOpen: false, label: "Currently closed", next: `Opens at ${today.open > 12 ? `${today.open - 12}:00 PM` : `${today.open}:00 AM`}` };
-}
-
 async function getDashboardData() {
-  const [totalItems, activeItems, inactiveItems, totalCategories, totalPosts, latestPost, totalLocations, featuredItems, totalGalleryImages, totalReviews] =
+  const [totalItems, activeItems, inactiveItems, totalCategories, totalPosts, latestPost, totalLocations, featuredItems, totalGalleryImages, totalReviews, newCateringRequests] =
     await Promise.all([
       db.item.count(),
       db.item.count({ where: { isAvailableForPurchase: true } }),
@@ -48,6 +34,7 @@ async function getDashboardData() {
       db.item.count({ where: { isAvailableForPurchase: true } }),
       db.galleryImage.count(),
       db.review.count(),
+      db.cateringRequest.count({ where: { status: "new" } }),
     ]);
 
   let seoScore = 0;
@@ -62,7 +49,7 @@ async function getDashboardData() {
     if (d <= 7) seoScore += 10;
     else if (d <= 30) seoScore += 5;
   }
-  return { totalItems, activeItems, inactiveItems, totalCategories, totalPosts, latestPost, totalLocations, featuredItems, totalGalleryImages, totalReviews, seoScore };
+  return { totalItems, activeItems, inactiveItems, totalCategories, totalPosts, latestPost, totalLocations, featuredItems, totalGalleryImages, totalReviews, newCateringRequests, seoScore };
 }
 
 function SectionTitle({ children }: { children: ReactNode }) {
@@ -84,20 +71,20 @@ function StatCard({ label, value, sub, icon, accent }: { label: string; value: s
 function SEOTip({ done, text, action, href }: { done: boolean; text: string; action?: string; href?: string }) {
   return (
     <div className="flex items-start gap-3 py-3 border-b border-stone-50 last:border-0">
-      <div className="mt-0.5 flex-shrink-0">
+      <div className="mt-0.5 shrink-0">
         {done ? <CheckCircle2 size={16} className="text-green-500" /> : <XCircle size={16} className="text-stone-300" />}
       </div>
       <p className={`flex-1 text-sm ${done ? "text-stone-600" : "text-stone-400"}`}>{text}</p>
       {!done && href && action && (
-        <Link href={href} className="text-xs font-semibold text-[#c85a1e] hover:underline flex-shrink-0">{action} →</Link>
+        <Link href={href} className="text-xs font-semibold text-[#c85a1e] hover:underline shrink-0">{action} →</Link>
       )}
     </div>
   );
 }
 
 export default async function Page() {
-  const data = await getDashboardData();
-  const houstonStatus = getHoustonStatus();
+  const [data, businessHours] = await Promise.all([getDashboardData(), getBusinessHours()]);
+  const houstonStatus = getOpenStatus(businessHours);
   const daysSincePost = data.latestPost
     ? Math.floor((Date.now() - new Date(data.latestPost.createdAt).getTime()) / 86400000)
     : null;
@@ -122,7 +109,7 @@ export default async function Page() {
             </p>
           </div>
           <div className="flex items-center gap-2 bg-white border border-stone-200 rounded-full px-4 py-2 shadow-sm">
-            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${houstonStatus.isOpen ? "bg-green-500 animate-pulse" : "bg-red-400"}`} />
+            <span className={`w-2 h-2 rounded-full shrink-0 ${houstonStatus.isOpen ? "bg-green-500 animate-pulse" : "bg-red-400"}`} />
             <span className="text-sm font-medium text-stone-700">{houstonStatus.label}</span>
             <span className="text-xs text-stone-400">{houstonStatus.next}</span>
           </div>
@@ -131,12 +118,23 @@ export default async function Page() {
         {/* ALERTS */}
         {data.inactiveItems > 0 && (
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
-            <AlertCircle size={18} className="text-amber-500 flex-shrink-0" />
+            <AlertCircle size={18} className="text-amber-500 shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-semibold text-amber-800">{data.inactiveItems} menu item{data.inactiveItems > 1 ? "s" : ""} currently unavailable</p>
               <p className="text-xs text-amber-600 mt-0.5">Customers can see these but can&apos;t order them</p>
             </div>
             <Link href="/admin/menuItems" className="text-xs font-semibold text-amber-700 flex items-center gap-1">Fix <ArrowRight size={12} /></Link>
+          </div>
+        )}
+
+        {data.newCateringRequests > 0 && (
+          <div className="bg-orange-50 border border-orange-200 rounded-2xl p-4 flex items-center gap-3">
+            <Mail size={18} className="text-orange-500 shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-orange-800">{data.newCateringRequests} new catering request{data.newCateringRequests > 1 ? "s" : ""}</p>
+              <p className="text-xs text-orange-600 mt-0.5">Waiting for a reply in the catering inbox</p>
+            </div>
+            <Link href="/admin/catering" className="text-xs font-semibold text-orange-700 flex items-center gap-1">Review <ArrowRight size={12} /></Link>
           </div>
         )}
 
@@ -159,7 +157,7 @@ export default async function Page() {
               <p className="font-semibold text-stone-800 text-sm">Manage Locations</p>
               <p className="text-xs text-stone-400 mt-1">{data.totalLocations} location{data.totalLocations !== 1 ? "s" : ""} on the map</p>
             </Link>
-            {/* <Link href="/admin/gallery" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#7c3aed] hover:shadow-md transition-all">
+            <Link href="/admin/gallery" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#7c3aed] hover:shadow-md transition-all">
               <div className="w-9 h-9 rounded-xl bg-purple-50 text-[#7c3aed] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><Images size={18} /></div>
               <p className="font-semibold text-stone-800 text-sm">Manage Gallery</p>
               <p className="text-xs text-stone-400 mt-1">{data.totalGalleryImages} photo{data.totalGalleryImages !== 1 ? "s" : ""} on the home page</p>
@@ -168,7 +166,7 @@ export default async function Page() {
               <div className="w-9 h-9 rounded-xl bg-amber-50 text-[#d97706] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><Star size={18} /></div>
               <p className="font-semibold text-stone-800 text-sm">Manage Reviews</p>
               <p className="text-xs text-stone-400 mt-1">{data.totalReviews} testimonial{data.totalReviews !== 1 ? "s" : ""} shown</p>
-            </Link> */}
+            </Link>
           </div>
         </div>
 
@@ -191,7 +189,7 @@ export default async function Page() {
                 <p className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-1">SEO Health</p>
                 <p className="font-semibold text-stone-800">How Google sees your site</p>
               </div>
-              <div className="relative w-16 h-16 flex-shrink-0">
+              <div className="relative w-16 h-16 shrink-0">
                 <svg viewBox="0 0 36 36" className="w-16 h-16 -rotate-90">
                   <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f3f4f6" strokeWidth="3" />
                   <circle cx="18" cy="18" r="15.9" fill="none" stroke={seoColor} strokeWidth="3" strokeDasharray={`${data.seoScore} 100`} strokeLinecap="round" />
@@ -209,7 +207,7 @@ export default async function Page() {
             <SEOTip done={data.featuredItems >= 3} text="3+ featured items on home page" action="Set featured" href="/admin/menuItems" />
             <SEOTip done={data.totalLocations >= 1} text="Location added (helps local SEO in Houston)" action="Add location" href="/admin/places" />
             <div className="mt-4 bg-stone-50 rounded-xl p-3 flex gap-2">
-              <Zap size={14} className="text-[#c85a1e] flex-shrink-0 mt-0.5" />
+              <Zap size={14} className="text-[#c85a1e] shrink-0 mt-0.5" />
               <p className="text-xs text-stone-500 leading-relaxed">
                 <span className="font-semibold text-stone-700">Pro tip:</span>{" "}
                 Posting 2–3 blog posts per week is the single biggest thing you can do to rank higher on Google.

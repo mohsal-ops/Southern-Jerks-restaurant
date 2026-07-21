@@ -2,19 +2,28 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import pic2 from "@/../public/general/generalPages/partners.jpg";
-import pic3 from "@/../public/general/generalPages/grandmother.jpg";
-import pic4 from "@/../public/general/generalPages/enjoy.jpg";
 import { Partner } from "generated/prisma";
 
-export default function StoryClient({ partners }: { partners: Partner[] }) {
+type StoryImages = {
+  story_hero: string;
+  story_origin: string;
+  story_closing: string;
+};
+
+export default function StoryClient({
+  partners,
+  images,
+}: {
+  partners: Partner[];
+  images: StoryImages;
+}) {
   return (
     <main className="flex flex-col items-center pt-24 overflow-hidden">
 
       {/* ── HERO ── */}
       <section className="relative w-full h-[90vh] flex items-end justify-start">
         <Image
-          src={pic2}
+          src={images.story_hero}
           alt="Southern Jerks story hero"
           fill
           priority
@@ -94,8 +103,10 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           className="h-full"
         >
           <Image
-            src={pic3}
+            src={images.story_origin}
             alt="The Southern Jerks experience"
+            width={800}
+            height={600}
             className="rounded-3xl object-cover w-full h-full aspect-4/3"
           />
         </motion.div>
@@ -254,8 +265,10 @@ export default function StoryClient({ partners }: { partners: Partner[] }) {
           className="relative rounded-3xl overflow-hidden"
         >
           <Image
-            src={pic4}
+            src={images.story_closing}
             alt="Southern Jerks dining experience"
+            width={1600}
+            height={700}
             className="w-full object-cover max-h-125"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />

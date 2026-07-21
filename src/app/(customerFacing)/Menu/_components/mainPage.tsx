@@ -11,13 +11,15 @@ import { CartItem, Item, Location, Types } from "generated/prisma";
 import { CarFrontIcon, StoreIcon } from "lucide-react";
 import { ItemWithSides } from "../../page";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { HOURS } from "@/lib/hours";
+
+type BusinessHourRow = { dayIndex: number; day: string; open: number | null; close: number | null };
 
 type PropsTypes = {
   places: Location[];
   gategories: Types[];
   products: ItemWithSides[];
   featuredProducts: ItemWithSides[];
+  hours: BusinessHourRow[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
 
@@ -42,6 +44,7 @@ export default function MainPageMenu({
   places,
   gategories,
   products,
+  hours,
 }: PropsTypes) {
   const [filtered, setfiltered] = useState<ItemWithSides[] | undefined>();
   // Starts unset so the (currently disabled) delivery/pickup toggle forces an explicit choice once re-enabled.
@@ -64,7 +67,7 @@ export default function MainPageMenu({
     );
     const day = now.getDay();
     const hour = now.getHours() + now.getMinutes() / 60;
-    const todayHours = HOURS[day];
+    const todayHours = hours.find((h) => h.dayIndex === day) ?? { open: null, close: null };
 
     if (!todayHours.open || !todayHours.close)
       return { isOpen: false, label: "Closed today" };

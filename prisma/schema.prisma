@@ -205,4 +205,37 @@ model Review {
   createdAt DateTime @default(now())
 }
 
+model BusinessHours {
+  id        String   @id @default(cuid())
+  day       String   // "Sunday", "Monday", etc.
+  dayIndex  Int      // 0=Sunday, 1=Monday, ..., 6=Saturday
+  open      Int?     // 24h hour number, null = closed
+  close     Int?     // 24h hour number, null = closed
+  updatedAt DateTime @updatedAt
+
+  @@unique([dayIndex])
+}
+
+model CateringRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  eventType String
+  date      String
+  guests    String
+  notes     String?
+  status    String   @default("new") // "new" | "contacted" | "confirmed" | "declined"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteImage {
+  id        String   @id @default(cuid())
+  key       String   @unique // "home_hero" | "story_hero" | "story_origin" | "story_closing"
+  url       String
+  label     String   // human-readable label for admin UI
+  updatedAt DateTime @updatedAt
+}
+
 

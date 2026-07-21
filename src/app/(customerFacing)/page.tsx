@@ -11,6 +11,8 @@ import FadeIn from "@/components/FadeIn";
 import { OurLocation } from "./_components/OurLocation";
 import HomeFeaturedSkeleton from "./_skeletons/HomeFeaturedSkeleton";
 import db from "@/db/db";
+import { getBusinessHours } from "@/lib/getHours";
+import { getSiteImage } from "@/lib/getSiteImages";
 import {
   TopSection,
   SecondSection,
@@ -148,12 +150,12 @@ async function FeaturedProductsSection() {
 }
 
 async function LocationSection() {
-  const placesRes = await GetPlaces();
+  const [placesRes, hours] = await Promise.all([GetPlaces(), getBusinessHours()]);
   const places = placesRes?.places ?? [];
   const lat = places[0]?.lat ?? 0;
   const lng = places[0]?.lng ?? 0;
 
-  return <OurLocation places={places} lat={lat} lng={lng} />;
+  return <OurLocation places={places} lat={lat} lng={lng} hours={hours} />;
 }
 
 async function GallerySection() {
@@ -166,14 +168,17 @@ async function ReviewsDataSection() {
   return <ReviewsSection reviews={reviews} />;
 }
 
-export default function Home() {
+export default async function Home() {
   // TopSection and the static sections below render immediately; the two
-  // DB-backed sections stream in behind Suspense so the hero image isn't
-  // blocked on the featured-products and places queries.
+  // heavier DB-backed sections stream in behind Suspense so they aren't
+  // blocked on the featured-products and places queries. The hero image is a
+  // single indexed lookup, cheap enough to await directly here.
+  const heroImage = await getSiteImage("home_hero");
+
   return (
     <div className="flex  pt-20 flex-col gap-5 items-center justify-center    [&>*:not(:first-child)]:m-2">
       <FaqSchema />
-      <TopSection />
+      <TopSection heroImage={heroImage} />
       <SectionDivider />
       <Suspense fallback={<HomeFeaturedSkeleton />}>
         <FeaturedProductsSection />

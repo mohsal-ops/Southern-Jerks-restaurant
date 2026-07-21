@@ -88,6 +88,21 @@ export type GalleryImage = $Result.DefaultSelection<Prisma.$GalleryImagePayload>
  * 
  */
 export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
+/**
+ * Model BusinessHours
+ * 
+ */
+export type BusinessHours = $Result.DefaultSelection<Prisma.$BusinessHoursPayload>
+/**
+ * Model CateringRequest
+ * 
+ */
+export type CateringRequest = $Result.DefaultSelection<Prisma.$CateringRequestPayload>
+/**
+ * Model SiteImage
+ * 
+ */
+export type SiteImage = $Result.DefaultSelection<Prisma.$SiteImagePayload>
 
 /**
  * Enums
@@ -389,6 +404,36 @@ export class PrismaClient<
     * ```
     */
   get review(): Prisma.ReviewDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.businessHours`: Exposes CRUD operations for the **BusinessHours** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BusinessHours
+    * const businessHours = await prisma.businessHours.findMany()
+    * ```
+    */
+  get businessHours(): Prisma.BusinessHoursDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cateringRequest`: Exposes CRUD operations for the **CateringRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CateringRequests
+    * const cateringRequests = await prisma.cateringRequest.findMany()
+    * ```
+    */
+  get cateringRequest(): Prisma.CateringRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.siteImage`: Exposes CRUD operations for the **SiteImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SiteImages
+    * const siteImages = await prisma.siteImage.findMany()
+    * ```
+    */
+  get siteImage(): Prisma.SiteImageDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -837,7 +882,10 @@ export namespace Prisma {
     SideOption: 'SideOption',
     CartItemSide: 'CartItemSide',
     GalleryImage: 'GalleryImage',
-    Review: 'Review'
+    Review: 'Review',
+    BusinessHours: 'BusinessHours',
+    CateringRequest: 'CateringRequest',
+    SiteImage: 'SiteImage'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -853,7 +901,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "admin" | "item" | "user" | "types" | "location" | "post" | "partner" | "order" | "cart" | "cartItem" | "sideGroup" | "sideOption" | "cartItemSide" | "galleryImage" | "review"
+      modelProps: "admin" | "item" | "user" | "types" | "location" | "post" | "partner" | "order" | "cart" | "cartItem" | "sideGroup" | "sideOption" | "cartItemSide" | "galleryImage" | "review" | "businessHours" | "cateringRequest" | "siteImage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1967,6 +2015,228 @@ export namespace Prisma {
           }
         }
       }
+      BusinessHours: {
+        payload: Prisma.$BusinessHoursPayload<ExtArgs>
+        fields: Prisma.BusinessHoursFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BusinessHoursFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BusinessHoursFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>
+          }
+          findFirst: {
+            args: Prisma.BusinessHoursFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BusinessHoursFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>
+          }
+          findMany: {
+            args: Prisma.BusinessHoursFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>[]
+          }
+          create: {
+            args: Prisma.BusinessHoursCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>
+          }
+          createMany: {
+            args: Prisma.BusinessHoursCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BusinessHoursCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>[]
+          }
+          delete: {
+            args: Prisma.BusinessHoursDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>
+          }
+          update: {
+            args: Prisma.BusinessHoursUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>
+          }
+          deleteMany: {
+            args: Prisma.BusinessHoursDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BusinessHoursUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BusinessHoursUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>[]
+          }
+          upsert: {
+            args: Prisma.BusinessHoursUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessHoursPayload>
+          }
+          aggregate: {
+            args: Prisma.BusinessHoursAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBusinessHours>
+          }
+          groupBy: {
+            args: Prisma.BusinessHoursGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BusinessHoursGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BusinessHoursCountArgs<ExtArgs>
+            result: $Utils.Optional<BusinessHoursCountAggregateOutputType> | number
+          }
+        }
+      }
+      CateringRequest: {
+        payload: Prisma.$CateringRequestPayload<ExtArgs>
+        fields: Prisma.CateringRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CateringRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CateringRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.CateringRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CateringRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>
+          }
+          findMany: {
+            args: Prisma.CateringRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>[]
+          }
+          create: {
+            args: Prisma.CateringRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>
+          }
+          createMany: {
+            args: Prisma.CateringRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CateringRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.CateringRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>
+          }
+          update: {
+            args: Prisma.CateringRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.CateringRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CateringRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CateringRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.CateringRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CateringRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.CateringRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCateringRequest>
+          }
+          groupBy: {
+            args: Prisma.CateringRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CateringRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CateringRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<CateringRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      SiteImage: {
+        payload: Prisma.$SiteImagePayload<ExtArgs>
+        fields: Prisma.SiteImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SiteImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SiteImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>
+          }
+          findFirst: {
+            args: Prisma.SiteImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SiteImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>
+          }
+          findMany: {
+            args: Prisma.SiteImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>[]
+          }
+          create: {
+            args: Prisma.SiteImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>
+          }
+          createMany: {
+            args: Prisma.SiteImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SiteImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>[]
+          }
+          delete: {
+            args: Prisma.SiteImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>
+          }
+          update: {
+            args: Prisma.SiteImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.SiteImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SiteImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SiteImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.SiteImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteImagePayload>
+          }
+          aggregate: {
+            args: Prisma.SiteImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSiteImage>
+          }
+          groupBy: {
+            args: Prisma.SiteImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SiteImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SiteImageCountArgs<ExtArgs>
+            result: $Utils.Optional<SiteImageCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2090,6 +2360,9 @@ export namespace Prisma {
     cartItemSide?: CartItemSideOmit
     galleryImage?: GalleryImageOmit
     review?: ReviewOmit
+    businessHours?: BusinessHoursOmit
+    cateringRequest?: CateringRequestOmit
+    siteImage?: SiteImageOmit
   }
 
   /* Types for Logging */
@@ -18830,6 +19103,3124 @@ export namespace Prisma {
 
 
   /**
+   * Model BusinessHours
+   */
+
+  export type AggregateBusinessHours = {
+    _count: BusinessHoursCountAggregateOutputType | null
+    _avg: BusinessHoursAvgAggregateOutputType | null
+    _sum: BusinessHoursSumAggregateOutputType | null
+    _min: BusinessHoursMinAggregateOutputType | null
+    _max: BusinessHoursMaxAggregateOutputType | null
+  }
+
+  export type BusinessHoursAvgAggregateOutputType = {
+    dayIndex: number | null
+    open: number | null
+    close: number | null
+  }
+
+  export type BusinessHoursSumAggregateOutputType = {
+    dayIndex: number | null
+    open: number | null
+    close: number | null
+  }
+
+  export type BusinessHoursMinAggregateOutputType = {
+    id: string | null
+    day: string | null
+    dayIndex: number | null
+    open: number | null
+    close: number | null
+    updatedAt: Date | null
+  }
+
+  export type BusinessHoursMaxAggregateOutputType = {
+    id: string | null
+    day: string | null
+    dayIndex: number | null
+    open: number | null
+    close: number | null
+    updatedAt: Date | null
+  }
+
+  export type BusinessHoursCountAggregateOutputType = {
+    id: number
+    day: number
+    dayIndex: number
+    open: number
+    close: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BusinessHoursAvgAggregateInputType = {
+    dayIndex?: true
+    open?: true
+    close?: true
+  }
+
+  export type BusinessHoursSumAggregateInputType = {
+    dayIndex?: true
+    open?: true
+    close?: true
+  }
+
+  export type BusinessHoursMinAggregateInputType = {
+    id?: true
+    day?: true
+    dayIndex?: true
+    open?: true
+    close?: true
+    updatedAt?: true
+  }
+
+  export type BusinessHoursMaxAggregateInputType = {
+    id?: true
+    day?: true
+    dayIndex?: true
+    open?: true
+    close?: true
+    updatedAt?: true
+  }
+
+  export type BusinessHoursCountAggregateInputType = {
+    id?: true
+    day?: true
+    dayIndex?: true
+    open?: true
+    close?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BusinessHoursAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BusinessHours to aggregate.
+     */
+    where?: BusinessHoursWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHours to fetch.
+     */
+    orderBy?: BusinessHoursOrderByWithRelationInput | BusinessHoursOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BusinessHoursWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHours.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BusinessHours
+    **/
+    _count?: true | BusinessHoursCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BusinessHoursAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BusinessHoursSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BusinessHoursMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BusinessHoursMaxAggregateInputType
+  }
+
+  export type GetBusinessHoursAggregateType<T extends BusinessHoursAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusinessHours]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBusinessHours[P]>
+      : GetScalarType<T[P], AggregateBusinessHours[P]>
+  }
+
+
+
+
+  export type BusinessHoursGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BusinessHoursWhereInput
+    orderBy?: BusinessHoursOrderByWithAggregationInput | BusinessHoursOrderByWithAggregationInput[]
+    by: BusinessHoursScalarFieldEnum[] | BusinessHoursScalarFieldEnum
+    having?: BusinessHoursScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BusinessHoursCountAggregateInputType | true
+    _avg?: BusinessHoursAvgAggregateInputType
+    _sum?: BusinessHoursSumAggregateInputType
+    _min?: BusinessHoursMinAggregateInputType
+    _max?: BusinessHoursMaxAggregateInputType
+  }
+
+  export type BusinessHoursGroupByOutputType = {
+    id: string
+    day: string
+    dayIndex: number
+    open: number | null
+    close: number | null
+    updatedAt: Date
+    _count: BusinessHoursCountAggregateOutputType | null
+    _avg: BusinessHoursAvgAggregateOutputType | null
+    _sum: BusinessHoursSumAggregateOutputType | null
+    _min: BusinessHoursMinAggregateOutputType | null
+    _max: BusinessHoursMaxAggregateOutputType | null
+  }
+
+  type GetBusinessHoursGroupByPayload<T extends BusinessHoursGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BusinessHoursGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BusinessHoursGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BusinessHoursGroupByOutputType[P]>
+            : GetScalarType<T[P], BusinessHoursGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BusinessHoursSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    day?: boolean
+    dayIndex?: boolean
+    open?: boolean
+    close?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["businessHours"]>
+
+  export type BusinessHoursSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    day?: boolean
+    dayIndex?: boolean
+    open?: boolean
+    close?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["businessHours"]>
+
+  export type BusinessHoursSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    day?: boolean
+    dayIndex?: boolean
+    open?: boolean
+    close?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["businessHours"]>
+
+  export type BusinessHoursSelectScalar = {
+    id?: boolean
+    day?: boolean
+    dayIndex?: boolean
+    open?: boolean
+    close?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BusinessHoursOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "day" | "dayIndex" | "open" | "close" | "updatedAt", ExtArgs["result"]["businessHours"]>
+
+  export type $BusinessHoursPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BusinessHours"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      day: string
+      dayIndex: number
+      open: number | null
+      close: number | null
+      updatedAt: Date
+    }, ExtArgs["result"]["businessHours"]>
+    composites: {}
+  }
+
+  type BusinessHoursGetPayload<S extends boolean | null | undefined | BusinessHoursDefaultArgs> = $Result.GetResult<Prisma.$BusinessHoursPayload, S>
+
+  type BusinessHoursCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BusinessHoursFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BusinessHoursCountAggregateInputType | true
+    }
+
+  export interface BusinessHoursDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BusinessHours'], meta: { name: 'BusinessHours' } }
+    /**
+     * Find zero or one BusinessHours that matches the filter.
+     * @param {BusinessHoursFindUniqueArgs} args - Arguments to find a BusinessHours
+     * @example
+     * // Get one BusinessHours
+     * const businessHours = await prisma.businessHours.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BusinessHoursFindUniqueArgs>(args: SelectSubset<T, BusinessHoursFindUniqueArgs<ExtArgs>>): Prisma__BusinessHoursClient<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BusinessHours that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BusinessHoursFindUniqueOrThrowArgs} args - Arguments to find a BusinessHours
+     * @example
+     * // Get one BusinessHours
+     * const businessHours = await prisma.businessHours.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BusinessHoursFindUniqueOrThrowArgs>(args: SelectSubset<T, BusinessHoursFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BusinessHoursClient<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BusinessHours that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursFindFirstArgs} args - Arguments to find a BusinessHours
+     * @example
+     * // Get one BusinessHours
+     * const businessHours = await prisma.businessHours.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BusinessHoursFindFirstArgs>(args?: SelectSubset<T, BusinessHoursFindFirstArgs<ExtArgs>>): Prisma__BusinessHoursClient<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BusinessHours that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursFindFirstOrThrowArgs} args - Arguments to find a BusinessHours
+     * @example
+     * // Get one BusinessHours
+     * const businessHours = await prisma.businessHours.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BusinessHoursFindFirstOrThrowArgs>(args?: SelectSubset<T, BusinessHoursFindFirstOrThrowArgs<ExtArgs>>): Prisma__BusinessHoursClient<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BusinessHours that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BusinessHours
+     * const businessHours = await prisma.businessHours.findMany()
+     * 
+     * // Get first 10 BusinessHours
+     * const businessHours = await prisma.businessHours.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const businessHoursWithIdOnly = await prisma.businessHours.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BusinessHoursFindManyArgs>(args?: SelectSubset<T, BusinessHoursFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BusinessHours.
+     * @param {BusinessHoursCreateArgs} args - Arguments to create a BusinessHours.
+     * @example
+     * // Create one BusinessHours
+     * const BusinessHours = await prisma.businessHours.create({
+     *   data: {
+     *     // ... data to create a BusinessHours
+     *   }
+     * })
+     * 
+     */
+    create<T extends BusinessHoursCreateArgs>(args: SelectSubset<T, BusinessHoursCreateArgs<ExtArgs>>): Prisma__BusinessHoursClient<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BusinessHours.
+     * @param {BusinessHoursCreateManyArgs} args - Arguments to create many BusinessHours.
+     * @example
+     * // Create many BusinessHours
+     * const businessHours = await prisma.businessHours.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BusinessHoursCreateManyArgs>(args?: SelectSubset<T, BusinessHoursCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BusinessHours and returns the data saved in the database.
+     * @param {BusinessHoursCreateManyAndReturnArgs} args - Arguments to create many BusinessHours.
+     * @example
+     * // Create many BusinessHours
+     * const businessHours = await prisma.businessHours.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BusinessHours and only return the `id`
+     * const businessHoursWithIdOnly = await prisma.businessHours.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BusinessHoursCreateManyAndReturnArgs>(args?: SelectSubset<T, BusinessHoursCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BusinessHours.
+     * @param {BusinessHoursDeleteArgs} args - Arguments to delete one BusinessHours.
+     * @example
+     * // Delete one BusinessHours
+     * const BusinessHours = await prisma.businessHours.delete({
+     *   where: {
+     *     // ... filter to delete one BusinessHours
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BusinessHoursDeleteArgs>(args: SelectSubset<T, BusinessHoursDeleteArgs<ExtArgs>>): Prisma__BusinessHoursClient<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BusinessHours.
+     * @param {BusinessHoursUpdateArgs} args - Arguments to update one BusinessHours.
+     * @example
+     * // Update one BusinessHours
+     * const businessHours = await prisma.businessHours.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BusinessHoursUpdateArgs>(args: SelectSubset<T, BusinessHoursUpdateArgs<ExtArgs>>): Prisma__BusinessHoursClient<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BusinessHours.
+     * @param {BusinessHoursDeleteManyArgs} args - Arguments to filter BusinessHours to delete.
+     * @example
+     * // Delete a few BusinessHours
+     * const { count } = await prisma.businessHours.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BusinessHoursDeleteManyArgs>(args?: SelectSubset<T, BusinessHoursDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BusinessHours.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BusinessHours
+     * const businessHours = await prisma.businessHours.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BusinessHoursUpdateManyArgs>(args: SelectSubset<T, BusinessHoursUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BusinessHours and returns the data updated in the database.
+     * @param {BusinessHoursUpdateManyAndReturnArgs} args - Arguments to update many BusinessHours.
+     * @example
+     * // Update many BusinessHours
+     * const businessHours = await prisma.businessHours.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BusinessHours and only return the `id`
+     * const businessHoursWithIdOnly = await prisma.businessHours.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BusinessHoursUpdateManyAndReturnArgs>(args: SelectSubset<T, BusinessHoursUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BusinessHours.
+     * @param {BusinessHoursUpsertArgs} args - Arguments to update or create a BusinessHours.
+     * @example
+     * // Update or create a BusinessHours
+     * const businessHours = await prisma.businessHours.upsert({
+     *   create: {
+     *     // ... data to create a BusinessHours
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BusinessHours we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BusinessHoursUpsertArgs>(args: SelectSubset<T, BusinessHoursUpsertArgs<ExtArgs>>): Prisma__BusinessHoursClient<$Result.GetResult<Prisma.$BusinessHoursPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BusinessHours.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursCountArgs} args - Arguments to filter BusinessHours to count.
+     * @example
+     * // Count the number of BusinessHours
+     * const count = await prisma.businessHours.count({
+     *   where: {
+     *     // ... the filter for the BusinessHours we want to count
+     *   }
+     * })
+    **/
+    count<T extends BusinessHoursCountArgs>(
+      args?: Subset<T, BusinessHoursCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BusinessHoursCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BusinessHours.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BusinessHoursAggregateArgs>(args: Subset<T, BusinessHoursAggregateArgs>): Prisma.PrismaPromise<GetBusinessHoursAggregateType<T>>
+
+    /**
+     * Group by BusinessHours.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessHoursGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BusinessHoursGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BusinessHoursGroupByArgs['orderBy'] }
+        : { orderBy?: BusinessHoursGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BusinessHoursGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessHoursGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BusinessHours model
+   */
+  readonly fields: BusinessHoursFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BusinessHours.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BusinessHoursClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BusinessHours model
+   */
+  interface BusinessHoursFieldRefs {
+    readonly id: FieldRef<"BusinessHours", 'String'>
+    readonly day: FieldRef<"BusinessHours", 'String'>
+    readonly dayIndex: FieldRef<"BusinessHours", 'Int'>
+    readonly open: FieldRef<"BusinessHours", 'Int'>
+    readonly close: FieldRef<"BusinessHours", 'Int'>
+    readonly updatedAt: FieldRef<"BusinessHours", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BusinessHours findUnique
+   */
+  export type BusinessHoursFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * Filter, which BusinessHours to fetch.
+     */
+    where: BusinessHoursWhereUniqueInput
+  }
+
+  /**
+   * BusinessHours findUniqueOrThrow
+   */
+  export type BusinessHoursFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * Filter, which BusinessHours to fetch.
+     */
+    where: BusinessHoursWhereUniqueInput
+  }
+
+  /**
+   * BusinessHours findFirst
+   */
+  export type BusinessHoursFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * Filter, which BusinessHours to fetch.
+     */
+    where?: BusinessHoursWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHours to fetch.
+     */
+    orderBy?: BusinessHoursOrderByWithRelationInput | BusinessHoursOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessHours.
+     */
+    cursor?: BusinessHoursWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHours.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessHours.
+     */
+    distinct?: BusinessHoursScalarFieldEnum | BusinessHoursScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHours findFirstOrThrow
+   */
+  export type BusinessHoursFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * Filter, which BusinessHours to fetch.
+     */
+    where?: BusinessHoursWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHours to fetch.
+     */
+    orderBy?: BusinessHoursOrderByWithRelationInput | BusinessHoursOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessHours.
+     */
+    cursor?: BusinessHoursWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHours.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessHours.
+     */
+    distinct?: BusinessHoursScalarFieldEnum | BusinessHoursScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHours findMany
+   */
+  export type BusinessHoursFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * Filter, which BusinessHours to fetch.
+     */
+    where?: BusinessHoursWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessHours to fetch.
+     */
+    orderBy?: BusinessHoursOrderByWithRelationInput | BusinessHoursOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BusinessHours.
+     */
+    cursor?: BusinessHoursWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessHours from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessHours.
+     */
+    skip?: number
+    distinct?: BusinessHoursScalarFieldEnum | BusinessHoursScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessHours create
+   */
+  export type BusinessHoursCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * The data needed to create a BusinessHours.
+     */
+    data: XOR<BusinessHoursCreateInput, BusinessHoursUncheckedCreateInput>
+  }
+
+  /**
+   * BusinessHours createMany
+   */
+  export type BusinessHoursCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BusinessHours.
+     */
+    data: BusinessHoursCreateManyInput | BusinessHoursCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BusinessHours createManyAndReturn
+   */
+  export type BusinessHoursCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * The data used to create many BusinessHours.
+     */
+    data: BusinessHoursCreateManyInput | BusinessHoursCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BusinessHours update
+   */
+  export type BusinessHoursUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * The data needed to update a BusinessHours.
+     */
+    data: XOR<BusinessHoursUpdateInput, BusinessHoursUncheckedUpdateInput>
+    /**
+     * Choose, which BusinessHours to update.
+     */
+    where: BusinessHoursWhereUniqueInput
+  }
+
+  /**
+   * BusinessHours updateMany
+   */
+  export type BusinessHoursUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BusinessHours.
+     */
+    data: XOR<BusinessHoursUpdateManyMutationInput, BusinessHoursUncheckedUpdateManyInput>
+    /**
+     * Filter which BusinessHours to update
+     */
+    where?: BusinessHoursWhereInput
+    /**
+     * Limit how many BusinessHours to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BusinessHours updateManyAndReturn
+   */
+  export type BusinessHoursUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * The data used to update BusinessHours.
+     */
+    data: XOR<BusinessHoursUpdateManyMutationInput, BusinessHoursUncheckedUpdateManyInput>
+    /**
+     * Filter which BusinessHours to update
+     */
+    where?: BusinessHoursWhereInput
+    /**
+     * Limit how many BusinessHours to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BusinessHours upsert
+   */
+  export type BusinessHoursUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * The filter to search for the BusinessHours to update in case it exists.
+     */
+    where: BusinessHoursWhereUniqueInput
+    /**
+     * In case the BusinessHours found by the `where` argument doesn't exist, create a new BusinessHours with this data.
+     */
+    create: XOR<BusinessHoursCreateInput, BusinessHoursUncheckedCreateInput>
+    /**
+     * In case the BusinessHours was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BusinessHoursUpdateInput, BusinessHoursUncheckedUpdateInput>
+  }
+
+  /**
+   * BusinessHours delete
+   */
+  export type BusinessHoursDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+    /**
+     * Filter which BusinessHours to delete.
+     */
+    where: BusinessHoursWhereUniqueInput
+  }
+
+  /**
+   * BusinessHours deleteMany
+   */
+  export type BusinessHoursDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BusinessHours to delete
+     */
+    where?: BusinessHoursWhereInput
+    /**
+     * Limit how many BusinessHours to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BusinessHours without action
+   */
+  export type BusinessHoursDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessHours
+     */
+    select?: BusinessHoursSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessHours
+     */
+    omit?: BusinessHoursOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CateringRequest
+   */
+
+  export type AggregateCateringRequest = {
+    _count: CateringRequestCountAggregateOutputType | null
+    _min: CateringRequestMinAggregateOutputType | null
+    _max: CateringRequestMaxAggregateOutputType | null
+  }
+
+  export type CateringRequestMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    phone: string | null
+    eventType: string | null
+    date: string | null
+    guests: string | null
+    notes: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CateringRequestMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    email: string | null
+    phone: string | null
+    eventType: string | null
+    date: string | null
+    guests: string | null
+    notes: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CateringRequestCountAggregateOutputType = {
+    id: number
+    name: number
+    email: number
+    phone: number
+    eventType: number
+    date: number
+    guests: number
+    notes: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CateringRequestMinAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    phone?: true
+    eventType?: true
+    date?: true
+    guests?: true
+    notes?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CateringRequestMaxAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    phone?: true
+    eventType?: true
+    date?: true
+    guests?: true
+    notes?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CateringRequestCountAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    phone?: true
+    eventType?: true
+    date?: true
+    guests?: true
+    notes?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CateringRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CateringRequest to aggregate.
+     */
+    where?: CateringRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CateringRequests to fetch.
+     */
+    orderBy?: CateringRequestOrderByWithRelationInput | CateringRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CateringRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CateringRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CateringRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CateringRequests
+    **/
+    _count?: true | CateringRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CateringRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CateringRequestMaxAggregateInputType
+  }
+
+  export type GetCateringRequestAggregateType<T extends CateringRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateCateringRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCateringRequest[P]>
+      : GetScalarType<T[P], AggregateCateringRequest[P]>
+  }
+
+
+
+
+  export type CateringRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CateringRequestWhereInput
+    orderBy?: CateringRequestOrderByWithAggregationInput | CateringRequestOrderByWithAggregationInput[]
+    by: CateringRequestScalarFieldEnum[] | CateringRequestScalarFieldEnum
+    having?: CateringRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CateringRequestCountAggregateInputType | true
+    _min?: CateringRequestMinAggregateInputType
+    _max?: CateringRequestMaxAggregateInputType
+  }
+
+  export type CateringRequestGroupByOutputType = {
+    id: string
+    name: string
+    email: string
+    phone: string
+    eventType: string
+    date: string
+    guests: string
+    notes: string | null
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CateringRequestCountAggregateOutputType | null
+    _min: CateringRequestMinAggregateOutputType | null
+    _max: CateringRequestMaxAggregateOutputType | null
+  }
+
+  type GetCateringRequestGroupByPayload<T extends CateringRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CateringRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CateringRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CateringRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], CateringRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CateringRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    phone?: boolean
+    eventType?: boolean
+    date?: boolean
+    guests?: boolean
+    notes?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["cateringRequest"]>
+
+  export type CateringRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    phone?: boolean
+    eventType?: boolean
+    date?: boolean
+    guests?: boolean
+    notes?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["cateringRequest"]>
+
+  export type CateringRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    phone?: boolean
+    eventType?: boolean
+    date?: boolean
+    guests?: boolean
+    notes?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["cateringRequest"]>
+
+  export type CateringRequestSelectScalar = {
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    phone?: boolean
+    eventType?: boolean
+    date?: boolean
+    guests?: boolean
+    notes?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CateringRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "eventType" | "date" | "guests" | "notes" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["cateringRequest"]>
+
+  export type $CateringRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CateringRequest"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      email: string
+      phone: string
+      eventType: string
+      date: string
+      guests: string
+      notes: string | null
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["cateringRequest"]>
+    composites: {}
+  }
+
+  type CateringRequestGetPayload<S extends boolean | null | undefined | CateringRequestDefaultArgs> = $Result.GetResult<Prisma.$CateringRequestPayload, S>
+
+  type CateringRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CateringRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CateringRequestCountAggregateInputType | true
+    }
+
+  export interface CateringRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CateringRequest'], meta: { name: 'CateringRequest' } }
+    /**
+     * Find zero or one CateringRequest that matches the filter.
+     * @param {CateringRequestFindUniqueArgs} args - Arguments to find a CateringRequest
+     * @example
+     * // Get one CateringRequest
+     * const cateringRequest = await prisma.cateringRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CateringRequestFindUniqueArgs>(args: SelectSubset<T, CateringRequestFindUniqueArgs<ExtArgs>>): Prisma__CateringRequestClient<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CateringRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CateringRequestFindUniqueOrThrowArgs} args - Arguments to find a CateringRequest
+     * @example
+     * // Get one CateringRequest
+     * const cateringRequest = await prisma.cateringRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CateringRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, CateringRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CateringRequestClient<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CateringRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CateringRequestFindFirstArgs} args - Arguments to find a CateringRequest
+     * @example
+     * // Get one CateringRequest
+     * const cateringRequest = await prisma.cateringRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CateringRequestFindFirstArgs>(args?: SelectSubset<T, CateringRequestFindFirstArgs<ExtArgs>>): Prisma__CateringRequestClient<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CateringRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CateringRequestFindFirstOrThrowArgs} args - Arguments to find a CateringRequest
+     * @example
+     * // Get one CateringRequest
+     * const cateringRequest = await prisma.cateringRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CateringRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, CateringRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__CateringRequestClient<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CateringRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CateringRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CateringRequests
+     * const cateringRequests = await prisma.cateringRequest.findMany()
+     * 
+     * // Get first 10 CateringRequests
+     * const cateringRequests = await prisma.cateringRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cateringRequestWithIdOnly = await prisma.cateringRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CateringRequestFindManyArgs>(args?: SelectSubset<T, CateringRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CateringRequest.
+     * @param {CateringRequestCreateArgs} args - Arguments to create a CateringRequest.
+     * @example
+     * // Create one CateringRequest
+     * const CateringRequest = await prisma.cateringRequest.create({
+     *   data: {
+     *     // ... data to create a CateringRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends CateringRequestCreateArgs>(args: SelectSubset<T, CateringRequestCreateArgs<ExtArgs>>): Prisma__CateringRequestClient<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CateringRequests.
+     * @param {CateringRequestCreateManyArgs} args - Arguments to create many CateringRequests.
+     * @example
+     * // Create many CateringRequests
+     * const cateringRequest = await prisma.cateringRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CateringRequestCreateManyArgs>(args?: SelectSubset<T, CateringRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CateringRequests and returns the data saved in the database.
+     * @param {CateringRequestCreateManyAndReturnArgs} args - Arguments to create many CateringRequests.
+     * @example
+     * // Create many CateringRequests
+     * const cateringRequest = await prisma.cateringRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CateringRequests and only return the `id`
+     * const cateringRequestWithIdOnly = await prisma.cateringRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CateringRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, CateringRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CateringRequest.
+     * @param {CateringRequestDeleteArgs} args - Arguments to delete one CateringRequest.
+     * @example
+     * // Delete one CateringRequest
+     * const CateringRequest = await prisma.cateringRequest.delete({
+     *   where: {
+     *     // ... filter to delete one CateringRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CateringRequestDeleteArgs>(args: SelectSubset<T, CateringRequestDeleteArgs<ExtArgs>>): Prisma__CateringRequestClient<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CateringRequest.
+     * @param {CateringRequestUpdateArgs} args - Arguments to update one CateringRequest.
+     * @example
+     * // Update one CateringRequest
+     * const cateringRequest = await prisma.cateringRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CateringRequestUpdateArgs>(args: SelectSubset<T, CateringRequestUpdateArgs<ExtArgs>>): Prisma__CateringRequestClient<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CateringRequests.
+     * @param {CateringRequestDeleteManyArgs} args - Arguments to filter CateringRequests to delete.
+     * @example
+     * // Delete a few CateringRequests
+     * const { count } = await prisma.cateringRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CateringRequestDeleteManyArgs>(args?: SelectSubset<T, CateringRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CateringRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CateringRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CateringRequests
+     * const cateringRequest = await prisma.cateringRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CateringRequestUpdateManyArgs>(args: SelectSubset<T, CateringRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CateringRequests and returns the data updated in the database.
+     * @param {CateringRequestUpdateManyAndReturnArgs} args - Arguments to update many CateringRequests.
+     * @example
+     * // Update many CateringRequests
+     * const cateringRequest = await prisma.cateringRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CateringRequests and only return the `id`
+     * const cateringRequestWithIdOnly = await prisma.cateringRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CateringRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, CateringRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CateringRequest.
+     * @param {CateringRequestUpsertArgs} args - Arguments to update or create a CateringRequest.
+     * @example
+     * // Update or create a CateringRequest
+     * const cateringRequest = await prisma.cateringRequest.upsert({
+     *   create: {
+     *     // ... data to create a CateringRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CateringRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CateringRequestUpsertArgs>(args: SelectSubset<T, CateringRequestUpsertArgs<ExtArgs>>): Prisma__CateringRequestClient<$Result.GetResult<Prisma.$CateringRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CateringRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CateringRequestCountArgs} args - Arguments to filter CateringRequests to count.
+     * @example
+     * // Count the number of CateringRequests
+     * const count = await prisma.cateringRequest.count({
+     *   where: {
+     *     // ... the filter for the CateringRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends CateringRequestCountArgs>(
+      args?: Subset<T, CateringRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CateringRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CateringRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CateringRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CateringRequestAggregateArgs>(args: Subset<T, CateringRequestAggregateArgs>): Prisma.PrismaPromise<GetCateringRequestAggregateType<T>>
+
+    /**
+     * Group by CateringRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CateringRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CateringRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CateringRequestGroupByArgs['orderBy'] }
+        : { orderBy?: CateringRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CateringRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCateringRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CateringRequest model
+   */
+  readonly fields: CateringRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CateringRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CateringRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CateringRequest model
+   */
+  interface CateringRequestFieldRefs {
+    readonly id: FieldRef<"CateringRequest", 'String'>
+    readonly name: FieldRef<"CateringRequest", 'String'>
+    readonly email: FieldRef<"CateringRequest", 'String'>
+    readonly phone: FieldRef<"CateringRequest", 'String'>
+    readonly eventType: FieldRef<"CateringRequest", 'String'>
+    readonly date: FieldRef<"CateringRequest", 'String'>
+    readonly guests: FieldRef<"CateringRequest", 'String'>
+    readonly notes: FieldRef<"CateringRequest", 'String'>
+    readonly status: FieldRef<"CateringRequest", 'String'>
+    readonly createdAt: FieldRef<"CateringRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"CateringRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CateringRequest findUnique
+   */
+  export type CateringRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which CateringRequest to fetch.
+     */
+    where: CateringRequestWhereUniqueInput
+  }
+
+  /**
+   * CateringRequest findUniqueOrThrow
+   */
+  export type CateringRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which CateringRequest to fetch.
+     */
+    where: CateringRequestWhereUniqueInput
+  }
+
+  /**
+   * CateringRequest findFirst
+   */
+  export type CateringRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which CateringRequest to fetch.
+     */
+    where?: CateringRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CateringRequests to fetch.
+     */
+    orderBy?: CateringRequestOrderByWithRelationInput | CateringRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CateringRequests.
+     */
+    cursor?: CateringRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CateringRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CateringRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CateringRequests.
+     */
+    distinct?: CateringRequestScalarFieldEnum | CateringRequestScalarFieldEnum[]
+  }
+
+  /**
+   * CateringRequest findFirstOrThrow
+   */
+  export type CateringRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which CateringRequest to fetch.
+     */
+    where?: CateringRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CateringRequests to fetch.
+     */
+    orderBy?: CateringRequestOrderByWithRelationInput | CateringRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CateringRequests.
+     */
+    cursor?: CateringRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CateringRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CateringRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CateringRequests.
+     */
+    distinct?: CateringRequestScalarFieldEnum | CateringRequestScalarFieldEnum[]
+  }
+
+  /**
+   * CateringRequest findMany
+   */
+  export type CateringRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which CateringRequests to fetch.
+     */
+    where?: CateringRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CateringRequests to fetch.
+     */
+    orderBy?: CateringRequestOrderByWithRelationInput | CateringRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CateringRequests.
+     */
+    cursor?: CateringRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CateringRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CateringRequests.
+     */
+    skip?: number
+    distinct?: CateringRequestScalarFieldEnum | CateringRequestScalarFieldEnum[]
+  }
+
+  /**
+   * CateringRequest create
+   */
+  export type CateringRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * The data needed to create a CateringRequest.
+     */
+    data: XOR<CateringRequestCreateInput, CateringRequestUncheckedCreateInput>
+  }
+
+  /**
+   * CateringRequest createMany
+   */
+  export type CateringRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CateringRequests.
+     */
+    data: CateringRequestCreateManyInput | CateringRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CateringRequest createManyAndReturn
+   */
+  export type CateringRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many CateringRequests.
+     */
+    data: CateringRequestCreateManyInput | CateringRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CateringRequest update
+   */
+  export type CateringRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * The data needed to update a CateringRequest.
+     */
+    data: XOR<CateringRequestUpdateInput, CateringRequestUncheckedUpdateInput>
+    /**
+     * Choose, which CateringRequest to update.
+     */
+    where: CateringRequestWhereUniqueInput
+  }
+
+  /**
+   * CateringRequest updateMany
+   */
+  export type CateringRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CateringRequests.
+     */
+    data: XOR<CateringRequestUpdateManyMutationInput, CateringRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which CateringRequests to update
+     */
+    where?: CateringRequestWhereInput
+    /**
+     * Limit how many CateringRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CateringRequest updateManyAndReturn
+   */
+  export type CateringRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update CateringRequests.
+     */
+    data: XOR<CateringRequestUpdateManyMutationInput, CateringRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which CateringRequests to update
+     */
+    where?: CateringRequestWhereInput
+    /**
+     * Limit how many CateringRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CateringRequest upsert
+   */
+  export type CateringRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * The filter to search for the CateringRequest to update in case it exists.
+     */
+    where: CateringRequestWhereUniqueInput
+    /**
+     * In case the CateringRequest found by the `where` argument doesn't exist, create a new CateringRequest with this data.
+     */
+    create: XOR<CateringRequestCreateInput, CateringRequestUncheckedCreateInput>
+    /**
+     * In case the CateringRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CateringRequestUpdateInput, CateringRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * CateringRequest delete
+   */
+  export type CateringRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+    /**
+     * Filter which CateringRequest to delete.
+     */
+    where: CateringRequestWhereUniqueInput
+  }
+
+  /**
+   * CateringRequest deleteMany
+   */
+  export type CateringRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CateringRequests to delete
+     */
+    where?: CateringRequestWhereInput
+    /**
+     * Limit how many CateringRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CateringRequest without action
+   */
+  export type CateringRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CateringRequest
+     */
+    select?: CateringRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CateringRequest
+     */
+    omit?: CateringRequestOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SiteImage
+   */
+
+  export type AggregateSiteImage = {
+    _count: SiteImageCountAggregateOutputType | null
+    _min: SiteImageMinAggregateOutputType | null
+    _max: SiteImageMaxAggregateOutputType | null
+  }
+
+  export type SiteImageMinAggregateOutputType = {
+    id: string | null
+    key: string | null
+    url: string | null
+    label: string | null
+    updatedAt: Date | null
+  }
+
+  export type SiteImageMaxAggregateOutputType = {
+    id: string | null
+    key: string | null
+    url: string | null
+    label: string | null
+    updatedAt: Date | null
+  }
+
+  export type SiteImageCountAggregateOutputType = {
+    id: number
+    key: number
+    url: number
+    label: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SiteImageMinAggregateInputType = {
+    id?: true
+    key?: true
+    url?: true
+    label?: true
+    updatedAt?: true
+  }
+
+  export type SiteImageMaxAggregateInputType = {
+    id?: true
+    key?: true
+    url?: true
+    label?: true
+    updatedAt?: true
+  }
+
+  export type SiteImageCountAggregateInputType = {
+    id?: true
+    key?: true
+    url?: true
+    label?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SiteImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SiteImage to aggregate.
+     */
+    where?: SiteImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SiteImages to fetch.
+     */
+    orderBy?: SiteImageOrderByWithRelationInput | SiteImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SiteImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SiteImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SiteImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SiteImages
+    **/
+    _count?: true | SiteImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SiteImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SiteImageMaxAggregateInputType
+  }
+
+  export type GetSiteImageAggregateType<T extends SiteImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateSiteImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSiteImage[P]>
+      : GetScalarType<T[P], AggregateSiteImage[P]>
+  }
+
+
+
+
+  export type SiteImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SiteImageWhereInput
+    orderBy?: SiteImageOrderByWithAggregationInput | SiteImageOrderByWithAggregationInput[]
+    by: SiteImageScalarFieldEnum[] | SiteImageScalarFieldEnum
+    having?: SiteImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SiteImageCountAggregateInputType | true
+    _min?: SiteImageMinAggregateInputType
+    _max?: SiteImageMaxAggregateInputType
+  }
+
+  export type SiteImageGroupByOutputType = {
+    id: string
+    key: string
+    url: string
+    label: string
+    updatedAt: Date
+    _count: SiteImageCountAggregateOutputType | null
+    _min: SiteImageMinAggregateOutputType | null
+    _max: SiteImageMaxAggregateOutputType | null
+  }
+
+  type GetSiteImageGroupByPayload<T extends SiteImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SiteImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SiteImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SiteImageGroupByOutputType[P]>
+            : GetScalarType<T[P], SiteImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SiteImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    url?: boolean
+    label?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["siteImage"]>
+
+  export type SiteImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    url?: boolean
+    label?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["siteImage"]>
+
+  export type SiteImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    url?: boolean
+    label?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["siteImage"]>
+
+  export type SiteImageSelectScalar = {
+    id?: boolean
+    key?: boolean
+    url?: boolean
+    label?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SiteImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "url" | "label" | "updatedAt", ExtArgs["result"]["siteImage"]>
+
+  export type $SiteImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SiteImage"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      key: string
+      url: string
+      label: string
+      updatedAt: Date
+    }, ExtArgs["result"]["siteImage"]>
+    composites: {}
+  }
+
+  type SiteImageGetPayload<S extends boolean | null | undefined | SiteImageDefaultArgs> = $Result.GetResult<Prisma.$SiteImagePayload, S>
+
+  type SiteImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SiteImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SiteImageCountAggregateInputType | true
+    }
+
+  export interface SiteImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SiteImage'], meta: { name: 'SiteImage' } }
+    /**
+     * Find zero or one SiteImage that matches the filter.
+     * @param {SiteImageFindUniqueArgs} args - Arguments to find a SiteImage
+     * @example
+     * // Get one SiteImage
+     * const siteImage = await prisma.siteImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SiteImageFindUniqueArgs>(args: SelectSubset<T, SiteImageFindUniqueArgs<ExtArgs>>): Prisma__SiteImageClient<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SiteImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SiteImageFindUniqueOrThrowArgs} args - Arguments to find a SiteImage
+     * @example
+     * // Get one SiteImage
+     * const siteImage = await prisma.siteImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SiteImageFindUniqueOrThrowArgs>(args: SelectSubset<T, SiteImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SiteImageClient<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SiteImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteImageFindFirstArgs} args - Arguments to find a SiteImage
+     * @example
+     * // Get one SiteImage
+     * const siteImage = await prisma.siteImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SiteImageFindFirstArgs>(args?: SelectSubset<T, SiteImageFindFirstArgs<ExtArgs>>): Prisma__SiteImageClient<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SiteImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteImageFindFirstOrThrowArgs} args - Arguments to find a SiteImage
+     * @example
+     * // Get one SiteImage
+     * const siteImage = await prisma.siteImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SiteImageFindFirstOrThrowArgs>(args?: SelectSubset<T, SiteImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__SiteImageClient<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SiteImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SiteImages
+     * const siteImages = await prisma.siteImage.findMany()
+     * 
+     * // Get first 10 SiteImages
+     * const siteImages = await prisma.siteImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const siteImageWithIdOnly = await prisma.siteImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SiteImageFindManyArgs>(args?: SelectSubset<T, SiteImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SiteImage.
+     * @param {SiteImageCreateArgs} args - Arguments to create a SiteImage.
+     * @example
+     * // Create one SiteImage
+     * const SiteImage = await prisma.siteImage.create({
+     *   data: {
+     *     // ... data to create a SiteImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends SiteImageCreateArgs>(args: SelectSubset<T, SiteImageCreateArgs<ExtArgs>>): Prisma__SiteImageClient<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SiteImages.
+     * @param {SiteImageCreateManyArgs} args - Arguments to create many SiteImages.
+     * @example
+     * // Create many SiteImages
+     * const siteImage = await prisma.siteImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SiteImageCreateManyArgs>(args?: SelectSubset<T, SiteImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SiteImages and returns the data saved in the database.
+     * @param {SiteImageCreateManyAndReturnArgs} args - Arguments to create many SiteImages.
+     * @example
+     * // Create many SiteImages
+     * const siteImage = await prisma.siteImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SiteImages and only return the `id`
+     * const siteImageWithIdOnly = await prisma.siteImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SiteImageCreateManyAndReturnArgs>(args?: SelectSubset<T, SiteImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SiteImage.
+     * @param {SiteImageDeleteArgs} args - Arguments to delete one SiteImage.
+     * @example
+     * // Delete one SiteImage
+     * const SiteImage = await prisma.siteImage.delete({
+     *   where: {
+     *     // ... filter to delete one SiteImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SiteImageDeleteArgs>(args: SelectSubset<T, SiteImageDeleteArgs<ExtArgs>>): Prisma__SiteImageClient<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SiteImage.
+     * @param {SiteImageUpdateArgs} args - Arguments to update one SiteImage.
+     * @example
+     * // Update one SiteImage
+     * const siteImage = await prisma.siteImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SiteImageUpdateArgs>(args: SelectSubset<T, SiteImageUpdateArgs<ExtArgs>>): Prisma__SiteImageClient<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SiteImages.
+     * @param {SiteImageDeleteManyArgs} args - Arguments to filter SiteImages to delete.
+     * @example
+     * // Delete a few SiteImages
+     * const { count } = await prisma.siteImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SiteImageDeleteManyArgs>(args?: SelectSubset<T, SiteImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SiteImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SiteImages
+     * const siteImage = await prisma.siteImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SiteImageUpdateManyArgs>(args: SelectSubset<T, SiteImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SiteImages and returns the data updated in the database.
+     * @param {SiteImageUpdateManyAndReturnArgs} args - Arguments to update many SiteImages.
+     * @example
+     * // Update many SiteImages
+     * const siteImage = await prisma.siteImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SiteImages and only return the `id`
+     * const siteImageWithIdOnly = await prisma.siteImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SiteImageUpdateManyAndReturnArgs>(args: SelectSubset<T, SiteImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SiteImage.
+     * @param {SiteImageUpsertArgs} args - Arguments to update or create a SiteImage.
+     * @example
+     * // Update or create a SiteImage
+     * const siteImage = await prisma.siteImage.upsert({
+     *   create: {
+     *     // ... data to create a SiteImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SiteImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SiteImageUpsertArgs>(args: SelectSubset<T, SiteImageUpsertArgs<ExtArgs>>): Prisma__SiteImageClient<$Result.GetResult<Prisma.$SiteImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SiteImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteImageCountArgs} args - Arguments to filter SiteImages to count.
+     * @example
+     * // Count the number of SiteImages
+     * const count = await prisma.siteImage.count({
+     *   where: {
+     *     // ... the filter for the SiteImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends SiteImageCountArgs>(
+      args?: Subset<T, SiteImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SiteImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SiteImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SiteImageAggregateArgs>(args: Subset<T, SiteImageAggregateArgs>): Prisma.PrismaPromise<GetSiteImageAggregateType<T>>
+
+    /**
+     * Group by SiteImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SiteImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SiteImageGroupByArgs['orderBy'] }
+        : { orderBy?: SiteImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SiteImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSiteImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SiteImage model
+   */
+  readonly fields: SiteImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SiteImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SiteImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SiteImage model
+   */
+  interface SiteImageFieldRefs {
+    readonly id: FieldRef<"SiteImage", 'String'>
+    readonly key: FieldRef<"SiteImage", 'String'>
+    readonly url: FieldRef<"SiteImage", 'String'>
+    readonly label: FieldRef<"SiteImage", 'String'>
+    readonly updatedAt: FieldRef<"SiteImage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SiteImage findUnique
+   */
+  export type SiteImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * Filter, which SiteImage to fetch.
+     */
+    where: SiteImageWhereUniqueInput
+  }
+
+  /**
+   * SiteImage findUniqueOrThrow
+   */
+  export type SiteImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * Filter, which SiteImage to fetch.
+     */
+    where: SiteImageWhereUniqueInput
+  }
+
+  /**
+   * SiteImage findFirst
+   */
+  export type SiteImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * Filter, which SiteImage to fetch.
+     */
+    where?: SiteImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SiteImages to fetch.
+     */
+    orderBy?: SiteImageOrderByWithRelationInput | SiteImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SiteImages.
+     */
+    cursor?: SiteImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SiteImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SiteImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SiteImages.
+     */
+    distinct?: SiteImageScalarFieldEnum | SiteImageScalarFieldEnum[]
+  }
+
+  /**
+   * SiteImage findFirstOrThrow
+   */
+  export type SiteImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * Filter, which SiteImage to fetch.
+     */
+    where?: SiteImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SiteImages to fetch.
+     */
+    orderBy?: SiteImageOrderByWithRelationInput | SiteImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SiteImages.
+     */
+    cursor?: SiteImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SiteImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SiteImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SiteImages.
+     */
+    distinct?: SiteImageScalarFieldEnum | SiteImageScalarFieldEnum[]
+  }
+
+  /**
+   * SiteImage findMany
+   */
+  export type SiteImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * Filter, which SiteImages to fetch.
+     */
+    where?: SiteImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SiteImages to fetch.
+     */
+    orderBy?: SiteImageOrderByWithRelationInput | SiteImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SiteImages.
+     */
+    cursor?: SiteImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SiteImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SiteImages.
+     */
+    skip?: number
+    distinct?: SiteImageScalarFieldEnum | SiteImageScalarFieldEnum[]
+  }
+
+  /**
+   * SiteImage create
+   */
+  export type SiteImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SiteImage.
+     */
+    data: XOR<SiteImageCreateInput, SiteImageUncheckedCreateInput>
+  }
+
+  /**
+   * SiteImage createMany
+   */
+  export type SiteImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SiteImages.
+     */
+    data: SiteImageCreateManyInput | SiteImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SiteImage createManyAndReturn
+   */
+  export type SiteImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many SiteImages.
+     */
+    data: SiteImageCreateManyInput | SiteImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SiteImage update
+   */
+  export type SiteImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SiteImage.
+     */
+    data: XOR<SiteImageUpdateInput, SiteImageUncheckedUpdateInput>
+    /**
+     * Choose, which SiteImage to update.
+     */
+    where: SiteImageWhereUniqueInput
+  }
+
+  /**
+   * SiteImage updateMany
+   */
+  export type SiteImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SiteImages.
+     */
+    data: XOR<SiteImageUpdateManyMutationInput, SiteImageUncheckedUpdateManyInput>
+    /**
+     * Filter which SiteImages to update
+     */
+    where?: SiteImageWhereInput
+    /**
+     * Limit how many SiteImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SiteImage updateManyAndReturn
+   */
+  export type SiteImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * The data used to update SiteImages.
+     */
+    data: XOR<SiteImageUpdateManyMutationInput, SiteImageUncheckedUpdateManyInput>
+    /**
+     * Filter which SiteImages to update
+     */
+    where?: SiteImageWhereInput
+    /**
+     * Limit how many SiteImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SiteImage upsert
+   */
+  export type SiteImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SiteImage to update in case it exists.
+     */
+    where: SiteImageWhereUniqueInput
+    /**
+     * In case the SiteImage found by the `where` argument doesn't exist, create a new SiteImage with this data.
+     */
+    create: XOR<SiteImageCreateInput, SiteImageUncheckedCreateInput>
+    /**
+     * In case the SiteImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SiteImageUpdateInput, SiteImageUncheckedUpdateInput>
+  }
+
+  /**
+   * SiteImage delete
+   */
+  export type SiteImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+    /**
+     * Filter which SiteImage to delete.
+     */
+    where: SiteImageWhereUniqueInput
+  }
+
+  /**
+   * SiteImage deleteMany
+   */
+  export type SiteImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SiteImages to delete
+     */
+    where?: SiteImageWhereInput
+    /**
+     * Limit how many SiteImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SiteImage without action
+   */
+  export type SiteImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteImage
+     */
+    select?: SiteImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SiteImage
+     */
+    omit?: SiteImageOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -19041,6 +22432,46 @@ export namespace Prisma {
   };
 
   export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+  export const BusinessHoursScalarFieldEnum: {
+    id: 'id',
+    day: 'day',
+    dayIndex: 'dayIndex',
+    open: 'open',
+    close: 'close',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BusinessHoursScalarFieldEnum = (typeof BusinessHoursScalarFieldEnum)[keyof typeof BusinessHoursScalarFieldEnum]
+
+
+  export const CateringRequestScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    phone: 'phone',
+    eventType: 'eventType',
+    date: 'date',
+    guests: 'guests',
+    notes: 'notes',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CateringRequestScalarFieldEnum = (typeof CateringRequestScalarFieldEnum)[keyof typeof CateringRequestScalarFieldEnum]
+
+
+  export const SiteImageScalarFieldEnum: {
+    id: 'id',
+    key: 'key',
+    url: 'url',
+    label: 'label',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SiteImageScalarFieldEnum = (typeof SiteImageScalarFieldEnum)[keyof typeof SiteImageScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -20183,6 +23614,199 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
   }
 
+  export type BusinessHoursWhereInput = {
+    AND?: BusinessHoursWhereInput | BusinessHoursWhereInput[]
+    OR?: BusinessHoursWhereInput[]
+    NOT?: BusinessHoursWhereInput | BusinessHoursWhereInput[]
+    id?: StringFilter<"BusinessHours"> | string
+    day?: StringFilter<"BusinessHours"> | string
+    dayIndex?: IntFilter<"BusinessHours"> | number
+    open?: IntNullableFilter<"BusinessHours"> | number | null
+    close?: IntNullableFilter<"BusinessHours"> | number | null
+    updatedAt?: DateTimeFilter<"BusinessHours"> | Date | string
+  }
+
+  export type BusinessHoursOrderByWithRelationInput = {
+    id?: SortOrder
+    day?: SortOrder
+    dayIndex?: SortOrder
+    open?: SortOrderInput | SortOrder
+    close?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessHoursWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    dayIndex?: number
+    AND?: BusinessHoursWhereInput | BusinessHoursWhereInput[]
+    OR?: BusinessHoursWhereInput[]
+    NOT?: BusinessHoursWhereInput | BusinessHoursWhereInput[]
+    day?: StringFilter<"BusinessHours"> | string
+    open?: IntNullableFilter<"BusinessHours"> | number | null
+    close?: IntNullableFilter<"BusinessHours"> | number | null
+    updatedAt?: DateTimeFilter<"BusinessHours"> | Date | string
+  }, "id" | "dayIndex">
+
+  export type BusinessHoursOrderByWithAggregationInput = {
+    id?: SortOrder
+    day?: SortOrder
+    dayIndex?: SortOrder
+    open?: SortOrderInput | SortOrder
+    close?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    _count?: BusinessHoursCountOrderByAggregateInput
+    _avg?: BusinessHoursAvgOrderByAggregateInput
+    _max?: BusinessHoursMaxOrderByAggregateInput
+    _min?: BusinessHoursMinOrderByAggregateInput
+    _sum?: BusinessHoursSumOrderByAggregateInput
+  }
+
+  export type BusinessHoursScalarWhereWithAggregatesInput = {
+    AND?: BusinessHoursScalarWhereWithAggregatesInput | BusinessHoursScalarWhereWithAggregatesInput[]
+    OR?: BusinessHoursScalarWhereWithAggregatesInput[]
+    NOT?: BusinessHoursScalarWhereWithAggregatesInput | BusinessHoursScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BusinessHours"> | string
+    day?: StringWithAggregatesFilter<"BusinessHours"> | string
+    dayIndex?: IntWithAggregatesFilter<"BusinessHours"> | number
+    open?: IntNullableWithAggregatesFilter<"BusinessHours"> | number | null
+    close?: IntNullableWithAggregatesFilter<"BusinessHours"> | number | null
+    updatedAt?: DateTimeWithAggregatesFilter<"BusinessHours"> | Date | string
+  }
+
+  export type CateringRequestWhereInput = {
+    AND?: CateringRequestWhereInput | CateringRequestWhereInput[]
+    OR?: CateringRequestWhereInput[]
+    NOT?: CateringRequestWhereInput | CateringRequestWhereInput[]
+    id?: StringFilter<"CateringRequest"> | string
+    name?: StringFilter<"CateringRequest"> | string
+    email?: StringFilter<"CateringRequest"> | string
+    phone?: StringFilter<"CateringRequest"> | string
+    eventType?: StringFilter<"CateringRequest"> | string
+    date?: StringFilter<"CateringRequest"> | string
+    guests?: StringFilter<"CateringRequest"> | string
+    notes?: StringNullableFilter<"CateringRequest"> | string | null
+    status?: StringFilter<"CateringRequest"> | string
+    createdAt?: DateTimeFilter<"CateringRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"CateringRequest"> | Date | string
+  }
+
+  export type CateringRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    eventType?: SortOrder
+    date?: SortOrder
+    guests?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CateringRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CateringRequestWhereInput | CateringRequestWhereInput[]
+    OR?: CateringRequestWhereInput[]
+    NOT?: CateringRequestWhereInput | CateringRequestWhereInput[]
+    name?: StringFilter<"CateringRequest"> | string
+    email?: StringFilter<"CateringRequest"> | string
+    phone?: StringFilter<"CateringRequest"> | string
+    eventType?: StringFilter<"CateringRequest"> | string
+    date?: StringFilter<"CateringRequest"> | string
+    guests?: StringFilter<"CateringRequest"> | string
+    notes?: StringNullableFilter<"CateringRequest"> | string | null
+    status?: StringFilter<"CateringRequest"> | string
+    createdAt?: DateTimeFilter<"CateringRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"CateringRequest"> | Date | string
+  }, "id">
+
+  export type CateringRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    eventType?: SortOrder
+    date?: SortOrder
+    guests?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CateringRequestCountOrderByAggregateInput
+    _max?: CateringRequestMaxOrderByAggregateInput
+    _min?: CateringRequestMinOrderByAggregateInput
+  }
+
+  export type CateringRequestScalarWhereWithAggregatesInput = {
+    AND?: CateringRequestScalarWhereWithAggregatesInput | CateringRequestScalarWhereWithAggregatesInput[]
+    OR?: CateringRequestScalarWhereWithAggregatesInput[]
+    NOT?: CateringRequestScalarWhereWithAggregatesInput | CateringRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CateringRequest"> | string
+    name?: StringWithAggregatesFilter<"CateringRequest"> | string
+    email?: StringWithAggregatesFilter<"CateringRequest"> | string
+    phone?: StringWithAggregatesFilter<"CateringRequest"> | string
+    eventType?: StringWithAggregatesFilter<"CateringRequest"> | string
+    date?: StringWithAggregatesFilter<"CateringRequest"> | string
+    guests?: StringWithAggregatesFilter<"CateringRequest"> | string
+    notes?: StringNullableWithAggregatesFilter<"CateringRequest"> | string | null
+    status?: StringWithAggregatesFilter<"CateringRequest"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CateringRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CateringRequest"> | Date | string
+  }
+
+  export type SiteImageWhereInput = {
+    AND?: SiteImageWhereInput | SiteImageWhereInput[]
+    OR?: SiteImageWhereInput[]
+    NOT?: SiteImageWhereInput | SiteImageWhereInput[]
+    id?: StringFilter<"SiteImage"> | string
+    key?: StringFilter<"SiteImage"> | string
+    url?: StringFilter<"SiteImage"> | string
+    label?: StringFilter<"SiteImage"> | string
+    updatedAt?: DateTimeFilter<"SiteImage"> | Date | string
+  }
+
+  export type SiteImageOrderByWithRelationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    url?: SortOrder
+    label?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SiteImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    key?: string
+    AND?: SiteImageWhereInput | SiteImageWhereInput[]
+    OR?: SiteImageWhereInput[]
+    NOT?: SiteImageWhereInput | SiteImageWhereInput[]
+    url?: StringFilter<"SiteImage"> | string
+    label?: StringFilter<"SiteImage"> | string
+    updatedAt?: DateTimeFilter<"SiteImage"> | Date | string
+  }, "id" | "key">
+
+  export type SiteImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    url?: SortOrder
+    label?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SiteImageCountOrderByAggregateInput
+    _max?: SiteImageMaxOrderByAggregateInput
+    _min?: SiteImageMinOrderByAggregateInput
+  }
+
+  export type SiteImageScalarWhereWithAggregatesInput = {
+    AND?: SiteImageScalarWhereWithAggregatesInput | SiteImageScalarWhereWithAggregatesInput[]
+    OR?: SiteImageScalarWhereWithAggregatesInput[]
+    NOT?: SiteImageScalarWhereWithAggregatesInput | SiteImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SiteImage"> | string
+    key?: StringWithAggregatesFilter<"SiteImage"> | string
+    url?: StringWithAggregatesFilter<"SiteImage"> | string
+    label?: StringWithAggregatesFilter<"SiteImage"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SiteImage"> | Date | string
+  }
+
   export type AdminCreateInput = {
     id?: string
     name: string
@@ -21289,6 +24913,223 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BusinessHoursCreateInput = {
+    id?: string
+    day: string
+    dayIndex: number
+    open?: number | null
+    close?: number | null
+    updatedAt?: Date | string
+  }
+
+  export type BusinessHoursUncheckedCreateInput = {
+    id?: string
+    day: string
+    dayIndex: number
+    open?: number | null
+    close?: number | null
+    updatedAt?: Date | string
+  }
+
+  export type BusinessHoursUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    dayIndex?: IntFieldUpdateOperationsInput | number
+    open?: NullableIntFieldUpdateOperationsInput | number | null
+    close?: NullableIntFieldUpdateOperationsInput | number | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessHoursUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    dayIndex?: IntFieldUpdateOperationsInput | number
+    open?: NullableIntFieldUpdateOperationsInput | number | null
+    close?: NullableIntFieldUpdateOperationsInput | number | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessHoursCreateManyInput = {
+    id?: string
+    day: string
+    dayIndex: number
+    open?: number | null
+    close?: number | null
+    updatedAt?: Date | string
+  }
+
+  export type BusinessHoursUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    dayIndex?: IntFieldUpdateOperationsInput | number
+    open?: NullableIntFieldUpdateOperationsInput | number | null
+    close?: NullableIntFieldUpdateOperationsInput | number | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessHoursUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    dayIndex?: IntFieldUpdateOperationsInput | number
+    open?: NullableIntFieldUpdateOperationsInput | number | null
+    close?: NullableIntFieldUpdateOperationsInput | number | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CateringRequestCreateInput = {
+    id?: string
+    name: string
+    email: string
+    phone: string
+    eventType: string
+    date: string
+    guests: string
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CateringRequestUncheckedCreateInput = {
+    id?: string
+    name: string
+    email: string
+    phone: string
+    eventType: string
+    date: string
+    guests: string
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CateringRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    guests?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CateringRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    guests?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CateringRequestCreateManyInput = {
+    id?: string
+    name: string
+    email: string
+    phone: string
+    eventType: string
+    date: string
+    guests: string
+    notes?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CateringRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    guests?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CateringRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    guests?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteImageCreateInput = {
+    id?: string
+    key: string
+    url: string
+    label: string
+    updatedAt?: Date | string
+  }
+
+  export type SiteImageUncheckedCreateInput = {
+    id?: string
+    key: string
+    url: string
+    label: string
+    updatedAt?: Date | string
+  }
+
+  export type SiteImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteImageCreateManyInput = {
+    id?: string
+    key: string
+    url: string
+    label: string
+    updatedAt?: Date | string
+  }
+
+  export type SiteImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -22214,6 +26055,111 @@ export namespace Prisma {
 
   export type ReviewSumOrderByAggregateInput = {
     order?: SortOrder
+  }
+
+  export type BusinessHoursCountOrderByAggregateInput = {
+    id?: SortOrder
+    day?: SortOrder
+    dayIndex?: SortOrder
+    open?: SortOrder
+    close?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessHoursAvgOrderByAggregateInput = {
+    dayIndex?: SortOrder
+    open?: SortOrder
+    close?: SortOrder
+  }
+
+  export type BusinessHoursMaxOrderByAggregateInput = {
+    id?: SortOrder
+    day?: SortOrder
+    dayIndex?: SortOrder
+    open?: SortOrder
+    close?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessHoursMinOrderByAggregateInput = {
+    id?: SortOrder
+    day?: SortOrder
+    dayIndex?: SortOrder
+    open?: SortOrder
+    close?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessHoursSumOrderByAggregateInput = {
+    dayIndex?: SortOrder
+    open?: SortOrder
+    close?: SortOrder
+  }
+
+  export type CateringRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    eventType?: SortOrder
+    date?: SortOrder
+    guests?: SortOrder
+    notes?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CateringRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    eventType?: SortOrder
+    date?: SortOrder
+    guests?: SortOrder
+    notes?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CateringRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    eventType?: SortOrder
+    date?: SortOrder
+    guests?: SortOrder
+    notes?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SiteImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    url?: SortOrder
+    label?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SiteImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    url?: SortOrder
+    label?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SiteImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    url?: SortOrder
+    label?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {

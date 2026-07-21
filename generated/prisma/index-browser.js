@@ -275,6 +275,37 @@ exports.Prisma.ReviewScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.BusinessHoursScalarFieldEnum = {
+  id: 'id',
+  day: 'day',
+  dayIndex: 'dayIndex',
+  open: 'open',
+  close: 'close',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CateringRequestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  eventType: 'eventType',
+  date: 'date',
+  guests: 'guests',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SiteImageScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  url: 'url',
+  label: 'label',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -319,7 +350,10 @@ exports.Prisma.ModelName = {
   SideOption: 'SideOption',
   CartItemSide: 'CartItemSide',
   GalleryImage: 'GalleryImage',
-  Review: 'Review'
+  Review: 'Review',
+  BusinessHours: 'BusinessHours',
+  CateringRequest: 'CateringRequest',
+  SiteImage: 'SiteImage'
 };
 
 /**

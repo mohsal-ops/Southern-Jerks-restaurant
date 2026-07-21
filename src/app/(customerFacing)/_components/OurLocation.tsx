@@ -15,22 +15,27 @@ function formatHour(hour: number): string {
   return `${display}:00 ${period}`;
 }
 
-const HOURS = SITE_CONFIG.hours.map((h) => ({
-  day: h.day,
-  open: h.open === null ? "Closed" : formatHour(h.open),
-  close: h.close === null ? "" : formatHour(h.close),
-}));
+type BusinessHourRow = { dayIndex: number; day: string; open: number | null; close: number | null };
 
 export function OurLocation({
   places,
   lat,
   lng,
+  hours,
 }: {
   places: Location[];
   lat: number;
   lng: number;
+  hours: BusinessHourRow[];
 }) {
   const [showHours, setShowHours] = useState(false);
+  const HOURS = [...hours]
+    .sort((a, b) => a.dayIndex - b.dayIndex)
+    .map((h) => ({
+      day: h.day,
+      open: h.open === null ? "Closed" : formatHour(h.open),
+      close: h.close === null ? "" : formatHour(h.close),
+    }));
   const todayIdx = new Date(new Date().toLocaleString("en-US", { timeZone: SITE_CONFIG.timezone })).getDay();
   const today = HOURS[todayIdx];
   const todayLabel =
