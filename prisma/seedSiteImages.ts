@@ -14,9 +14,9 @@ const db = new PrismaClient({ adapter });
 async function main() {
   const images = [
     { key: "home_hero", url: "/general/generalPages/mainImage.jpg", label: "Home Page Hero" },
-    { key: "story_hero", url: "/general/generalPages/partners.jpg", label: "Our Story — Hero" },
-    { key: "story_origin", url: "/general/generalPages/grandmother.jpg", label: "Our Story — Origin Section" },
-    { key: "story_closing", url: "/general/generalPages/enjoy.jpg", label: "Our Story — Closing Section" },
+    { key: "story_hero", url: "/general/generalPages/partners.jpg", label: "Our Story -- Hero" },
+    { key: "story_origin", url: "/general/generalPages/grandmother.jpg", label: "Our Story -- Origin Section" },
+    { key: "story_closing", url: "/general/generalPages/enjoy.jpg", label: "Our Story -- Closing Section" },
   ];
   for (const img of images) {
     await db.siteImage.upsert({ where: { key: img.key }, update: img, create: img });
