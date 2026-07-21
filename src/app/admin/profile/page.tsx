@@ -14,34 +14,46 @@ export default async function ProfilePage() {
 
   // Only pass the fields the client actually needs — never ship
   // passwordHash/verificationToken to the browser.
-  const safeAdmin = { name: admin.name, email: admin.email, pendingEmail: admin.pendingEmail };
+  const safeAdmin = {
+    name: admin.name,
+    email: admin.email,
+    pendingEmail: admin.pendingEmail,
+  };
 
   return (
-    <div className="min-h-screen bg-stone-50 p-6 space-y-8 max-w-xl">
-      <Suspense fallback={null}>
-        <EmailChangeStatusToast />
-      </Suspense>
+    <div className="flex w-full justify-center">
+      <div className="min-h-screen bg-stone-50 p-6 space-y-8 w-full md:max-w-xl">
+        <Suspense fallback={null}>
+          <EmailChangeStatusToast />
+        </Suspense>
 
-      <div>
-        <h1 className="text-2xl font-bold text-stone-900">Your profile</h1>
-        <p className="text-sm text-stone-500 mt-0.5">
-          Manage your name, sign-in email, and password.
-        </p>
-      </div>
+        <div>
+          <h1 className="text-2xl font-bold text-stone-900">Your profile</h1>
+          <p className="text-sm text-stone-500 mt-0.5">
+            Manage your name, sign-in email, and password.
+          </p>
+        </div>
 
-      <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
-        <h2 className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">Name</h2>
-        <NameForm admin={safeAdmin} />
-      </div>
+        <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">
+            Name
+          </h2>
+          <NameForm admin={safeAdmin} />
+        </div>
 
-      <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
-        <h2 className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">Email</h2>
-        <EmailForm admin={safeAdmin} />
-      </div>
+        <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">
+            Email
+          </h2>
+          <EmailForm admin={safeAdmin} />
+        </div>
 
-      <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
-        <h2 className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">Password</h2>
-        <PasswordForm />
+        <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">
+            Password
+          </h2>
+          <PasswordForm />
+        </div>
       </div>
     </div>
   );
