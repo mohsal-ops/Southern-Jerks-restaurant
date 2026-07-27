@@ -1,28 +1,35 @@
 import db from "@/db/db";
 import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/../public/general/logo/logo.png";
 import {
   PenLine,
   UtensilsCrossed,
-  MapPin,
   TrendingUp,
+  TrendingDown,
   CheckCircle2,
   XCircle,
   AlertCircle,
   ArrowRight,
-  Star,
-  BookOpen,
   Zap,
   Images,
   Mail,
+  DollarSign,
+  ShoppingBag,
+  Receipt,
+  ExternalLink,
 } from "lucide-react";
 import { ReactNode } from "react";
 import TrafficSourceChart from "./_components/charts/trafficSources";
 import { getBusinessHours, getOpenStatus } from "@/lib/getHours";
+import { getOwnerBriefing } from "@/lib/dashboardStats";
+import { formatCurrency } from "@/lib/formatters";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const isUnlocked = true; // 🔒 flip to true when ready
 
 async function getDashboardData() {
-  const [totalItems, activeItems, inactiveItems, totalCategories, totalPosts, latestPost, totalLocations, featuredItems, totalGalleryImages, totalReviews, newCateringRequests] =
+  const [totalItems, activeItems, inactiveItems, totalCategories, totalPosts, latestPost, totalLocations, featuredItems, totalGalleryImages, totalReviews] =
     await Promise.all([
       db.item.count(),
       db.item.count({ where: { isAvailableForPurchase: true } }),
@@ -34,7 +41,6 @@ async function getDashboardData() {
       db.item.count({ where: { isAvailableForPurchase: true } }),
       db.galleryImage.count(),
       db.review.count(),
-      db.cateringRequest.count({ where: { status: "new" } }),
     ]);
 
   let seoScore = 0;
@@ -49,22 +55,54 @@ async function getDashboardData() {
     if (d <= 7) seoScore += 10;
     else if (d <= 30) seoScore += 5;
   }
-  return { totalItems, activeItems, inactiveItems, totalCategories, totalPosts, latestPost, totalLocations, featuredItems, totalGalleryImages, totalReviews, newCateringRequests, seoScore };
+  return { totalItems, activeItems, inactiveItems, totalCategories, totalPosts, latestPost, totalLocations, featuredItems, totalGalleryImages, totalReviews, seoScore };
+}
+
+function greetingFor(hour: number) {
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
 }
 
 function SectionTitle({ children }: { children: ReactNode }) {
   return <h2 className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-4">{children}</h2>;
 }
 
-function StatCard({ label, value, sub, icon, accent }: { label: string; value: string | number; sub?: string; icon: ReactNode; accent: string }) {
+function TodayTile({ label, value, sub, icon, accent }: { label: string; value: string | number; sub?: string; icon: ReactNode; accent: string }) {
   return (
-    <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5 relative overflow-hidden">
-      <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full opacity-10" style={{ background: accent }} />
+    <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5">
       <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style={{ background: accent + "18", color: accent }}>{icon}</div>
-      <p className="text-2xl font-bold text-stone-900">{value}</p>
+      <p className="text-2xl font-bold text-stone-900 truncate">{value}</p>
       <p className="text-xs font-medium text-stone-500 mt-0.5">{label}</p>
       {sub && <p className="text-xs text-stone-400 mt-1">{sub}</p>}
     </div>
+  );
+}
+
+function AttentionRow({ icon, text, action, href, tone }: { icon: ReactNode; text: string; action: string; href: string; tone: string }) {
+  return (
+    <Link href={href} className="flex items-center gap-3 py-3 border-b border-stone-50 last:border-0 group">
+      <span className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: tone + "18", color: tone }}>{icon}</span>
+      <p className="flex-1 text-sm text-stone-700">{text}</p>
+      <span className="text-xs font-semibold flex items-center gap-1 shrink-0 group-hover:underline" style={{ color: tone }}>
+        {action} <ArrowRight size={12} />
+      </span>
+    </Link>
+  );
+}
+
+function Sparkline({ data, color = "#c85a1e" }: { data: number[]; color?: string }) {
+  const max = Math.max(1, ...data);
+  const w = 260, h = 48;
+  const step = data.length > 1 ? w / (data.length - 1) : w;
+  const pts = data.map((v, i) => `${(i * step).toFixed(1)},${(h - (v / max) * h).toFixed(1)}`);
+  const line = pts.join(" ");
+  const area = `0,${h} ${line} ${w},${h}`;
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-12" preserveAspectRatio="none">
+      <polygon points={area} fill={color} opacity={0.08} />
+      <polyline points={line} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
@@ -83,177 +121,213 @@ function SEOTip({ done, text, action, href }: { done: boolean; text: string; act
 }
 
 export default async function Page() {
-  const [data, businessHours] = await Promise.all([getDashboardData(), getBusinessHours()]);
+  const [data, businessHours, briefing] = await Promise.all([
+    getDashboardData(),
+    getBusinessHours(),
+    getOwnerBriefing(),
+  ]);
   const houstonStatus = getOpenStatus(businessHours);
   const daysSincePost = data.latestPost
     ? Math.floor((Date.now() - new Date(data.latestPost.createdAt).getTime()) / 86400000)
     : null;
   const seoColor = data.seoScore >= 70 ? "#1a6b3c" : data.seoScore >= 40 ? "#d97706" : "#dc2626";
 
+  const chicagoHour = Number(
+    new Intl.DateTimeFormat("en-US", { timeZone: SITE_CONFIG.timezone, hour: "numeric", hour12: false }).format(new Date()),
+  );
+  const greeting = greetingFor(chicagoHour % 24);
+  const todayLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+
+  const attention: { icon: ReactNode; text: string; action: string; href: string; tone: string }[] = [];
+  if (briefing.newCatering > 0)
+    attention.push({ icon: <Mail size={15} />, text: `${briefing.newCatering} new catering request${briefing.newCatering > 1 ? "s" : ""} waiting for a reply`, action: "Review", href: "/admin/catering", tone: "#c85a1e" });
+  if (briefing.ordersToday > 0)
+    attention.push({ icon: <ShoppingBag size={15} />, text: `${briefing.ordersToday} order${briefing.ordersToday > 1 ? "s" : ""} placed today`, action: "View", href: "/admin/orders", tone: "#1a6b3c" });
+  if (data.inactiveItems > 0)
+    attention.push({ icon: <AlertCircle size={15} />, text: `${data.inactiveItems} menu item${data.inactiveItems > 1 ? "s" : ""} marked unavailable`, action: "Fix", href: "/admin/menuItems", tone: "#d97706" });
+
+  const deltaPositive = (briefing.weekDeltaPct ?? 0) >= 0;
+
   return (
     <>
-      {/* ── PAGE CONTENT — blur only this, navbar is in layout so untouched ── */}
       <div
         className={
           isUnlocked
-            ? "min-h-screen bg-stone-50 p-6 space-y-8"
-            : "min-h-screen bg-stone-50 p-6 space-y-8 blur-sm pointer-events-none select-none"
+            ? "min-h-screen bg-stone-50 p-4 md:p-6 space-y-8"
+            : "min-h-screen bg-stone-50 p-4 md:p-6 space-y-8 blur-sm pointer-events-none select-none"
         }
       >
-        {/* HEADER */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-bold text-stone-900">Dashboard</h1>
-            <p className="text-sm text-stone-500 mt-0.5">
-              {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
-            </p>
+        {/* ── HEADER — subtle: logo + greeting, accent touches only ── */}
+        <header className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="flex items-center gap-4 flex-1 min-w-0">
+            <div className="w-12 h-12 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center shrink-0 overflow-hidden">
+              <Image src={Logo} alt={`${SITE_CONFIG.name} logo`} width={40} height={40} className="w-9 h-9 object-contain" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs text-stone-400">{todayLabel}</p>
+              <h1 className="text-2xl font-bold text-stone-900 truncate">{greeting}</h1>
+            </div>
           </div>
-          <div className="flex items-center gap-2 bg-white border border-stone-200 rounded-full px-4 py-2 shadow-sm">
-            <span className={`w-2 h-2 rounded-full shrink-0 ${houstonStatus.isOpen ? "bg-green-500 animate-pulse" : "bg-red-400"}`} />
-            <span className="text-sm font-medium text-stone-700">{houstonStatus.label}</span>
-            <span className="text-xs text-stone-400">{houstonStatus.next}</span>
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-2 bg-stone-50 border border-stone-200 rounded-full px-3.5 py-2">
+              <span className={`w-2 h-2 rounded-full shrink-0 ${houstonStatus.isOpen ? "bg-green-500 animate-pulse" : "bg-red-400"}`} />
+              <span className="text-sm font-medium text-stone-700">{houstonStatus.label}</span>
+              {houstonStatus.next && <span className="text-xs text-stone-400 hidden sm:inline">· {houstonStatus.next}</span>}
+            </div>
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-stone-500 hover:text-[#c85a1e] border border-stone-200 rounded-full px-3.5 py-2 transition-colors"
+            >
+              View site <ExternalLink size={13} />
+            </a>
+          </div>
+        </header>
+
+        {/* ── TODAY — the money glance ── */}
+        <div>
+          <SectionTitle>Today</SectionTitle>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <TodayTile label="Revenue today" value={formatCurrency(briefing.revenueTodayCents / 100)} icon={<DollarSign size={16} />} accent="#1a6b3c" />
+            <TodayTile label="Orders today" value={briefing.ordersToday} icon={<ShoppingBag size={16} />} accent="#c85a1e" />
+            <TodayTile label="Avg order (7d)" value={briefing.avgOrderCents > 0 ? formatCurrency(briefing.avgOrderCents / 100) : "—"} icon={<Receipt size={16} />} accent="#1d4ed8" />
+            <TodayTile label="New catering" value={briefing.newCatering} sub={briefing.newCatering > 0 ? "Needs a reply" : "All clear"} icon={<Mail size={16} />} accent="#d97706" />
           </div>
         </div>
 
-        {/* ALERTS */}
-        {data.inactiveItems > 0 && (
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
-            <AlertCircle size={18} className="text-amber-500 shrink-0" />
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-amber-800">{data.inactiveItems} menu item{data.inactiveItems > 1 ? "s" : ""} currently unavailable</p>
-              <p className="text-xs text-amber-600 mt-0.5">Customers can see these but can&apos;t order them</p>
-            </div>
-            <Link href="/admin/menuItems" className="text-xs font-semibold text-amber-700 flex items-center gap-1">Fix <ArrowRight size={12} /></Link>
+        {/* ── NEEDS ATTENTION ── */}
+        <div>
+          <SectionTitle>Needs your attention</SectionTitle>
+          <div className="bg-white rounded-2xl border border-stone-200 shadow-sm px-5 py-1">
+            {attention.length > 0 ? (
+              attention.map((a, i) => <AttentionRow key={i} {...a} />)
+            ) : (
+              <div className="flex items-center gap-3 py-4">
+                <CheckCircle2 size={18} className="text-green-500 shrink-0" />
+                <p className="text-sm text-stone-500">You&apos;re all caught up — nothing needs action right now.</p>
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
-        {data.newCateringRequests > 0 && (
-          <div className="bg-orange-50 border border-orange-200 rounded-2xl p-4 flex items-center gap-3">
-            <Mail size={18} className="text-orange-500 shrink-0" />
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-orange-800">{data.newCateringRequests} new catering request{data.newCateringRequests > 1 ? "s" : ""}</p>
-              <p className="text-xs text-orange-600 mt-0.5">Waiting for a reply in the catering inbox</p>
+        {/* ── THIS WEEK ── */}
+        <div>
+          <SectionTitle>This week</SectionTitle>
+          <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 grid sm:grid-cols-[1fr_1.4fr] gap-6 items-center">
+            <div className="space-y-3">
+              <div>
+                <p className="text-3xl font-bold text-stone-900">{formatCurrency(briefing.weekRevenueCents / 100)}</p>
+                <p className="text-xs text-stone-500 mt-0.5">Revenue · last 7 days</p>
+              </div>
+              <div className="flex items-center gap-3 text-sm">
+                {briefing.weekDeltaPct !== null ? (
+                  <span className={`inline-flex items-center gap-1 font-semibold ${deltaPositive ? "text-green-600" : "text-red-500"}`}>
+                    {deltaPositive ? <TrendingUp size={15} /> : <TrendingDown size={15} />}
+                    {deltaPositive ? "+" : ""}{briefing.weekDeltaPct}%
+                  </span>
+                ) : (
+                  <span className="text-stone-400 text-xs">No prior-week data yet</span>
+                )}
+                <span className="text-stone-400 text-xs">vs. previous 7 days</span>
+              </div>
+              <p className="text-xs text-stone-400">{briefing.weekOrders} order{briefing.weekOrders !== 1 ? "s" : ""} this week</p>
             </div>
-            <Link href="/admin/catering" className="text-xs font-semibold text-orange-700 flex items-center gap-1">Review <ArrowRight size={12} /></Link>
+            <div>
+              <Sparkline data={briefing.sparkRevenue} color={deltaPositive ? "#1a6b3c" : "#c85a1e"} />
+              <div className="flex justify-between text-[10px] text-stone-400 mt-1">
+                <span>7 days ago</span>
+                <span>Today</span>
+              </div>
+            </div>
           </div>
-        )}
+        </div>
 
-        {/* QUICK ACTIONS */}
+        {/* ── QUICK ACTIONS ── */}
         <div>
           <SectionTitle>Quick Actions</SectionTitle>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <Link href="/admin/Blog" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#c85a1e] hover:shadow-md transition-all">
-              <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#c85a1e] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><PenLine size={18} /></div>
-              <p className="font-semibold text-stone-800 text-sm">Write Blog Post</p>
-              <p className="text-xs text-stone-400 mt-1">{daysSincePost === null ? "No posts yet — start now" : daysSincePost === 0 ? "Last post: today ✓" : `Last post: ${daysSincePost}d ago`}</p>
-            </Link>
             <Link href="/admin/menuItems/new" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#1a6b3c] hover:shadow-md transition-all">
               <div className="w-9 h-9 rounded-xl bg-green-50 text-[#1a6b3c] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><UtensilsCrossed size={18} /></div>
               <p className="font-semibold text-stone-800 text-sm">Add Menu Item</p>
               <p className="text-xs text-stone-400 mt-1">{data.totalItems} items · {data.totalCategories} categories</p>
             </Link>
-            <Link href="/admin/places" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#1d4ed8] hover:shadow-md transition-all">
-              <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#1d4ed8] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><MapPin size={18} /></div>
-              <p className="font-semibold text-stone-800 text-sm">Manage Locations</p>
-              <p className="text-xs text-stone-400 mt-1">{data.totalLocations} location{data.totalLocations !== 1 ? "s" : ""} on the map</p>
+            <Link href="/admin/Blog" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#c85a1e] hover:shadow-md transition-all">
+              <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#c85a1e] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><PenLine size={18} /></div>
+              <p className="font-semibold text-stone-800 text-sm">Write Blog Post</p>
+              <p className="text-xs text-stone-400 mt-1">{daysSincePost === null ? "No posts yet — start now" : daysSincePost === 0 ? "Last post: today ✓" : `Last post: ${daysSincePost}d ago`}</p>
             </Link>
             <Link href="/admin/gallery" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#7c3aed] hover:shadow-md transition-all">
               <div className="w-9 h-9 rounded-xl bg-purple-50 text-[#7c3aed] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><Images size={18} /></div>
               <p className="font-semibold text-stone-800 text-sm">Manage Gallery</p>
               <p className="text-xs text-stone-400 mt-1">{data.totalGalleryImages} photo{data.totalGalleryImages !== 1 ? "s" : ""} on the home page</p>
             </Link>
-            <Link href="/admin/reviews" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#d97706] hover:shadow-md transition-all">
-              <div className="w-9 h-9 rounded-xl bg-amber-50 text-[#d97706] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><Star size={18} /></div>
-              <p className="font-semibold text-stone-800 text-sm">Manage Reviews</p>
-              <p className="text-xs text-stone-400 mt-1">{data.totalReviews} testimonial{data.totalReviews !== 1 ? "s" : ""} shown</p>
-            </Link>
           </div>
         </div>
 
-        {/* STAT CARDS */}
-        <div>
-          <SectionTitle>Overview</SectionTitle>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard label="Blog Posts" value={data.totalPosts} sub={data.latestPost ? `Last: "${data.latestPost.title.slice(0, 22)}..."` : "No posts yet"} icon={<BookOpen size={16} />} accent="#c85a1e" />
-            <StatCard label="Active Menu Items" value={data.activeItems} sub={`${data.inactiveItems} unavailable`} icon={<UtensilsCrossed size={16} />} accent="#1a6b3c" />
-            <StatCard label="Featured Items" value={data.featuredItems} sub="Shown on home page" icon={<Star size={16} />} accent="#d97706" />
-            <StatCard label="Locations" value={data.totalLocations} sub="On the map" icon={<MapPin size={16} />} accent="#1d4ed8" />
-          </div>
-        </div>
+        {/* ── GROWTH & MARKETING (demoted) ── */}
+        <div className="pt-2">
+          <SectionTitle>Growth &amp; Marketing</SectionTitle>
 
-        {/* SEO + TRAFFIC */}
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-1">SEO Health</p>
-                <p className="font-semibold text-stone-800">How Google sees your site</p>
-              </div>
-              <div className="relative w-16 h-16 shrink-0">
-                <svg viewBox="0 0 36 36" className="w-16 h-16 -rotate-90">
-                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f3f4f6" strokeWidth="3" />
-                  <circle cx="18" cy="18" r="15.9" fill="none" stroke={seoColor} strokeWidth="3" strokeDasharray={`${data.seoScore} 100`} strokeLinecap="round" />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-sm font-bold" style={{ color: seoColor }}>{data.seoScore}</span>
-                </div>
-              </div>
-            </div>
-            <SEOTip done={data.totalPosts >= 1} text="At least 1 blog post published" action="Write post" href="/admin/Blog" />
-            <SEOTip done={data.totalPosts >= 5} text="5+ blog posts (boosts ranking significantly)" action="Write post" href="/admin/Blog" />
-            <SEOTip done={data.totalPosts >= 10} text="10+ blog posts (establishes content authority)" action="Write post" href="/admin/Blog" />
-            <SEOTip done={daysSincePost !== null && daysSincePost <= 7} text="Posted within the last 7 days (freshness signal)" action="Write now" href="/admin/Blog" />
-            <SEOTip done={data.activeItems >= 10} text="10+ active menu items visible on site" action="Add items" href="/admin/menuItems/new" />
-            <SEOTip done={data.featuredItems >= 3} text="3+ featured items on home page" action="Set featured" href="/admin/menuItems" />
-            <SEOTip done={data.totalLocations >= 1} text="Location added (helps local SEO in Houston)" action="Add location" href="/admin/places" />
-            <div className="mt-4 bg-stone-50 rounded-xl p-3 flex gap-2">
-              <Zap size={14} className="text-[#c85a1e] shrink-0 mt-0.5" />
-              <p className="text-xs text-stone-500 leading-relaxed">
-                <span className="font-semibold text-stone-700">Pro tip:</span>{" "}
-                Posting 2–3 blog posts per week is the single biggest thing you can do to rank higher on Google.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-1">Traffic Sources</p>
-            <p className="font-semibold text-stone-800 mb-6">Where your visitors come from</p>
-            <TrafficSourceChart />
-          </div>
-        </div>
-
-        {/* BLOG ACTIVITY */}
-        <div>
-          <SectionTitle>Blog Activity</SectionTitle>
-          <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#c85a1e] flex items-center justify-center"><TrendingUp size={16} /></div>
+          <div className="grid lg:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
+              <div className="flex items-center justify-between mb-6">
                 <div>
-                  <p className="font-semibold text-stone-800 text-sm">{data.totalPosts} post{data.totalPosts !== 1 ? "s" : ""} published</p>
-                  <p className="text-xs text-stone-400">
-                    {data.latestPost ? `Last: "${data.latestPost.title}" — ${daysSincePost === 0 ? "today" : `${daysSincePost} days ago`}` : "No posts yet — start writing to get found on Google"}
-                  </p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-1">SEO Health</p>
+                  <p className="font-semibold text-stone-800">How Google sees your site</p>
+                </div>
+                <div className="relative w-16 h-16 shrink-0">
+                  <svg viewBox="0 0 36 36" className="w-16 h-16 -rotate-90">
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f3f4f6" strokeWidth="3" />
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke={seoColor} strokeWidth="3" strokeDasharray={`${data.seoScore} 100`} strokeLinecap="round" />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-sm font-bold" style={{ color: seoColor }}>{data.seoScore}</span>
+                  </div>
                 </div>
               </div>
-              <Link href="/admin/Blog" className="text-xs font-semibold text-[#c85a1e] hover:underline flex items-center gap-1">Manage <ArrowRight size={12} /></Link>
+              <SEOTip done={data.totalPosts >= 1} text="At least 1 blog post published" action="Write post" href="/admin/Blog" />
+              <SEOTip done={data.totalPosts >= 5} text="5+ blog posts (boosts ranking significantly)" action="Write post" href="/admin/Blog" />
+              <SEOTip done={data.totalPosts >= 10} text="10+ blog posts (establishes content authority)" action="Write post" href="/admin/Blog" />
+              <SEOTip done={daysSincePost !== null && daysSincePost <= 7} text="Posted within the last 7 days (freshness signal)" action="Write now" href="/admin/Blog" />
+              <SEOTip done={data.activeItems >= 10} text="10+ active menu items visible on site" action="Add items" href="/admin/menuItems/new" />
+              <SEOTip done={data.featuredItems >= 3} text="3+ featured items on home page" action="Set featured" href="/admin/menuItems" />
+              <SEOTip done={data.totalLocations >= 1} text="Location added (helps local SEO in Houston)" action="Add location" href="/admin/places" />
+              <div className="mt-4 bg-stone-50 rounded-xl p-3 flex gap-2">
+                <Zap size={14} className="text-[#c85a1e] shrink-0 mt-0.5" />
+                <p className="text-xs text-stone-500 leading-relaxed">
+                  <span className="font-semibold text-stone-700">Pro tip:</span>{" "}
+                  Posting 2–3 blog posts per week is the single biggest thing you can do to rank higher on Google.
+                </p>
+              </div>
             </div>
-            <div className="border-t border-stone-100 pt-4 grid grid-cols-3 gap-3">
-              {[
-                { freq: "1–2×/week", label: "Good",      color: "#d97706", bg: "#fef3c7" },
-                { freq: "3–4×/week", label: "Great",     color: "#1a6b3c", bg: "#dcfce7" },
-                { freq: "5+×/week",  label: "Excellent", color: "#1d4ed8", bg: "#dbeafe" },
-              ].map((item) => (
-                <div key={item.label} className="rounded-xl p-3 text-center" style={{ background: item.bg }}>
-                  <p className="text-sm font-bold" style={{ color: item.color }}>{item.freq}</p>
-                  <p className="text-xs mt-0.5" style={{ color: item.color }}>{item.label}</p>
+
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-stone-400 mb-1">Traffic Sources</p>
+                <p className="font-semibold text-stone-800 mb-6">Where your visitors come from</p>
+                <TrafficSourceChart />
+              </div>
+
+              <div className="bg-white rounded-2xl border border-stone-200 shadow-sm p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#c85a1e] flex items-center justify-center"><TrendingUp size={16} /></div>
+                    <div>
+                      <p className="font-semibold text-stone-800 text-sm">{data.totalPosts} post{data.totalPosts !== 1 ? "s" : ""} published</p>
+                      <p className="text-xs text-stone-400">
+                        {data.latestPost ? `Last: "${data.latestPost.title}" — ${daysSincePost === 0 ? "today" : `${daysSincePost} days ago`}` : "No posts yet — start writing to get found on Google"}
+                      </p>
+                    </div>
+                  </div>
+                  <Link href="/admin/Blog" className="text-xs font-semibold text-[#c85a1e] hover:underline flex items-center gap-1">Manage <ArrowRight size={12} /></Link>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* MENU HEALTH */}
+        {/* ── MENU HEALTH ── */}
         <div>
           <SectionTitle>Menu Health</SectionTitle>
           <div className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
