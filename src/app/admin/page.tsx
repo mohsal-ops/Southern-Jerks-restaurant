@@ -255,7 +255,7 @@ export default async function Page() {
             <Link href="/admin/Blog" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#c85a1e] hover:shadow-md transition-all">
               <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#c85a1e] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><PenLine size={18} /></div>
               <p className="font-semibold text-stone-800 text-sm">Write Blog Post</p>
-              <p className="text-xs text-stone-400 mt-1">{daysSincePost === null ? "No posts yet — start now" : daysSincePost === 0 ? "Last post: today ✓" : `Last post: ${daysSincePost}d ago`}</p>
+              <p className="text-xs text-stone-400 mt-1">{daysSincePost === null ? "No posts yet -- start now" : daysSincePost === 0 ? "Last post: today ✓" : `Last post: ${daysSincePost}d ago`}</p>
             </Link>
             <Link href="/admin/gallery" className="group bg-white rounded-2xl border border-stone-200 shadow-sm p-5 hover:border-[#7c3aed] hover:shadow-md transition-all">
               <div className="w-9 h-9 rounded-xl bg-purple-50 text-[#7c3aed] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"><Images size={18} /></div>

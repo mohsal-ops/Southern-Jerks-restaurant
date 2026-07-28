@@ -3,7 +3,7 @@ import { ProductCardSkeleton } from "../_components/ProductCardServer";
 export default function LoadingMenu() {
   return (
     <div className="flex flex-col md:flex-row gap-16 w-full lg:w-[80%] pt-20 animate-pulse">
-      
+
       {/* Left categories */}
       <div className="hidden md:block w-2/12 space-y-3">
         {[...Array(6)].map((_, i) => (
@@ -13,7 +13,7 @@ export default function LoadingMenu() {
 
       {/* Main content */}
       <div className="md:w-9/12 w-full space-y-6 px-2">
-        
+
         {/* Title */}
         <div className="space-y-2">
           <div className="h-6 w-2/3 bg-gray-200 rounded" />

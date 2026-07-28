@@ -12,16 +12,22 @@ export const DEFAULT_HOURS = [
 
 // Falls back to seeding the table from DEFAULT_HOURS if it's ever empty
 // (fresh DB, or the seed script was never run) instead of returning nothing.
+// Also resilient if the DB is unreachable/timing out (or the table doesn't
+// exist yet) — returns defaults so the root layout doesn't 500 the whole app.
 export async function getBusinessHours() {
-  const hours = await db.businessHours.findMany({ orderBy: { dayIndex: "asc" } });
-  if (hours.length > 0) return hours;
+  try {
+    const hours = await db.businessHours.findMany({ orderBy: { dayIndex: "asc" } });
+    if (hours.length > 0) return hours;
 
-  await Promise.all(
-    DEFAULT_HOURS.map((h) =>
-      db.businessHours.upsert({ where: { dayIndex: h.dayIndex }, update: h, create: h }),
-    ),
-  );
-  return db.businessHours.findMany({ orderBy: { dayIndex: "asc" } });
+    await Promise.all(
+      DEFAULT_HOURS.map((h) =>
+        db.businessHours.upsert({ where: { dayIndex: h.dayIndex }, update: h, create: h }),
+      ),
+    );
+    return await db.businessHours.findMany({ orderBy: { dayIndex: "asc" } });
+  } catch {
+    return DEFAULT_HOURS.map((h, i) => ({ id: `default-${i}`, updatedAt: new Date(), ...h }));
+  }
 }
 
 export function formatHour(hour: number): string {
