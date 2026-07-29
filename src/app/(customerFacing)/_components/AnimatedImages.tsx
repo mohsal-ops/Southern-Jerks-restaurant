@@ -13,7 +13,7 @@ export function ThirdSectionComponent({
   images: GalleryImageData[];
 }) {
   return (
-    <div className=" sm:w-[85vw] p-2 space-y-10 ">
+    <div className=" sm:w-[85vw] sm:text-start text-center w-full p-2 space-y-10 ">
       <div className="space-y-4">
         <PageHeader>{SITE_CONFIG.home.galleryTitle}</PageHeader>
         <span className="font-medium text-neutral-600 text-lg">

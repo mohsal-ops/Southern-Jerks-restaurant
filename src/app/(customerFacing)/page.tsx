@@ -184,7 +184,7 @@ export default async function Home() {
         <FeaturedProductsSection />
       </Suspense>
       <SectionDivider />
-      <Suspense fallback={<div className="w-[85%] h-100 bg-gray-200 rounded-3xl animate-pulse" />}>
+      <Suspense fallback={<div className="sm:w-[85%] w-full h-100 bg-gray-200 rounded-3xl animate-pulse" />}>
         <GallerySection />
       </Suspense>
       <SectionDivider />
