@@ -105,7 +105,7 @@ export default function PlacesComponent() {
 
       {/* MAP */}
       {showMap && (
-        <div className="w-full h-130 flex flex-col items-center mb-10">
+        <div className="w-full flex flex-col items-center mb-10">
           <div className="w-full max-w-3xl bg-white/80 backdrop-blur border border-stone-200 rounded-2xl p-3 shadow-sm flex gap-2">
             <input
               id="text-input"
@@ -123,7 +123,7 @@ export default function PlacesComponent() {
 
           <div
             ref={mapRef}
-            className="w-full h-full mt-4 rounded-3xl overflow-hidden border border-stone-200 shadow-lg"
+            className="w-full max-w-5xl h-[70vh] min-h-[400px] mt-4 rounded-3xl overflow-hidden border border-stone-200 shadow-lg"
           />
         </div>
       )}

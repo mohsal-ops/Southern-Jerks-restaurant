@@ -26,11 +26,24 @@ export async function updateSiteImage(key: string, formData: FormData) {
   if (!file || file.size === 0) return { error: "No file provided" };
   if (!file.type.startsWith("image/")) return { error: "Invalid image file" };
 
-  const url = await saveImage(file);
-  await db.siteImage.update({ where: { key }, data: { url } });
+  try {
+    const url = await saveImage(file);
+    // upsert (not update) so a missing key can't throw a record-not-found error
+    await db.siteImage.upsert({
+      where: { key },
+      update: { url },
+      create: { key, url, label: key },
+    });
 
-  revalidatePath("/");
-  revalidatePath("/story");
-  revalidatePath("/admin/images");
-  return { ok: true, url };
+    revalidatePath("/");
+    revalidatePath("/story");
+    revalidatePath("/admin/images");
+    return { ok: true, url };
+  } catch (error) {
+    console.error("updateSiteImage error:", error);
+    return {
+      error:
+        "Couldn't save the image. On the live site this usually means image storage (Vercel Blob) isn't connected yet.",
+    };
+  }
 }

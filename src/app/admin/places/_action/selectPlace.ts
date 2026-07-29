@@ -45,6 +45,14 @@ export default function initHerePlacePicker({
   new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
   ui = H.ui.UI.createDefault(map, defaultLayers);
 
+  // The map container is revealed dynamically (Add New Place toggle); nudge
+  // HERE to re-measure so tiles paint into the now-visible, sized container.
+  requestAnimationFrame(() => {
+    try {
+      map.getViewPort().resize();
+    } catch {}
+  });
+
   const input = document.getElementById("text-input") as HTMLInputElement | null;
   const btn = document.getElementById("text-input-button") as HTMLButtonElement | null;
 
@@ -67,6 +75,11 @@ async function searchPlaces(query: string, onPlaceAdded?: () => void) {
   const data = await res.json();
 
   clearMarkers();
+
+  if (!data.items || data.items.length === 0) {
+    alert("No results found for that search. Try a more specific address.");
+    return;
+  }
 
   data.items.forEach((item: any) => {
     const marker = new (window as any).H.map.Marker(item.position);
