@@ -47,35 +47,57 @@ export async function addGalleryImage(
   prevState: unknown,
   formData: FormData
 ): Promise<ActionResult> {
-  const file = formData.get("image");
-  const alt = String(formData.get("alt") ?? "");
+  const files = formData
+    .getAll("image")
+    .filter((f): f is File => f instanceof File && f.size > 0);
+  const alt = String(formData.get("alt") ?? "").trim();
 
-  if (!(file instanceof File) || file.size === 0) {
-    return { error: "Please choose an image to upload." };
+  if (files.length === 0) {
+    return { error: "Please choose at least one image to upload." };
   }
-  if (!file.type.startsWith("image/")) {
-    return { error: "That file isn't an image." };
+  if (files.some((f) => !f.type.startsWith("image/"))) {
+    return { error: "One or more of those files isn't an image." };
   }
 
-  try {
-    const url = await saveImage(file);
-    const maxOrder = await db.galleryImage.aggregate({ _max: { order: true } });
+  const maxOrder = await db.galleryImage.aggregate({ _max: { order: true } });
+  let order = (maxOrder._max.order ?? -1) + 1;
+  let added = 0;
+  let failed = 0;
 
-    await db.galleryImage.create({
-      data: {
-        url,
-        alt,
-        order: (maxOrder._max.order ?? -1) + 1,
-      },
-    });
-
-    revalidatePath("/");
-    revalidatePath("/admin/gallery");
-    return { message: "Image added." };
-  } catch (error) {
-    console.error("addGalleryImage error:", error);
-    return { error: "Failed to upload image." };
+  // Upload each selected file and create a row per image.
+  for (const file of files) {
+    try {
+      const url = await saveImage(file);
+      await db.galleryImage.create({
+        data: {
+          url,
+          // one shared alt applies to all; fall back to the filename per image
+          alt: alt || file.name.replace(/\.[^.]+$/, ""),
+          order: order++,
+        },
+      });
+      added++;
+    } catch (error) {
+      console.error("addGalleryImage failed for", file.name, error);
+      failed++;
+    }
   }
+
+  revalidatePath("/");
+  revalidatePath("/admin/gallery");
+
+  if (added === 0) {
+    return {
+      error:
+        "Couldn't upload. On the live site this usually means image storage (Vercel Blob) isn't connected yet.",
+    };
+  }
+  if (failed > 0) {
+    return {
+      message: `${added} image${added !== 1 ? "s" : ""} added, ${failed} failed.`,
+    };
+  }
+  return { message: added === 1 ? "Image added." : `${added} images added.` };
 }
 
 export async function deleteGalleryImage(id: string): Promise<ActionResult> {

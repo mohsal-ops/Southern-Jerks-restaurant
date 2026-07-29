@@ -116,11 +116,12 @@ export default function GalleryManager({
         </h2>
         <div className="flex flex-col sm:flex-row gap-3 items-start">
           <div className="flex-1 space-y-2 w-full">
-            <Label htmlFor="gallery-image">Image file</Label>
-            <Input id="gallery-image" name="image" type="file" accept="image/*" required />
+            <Label htmlFor="gallery-image">Image file(s)</Label>
+            <Input id="gallery-image" name="image" type="file" accept="image/*" multiple required />
+            <p className="text-xs text-stone-400">You can select multiple images at once.</p>
           </div>
           <div className="flex-1 space-y-2 w-full">
-            <Label htmlFor="gallery-alt">Alt text (for SEO / screen readers)</Label>
+            <Label htmlFor="gallery-alt">Alt text (optional — applied to all)</Label>
             <Input id="gallery-alt" name="alt" placeholder="Crispy jerk chicken wings" />
           </div>
         </div>
