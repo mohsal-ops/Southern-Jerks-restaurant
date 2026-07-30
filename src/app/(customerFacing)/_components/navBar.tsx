@@ -12,7 +12,13 @@ import { CartItem } from "generated/prisma";
 import { Gamepad2 } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
-export function SideBar({ pathname }: { pathname: string }) {
+export function SideBar({
+  pathname,
+  logoUrl,
+}: {
+  pathname: string;
+  logoUrl?: string;
+}) {
   return (
     <div className="flex w-full  justify-between h-20 items-center ">
       <div className="flex items-center justify-center pl-7">
@@ -21,7 +27,7 @@ export function SideBar({ pathname }: { pathname: string }) {
             alt={`${SITE_CONFIG.name} logo`}
             priority
             className=" w-auto h-auto"
-            src={Logo}
+            src={logoUrl || Logo}
             height={50}
             width={50}
           />
@@ -57,7 +63,13 @@ const fetcher = async (url: string, cartId: string | null) => {
   return res.json();
 };
 
-export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
+export function TopNavBar({
+  initialCartId,
+  logoUrl,
+}: {
+  initialCartId: string | null;
+  logoUrl?: string;
+}) {
   // console.log("🔁 TopNavBar rendered");
 
   const pathname = usePathname();
@@ -84,7 +96,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
   return (
     <div className="bg-white flex justify-center ">
       <div className="flex w-full md:hidden">
-        <SideBar pathname={pathname} />
+        <SideBar pathname={pathname} logoUrl={logoUrl} />
         {cartItems.length > 0 && (
           <div className="fixed bottom-1 right-2 left-2 rounded-md flex justify-center z-50">
             <CartSideBar cartId={cartId} cartItems={cartItems} />
@@ -97,7 +109,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
           <Image
             alt={`${SITE_CONFIG.name} logo`}
             className="w-auto h-auto"
-            src={Logo}
+            src={logoUrl || Logo}
             height={60}
             width={60}
           />
@@ -113,7 +125,7 @@ export function TopNavBar({ initialCartId }: { initialCartId: string | null }) {
                     className={[
                       "text-md rounded-md  font-medium transition-colors duration-150 flex items-center gap-2",
                       isActive
-                        ? "bg-yellow-400 text-stone-900" // active: yellow bg, dark text
+                        ? "bg-brand text-stone-900" // active: yellow bg, dark text
                         : "text-stone-700  hover:bg-stone-100 ", // inactive: orange text, subtle yellow hover
                     ].join(" ")}
                   >

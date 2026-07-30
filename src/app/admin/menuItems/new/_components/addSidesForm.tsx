@@ -488,8 +488,8 @@ function DynamicPriceList({ items, setItems, disabled }: any) {
 //       <div className="space-y-2">
 //         {item.sideGroups.map((g) => (
 //           <div key={g.id} className="border p-2 rounded">
-//             <strong>{g.title}</strong> — {g.type} —{" "}
-//             {g.required ? "Required" : "Optional"} — Max: {g.maxSelect ?? "∞"}
+//             <strong>{g.title}</strong> - {g.type} -{" "}
+//             {g.required ? "Required" : "Optional"} - Max: {g.maxSelect ?? "∞"}
 //           </div>
 //         ))}
 //       </div>

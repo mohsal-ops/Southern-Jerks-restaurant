@@ -1,4 +1,4 @@
-// Pulsing placeholder skeletons for admin loading states — the same "fading
+// Pulsing placeholder skeletons for admin loading states - the same "fading
 // components" idea as the public site's loading.tsx, tailored per page. Plain
 // server components (no client JS). The looping burger is overlaid on top by
 // LoadingWithSkeleton.

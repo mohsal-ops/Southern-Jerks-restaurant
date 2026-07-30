@@ -1,6 +1,6 @@
 /**
  * Loads the HERE Maps SDK. Only mount this on pages/components that actually
- * render a map (MapClient, the admin place picker) — it was previously
+ * render a map (MapClient, the admin place picker) - it was previously
  * loaded in the root layout on every single page, including checkout, blog,
  * and admin screens that never touch a map.
  *

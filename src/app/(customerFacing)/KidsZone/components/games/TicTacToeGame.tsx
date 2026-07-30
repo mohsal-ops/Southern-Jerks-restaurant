@@ -124,7 +124,7 @@ const TicTacToeGame = () => {
   return (
     <div className="game-card">
       <div className="text-center mb-4">
-        <p className="text-muted-foreground text-sm mb-4">You&apos;re 🍗 — beat the 🍔 AI!</p>
+        <p className="text-muted-foreground text-sm mb-4">You&apos;re 🍗 - beat the 🍔 AI!</p>
         <DifficultySelector currentDifficulty={difficulty} onSelect={(d) => { setDifficulty(d); resetGame(); }} configs={configs} />
       </div>
 

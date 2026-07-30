@@ -21,7 +21,7 @@ export default function initHerePlacePicker({
     return;
   }
 
-  // Called again every time the map picker is reopened — mapRef is a brand
+  // Called again every time the map picker is reopened - mapRef is a brand
   // new DOM node each time (React unmounts it on close), so any previous
   // map instance is now bound to a detached element and needs to be torn
   // down rather than reused.

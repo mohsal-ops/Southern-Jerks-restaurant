@@ -1,7 +1,7 @@
 // Signed, stateless admin session tokens. Verified with the Web Crypto API
 // (crypto.subtle) so the same code works in both the Edge runtime
 // (middleware) and Node API routes, without needing a sessions table or a
-// new secret — it reuses ADMIN_SECRET as the HMAC signing key.
+// new secret - it reuses ADMIN_SECRET as the HMAC signing key.
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 

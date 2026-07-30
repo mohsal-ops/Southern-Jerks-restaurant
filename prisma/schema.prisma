@@ -238,4 +238,10 @@ model SiteImage {
   updatedAt DateTime @updatedAt
 }
 
+model SiteSetting {
+  key       String   @id // "theme_color" | "logo_url"
+  value     String
+  updatedAt DateTime @updatedAt @default(now())
+}
+
 

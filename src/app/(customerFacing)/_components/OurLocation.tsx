@@ -41,7 +41,7 @@ export function OurLocation({
   const todayLabel =
     today.open === "Closed"
       ? "Closed today"
-      : `Today: ${today.open} – ${today.close}`;
+      : `Today: ${today.open} - ${today.close}`;
 
   const mapsUrl = `${SITE_CONFIG.googleMapsUrl}?entry=ttu`;
 
@@ -94,7 +94,7 @@ export function OurLocation({
                 {HOURS.map((h, i) => {
                   const isToday = i === todayIdx;
                   const label =
-                    h.open === "Closed" ? "Closed" : `${h.open} – ${h.close}`;
+                    h.open === "Closed" ? "Closed" : `${h.open} - ${h.close}`;
                   return (
                     <tr
                       key={h.day}

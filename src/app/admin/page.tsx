@@ -157,7 +157,7 @@ export default async function Page() {
             : "min-h-screen bg-stone-50 p-4 md:p-6 space-y-8 blur-sm pointer-events-none select-none"
         }
       >
-        {/* ── HEADER — subtle: logo + greeting, accent touches only ── */}
+        {/* ── HEADER - subtle: logo + greeting, accent touches only ── */}
         <header className="bg-white rounded-2xl border border-stone-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex items-center gap-4 flex-1 min-w-0">
             <div className="w-12 h-12 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center shrink-0 overflow-hidden">
@@ -185,13 +185,13 @@ export default async function Page() {
           </div>
         </header>
 
-        {/* ── TODAY — the money glance ── */}
+        {/* ── TODAY - the money glance ── */}
         <div>
           <SectionTitle>Today</SectionTitle>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <TodayTile label="Revenue today" value={formatCurrency(briefing.revenueTodayCents / 100)} icon={<DollarSign size={16} />} accent="#1a6b3c" />
             <TodayTile label="Orders today" value={briefing.ordersToday} icon={<ShoppingBag size={16} />} accent="#c85a1e" />
-            <TodayTile label="Avg order (7d)" value={briefing.avgOrderCents > 0 ? formatCurrency(briefing.avgOrderCents / 100) : "—"} icon={<Receipt size={16} />} accent="#1d4ed8" />
+            <TodayTile label="Avg order (7d)" value={briefing.avgOrderCents > 0 ? formatCurrency(briefing.avgOrderCents / 100) : "-"} icon={<Receipt size={16} />} accent="#1d4ed8" />
             <TodayTile label="New catering" value={briefing.newCatering} sub={briefing.newCatering > 0 ? "Needs a reply" : "All clear"} icon={<Mail size={16} />} accent="#d97706" />
           </div>
         </div>
@@ -205,7 +205,7 @@ export default async function Page() {
             ) : (
               <div className="flex items-center gap-3 py-4">
                 <CheckCircle2 size={18} className="text-green-500 shrink-0" />
-                <p className="text-sm text-stone-500">You&apos;re all caught up — nothing needs action right now.</p>
+                <p className="text-sm text-stone-500">You&apos;re all caught up - nothing needs action right now.</p>
               </div>
             )}
           </div>
@@ -297,7 +297,7 @@ export default async function Page() {
                 <Zap size={14} className="text-[#c85a1e] shrink-0 mt-0.5" />
                 <p className="text-xs text-stone-500 leading-relaxed">
                   <span className="font-semibold text-stone-700">Pro tip:</span>{" "}
-                  Posting 2–3 blog posts per week is the single biggest thing you can do to rank higher on Google.
+                  Posting 2-3 blog posts per week is the single biggest thing you can do to rank higher on Google.
                 </p>
               </div>
             </div>
@@ -316,7 +316,7 @@ export default async function Page() {
                     <div>
                       <p className="font-semibold text-stone-800 text-sm">{data.totalPosts} post{data.totalPosts !== 1 ? "s" : ""} published</p>
                       <p className="text-xs text-stone-400">
-                        {data.latestPost ? `Last: "${data.latestPost.title}" — ${daysSincePost === 0 ? "today" : `${daysSincePost} days ago`}` : "No posts yet — start writing to get found on Google"}
+                        {data.latestPost ? `Last: "${data.latestPost.title}" - ${daysSincePost === 0 ? "today" : `${daysSincePost} days ago`}` : "No posts yet - start writing to get found on Google"}
                       </p>
                     </div>
                   </div>
@@ -357,7 +357,7 @@ export default async function Page() {
         </div>
       </div>
 
-      {/* ── OVERLAY — fixed so it sits above page content but below the layout navbar ── */}
+      {/* ── OVERLAY - fixed so it sits above page content but below the layout navbar ── */}
       {!isUnlocked && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm pointer-events-auto"
           style={{ top: "56px" }}
@@ -368,7 +368,7 @@ export default async function Page() {
             </div>
             <h2 className="text-xl font-bold text-stone-900">Dashboard Coming Soon</h2>
             <p className="text-sm text-stone-500 leading-relaxed">
-              We&apos;re building you a powerful admin dashboard — SEO tools, blog management, menu control, and live analytics. Almost ready.
+              We&apos;re building you a powerful admin dashboard - SEO tools, blog management, menu control, and live analytics. Almost ready.
             </p>
             <div className="w-full">
               <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">

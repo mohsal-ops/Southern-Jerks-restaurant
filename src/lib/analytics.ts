@@ -140,7 +140,7 @@ const credentials = {
   private_key: process.env.GOOGLE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
 };
 
-// GA4_PROPERTY_ID must be ONLY the number — no "properties/" prefix, no "G-" prefix
+// GA4_PROPERTY_ID must be ONLY the number - no "properties/" prefix, no "G-" prefix
 const GA4_PROPERTY_ID = process.env.GA4_PROPERTY_ID!;
 const PAGESPEED_API_KEY = process.env.PAGESPEED_API_KEY;
 const SITE_URL = process.env.SITE_URL!;
@@ -154,7 +154,7 @@ const gscAuth = new google.auth.GoogleAuth({
 const searchconsole = google.searchconsole({ version: "v1", auth: gscAuth });
 
 // ── Core GA4 helper ───────────────────────────────────────────────────────────
-// Single reusable function — reduces duplication and surfaces real errors
+// Single reusable function - reduces duplication and surfaces real errors
 
 type GA4ReportRequest = protos.google.analytics.data.v1beta.IRunReportRequest;
 
@@ -218,7 +218,7 @@ export async function getTrafficData(): Promise<TrafficData> {
     const uv = parseNum(c?.[0]?.value);
     const tv = parseNum(c?.[1]?.value);
     const pv = parseNum(c?.[2]?.value);
-    // bounceRate in GA4 is 0–1 float; multiply by 100
+    // bounceRate in GA4 is 0-1 float; multiply by 100
     const br = Math.round(parseFloat2(c?.[3]?.value) * 100);
 
     const uvP = parseNum(p?.[0]?.value);
@@ -441,7 +441,7 @@ export async function getDeviceData(): Promise<DeviceData[]> {
   }
 }
 
-// ── 8. SEO — Search Console ───────────────────────────────────────────────────
+// ── 8. SEO - Search Console ───────────────────────────────────────────────────
 
 export async function getSeoData(): Promise<SeoData> {
   const fallback: SeoData = {
@@ -483,7 +483,7 @@ export async function getSeoData(): Promise<SeoData> {
   } catch (e: any) {
     const status = e?.status ?? e?.code ?? "unknown";
     const msg = status === 403
-      ? "403 — service account missing from Search Console or wrong SITE_URL format"
+      ? "403 - service account missing from Search Console or wrong SITE_URL format"
       : `Error ${status}: ${e?.message}`;
     console.error("[getSeoData]", msg);
     return { ...fallback, _error: msg };
@@ -493,11 +493,11 @@ export async function getSeoData(): Promise<SeoData> {
 // ── 9. PageSpeed ──────────────────────────────────────────────────────────────
 
 export async function getPageSpeedData(
-  pageUrl?: string  // optional — defaults to your homepage
+  pageUrl?: string  // optional - defaults to your homepage
 ): Promise<PageSpeedData> {
   const fallback: PageSpeedData = {
     performanceScore: 0, loadSpeed: null,
-    fcp: "–", lcp: "–", cls: "–", tbt: "–",
+    fcp: "-", lcp: "-", cls: "-", tbt: "-",
   };
 
   const apiKey = process.env.PAGESPEED_API_KEY;
@@ -536,10 +536,10 @@ export async function getPageSpeedData(
     return {
       performanceScore: Math.round((score ?? 0) * 100),
       loadSpeed: rawSpeed != null ? parseFloat((rawSpeed / 1000).toFixed(1)) : null,
-      fcp: audits?.["first-contentful-paint"]?.displayValue  ?? "–",
-      lcp: audits?.["largest-contentful-paint"]?.displayValue ?? "–",
-      cls: audits?.["cumulative-layout-shift"]?.displayValue  ?? "–",
-      tbt: audits?.["total-blocking-time"]?.displayValue      ?? "–",
+      fcp: audits?.["first-contentful-paint"]?.displayValue  ?? "-",
+      lcp: audits?.["largest-contentful-paint"]?.displayValue ?? "-",
+      cls: audits?.["cumulative-layout-shift"]?.displayValue  ?? "-",
+      tbt: audits?.["total-blocking-time"]?.displayValue      ?? "-",
     };
   } catch (e: any) {
     return { ...fallback, _error: e?.message };

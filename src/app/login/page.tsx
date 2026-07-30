@@ -10,7 +10,7 @@ import { toast } from "sonner";
 const VERIFY_MESSAGES: Record<string, { type: "success" | "error"; message: string }> = {
   "first-admin": {
     type: "success",
-    message: "Email verified — you're the first admin, so you're approved. Sign in below.",
+    message: "Email verified - you're the first admin, so you're approved. Sign in below.",
   },
   "pending-approval": {
     type: "success",

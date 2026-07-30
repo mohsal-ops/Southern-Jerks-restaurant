@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (!cart || cart.items.length === 0 || cart.status === "completed") {
-      // Cart already marked completed — this payment intent was already
+      // Cart already marked completed - this payment intent was already
       // processed by a prior webhook delivery (Stripe retries on non-2xx responses).
       return new NextResponse("Already processed", { status: 200 });
     }
@@ -165,10 +165,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Notify the restaurant immediately — Telegram is already wired up (src/lib/telegram.ts).
+    // Notify the restaurant immediately - Telegram is already wired up (src/lib/telegram.ts).
     const orderType = first.deliveryAddress ? "delivery" : "pickup";
     const notification =
-      `<b>🔔 New order — $${total.toFixed(2)}</b>\n` +
+      `<b>🔔 New order - $${total.toFixed(2)}</b>\n` +
       `Type: ${orderType}\n` +
       (first.customerName ? `Name: ${first.customerName}\n` : "") +
       (first.customerPhone ? `Phone: ${first.customerPhone}\n` : "") +
@@ -180,8 +180,8 @@ export async function POST(req: NextRequest) {
     await sendTelegramMessage(notification);
 
     // Mark the cart completed (rather than deleting its items) so the admin
-    // orders dashboard keeps a full record — items, sides, pickup/delivery
-    // details — of every finished order.
+    // orders dashboard keeps a full record - items, sides, pickup/delivery
+    // details - of every finished order.
     await db.cart.update({ where: { id: cartId }, data: { status: "completed" } });
     revalidatePath("/Menu");
     revalidatePath("/stripe/purchase-success");

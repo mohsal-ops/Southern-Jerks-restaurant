@@ -33,7 +33,7 @@ export default function Loading() {
 
         {[1, 2, 3].map((i) => (
           <div key={i} className="relative pl-8 space-y-2">
-            <span className="absolute -left-2 top-1 w-4 h-4 bg-yellow-400 rounded-full" />
+            <span className="absolute -left-2 top-1 w-4 h-4 bg-brand rounded-full" />
             <div className="h-4 w-20 bg-gray-300 rounded" />
             <div className="h-4 w-full bg-gray-200 rounded" />
           </div>

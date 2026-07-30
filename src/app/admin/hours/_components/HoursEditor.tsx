@@ -23,7 +23,7 @@ function formatHour(hour: number): string {
   return `${display}:00 ${period}`;
 }
 
-const HOUR_OPTIONS = Array.from({ length: 24 }, (_, i) => i); // 12 AM – 11 PM
+const HOUR_OPTIONS = Array.from({ length: 24 }, (_, i) => i); // 12 AM - 11 PM
 const DAY_NAMES = [
   "Sunday",
   "Monday",
@@ -36,7 +36,7 @@ const DAY_NAMES = [
 
 export default function HoursEditor({ hours }: { hours: HourRow[] }) {
   // Always render all 7 weekdays, filling in any the DB is missing as "closed",
-  // so every day is editable (toggle open/closed) — no add/remove needed.
+  // so every day is editable (toggle open/closed) - no add/remove needed.
   const [rows, setRows] = useState<HourRow[]>(() => {
     const byIndex = new Map(hours.map((h) => [h.dayIndex, h]));
     return DAY_NAMES.map(

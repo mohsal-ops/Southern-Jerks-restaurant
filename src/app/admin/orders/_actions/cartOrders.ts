@@ -13,7 +13,7 @@ export async function getOrdersWithItems(status?: CartOrderStatus) {
     include: { items: { include: { sides: true } } },
     orderBy: { updatedAt: "desc" },
   });
-  // Hide fully-empty open carts (nothing was ever added) — not a real order.
+  // Hide fully-empty open carts (nothing was ever added) - not a real order.
   return carts.filter((cart) => cart.items.length > 0);
 }
 

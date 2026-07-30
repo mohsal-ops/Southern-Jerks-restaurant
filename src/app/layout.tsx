@@ -3,6 +3,8 @@ import { CartProvider } from "./providers/CartProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 import { getBusinessHours } from "@/lib/getHours";
+import { getThemeColor, DEFAULT_THEME_COLOR } from "@/lib/siteSettings";
+import { readableTextColor } from "@/lib/color";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,7 +27,7 @@ export const metadata: Metadata = {
   },
 
   // ── FAVICON ──────────────────────────────────────────────────────────────
-  // Set here (root layout) so every route gets it — a page-level metadata
+  // Set here (root layout) so every route gets it - a page-level metadata
   // export only applies to that one route, not its siblings.
   icons: {
     icon: "/logo.png",
@@ -93,9 +95,19 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const businessHours = await getBusinessHours();
+  const rawColor = await getThemeColor();
+  const themeColor = /^#[0-9a-fA-F]{3,8}$/.test(rawColor)
+    ? rawColor
+    : DEFAULT_THEME_COLOR;
+  const brandForeground = readableTextColor(themeColor);
   return (
     <html lang="en">
       <head>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `:root{--brand:${themeColor};--brand-foreground:${brandForeground}}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

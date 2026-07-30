@@ -94,7 +94,7 @@ export default function CateringPageClient() {
         </div>
 
         <div className="md:w-1/2  p-2 sm:p-4 text-center md:text-left space-y-4 z-10">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-yellow-400 drop-shadow-lg">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-brand drop-shadow-lg">
             Bring {SITE_CONFIG.name} to Your Event
           </h1>
           <p className="text-lg md:text-xl text-white drop-shadow-lg">
@@ -104,7 +104,7 @@ export default function CateringPageClient() {
           <div className="flex gap-4 justify-center md:justify-start  ">
             <Button
               variant="mainButton"
-              className="drop-shadow-lg hover:bg-yellow-500"
+              className="drop-shadow-lg hover:bg-brand-dark"
               size="lg"
               onClick={() => setOpen(true)}
             >

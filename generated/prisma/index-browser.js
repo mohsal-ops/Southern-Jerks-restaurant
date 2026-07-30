@@ -306,6 +306,12 @@ exports.Prisma.SiteImageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SiteSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -353,7 +359,8 @@ exports.Prisma.ModelName = {
   Review: 'Review',
   BusinessHours: 'BusinessHours',
   CateringRequest: 'CateringRequest',
-  SiteImage: 'SiteImage'
+  SiteImage: 'SiteImage',
+  SiteSetting: 'SiteSetting'
 };
 
 /**

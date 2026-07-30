@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 type ActionResult = { message?: string; error?: string };
 
 // ── Image storage ────────────────────────────────────────────────────────────
-// Same pattern as src/app/admin/_actions/products.ts — local fs in dev,
+// Same pattern as src/app/admin/_actions/products.ts - local fs in dev,
 // Vercel Blob in production (filesystem is read-only on Vercel).
 async function saveImage(file: File, folder = "gallery"): Promise<string> {
   const isDev = process.env.NODE_ENV === "development";

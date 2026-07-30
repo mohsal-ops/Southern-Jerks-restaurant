@@ -1,7 +1,7 @@
 import db from "@/db/db";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
-// Owner's "morning briefing" numbers — today's money + this-week trend, plus
+// Owner's "morning briefing" numbers - today's money + this-week trend, plus
 // the couple of things that actually need action. All derived from data we
 // already store (Cart/CartItem/CateringRequest), no new schema.
 export async function getOwnerBriefing() {

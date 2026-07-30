@@ -84,7 +84,7 @@ export async function addPartner(prevState: unknown, formData: FormData) {
     const { name, role, accent, bio0, bio1, bio2 } = result.data;
     const order = parseInt(formData.get("order") as string) || 0;
 
-    // Handle image — optional on create
+    // Handle image - optional on create
     let image: string | null = null;
     const file = formData.get("image") as File;
     if (file && file.size > 0 && file.type.startsWith("image/")) {

@@ -88,8 +88,8 @@ export function SecondSectionFeatured({
           className="absolute right-2 top-1/2 -translate-y-1/2 z-10
                      flex items-center justify-center
                      w-10 h-10 rounded-full shadow-md
-                     bg-yellow-400 text-black
-                     hover:bg-yellow-500 transition-colors"
+                     bg-brand text-black
+                     hover:bg-brand-dark transition-colors"
         >
           <MdKeyboardArrowRight size={24} />
         </button> */}

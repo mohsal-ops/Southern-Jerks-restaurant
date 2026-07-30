@@ -63,7 +63,7 @@ export default function GalleryManager({
   }
 
   // Native HTML5 drag-and-drop breaks after the first use if you reorder the
-  // array (and therefore move DOM nodes) on every dragover — that desyncs
+  // array (and therefore move DOM nodes) on every dragover - that desyncs
   // the browser's drag session for the element still being dragged, so the
   // *next* drag silently does nothing. Fix: only track what's being hovered
   // during the drag, and apply the actual reorder once, on drop.
@@ -83,7 +83,7 @@ export default function GalleryManager({
     setOverIndex(null);
     if (from === null || from === index) return;
 
-    // Compute the reordered array as a plain value first — setImages and
+    // Compute the reordered array as a plain value first - setImages and
     // startReorderTransition must each be called directly from the event
     // handler, not from inside a setState updater (updaters must be pure;
     // triggering a transition inside one causes React to throw "Cannot
@@ -121,7 +121,7 @@ export default function GalleryManager({
             <p className="text-xs text-stone-400">You can select multiple images at once.</p>
           </div>
           <div className="flex-1 space-y-2 w-full">
-            <Label htmlFor="gallery-alt">Alt text (optional — applied to all)</Label>
+            <Label htmlFor="gallery-alt">Alt text (optional - applied to all)</Label>
             <Input id="gallery-alt" name="alt" placeholder="Crispy jerk chicken wings" />
           </div>
         </div>
@@ -135,14 +135,14 @@ export default function GalleryManager({
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-bold uppercase tracking-widest text-stone-400">
-            {images.length} photo{images.length !== 1 ? "s" : ""} — drag to reorder
+            {images.length} photo{images.length !== 1 ? "s" : ""} - drag to reorder
           </h2>
           {isReordering && <span className="text-xs text-stone-400">Saving order...</span>}
         </div>
 
         {images.length === 0 ? (
           <div className="p-12 text-center text-stone-400 bg-white rounded-2xl border border-stone-200">
-            No gallery photos yet — add one above.
+            No gallery photos yet - add one above.
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">

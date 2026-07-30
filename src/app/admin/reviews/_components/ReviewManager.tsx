@@ -223,7 +223,7 @@ export default function ReviewManager({ reviews: initialReviews }: { reviews: Re
         </h2>
         {reviews.length === 0 ? (
           <div className="p-12 text-center text-stone-400 bg-white rounded-2xl border border-stone-200">
-            No reviews yet — add one above.
+            No reviews yet - add one above.
           </div>
         ) : (
           reviews.map((review, i) => (

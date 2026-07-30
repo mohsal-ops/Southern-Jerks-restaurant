@@ -99,7 +99,7 @@ export default function OrdersDashboard({ orders, stats }: { orders: Order[]; st
         <StatCard label="Avg Order Value" value={formatCurrency(stats.averageOrderValueCents / 100)} />
         <StatCard
           label="Most Ordered"
-          value={stats.mostOrderedItem ? stats.mostOrderedItem.name : "—"}
+          value={stats.mostOrderedItem ? stats.mostOrderedItem.name : "-"}
           sub={stats.mostOrderedItem ? `${stats.mostOrderedItem.count} sold all-time` : undefined}
         />
       </div>
@@ -237,7 +237,7 @@ export default function OrdersDashboard({ orders, stats }: { orders: Order[]; st
                     ) : (
                       <p className="sm:col-span-2">
                         <span className="font-semibold text-stone-700">Pickup:</span>{" "}
-                        {first.pickupDay ? new Date(first.pickupDay).toDateString() : "—"} {first.pickupTime ?? ""}
+                        {first.pickupDay ? new Date(first.pickupDay).toDateString() : "-"} {first.pickupTime ?? ""}
                       </p>
                     )}
                   </div>

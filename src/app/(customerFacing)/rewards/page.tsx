@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Rewards | Earn Points on Jerk Chicken & Wings",
   description:
-    "Join Southern Jerks Rewards in Houston, TX — earn points on every jerk chicken and wings order and redeem them for free sides and combos. No app required.",
+    "Join Southern Jerks Rewards in Houston, TX - earn points on every jerk chicken and wings order and redeem them for free sides and combos. No app required.",
   keywords: [
     "restaurant rewards Houston",
     "loyalty program Houston restaurant",
@@ -28,7 +28,7 @@ export default function RewardsPage() {
   return (
     <div className="max-w-5xl mx-auto mt-10 space-y-16">
       {/* 🔥 HERO */}
-      <section className="relative overflow-hidden mt-2 rounded-3xl bg-white px-10 py-24 text-center shadow-xl text-yellow-400">
+      <section className="relative overflow-hidden mt-2 rounded-3xl bg-white px-10 py-24 text-center shadow-xl text-brand">
         <div
           className="absolute inset-0"
           style={{

@@ -6,7 +6,7 @@ import { getSiteImage } from "@/lib/getSiteImages";
 export const metadata: Metadata = {
   title: "Our Story | Family-Owned Caribbean Kitchen in Houston",
   description:
-    "Meet the family behind Southern Jerks — a Houston, TX restaurant serving jerk chicken and Caribbean-inspired comfort food rooted in generations of home cooking.",
+    "Meet the family behind Southern Jerks - a Houston, TX restaurant serving jerk chicken and Caribbean-inspired comfort food rooted in generations of home cooking.",
   keywords: [
     "Caribbean restaurant Houston story",
     "family owned restaurant Houston",

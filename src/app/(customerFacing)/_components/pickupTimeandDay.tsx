@@ -323,7 +323,7 @@ export function PickupDetailsContent({
                   <div>
                     {availableTimeSlots.length === 0 && (
                       <p className="text-sm text-muted-foreground py-2">
-                        We&apos;re closed that day — please pick another date.
+                        We&apos;re closed that day - please pick another date.
                       </p>
                     )}
                     {availableTimeSlots.map((t) => (
@@ -411,7 +411,7 @@ export function PickupDetailsContent({
   );
 }
 
-/* Standalone Dialog wrapper — used directly from mainPage.tsx's (currently disabled) toggle. */
+/* Standalone Dialog wrapper - used directly from mainPage.tsx's (currently disabled) toggle. */
 export default function PickupDetails({
   open,
   onOpenChange,

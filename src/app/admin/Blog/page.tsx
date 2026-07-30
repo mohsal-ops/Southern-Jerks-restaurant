@@ -28,23 +28,23 @@ export default async function BlogPage() {
               <Zap size={13} className="text-[#c85a1e]" />
             </p>
             <p className="text-xs text-stone-500 mt-1 leading-relaxed">
-              Every post you write here gets indexed by Google as a new page on your website — this is what keeps your site alive in search results and helps you rank higher over time.
+              Every post you write here gets indexed by Google as a new page on your website - this is what keeps your site alive in search results and helps you rank higher over time.
               The Instagram feed on your blog page is for your visitors to see your latest content, but it does <span className="font-semibold text-stone-700">not</span> help your Google ranking.
-              Only these manual blog posts do. Aim for <span className="font-semibold text-stone-700">2–3 posts per week</span> about your food, events, recipes, or anything related to Southern Jerks.
+              Only these manual blog posts do. Aim for <span className="font-semibold text-stone-700">2-3 posts per week</span> about your food, events, recipes, or anything related to Southern Jerks.
             </p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-        {/* LEFT – CREATE POST */}
+        {/* LEFT - CREATE POST */}
         <div className="lg:col-span-2">
           <div className="rounded-xl border bg-white p-6 shadow-sm">
             <AddPostForm post={null} />
           </div>
         </div>
 
-        {/* RIGHT – SIDEBAR */}
+        {/* RIGHT - SIDEBAR */}
         <div className="space-y-6">
           <PostsTable posts={posts} />
           <BlogTips />
@@ -63,7 +63,7 @@ function BlogTips() {
         <li>• Add eye-catching food photos</li>
         <li>• Keep paragraphs short and readable</li>
         <li>• Post about events, specials, new menu items</li>
-        <li>• Consistency matters — post at least twice a week</li>
+        <li>• Consistency matters - post at least twice a week</li>
       </ul>
     </div>
   );

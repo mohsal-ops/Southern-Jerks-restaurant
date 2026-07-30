@@ -4,6 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Brand color - themeable from admin (SiteSetting "theme_color"). */
+@theme {
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-foreground: var(--brand-foreground);
+}
+
 
 .LcvUkwqF__Container {
   display: none !important;
@@ -28,7 +35,7 @@ html,
 body {
   width: 100%;
   /* clip (not hidden) blocks horizontal scroll bleed without turning
-     html/body into a scroll container — overflow-x: hidden here would
+     html/body into a scroll container - overflow-x: hidden here would
      silently break position: sticky everywhere on the site. */
   overflow-x: clip !important;
 }
@@ -60,6 +67,10 @@ html body[data-scroll-locked] {
   --sidebar-width-icon: 6rem;
   --sidebar-transition: 300ms; /* animation duration/ease */
 
+  /* Brand accent (themeable via admin -> Branding). */
+  --brand: #facc15;
+  --brand-dark: color-mix(in srgb, var(--brand) 70%, black);
+  --brand-foreground: #000000;
 
   --background: 0 0% 100%;
   --foreground: 222.2 47.4% 11.2%;
@@ -214,7 +225,7 @@ html body[data-scroll-locked] {
 }
 
 /* Referenced by --animate-accordion-down/up in the @theme block below.
-   Tailwind v4's CSS-first @theme only registers the animation shorthand —
+   Tailwind v4's CSS-first @theme only registers the animation shorthand -
    the keyframes themselves still need to be defined here explicitly, they
    don't carry over from tailwind.config.ts's JS-based theme.extend. Without
    this, the keyframe never runs, Radix's accordion never gets the
@@ -234,7 +245,7 @@ html body[data-scroll-locked] {
    Accessibility
 ================================ */
 
-/* Respect the OS-level "reduce motion" setting — vestibular disorders,
+/* Respect the OS-level "reduce motion" setting - vestibular disorders,
    motion sensitivity, etc. Cuts animations/transitions to near-instant
    instead of removing them outright, so layout-driven ones (accordions)
    still work without the disorienting motion. */

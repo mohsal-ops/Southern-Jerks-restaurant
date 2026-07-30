@@ -1,5 +1,5 @@
 "use client";
-// Southern Jerks loading loader — a small, centered line-art burger that
+// Southern Jerks loading loader - a small, centered line-art burger that
 // assembles from its ingredients, flashes a shine burst outward when complete,
 // then flips like a coin (3D) to reveal the logo, with a shimmering wordmark
 // underneath. Loops until the page finishes loading, then fades out.
@@ -21,7 +21,7 @@ const T = {
 const NAME = "Southern Jerks";
 
 // Shine lines radiating OUTWARD from around the burger (start near its edge and
-// shoot outward past the viewBox — the SVG uses overflow:visible).
+// shoot outward past the viewBox - the SVG uses overflow:visible).
 const SHINE = [
   { x1: 105, y1: 34, x2: 119, y2: 22, stagger: 0 },
   { x1: 15, y1: 34, x2: 1, y2: 22, stagger: 60 },
@@ -178,10 +178,10 @@ export default function LoadingScreen({
               animation: flipped ? "coinFlip 0.62s cubic-bezier(0.5,0,0.3,1) forwards" : undefined,
             }}
           >
-            {/* FRONT — line-art burger */}
+            {/* FRONT - line-art burger */}
             <div style={face}>
               <svg width="70" viewBox="0 0 120 100" fill="none" style={{ overflow: "visible" }}>
-                {/* Shine burst — outside the burger, on assembly complete */}
+                {/* Shine burst - outside the burger, on assembly complete */}
                 <g>
                   {SHINE.map((l, i) => (
                     <line
@@ -197,7 +197,7 @@ export default function LoadingScreen({
                   ))}
                 </g>
 
-                {/* Burger — line art */}
+                {/* Burger - line art */}
                 <g>
                   {/* Bottom bun */}
                   <path d="M 26,71 Q 24,71 24,74 Q 24,82 60,82 Q 96,82 96,74 Q 96,71 94,71 Z"
@@ -205,10 +205,10 @@ export default function LoadingScreen({
                   {/* Patty */}
                   <path d="M 22,60 Q 60,55 98,60 Q 100,62 98,67 Q 60,72 22,67 Q 20,62 22,60 Z"
                     {...outline} style={{ ...svgLayer, animation: layerAnim(100) }} />
-                  {/* Cheese with drips — the one yellow accent */}
+                  {/* Cheese with drips - the one yellow accent */}
                   <path d="M 18,53 L 102,53 Q 103,55 101,57 L 96,57 L 91,63 L 86,57 L 71,57 L 67,62 L 62,57 L 46,57 L 42,63 L 37,57 L 19,57 Q 17,55 18,53 Z"
                     fill="#FFB800" stroke="#121212" strokeWidth={2} strokeLinejoin="round" style={{ ...svgLayer, animation: layerAnim(200) }} />
-                  {/* Lettuce — wavy ruffled edge */}
+                  {/* Lettuce - wavy ruffled edge */}
                   <path d="M 15,49 Q 60,44 105,49 Q 107,51 104,53 Q 98,58 93,52 Q 87,58 82,52 Q 76,58 71,52 Q 65,58 60,52 Q 54,58 49,52 Q 43,58 38,52 Q 32,58 27,52 Q 21,58 16,52 Q 13,51 15,49 Z"
                     {...outline} style={{ ...svgLayer, animation: layerAnim(300) }} />
                   {/* Top bun */}
@@ -229,7 +229,7 @@ export default function LoadingScreen({
               </svg>
             </div>
 
-            {/* BACK — logo, revealed by the flip */}
+            {/* BACK - logo, revealed by the flip */}
             <div style={{ ...face, transform: "rotateY(180deg)" }}>
               <Image
                 src="/logo.png"

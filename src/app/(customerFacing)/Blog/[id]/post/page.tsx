@@ -7,7 +7,7 @@ import InstagramFeed from "../../_components/InstagramFeed";
 export const metadata = {
   title: "Southern Jerks Journal | Caribbean Food & Culture",
   description:
-    "Discover stories, flavors, and behind-the-scenes from Southern Jerks – the home of authentic Caribbean fusion cuisine.",
+    "Discover stories, flavors, and behind-the-scenes from Southern Jerks - the home of authentic Caribbean fusion cuisine.",
   openGraph: {
     title: "Southern Jerks Journal",
     description: "Stories, culture and food from Southern Jerks restaurant.",
@@ -22,7 +22,7 @@ export default async function BlogPage() {
   return (
     <div className="min-h-screen w-full bg-[#0f0f0f] text-white">
 
-      {/* HERO FEATURED — only show if there are posts */}
+      {/* HERO FEATURED - only show if there are posts */}
       {posts.length > 0 && (() => {
         const [featured, ...rest] = posts;
         return (
@@ -75,7 +75,7 @@ export default async function BlogPage() {
       {/* Show message if no blog posts yet */}
       {posts.length === 0 && (
         <div className="py-40 text-center text-muted-foreground">
-          <p className="text-xl text-gray-500">No stories yet — check back soon.</p>
+          <p className="text-xl text-gray-500">No stories yet - check back soon.</p>
         </div>
       )}
 

@@ -23,6 +23,7 @@ import {
   Mail,
   Image as ImageIcon,
   Globe,
+  Palette,
   ExternalLink,
   type LucideIcon,
 } from "lucide-react";
@@ -68,14 +69,14 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: "/admin/story", label: "Our Story", icon: Newspaper },
       { href: "/admin/Blog", label: "Blog", icon: BookOpen },
-      { href: "/admin/gallery", label: "Gallery", icon: Images },
-      { href: "/admin/images", label: "Images", icon: ImageIcon },
+      { href: "/admin/media", label: "Media", icon: Images },
       { href: "/admin/reviews", label: "Reviews", icon: Star },
     ],
   },
   {
     label: "Settings",
     items: [
+      { href: "/admin/branding", label: "Branding", icon: Palette },
       { href: "/admin/places", label: "Places", icon: MapPin },
       { href: "/admin/team", label: "Team", icon: ShieldCheck },
     ],

@@ -112,7 +112,7 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
 
     const quantity = cartItems[0] && !cartItems[0].image ? cartItems.length -1 : cartItems.length
     // item.price is the per-unit finalPrice set in schedualePickupModal (base price + sides),
-    // so sides are already folded in here — no separate sides total needs to be added.
+    // so sides are already folded in here - no separate sides total needs to be added.
     const subtotal = cartItems.reduce((acc, item) => acc + (item.price ?? 0) * (item.quantity ?? 0), 0);
 
 

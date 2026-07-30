@@ -1,0 +1,193 @@
+"use client";
+
+import { useRef, useState, useTransition } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { updateThemeColor, updateLogo } from "../_actions/brandingActions";
+import { readableTextColor } from "@/lib/color";
+
+const PRESETS = [
+  "#facc15",
+  "#c85a1e",
+  "#e11d48",
+  "#db2777",
+  "#7c3aed",
+  "#2563eb",
+  "#0891b2",
+  "#1a6b3c",
+];
+
+export default function BrandingManager({
+  initialColor,
+  initialLogo,
+}: {
+  initialColor: string;
+  initialLogo: string;
+}) {
+  const [color, setColor] = useState(initialColor);
+  const [savingColor, startColor] = useTransition();
+
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [savingLogo, startLogo] = useTransition();
+  const logoRef = useRef<HTMLInputElement>(null);
+
+  const saveColor = () =>
+    startColor(async () => {
+      const res = await updateThemeColor(color);
+      if (res.ok) toast.success("Theme color updated");
+      else toast.error(res.error ?? "Failed to save");
+    });
+
+  const saveLogo = () => {
+    if (!logoFile) return;
+    const fd = new FormData();
+    fd.set("logo", logoFile);
+    startLogo(async () => {
+      const res = await updateLogo(fd);
+      if (res.ok) {
+        toast.success("Logo updated");
+        setLogoFile(null);
+        setLogoPreview(null);
+        if (logoRef.current) logoRef.current.value = "";
+      } else {
+        toast.error(res.error ?? "Failed to save");
+      }
+    });
+  };
+
+  return (
+    <div className="grid gap-6 md:grid-cols-2 px-4 md:px-0">
+      {/* THEME COLOR */}
+      <div className="space-y-4 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div>
+          <h2 className="font-semibold text-stone-800">Theme color</h2>
+          <p className="text-sm text-stone-500">
+            The main accent across buttons, headings, and highlights.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <input
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            aria-label="Pick theme color"
+            className="h-11 w-14 cursor-pointer rounded-lg border border-stone-200 bg-white p-1"
+          />
+          <input
+            type="text"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            aria-label="Theme color hex"
+            className="w-32 rounded-lg border border-stone-200 px-3 py-2 text-sm uppercase outline-none focus:ring-2 focus:ring-stone-300"
+          />
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {PRESETS.map((p) => (
+            <button
+              key={p}
+              type="button"
+              onClick={() => setColor(p)}
+              aria-label={`Use ${p}`}
+              className={`h-8 w-8 rounded-full ${
+                color.toLowerCase() === p
+                  ? "ring-2 ring-stone-900 ring-offset-2"
+                  : "ring-1 ring-stone-200"
+              }`}
+              style={{ background: p }}
+            />
+          ))}
+        </div>
+
+        {/* Live preview */}
+        <div className="space-y-2 rounded-xl border border-stone-200 p-4">
+          <p className="text-xs uppercase tracking-wide text-stone-400">
+            Preview
+          </p>
+          <div className="flex items-center gap-3">
+            <span
+              className="rounded-lg px-4 py-2 text-sm font-bold"
+              style={{ background: color, color: readableTextColor(color) }}
+            >
+              Order now
+            </span>
+            <span className="text-lg font-bold" style={{ color }}>
+              Fresh homemade meals
+            </span>
+          </div>
+        </div>
+
+        <Button variant="mainButton" disabled={savingColor} onClick={saveColor}>
+          {savingColor ? "Saving..." : "Save color"}
+        </Button>
+      </div>
+
+      {/* LOGO */}
+      <div className="space-y-4 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div>
+          <h2 className="font-semibold text-stone-800">Logo</h2>
+          <p className="text-sm text-stone-500">
+            Shown in the site header, footer, and browser tab.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="relative h-20 w-20 overflow-hidden rounded-xl border border-stone-200 bg-stone-100">
+            {logoPreview ?? initialLogo ? (
+              <Image
+                src={logoPreview ?? initialLogo}
+                alt="Logo"
+                fill
+                className="object-contain"
+                unoptimized={!!logoPreview}
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-xs text-stone-400">
+                Default
+              </div>
+            )}
+          </div>
+          <input
+            ref={logoRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) {
+                setLogoFile(f);
+                setLogoPreview(URL.createObjectURL(f));
+              }
+            }}
+          />
+          <div className="flex flex-col gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              type="button"
+              onClick={() => logoRef.current?.click()}
+            >
+              Choose logo
+            </Button>
+            {logoFile && (
+              <Button
+                variant="mainButton"
+                size="sm"
+                disabled={savingLogo}
+                onClick={saveLogo}
+              >
+                {savingLogo ? "Saving..." : "Save logo"}
+              </Button>
+            )}
+          </div>
+        </div>
+        <p className="text-xs text-stone-400">
+          A square PNG works best. Leave as-is to keep the current logo.
+        </p>
+      </div>
+    </div>
+  );
+}

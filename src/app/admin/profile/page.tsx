@@ -12,7 +12,7 @@ export default async function ProfilePage() {
   const admin = await getCurrentAdmin();
   if (!admin) redirect("/login");
 
-  // Only pass the fields the client actually needs — never ship
+  // Only pass the fields the client actually needs - never ship
   // passwordHash/verificationToken to the browser.
   const safeAdmin = {
     name: admin.name,

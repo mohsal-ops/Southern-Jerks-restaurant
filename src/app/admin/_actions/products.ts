@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 // ── Image storage ────────────────────────────────────────────────────────────
-// On Vercel, the filesystem is READ-ONLY — fs.writeFile will silently fail.
+// On Vercel, the filesystem is READ-ONLY - fs.writeFile will silently fail.
 // We use Vercel Blob (free tier: 1GB) in production, and local fs in dev.
 // Setup: run `npm install @vercel/blob` then add BLOB_READ_WRITE_TOKEN to
 // your Vercel project settings (Storage → Blob → Connect → copy token).
@@ -15,14 +15,14 @@ async function saveImage(file: File, folder = "products"): Promise<string> {
   const isDev = process.env.NODE_ENV === "development";
 
   if (isDev) {
-    // Local dev — write to public folder as before
+    // Local dev - write to public folder as before
     const fs = await import("node:fs/promises");
     await fs.mkdir(`public/${folder}`, { recursive: true });
     const path = `/${folder}/${crypto.randomUUID()}-${file.name}`;
     await fs.writeFile(`public${path}`, new Uint8Array(await file.arrayBuffer()));
     return path;
   } else {
-    // Production (Vercel) — upload to Vercel Blob
+    // Production (Vercel) - upload to Vercel Blob
     const { put } = await import("@vercel/blob");
     const blob = await put(
       `${folder}/${crypto.randomUUID()}-${file.name}`,

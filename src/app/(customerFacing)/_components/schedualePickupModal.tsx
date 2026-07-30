@@ -147,7 +147,7 @@ function AddProductCard({
               variant="ghost"
               onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
             >
-              –
+              -
             </Button>
             <span className="px-3">{quantity}</span>
             <Button

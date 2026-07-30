@@ -15,7 +15,7 @@ export function EmailChangeStatusToast() {
   const status = searchParams.get("emailChange");
 
   useEffect(() => {
-    if (status === "success") toast.success("Email updated — sign in with your new email next time.");
+    if (status === "success") toast.success("Email updated - sign in with your new email next time.");
     if (status === "invalid") toast.error("That confirmation link is invalid or has expired.");
   }, [status]);
 
@@ -71,7 +71,7 @@ export function EmailForm({ admin }: { admin: Admin }) {
         <p className="text-sm text-stone-600">{admin.email}</p>
         {admin.pendingEmail && (
           <p className="text-xs text-amber-600 mt-1">
-            Confirmation pending for <strong>{admin.pendingEmail}</strong> — check that inbox.
+            Confirmation pending for <strong>{admin.pendingEmail}</strong> - check that inbox.
           </p>
         )}
       </div>

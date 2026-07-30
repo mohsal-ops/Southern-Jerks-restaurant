@@ -8,7 +8,7 @@ import { FaFacebook } from "react-icons/fa";
 import Logo from "@/../public/general/logo/logo.png";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
-export function Footer() {
+export function Footer({ logoUrl }: { logoUrl?: string }) {
   return (
     <div className="flex w-[92%] mx-auto text-sm gap-6 items-center py-6 md:py-10 justify-center flex-col sm:space-x-10  sm:pr-10  md:w-[98%] bg-stone-200 rounded-4xl">
       <div className=" flex flex-col md:flex-row  md:justify-center w-full">
@@ -17,7 +17,7 @@ export function Footer() {
             <Image
               alt={`${SITE_CONFIG.name} logo`}
               className="w-auto h-auto"
-              src={Logo}
+              src={logoUrl || Logo}
               height={70}
               width={70}
             />

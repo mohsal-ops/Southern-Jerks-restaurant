@@ -1,4 +1,4 @@
-// Node-only (uses the Prisma/pg client) — import this from Server
+// Node-only (uses the Prisma/pg client) - import this from Server
 // Components and Server Actions, never from middleware (Edge runtime).
 import { cookies } from "next/headers";
 import db from "@/db/db";

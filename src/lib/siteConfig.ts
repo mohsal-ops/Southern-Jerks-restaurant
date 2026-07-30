@@ -54,7 +54,7 @@ export const SITE_CONFIG = {
   secondaryColor: "#1a6b3c",
   accentColor: "#d97706",
 
-  // Hours (used for open/closed status) — hour values are 24h local time
+  // Hours (used for open/closed status) - hour values are 24h local time
   hours: [
     { day: "Sunday", open: 11, close: 16 },
     { day: "Monday", open: null, close: null },

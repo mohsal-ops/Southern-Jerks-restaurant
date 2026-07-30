@@ -13,7 +13,7 @@ export const DEFAULT_HOURS = [
 // Falls back to seeding the table from DEFAULT_HOURS if it's ever empty
 // (fresh DB, or the seed script was never run) instead of returning nothing.
 // Also resilient if the DB is unreachable/timing out (or the table doesn't
-// exist yet) — returns defaults so the root layout doesn't 500 the whole app.
+// exist yet) - returns defaults so the root layout doesn't 500 the whole app.
 export async function getBusinessHours() {
   try {
     const hours = await db.businessHours.findMany({ orderBy: { dayIndex: "asc" } });

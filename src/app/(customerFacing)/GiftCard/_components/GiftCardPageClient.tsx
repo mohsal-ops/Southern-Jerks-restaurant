@@ -59,10 +59,23 @@ export default function GiftCardPageClient() {
     fetchClientSecret();
   }, [price]);
 
+  // Stripe.js appends controller/Link iframes to <body> that survive Next's
+  // client-side navigation - remove them when leaving this page so the floating
+  // Stripe/Link widget doesn't linger across the rest of the site.
+  useEffect(() => {
+    return () => {
+      document
+        .querySelectorAll(
+          'iframe[name^="__privateStripe"], iframe[src*="stripe.com"]',
+        )
+        .forEach((el) => el.remove());
+    };
+  }, []);
+
   return (
     <div className="max-w-5xl mx-auto mt-10 space-y-10">
       {/* 🔥 HERO */}
-      <section className="relative overflow-hidden rounded-3xl bg-white px-10 py-24 text-center shadow-xl text-yellow-400">
+      <section className="relative overflow-hidden rounded-3xl bg-white px-10 py-24 text-center shadow-xl text-brand">
         {/* REPEATED LOGO BACKGROUND */}
         <div
           className="absolute inset-0"
@@ -80,7 +93,7 @@ export default function GiftCardPageClient() {
         {/* CONTENT */}
         <div className="relative z-10">
           <div className="flex justify-center mb-6">
-            <div className="rounded-2xl bg-yellow-400 p-3 shadow-xl">
+            <div className="rounded-2xl bg-brand p-3 shadow-xl">
               <Image src={logo} alt="Southern Jerks" className="h-20 w-auto" />
             </div>
           </div>
@@ -132,7 +145,7 @@ export default function GiftCardPageClient() {
                 className={cn(
                   "rounded-full px-6 py-3 text-lg border-2",
                   price === amt * 100
-                    ? "bg-black text-yellow-400 border-black"
+                    ? "bg-black text-brand border-black"
                     : "border-gray-300",
                 )}
                 onClick={() => setPrice(amt * 100)}
@@ -300,7 +313,7 @@ function CheckoutForm({
 
         <Button
           type="submit"
-          className="w-full bg-black text-yellow-400 hover:bg-black/90"
+          className="w-full bg-black text-brand hover:bg-black/90"
         >
           {isLoading
             ? "Processing..."

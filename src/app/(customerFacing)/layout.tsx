@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+import { getLogoUrl } from "@/lib/siteSettings";
 
 export default async function Customerlayout({
   children,
@@ -13,16 +14,17 @@ export default async function Customerlayout({
 }>) {
   const dynamic = "force-dynamic";
   const cartId = (await cookies()).get("cart_id")?.value ?? null;
+  const logoUrl = await getLogoUrl();
 
   return (
     <SidebarProvider>
       <main className="flex relative flex-col w-full  pb- ">
         <div className="fixed top-0 left-0 right-0 z-50">
-          <TopNavBar initialCartId={cartId} />
+          <TopNavBar initialCartId={cartId} logoUrl={logoUrl} />
         </div>
         <div id="main-content" className="flex flex-col md:items-center   ">{children}</div>
         <div className="flex flex-col w-full items-center ">
-          <Footer />
+          <Footer logoUrl={logoUrl} />
           <div className="relative text-xs  mt-2 text-black text-center p-4 md:py-3 bg-stone-200 w-full border-t border-white/10">
             {SITE_CONFIG.footer.copyright}
             {" "}Website by{" "}
@@ -34,7 +36,7 @@ export default async function Customerlayout({
             >
               Vega Star Digital
             </a>{" "}
-            — MOHAMMED BENSALAH
+            - MOHAMMED BENSALAH
             <Link
             href="/login"
             className="absolute right-1 text-xs text-stone-400 hover:text-stone-600"

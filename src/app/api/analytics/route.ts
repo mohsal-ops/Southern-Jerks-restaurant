@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     });
 
     // ── Run the report ──────────────────────────────────────────────────
-    // NOTE: Property ID must be ONLY the number — no "properties/" prefix
+    // NOTE: Property ID must be ONLY the number - no "properties/" prefix
     // Example: if your GA4 property ID is 123456789, set GA4_PROPERTY_ID=123456789
     const [response] = await client.runReport({
       property: `properties/${propertyId}`,

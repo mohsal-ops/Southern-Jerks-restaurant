@@ -40,7 +40,7 @@ export default function StoryClient({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="text-sm font-semibold tracking-widest uppercase text-yellow-400 mb-4"
+            className="text-sm font-semibold tracking-widest uppercase text-brand mb-4"
           >
             Our Story
           </motion.p>
@@ -51,7 +51,7 @@ export default function StoryClient({
             className="text-5xl md:text-7xl font-bold leading-tight mb-6"
           >
             Where Family,<br />
-            <span className="text-yellow-400">Flavor</span> &amp; Culture Meet
+            <span className="text-brand">Flavor</span> &amp; Culture Meet
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -194,7 +194,7 @@ export default function StoryClient({
         >
           <p className="text-2xl md:text-4xl font-bold leading-snug">
             &quot;Southern Jerks is more than a restaurant
-            <span className="text-yellow-400"> it&apos;s an experience.&quot;</span>
+            <span className="text-brand"> it&apos;s an experience.&quot;</span>
           </p>
           <p className="mt-6 text-gray-400 text-lg leading-relaxed">
             Blending the authenticity of traditional Caribbean dishes with
@@ -283,7 +283,7 @@ export default function StoryClient({
             </p>
             <a
               href="/Menu"
-              className="inline-flex items-center gap-2 bg-yellow-400 text-stone-900 font-semibold px-7 py-3 rounded-xl hover:bg-yellow-300 transition-colors text-sm"
+              className="inline-flex items-center gap-2 bg-brand text-stone-900 font-semibold px-7 py-3 rounded-xl hover:bg-yellow-300 transition-colors text-sm"
             >
               View our menu
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

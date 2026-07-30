@@ -232,3 +232,9 @@ model SiteImage {
   label     String // human-readable label for admin UI
   updatedAt DateTime @updatedAt
 }
+
+model SiteSetting {
+  key       String   @id // "theme_color" | "logo_url"
+  value     String
+  updatedAt DateTime @default(now()) @updatedAt
+}

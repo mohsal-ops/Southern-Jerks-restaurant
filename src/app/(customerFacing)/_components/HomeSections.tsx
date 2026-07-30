@@ -41,7 +41,7 @@ export function TopSection({ heroImage }: { heroImage: string }) {
         />
 
         <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-15">
-          <h1 className="text-yellow-400">{SITE_CONFIG.home.heroHeadline}</h1>{" "}
+          <h1 className="text-brand">{SITE_CONFIG.home.heroHeadline}</h1>{" "}
           {SITE_CONFIG.home.heroSubHeadline}
         </span>
         <span className="font-semibold text-white sm:text-zinc-400 text-md">
@@ -80,7 +80,7 @@ export function SecondSection({
   return <SecondSectionFeatured products={products} cartItems={cartItems} />;
 }
 
-// Reviews moved to ./ReviewsSection.tsx (client component — adaptive grid +
+// Reviews moved to ./ReviewsSection.tsx (client component - adaptive grid +
 // "Read more" floating card for long reviews).
 
 export function OrderDirectlyfromOUrWebsite() {
