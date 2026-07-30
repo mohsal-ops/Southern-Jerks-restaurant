@@ -29,6 +29,21 @@ import {
 } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
+// ── "New" badges in the sidebar ───────────────────────────────────────────
+// Shows a small "New" pill next to recently-added tabs so the owner notices
+// them. TO REMOVE ALL BADGES: set SHOW_NEW_BADGES to false.
+// TO CHANGE WHICH TABS are flagged: edit the NEW_TAB_HREFS list.
+const SHOW_NEW_BADGES = true;
+const NEW_TAB_HREFS = new Set([
+  "/admin/catering",
+  "/admin/hours",
+  "/admin/story",
+  "/admin/media",
+  "/admin/reviews",
+  "/admin/branding",
+  "/admin/team",
+]);
+
 type NavItem = {
   href: string;
   label: string;
@@ -101,6 +116,7 @@ function NavItemLink({
   const active = isItemActive(item.href, pathname);
   const Icon = item.icon;
   const showBadge = !!badge && badge > 0;
+  const showNew = SHOW_NEW_BADGES && NEW_TAB_HREFS.has(item.href);
 
   return (
     <Link
@@ -121,7 +137,14 @@ function NavItemLink({
         size={18}
         className={cn(active ? "text-white" : "text-stone-400 group-hover:text-white")}
       />
-      <span className="flex-1 truncate">{item.label}</span>
+      <span className="flex flex-1 items-center gap-1.5 truncate">
+        <span className="truncate">{item.label}</span>
+        {showNew && (
+          <span className="rounded-full bg-emerald-500 px-1.5 py-px text-[9px] font-bold uppercase leading-none tracking-wide text-white">
+            New
+          </span>
+        )}
+      </span>
       {showBadge && (
         <span
           className={cn(
