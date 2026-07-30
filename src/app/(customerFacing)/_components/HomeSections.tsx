@@ -80,56 +80,8 @@ export function SecondSection({
   return <SecondSectionFeatured products={products} cartItems={cartItems} />;
 }
 
-function ReviewCard({
-  avatar,
-  name,
-  review,
-}: {
-  avatar: string;
-  name: string;
-  review: string;
-}) {
-  return (
-    <Card className="w-full h-fit overflow-hidden rounded-2xl shadow-lg ">
-      <CardHeader className="flex flex-row" aria-label="5 out of 5 stars">
-        {[...Array(5)].map((_, i) => (
-          <FaStar key={i} aria-hidden="true" />
-        ))}
-      </CardHeader>
-      <CardContent className="font-normal">{review}</CardContent>
-      <CardFooter className="flex justify-start gap-3">
-        <Avatar>
-          <AvatarImage src={avatar} alt="" />
-          <AvatarFallback>{name.charAt(0)}</AvatarFallback>
-        </Avatar>
-        <p className="text-lg font-semibold">{name}</p>
-      </CardFooter>
-    </Card>
-  );
-}
-
-export type ReviewData = { name: string; review: string; avatar: string };
-
-export function ReviewsSection({ reviews }: { reviews: ReviewData[] }) {
-  return (
-    <div className=" flex flex-col items-center  md:w-[85vw] p-10 space-y-10 bg-gray-100 rounded-4xl">
-      <div className="text-center space-y-4">
-        <PageHeader>What our guests are saying</PageHeader>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 sm:w-11/12 w-full gap-6">
-        {reviews.map((rev, key) => (
-          <ReviewCard
-            key={key}
-            avatar={rev.avatar}
-            name={rev.name}
-            review={rev.review}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
+// Reviews moved to ./ReviewsSection.tsx (client component — adaptive grid +
+// "Read more" floating card for long reviews).
 
 export function OrderDirectlyfromOUrWebsite() {
   return (

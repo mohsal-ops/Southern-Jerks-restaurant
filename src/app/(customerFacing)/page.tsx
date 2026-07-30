@@ -16,12 +16,12 @@ import { getSiteImage } from "@/lib/getSiteImages";
 import {
   TopSection,
   SecondSection,
-  ReviewsSection,
   OrderDirectlyfromOUrWebsite,
   DistinctiveFeatures,
   Featuring,
   Frequentlyaskedquestions,
 } from "./_components/HomeSections";
+import { ReviewsSection } from "./_components/ReviewsSection";
 import {
   Item,
   SideGroup,
