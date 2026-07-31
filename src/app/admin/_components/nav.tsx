@@ -42,6 +42,7 @@ const NEW_TAB_HREFS = new Set([
   "/admin/reviews",
   "/admin/branding",
   "/admin/team",
+  "/admin/profile"
 ]);
 
 type NavItem = {
