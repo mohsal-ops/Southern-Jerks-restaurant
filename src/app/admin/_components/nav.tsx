@@ -42,7 +42,7 @@ const NEW_TAB_HREFS = new Set([
   "/admin/reviews",
   "/admin/branding",
   "/admin/team",
-  "/admin/profile"
+  "/admin/profile",
 ]);
 
 type NavItem = {
@@ -236,7 +236,14 @@ function SidebarBody({
             size={18}
             className={cn(isProfileActive ? "text-white" : "text-stone-400 group-hover:text-white")}
           />
-          <span className="flex-1">My account</span>
+          <span className="flex flex-1 items-center gap-1.5">
+            <span>My account</span>
+            {SHOW_NEW_BADGES && NEW_TAB_HREFS.has("/admin/profile") && (
+              <span className="rounded-full bg-emerald-500 px-1.5 py-px text-[9px] font-bold uppercase leading-none tracking-wide text-white">
+                New
+              </span>
+            )}
+          </span>
         </Link>
       </div>
     </>
