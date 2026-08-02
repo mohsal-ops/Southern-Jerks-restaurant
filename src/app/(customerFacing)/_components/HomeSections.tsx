@@ -107,13 +107,21 @@ export function OrderDirectlyfromOUrWebsite({ image }: { image?: string }) {
   );
 }
 
-export function DistinctiveFeatures() {
+export function DistinctiveFeatures({
+  images,
+}: {
+  images?: { breakfast: string; comfort: string };
+}) {
   const [first, second] = SITE_CONFIG.home.distinctiveFeatures;
+  // Images are editable from admin (Media -> Site photos). Fall back to the
+  // bundled config images if a DB value hasn't been provided.
+  const firstImage = images?.breakfast || first.image;
+  const secondImage = images?.comfort || second.image;
   return (
     <div className="flex flex-col space-y-5 md:w-[85vw] rounded-3xl overflow-hidden ">
       <div className="flex md:flex-row flex-col justify-between  md:h-132 h-full">
         <Image
-          src={first.image}
+          src={firstImage}
           alt={first.title}
           width={800}
           height={600}
@@ -135,7 +143,7 @@ export function DistinctiveFeatures() {
           </p>
         </div>
         <Image
-          src={second.image}
+          src={secondImage}
           alt={second.title}
           width={800}
           height={600}

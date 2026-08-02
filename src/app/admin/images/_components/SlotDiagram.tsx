@@ -38,6 +38,28 @@ export const SITE_IMAGE_GUIDE: Record<string, SlotGuide> = {
       { k: "full", active: true },
     ],
   },
+  home_feature_breakfast: {
+    page: "Home page",
+    href: "/",
+    where: "First feature row (further down) - the photo on the left.",
+    blocks: [
+      { k: "nav" },
+      { k: "band" },
+      { k: "split", side: "left", active: true },
+      { k: "split", side: "right" },
+    ],
+  },
+  home_feature_comfort: {
+    page: "Home page",
+    href: "/",
+    where: "Second feature row (further down) - the photo on the right.",
+    blocks: [
+      { k: "nav" },
+      { k: "band" },
+      { k: "split", side: "left" },
+      { k: "split", side: "right", active: true },
+    ],
+  },
   story_hero: {
     page: "Our Story",
     href: "/story",

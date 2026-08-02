@@ -176,6 +176,8 @@ export default async function Home() {
   // single indexed lookup, cheap enough to await directly here.
   const heroImage = await getSiteImage("home_hero");
   const orderImage = await getSiteImage("home_order");
+  const featureBreakfast = await getSiteImage("home_feature_breakfast");
+  const featureComfort = await getSiteImage("home_feature_comfort");
   const homeText = await getHomeText();
 
   return (
@@ -214,7 +216,9 @@ export default async function Home() {
       </FadeIn>
       <SectionDivider />
       <FadeIn delay={400}>
-        <DistinctiveFeatures />
+        <DistinctiveFeatures
+          images={{ breakfast: featureBreakfast, comfort: featureComfort }}
+        />
       </FadeIn>
       <SectionDivider />
       <FadeIn delay={500}>
