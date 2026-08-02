@@ -95,7 +95,7 @@ export function SecondSection({
 
 export function OrderDirectlyfromOUrWebsite({ image }: { image?: string }) {
   return (
-    <div className="relative w-full sm:w-[85vw] h-80 sm:h-96 md:h-svh rounded-2xl sm:rounded-3xl overflow-hidden bg-stone-800">
+    <div className="relative w-[92vw] sm:w-[85vw] h-80 sm:h-96 md:h-svh rounded-2xl sm:rounded-3xl overflow-hidden bg-stone-800">
       <Image
         src={image || mainImg}
         alt={`${SITE_CONFIG.name} jerk chicken plated and ready to order`}
