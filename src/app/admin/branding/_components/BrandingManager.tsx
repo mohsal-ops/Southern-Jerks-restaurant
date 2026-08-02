@@ -10,6 +10,8 @@ import {
   updateHomeText,
 } from "../_actions/brandingActions";
 import { readableTextColor } from "@/lib/color";
+import { ExternalLink } from "lucide-react";
+import SlotDiagram from "@/app/admin/images/_components/SlotDiagram";
 
 const PRESETS = [
   "#facc15",
@@ -85,6 +87,35 @@ export default function BrandingManager({
             The big headline and subtitle shown on your home page. Leave blank
             to use the built-in text.
           </p>
+        </div>
+        <div className="flex gap-3 rounded-xl border border-stone-200 bg-stone-50 p-3">
+          <div className="w-[42%] max-w-[150px] shrink-0 self-start">
+            <SlotDiagram
+              blocks={[
+                { k: "nav" },
+                { k: "split", side: "left", active: true },
+                { k: "text" },
+              ]}
+            />
+          </div>
+          <div className="flex min-w-0 flex-col justify-center gap-1">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-stone-400">
+              Where it appears
+            </p>
+            <p className="text-xs leading-snug text-stone-600">
+              The large headline at the very top of your home page, over the
+              hero.
+            </p>
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-medium text-[#c85a1e] hover:underline"
+            >
+              View Home page
+              <ExternalLink size={12} />
+            </a>
+          </div>
         </div>
         <div className="space-y-3">
           <div>
