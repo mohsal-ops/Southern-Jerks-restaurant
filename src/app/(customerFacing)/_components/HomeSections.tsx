@@ -95,7 +95,7 @@ export function SecondSection({
 
 export function OrderDirectlyfromOUrWebsite({ image }: { image?: string }) {
   return (
-    <div className="relative w-full sm:w-[85vw] h-80 sm:h-96 md:h-svh rounded-2xl sm:rounded-3xl overflow-hidden">
+    <div className="relative w-full sm:w-[85vw] h-80 sm:h-96 md:h-svh rounded-2xl sm:rounded-3xl overflow-hidden bg-stone-800">
       <Image
         src={image || mainImg}
         alt={`${SITE_CONFIG.name} jerk chicken plated and ready to order`}
@@ -103,6 +103,25 @@ export function OrderDirectlyfromOUrWebsite({ image }: { image?: string }) {
         sizes="(max-width: 640px) 100vw, 85vw"
         className="object-cover"
       />
+      {/* readability gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+      {/* order card */}
+      <div className="absolute inset-x-0 bottom-0 flex justify-center p-4 sm:justify-start sm:p-8 md:p-12">
+        <div className="w-full max-w-md space-y-3 rounded-2xl bg-white/10 p-5 text-center ring-1 ring-white/20 backdrop-blur-md sm:p-7 sm:text-left">
+          <h2 className="text-2xl font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">
+            Order directly from our website
+          </h2>
+          <p className="text-sm text-white/80 sm:text-base">
+            Browse the full menu and order in just a few taps.
+          </p>
+          <Link href="/Menu" className="inline-block">
+            <Button size="lg" variant="mainButton">
+              View our menu
+              <MdKeyboardArrowRight />
+            </Button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
