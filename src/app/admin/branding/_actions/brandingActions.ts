@@ -63,3 +63,25 @@ export async function updateLogo(formData: FormData) {
     };
   }
 }
+
+export async function updateHomeText(headline: string, subheadline: string) {
+  try {
+    await Promise.all([
+      db.siteSetting.upsert({
+        where: { key: "home_headline" },
+        update: { value: headline },
+        create: { key: "home_headline", value: headline },
+      }),
+      db.siteSetting.upsert({
+        where: { key: "home_subheadline" },
+        update: { value: subheadline },
+        create: { key: "home_subheadline", value: subheadline },
+      }),
+    ]);
+    revalidatePath("/", "layout");
+    return { ok: true };
+  } catch (error) {
+    console.error("updateHomeText error:", error);
+    return { error: "Couldn't save the text. Try again." };
+  }
+}

@@ -13,6 +13,7 @@ import HomeFeaturedSkeleton from "./_skeletons/HomeFeaturedSkeleton";
 import db from "@/db/db";
 import { getBusinessHours } from "@/lib/getHours";
 import { getSiteImage } from "@/lib/getSiteImages";
+import { getHomeText } from "@/lib/siteSettings";
 import {
   TopSection,
   SecondSection,
@@ -174,11 +175,17 @@ export default async function Home() {
   // blocked on the featured-products and places queries. The hero image is a
   // single indexed lookup, cheap enough to await directly here.
   const heroImage = await getSiteImage("home_hero");
+  const orderImage = await getSiteImage("home_order");
+  const homeText = await getHomeText();
 
   return (
     <div className="flex  pt-20 flex-col gap-5 items-center justify-center    [&>*:not(:first-child)]:m-2">
       <FaqSchema />
-      <TopSection heroImage={heroImage} />
+      <TopSection
+        heroImage={heroImage}
+        headline={homeText.headline}
+        subheadline={homeText.subheadline}
+      />
       <SectionDivider />
       <Suspense fallback={<HomeFeaturedSkeleton />}>
         <FeaturedProductsSection />
@@ -196,7 +203,7 @@ export default async function Home() {
       <SectionDivider />
       <FadeIn delay={200}>
         <div className="p-2 w-full flex justify-center">
-          <OrderDirectlyfromOUrWebsite />
+          <OrderDirectlyfromOUrWebsite image={orderImage} />
         </div>
       </FadeIn>
       <SectionDivider />

@@ -24,3 +24,15 @@ export async function getThemeColor(): Promise<string> {
 export async function getLogoUrl(): Promise<string> {
   return getSetting("logo_url", "");
 }
+
+/** Editable home hero text; empty strings fall back to siteConfig defaults. */
+export async function getHomeText(): Promise<{
+  headline: string;
+  subheadline: string;
+}> {
+  const [headline, subheadline] = await Promise.all([
+    getSetting("home_headline", ""),
+    getSetting("home_subheadline", ""),
+  ]);
+  return { headline, subheadline };
+}

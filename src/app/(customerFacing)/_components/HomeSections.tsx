@@ -28,7 +28,15 @@ import { SecondSectionFeatured } from "./FeaturedSection";
 import type { ItemWithSides } from "../page";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
-export function TopSection({ heroImage }: { heroImage: string }) {
+export function TopSection({
+  heroImage,
+  headline,
+  subheadline,
+}: {
+  heroImage: string;
+  headline?: string;
+  subheadline?: string;
+}) {
   return (
     <div className="flex relative overflow-hidden h-svh w-full sm:w-[85%] flex-col sm:flex-row bg-stone-100 sm:rounded-3xl sm:p-2">
       <div className="sm:relative absolute z-30 bottom-20 flex flex-col gap-6 items-start justify-end mt-10 md:mb-20 md:w-1/2 p-5 md:p-12">
@@ -41,8 +49,10 @@ export function TopSection({ heroImage }: { heroImage: string }) {
         />
 
         <span className="lg:text-5xl text-white sm:text-black text-4xl font-bold leading-10 lg:leading-15">
-          <h1 className="text-brand">{SITE_CONFIG.home.heroHeadline}</h1>{" "}
-          {SITE_CONFIG.home.heroSubHeadline}
+          <h1 className="text-brand">
+            {headline || SITE_CONFIG.home.heroHeadline}
+          </h1>{" "}
+          {subheadline || SITE_CONFIG.home.heroSubHeadline}
         </span>
         <span className="font-semibold text-white sm:text-zinc-400 text-md">
           {SITE_CONFIG.subTagline}
@@ -83,14 +93,15 @@ export function SecondSection({
 // Reviews moved to ./ReviewsSection.tsx (client component - adaptive grid +
 // "Read more" floating card for long reviews).
 
-export function OrderDirectlyfromOUrWebsite() {
+export function OrderDirectlyfromOUrWebsite({ image }: { image?: string }) {
   return (
     <div className="relative flex items-end h-96 md:h-svh w-full sm:w-[85vw] rounded-2xl sm:rounded-3xl overflow-hidden">
       <Image
-        src={mainImg}
+        src={image || mainImg}
         alt={`${SITE_CONFIG.name} jerk chicken plated and ready to order`}
+        fill
         sizes="(max-width: 640px) 100vw, 85vw"
-        className="object-cover w-full h-full"
+        className="object-cover"
       />
     </div>
   );
