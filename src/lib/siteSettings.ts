@@ -36,3 +36,26 @@ export async function getHomeText(): Promise<{
   ]);
   return { headline, subheadline };
 }
+
+export type SiteText = {
+  headline: string;
+  subheadline: string;
+  feature1Title: string;
+  feature1Desc: string;
+  feature2Title: string;
+  feature2Desc: string;
+};
+
+/** All editable home-page text. Empty strings fall back to siteConfig defaults. */
+export async function getSiteText(): Promise<SiteText> {
+  const [headline, subheadline, feature1Title, feature1Desc, feature2Title, feature2Desc] =
+    await Promise.all([
+      getSetting("home_headline", ""),
+      getSetting("home_subheadline", ""),
+      getSetting("text_feature1_title", ""),
+      getSetting("text_feature1_desc", ""),
+      getSetting("text_feature2_title", ""),
+      getSetting("text_feature2_desc", ""),
+    ]);
+  return { headline, subheadline, feature1Title, feature1Desc, feature2Title, feature2Desc };
+}

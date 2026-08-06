@@ -128,42 +128,53 @@ export function OrderDirectlyfromOUrWebsite({ image }: { image?: string }) {
 
 export function DistinctiveFeatures({
   images,
+  texts,
 }: {
   images?: { breakfast: string; comfort: string };
+  texts?: {
+    feature1Title?: string;
+    feature1Desc?: string;
+    feature2Title?: string;
+    feature2Desc?: string;
+  };
 }) {
   const [first, second] = SITE_CONFIG.home.distinctiveFeatures;
   // Images are editable from admin (Media -> Site photos). Fall back to the
   // bundled config images if a DB value hasn't been provided.
   const firstImage = images?.breakfast || first.image;
   const secondImage = images?.comfort || second.image;
+  const f1Title = texts?.feature1Title || first.title;
+  const f1Desc = texts?.feature1Desc || first.description;
+  const f2Title = texts?.feature2Title || second.title;
+  const f2Desc = texts?.feature2Desc || second.description;
   return (
     <div className="flex flex-col space-y-5 md:w-[85vw] rounded-3xl overflow-hidden ">
       <div className="flex md:flex-row flex-col justify-between  md:h-132 h-full">
         <Image
           src={firstImage}
-          alt={first.title}
+          alt={f1Title}
           width={800}
           height={600}
           sizes="(max-width: 768px) 100vw, 45vw"
           className="object-cover md:w-[45%] w-full h-full rounded-3xl"
         />
         <div className="flex flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
-          <PageHeader>{first.title}</PageHeader>
+          <PageHeader>{f1Title}</PageHeader>
           <p className="text-lg font-medium text-neutral-600">
-            {first.description}
+            {f1Desc}
           </p>
         </div>
       </div>
       <div className="flex md:flex-row flex-col justify-between md:h-132 h-full">
         <div className="flex md:order-1 order-2 flex-col space-y-7 p-5 justify-center   md:w-[45%] w-full h-full">
-          <PageHeader>{second.title}</PageHeader>
+          <PageHeader>{f2Title}</PageHeader>
           <p className="text-lg font-medium text-neutral-600">
-            {second.description}
+            {f2Desc}
           </p>
         </div>
         <Image
           src={secondImage}
-          alt={second.title}
+          alt={f2Title}
           width={800}
           height={600}
           sizes="(max-width: 768px) 100vw, 45vw"

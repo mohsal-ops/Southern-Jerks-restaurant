@@ -13,7 +13,7 @@ import HomeFeaturedSkeleton from "./_skeletons/HomeFeaturedSkeleton";
 import db from "@/db/db";
 import { getBusinessHours } from "@/lib/getHours";
 import { getSiteImage } from "@/lib/getSiteImages";
-import { getHomeText } from "@/lib/siteSettings";
+import { getSiteText } from "@/lib/siteSettings";
 import {
   TopSection,
   SecondSection,
@@ -178,7 +178,7 @@ export default async function Home() {
   const orderImage = await getSiteImage("home_order");
   const featureBreakfast = await getSiteImage("home_feature_breakfast");
   const featureComfort = await getSiteImage("home_feature_comfort");
-  const homeText = await getHomeText();
+  const homeText = await getSiteText();
 
   return (
     <div className="flex  pt-20 flex-col gap-5 items-center justify-center    [&>*:not(:first-child)]:m-2">
@@ -218,6 +218,12 @@ export default async function Home() {
       <FadeIn delay={400}>
         <DistinctiveFeatures
           images={{ breakfast: featureBreakfast, comfort: featureComfort }}
+          texts={{
+            feature1Title: homeText.feature1Title,
+            feature1Desc: homeText.feature1Desc,
+            feature2Title: homeText.feature2Title,
+            feature2Desc: homeText.feature2Desc,
+          }}
         />
       </FadeIn>
       <SectionDivider />

@@ -25,6 +25,7 @@ import {
   Globe,
   Palette,
   ExternalLink,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/siteConfig";
@@ -85,6 +86,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: "/admin/story", label: "Our Story", icon: Newspaper },
       { href: "/admin/Blog", label: "Blog", icon: BookOpen },
+      { href: "/admin/content", label: "Content", icon: FileText },
       { href: "/admin/media", label: "Media", icon: Images },
       { href: "/admin/reviews", label: "Reviews", icon: Star },
     ],
