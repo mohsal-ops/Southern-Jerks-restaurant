@@ -63,7 +63,7 @@ const addSchema = z.object({
     (val) => (val === "" ? undefined : val),
     z.union([z.string().min(2), z.undefined()])
   ),
-  priceInCents: z.coerce.number().int().min(1),
+  price: z.coerce.number().positive({ message: "Enter a price greater than 0" }),
   category: z
     .string()
     .min(1)
@@ -74,7 +74,7 @@ const addSchema = z.object({
   cateringDescription: z
     .preprocess((val) => (val === "" ? undefined : val), z.string())
     .optional(),
-  cateringPriceInCents: z.coerce.number().optional(),
+  cateringPrice: z.coerce.number().optional(),
   image: imageSchema.optional(),
 });
 
@@ -96,13 +96,13 @@ export default async function AddProduct(
 
     const { data } = result;
 
-    // Check for duplicate slug
-    function createSlug(str: string) {
-      return str.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
-    }
-    const slug = createSlug(data.name);
-    const existing = await db.item.findUnique({ where: { slug } });
-    if (existing) return { message: "name already exist" };
+    // Build a UNIQUE slug so items with the same/similar name still save
+    // (append -2, -3, … instead of rejecting the duplicate).
+    const base =
+      data.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "item";
+    let slug = base;
+    let n = 1;
+    while (await db.item.findUnique({ where: { slug } })) slug = `${base}-${++n}`;
 
     // Handle image
     const file = data.image;
@@ -113,12 +113,12 @@ export default async function AddProduct(
       data: {
         name: data.name,
         description: data.description,
-        priceInCents: data.priceInCents,
+        priceInCents: Math.round(data.price * 100),
         slug,
         typeId: data.category,
         isCaterable: data.isCaterable,
         cateringDescription: data.cateringDescription,
-        cateringPriceInCents: data.cateringPriceInCents,
+        cateringPriceInCents: data.cateringPrice ? Math.round(data.cateringPrice * 100) : null,
         image,
       },
     });
@@ -161,7 +161,10 @@ export async function updateProduct(
     data: {
       name: data.name,
       description: data.description,
-      priceInCents: data.priceInCents,
+      priceInCents: Math.round(data.price * 100),
+      isCaterable: data.isCaterable,
+      cateringDescription: data.cateringDescription,
+      cateringPriceInCents: data.cateringPrice ? Math.round(data.cateringPrice * 100) : null,
       image,
     },
   });
