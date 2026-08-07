@@ -7,6 +7,7 @@ import { toast } from "@/hooks/use-toast";
 import { Label } from "@radix-ui/react-label";
 import { Item } from "generated/prisma";
 import { useActionState, useEffect } from "react";
+import Link from "next/link";
 
 const initialState = {
   message: "",
@@ -19,9 +20,8 @@ export default function ProductForm({ item }: { item: Item | null }) {
   useEffect(() => {
     if (state?.message) {
       toast({
-        variant:
-          state.message === "item added succefuly" ? "default" : "destructive", // Success or error styling
-        description: `${state.message}`, // Show the returned message
+        variant: /added|success|updated/i.test(state.message) ? "default" : "destructive",
+        description: `${state.message}`,
       });
     }
   }, [state, pending, formAction]);
@@ -41,9 +41,14 @@ export default function ProductForm({ item }: { item: Item | null }) {
             defaultValue={item?.name}
           />
         </div>
-        <Button variant='outline' disabled={pending} type="submit">
-          {pending ? "saving..." : "save"}
-        </Button>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="mainButton" disabled={pending} type="submit">
+            {pending ? "Saving…" : "Add category"}
+          </Button>
+          <Link href="/admin/menuCategories">
+            <Button type="button" variant="outline">Back to categories</Button>
+          </Link>
+        </div>
       </form>
     </>
   );

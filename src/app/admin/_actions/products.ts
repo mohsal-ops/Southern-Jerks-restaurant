@@ -90,8 +90,9 @@ export default async function AddProduct(
   try {
     const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
     if (!result.success) {
-      console.log("Validation errors:", result.error.issues);
-      return { error: Object.assign({}, result.error.issues) };
+      const first = result.error.issues[0];
+      const field = first?.path?.join(".");
+      return { message: `${field ? field + ": " : ""}${first?.message ?? "Invalid input"}` };
     }
 
     const { data } = result;
@@ -104,10 +105,19 @@ export default async function AddProduct(
     let n = 1;
     while (await db.item.findUnique({ where: { slug } })) slug = `${base}-${++n}`;
 
-    // Handle image
+    // Handle image — never let a storage hiccup block saving the item.
     const file = data.image;
     const isValidImage = file && file.size > 0 && file.type.startsWith("image/");
-    const image = isValidImage ? await saveImage(file) : null;
+    let image: string | null = null;
+    let imageWarning = false;
+    if (isValidImage) {
+      try {
+        image = await saveImage(file);
+      } catch (e) {
+        console.error("Image save failed:", e);
+        imageWarning = true;
+      }
+    }
 
     await db.item.create({
       data: {
@@ -127,7 +137,11 @@ export default async function AddProduct(
     revalidatePath("/admin/menuItems");
     revalidatePath("/Menu");
     revalidateTag("products");
-    return { message: "item added succefuly" };
+    return {
+      message: imageWarning
+        ? "Item added — but the photo couldn't be saved (image storage isn't connected on this site)."
+        : "item added succefuly",
+    };
   } catch (error) {
     console.error("AddProduct error:", error);
     return { message: String(error) };
@@ -141,7 +155,11 @@ export async function updateProduct(
   formData: FormData
 ) {
   const result = editSchema.safeParse(Object.fromEntries(formData.entries()));
-  if (!result.success) return { error: result.error.issues };
+  if (!result.success) {
+    const first = result.error.issues[0];
+    const field = first?.path?.join(".");
+    return { message: `${field ? field + ": " : ""}${first?.message ?? "Invalid input"}` };
+  }
 
   const { data } = result;
   const item = await db.item.findUnique({ where: { id } });
@@ -152,8 +170,12 @@ export async function updateProduct(
   const isValidImage = file && file.size > 0 && file.type.startsWith("image/");
 
   if (isValidImage) {
-    if (item.image) await deleteImage(item.image);
-    image = await saveImage(file);
+    try {
+      if (item.image) await deleteImage(item.image);
+      image = await saveImage(file);
+    } catch (e) {
+      console.error("Image save failed:", e);
+    }
   }
 
   await db.item.update({

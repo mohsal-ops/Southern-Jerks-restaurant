@@ -46,7 +46,7 @@ export default function ProductForm({
     if (!state) return;
     const s = state as any;
     if (s.message) {
-      const ok = String(s.message).includes("succe");
+      const ok = /added|success|updated/i.test(String(s.message));
       toast({ variant: ok ? "default" : "destructive", description: s.message });
     } else if (s.error) {
       toast({ variant: "destructive", description: "Please check the highlighted fields and try again." });
@@ -185,10 +185,13 @@ export default function ProductForm({
           )}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <Button variant="mainButton" disabled={pending || !categoryId} type="submit">
             {pending ? "Saving…" : item ? "Save changes" : "Add item"}
           </Button>
+          <Link href="/admin/menuItems">
+            <Button type="button" variant="outline">Back to items</Button>
+          </Link>
           {!categoryId && <span className="text-xs text-stone-400">Pick a category to save.</span>}
         </div>
       </form>
