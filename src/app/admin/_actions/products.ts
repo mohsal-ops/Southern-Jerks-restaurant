@@ -5,6 +5,9 @@ import db from "@/db/db";
 import { notFound } from "next/navigation";
 import { revalidatePath, revalidateTag } from "next/cache";
 
+const slugify = (s: string) =>
+  s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "item";
+
 // ── Image storage ────────────────────────────────────────────────────────────
 // On Vercel, the filesystem is READ-ONLY - fs.writeFile will silently fail.
 // We use Vercel Blob (free tier: 1GB) in production, and local fs in dev.
@@ -304,6 +307,83 @@ export async function addItemSides(itemId: string, groups: SideGroupInput[]) {
     return { message: "group added successfully" };
   } catch (error) {
     console.error("Error adding sides:", error);
+    return { message: String(error) };
+  }
+}
+
+// ── Sample / demo menu ─────────────────────────────────────────────────────────
+// Lets the owner load a few ready-made products with one click so they can try
+// the whole ordering flow, then remove them. All grouped under one category so
+// they're easy to clear.
+const SAMPLE_CAT_SLUG = "sample-menu-demo";
+const SAMPLE_ITEMS = [
+  { name: "Classic Cheeseburger", description: "Sample item — beef patty, cheese, lettuce, tomato.", price: 9.99 },
+  { name: "Margherita Pizza", description: "Sample item — fresh mozzarella, tomato, basil.", price: 12.99 },
+  { name: "Caesar Salad", description: "Sample item — romaine, parmesan, croutons.", price: 7.99 },
+  { name: "Crispy Fries", description: "Sample item — golden and salted.", price: 3.99 },
+  { name: "Chocolate Brownie", description: "Sample item — warm and fudgy.", price: 4.99 },
+  { name: "Soft Drink", description: "Sample item — your choice of soda.", price: 2.49 },
+];
+
+export async function seedSampleMenu() {
+  try {
+    const cat = await db.types.upsert({
+      where: { slug: SAMPLE_CAT_SLUG },
+      update: {},
+      create: { name: "Sample Menu (demo)", slug: SAMPLE_CAT_SLUG },
+    });
+    let added = 0;
+    for (let i = 0; i < SAMPLE_ITEMS.length; i++) {
+      const s = SAMPLE_ITEMS[i];
+      const slug = `sample-${slugify(s.name)}`;
+      if (await db.item.findUnique({ where: { slug } })) continue;
+      await db.item.create({
+        data: {
+          name: s.name,
+          description: s.description,
+          priceInCents: Math.round(s.price * 100),
+          slug,
+          typeId: cat.id,
+          isAvailableForPurchase: true,
+          featured: i < 3,
+        },
+      });
+      added++;
+    }
+    revalidatePath("/admin/menuItems");
+    revalidatePath("/Menu");
+    revalidatePath("/");
+    revalidateTag("products");
+    return { message: added ? `Sample menu ready — ${added} item${added === 1 ? "" : "s"} added.` : "Sample menu already loaded." };
+  } catch (error) {
+    console.error("seedSampleMenu error:", error);
+    return { message: String(error) };
+  }
+}
+
+export async function clearSampleMenu() {
+  try {
+    const cat = await db.types.findUnique({ where: { slug: SAMPLE_CAT_SLUG } });
+    if (!cat) return { message: "No sample menu to remove." };
+    const items = await db.item.findMany({ where: { typeId: cat.id } });
+    let removed = 0;
+    for (const it of items) {
+      try {
+        await db.item.delete({ where: { id: it.id } });
+        removed++;
+      } catch {
+        // Item was test-ordered (has an order) so it can't be deleted — just hide it.
+        await db.item.update({ where: { id: it.id }, data: { isAvailableForPurchase: false } }).catch(() => {});
+      }
+    }
+    await db.types.delete({ where: { id: cat.id } }).catch(() => {});
+    revalidatePath("/admin/menuItems");
+    revalidatePath("/Menu");
+    revalidatePath("/");
+    revalidateTag("products");
+    return { message: `Sample menu removed${removed ? ` (${removed} item${removed === 1 ? "" : "s"})` : ""}.` };
+  } catch (error) {
+    console.error("clearSampleMenu error:", error);
     return { message: String(error) };
   }
 }

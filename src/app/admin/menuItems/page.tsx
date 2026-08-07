@@ -25,6 +25,7 @@ import ActivateAndDesactivate, {
   DeleteItemComp,
   IsFeaturedOrNot,
 } from "./_components/productsActions";
+import SampleMenuButtons from "./_components/SampleMenuButtons";
 
 export default async function Items() {
   const items = await db.item?.findMany();
@@ -48,11 +49,14 @@ export default async function Items() {
   return (
     <div className="lg:flex justify-center">
       <div className="p-5 space-y-3 w-full lg:w-[80%]">
-        <div className="flex justify-between  ">
+        <div className="flex flex-wrap justify-between gap-3 items-center">
           <PageHeader>Menu Items</PageHeader>
-          <Link href="/admin/menuItems/new">
-            <Button variant="outline" className="p-5 text-md">add item</Button>
-          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            <SampleMenuButtons />
+            <Link href="/admin/menuItems/new">
+              <Button variant="outline" className="p-5 text-md">add item</Button>
+            </Link>
+          </div>
         </div>
         <div>
           <Table>
