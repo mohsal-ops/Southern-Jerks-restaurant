@@ -67,12 +67,12 @@ export function AllDishesCardServer({ id, name, priceInCents, description, image
 
 export function ProductCardSkeleton() {
   return (
-    <Card className="overflow-hidden flex gap-4 p-4 animate-pulse">
-      <div className="w-24 h-24 rounded-xl bg-gray-300 shrink-0" />
-      <div className="flex-1 space-y-3">
-        <div className="h-4 w-3/4 bg-gray-300 rounded" />
-        <div className="h-3 w-1/2 bg-gray-300 rounded" />
+    <div className="flex w-44 shrink-0 flex-col gap-2 rounded-2xl bg-stone-200 p-2 animate-pulse sm:w-56">
+      <div className="aspect-square w-full rounded-xl bg-gray-300" />
+      <div className="space-y-2 px-1 pb-1">
+        <div className="h-4 w-3/4 rounded bg-gray-300" />
+        <div className="h-3 w-1/3 rounded bg-gray-300" />
       </div>
-    </Card>
+    </div>
   );
 }
