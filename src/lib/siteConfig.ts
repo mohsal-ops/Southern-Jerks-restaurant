@@ -11,6 +11,9 @@ export const SITE_CONFIG = {
   legalName: "Southern Jerk Co LLC",
   trademark: "Southern Jerks®",
 
+  // Admin intro animation: "burger" (fast food) | "coffee" (café) | "pizza" (pizzeria)
+  loaderStyle: "burger",
+
   // Contact & Location
   address: "2950 Gears Rd, Houston, TX 77067",
   street: "2950 Gears Rd",

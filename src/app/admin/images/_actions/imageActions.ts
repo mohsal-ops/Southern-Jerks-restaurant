@@ -37,6 +37,7 @@ export async function updateSiteImage(key: string, formData: FormData) {
 
     revalidatePath("/");
     revalidatePath("/story");
+    revalidatePath("/catering");
     revalidatePath("/admin/images");
     return { ok: true, url };
   } catch (error) {

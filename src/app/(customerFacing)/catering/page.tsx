@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import CateringPageClient from "./_components/CateringPageClient";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+import { getSiteImage } from "@/lib/getSiteImages";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: `Catering | Jerk Chicken Catering for ${SITE_CONFIG.city} Events`,
@@ -22,6 +25,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
-  return <CateringPageClient />;
+export default async function Page() {
+  const cateringImage = await getSiteImage("catering_hero");
+  return <CateringPageClient cateringImage={cateringImage} />;
 }

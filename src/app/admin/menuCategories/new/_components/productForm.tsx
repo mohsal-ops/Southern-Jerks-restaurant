@@ -3,7 +3,7 @@
 import { AddCategory } from "@/app/admin/_actions/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { Label } from "@radix-ui/react-label";
 import { Item } from "generated/prisma";
 import { useActionState, useEffect } from "react";
@@ -18,13 +18,12 @@ export default function ProductForm({ item }: { item: Item | null }) {
     initialState,
   );
   useEffect(() => {
-    if (state?.message) {
-      toast({
-        variant: /added|success|updated/i.test(state.message) ? "default" : "destructive",
-        description: `${state.message}`,
-      });
-    }
-  }, [state, pending, formAction]);
+    const s = state as any;
+    const msg = s?.message ?? (s?.error ? "Please enter a valid category name." : "");
+    if (!msg) return;
+    if (/added|success|updated/i.test(msg)) toast.success(msg);
+    else toast.error(msg);
+  }, [state]);
 
   return (
     <>
@@ -42,11 +41,11 @@ export default function ProductForm({ item }: { item: Item | null }) {
           />
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <Button variant="mainButton" disabled={pending} type="submit">
+          <Button variant="mainButton" size="md" disabled={pending} type="submit">
             {pending ? "Saving…" : "Add category"}
           </Button>
           <Link href="/admin/menuCategories">
-            <Button type="button" variant="outline">Back to categories</Button>
+            <Button type="button" variant="outline" size="md">Back to categories</Button>
           </Link>
         </div>
       </form>

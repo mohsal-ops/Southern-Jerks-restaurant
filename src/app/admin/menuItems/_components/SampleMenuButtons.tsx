@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { seedSampleMenu, clearSampleMenu } from "@/app/admin/_actions/products";
 
 export default function SampleMenuButtons() {
@@ -13,7 +13,7 @@ export default function SampleMenuButtons() {
   const run = (fn: () => Promise<{ message: string }>) =>
     start(async () => {
       const res = await fn();
-      toast({ description: res.message });
+      toast.success(res.message);
       router.refresh();
     });
 

@@ -14,10 +14,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import img from "public/general/3rdsection/SouthernJerks-Sep25-42.jpg";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
-export default function CateringPageClient() {
+export default function CateringPageClient({
+  cateringImage = "/general/3rdsection/SouthernJerks-Sep25-42.jpg",
+}: {
+  cateringImage?: string;
+}) {
   const [open, setOpen] = useState(false);
   const packagesRef = useRef<HTMLDivElement | null>(null);
   const [formData, setFormData] = useState({
@@ -85,11 +88,12 @@ export default function CateringPageClient() {
 
         <div className="w-full sm:w-1/2 h-75 md:h-full relative overflow-hidden rounded-2xl">
           <Image
-            src={img}
+            src={cateringImage}
             alt={`${SITE_CONFIG.name} jerk chicken and wings catering trays for ${SITE_CONFIG.city} events`}
             fill
             className="object-cover"
             priority
+            unoptimized={cateringImage.startsWith("http")}
           />
         </div>
 

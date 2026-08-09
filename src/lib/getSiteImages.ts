@@ -8,6 +8,7 @@ export const DEFAULT_SITE_IMAGES = [
   { key: "home_order", url: "/general/generalPages/mainImage.jpg", label: "Home - Order Directly section" },
   { key: "home_feature_breakfast", url: "/general/generalPages/enjoy.jpg", label: "Home - First Feature" },
   { key: "home_feature_comfort", url: "/general/generalPages/vibe.jpg", label: "Home - Second Feature" },
+  { key: "catering_hero", url: "/general/3rdsection/SouthernJerks-Sep25-42.jpg", label: "Catering - Hero" },
 ];
 
 async function seedDefaults() {
@@ -30,9 +31,9 @@ export async function getSiteImage(key: string): Promise<string> {
 }
 
 export async function getAllSiteImages() {
-  const images = await db.siteImage.findMany({ orderBy: { key: "asc" } });
-  if (images.length > 0) return images;
-
+  // Idempotently ensure every default slot exists (upsert with an empty update
+  // never clobbers a custom URL), so newly-added slots like the catering photo
+  // show up in admin immediately without waiting for a page visit.
   await seedDefaults();
   return db.siteImage.findMany({ orderBy: { key: "asc" } });
 }
