@@ -67,6 +67,14 @@ export type DailyPoint = {
   sessions: number;
 };
 
+export type MonthlyTraffic = {
+  key: string;    // "2026-09" (sortable)
+  label: string;  // "September 2026"
+  // Daily points within the month, keyed by day-of-month so two months can be
+  // overlaid day-for-day on the same axis for comparison.
+  days: { day: number; users: number; sessions: number }[];
+};
+
 export type EngagementData = {
   avgSessionDuration: string;
   pagesPerSession: number;
@@ -274,6 +282,48 @@ export async function getDailyTraffic(): Promise<DailyPoint[]> {
     });
   } catch (e: unknown) {
     console.error("[getDailyTraffic]", (e as AnalyticsError).details || (e as AnalyticsError).message);
+    return [];
+  }
+}
+
+// Daily visitors/sessions for the last ~6 months, grouped by calendar month.
+// Powers the "compare months" dropdown on the Visitors-trend chart — each month
+// keeps its per-day points so two months can be overlaid day-for-day.
+export async function getMonthlyTraffic(): Promise<MonthlyTraffic[]> {
+  try {
+    const response = await runGA4({
+      dateRanges: [{ startDate: "180daysAgo", endDate: "today" }],
+      dimensions: [{ name: "date" }],
+      metrics: [{ name: "activeUsers" }, { name: "sessions" }],
+      orderBys: [{ dimension: { dimensionName: "date" } }],
+    });
+
+    const byMonth = new Map<string, MonthlyTraffic>();
+    for (const row of response.rows ?? []) {
+      const raw = row.dimensionValues?.[0]?.value ?? ""; // GA4 "YYYYMMDD"
+      if (raw.length < 8) continue;
+      const year = raw.slice(0, 4);
+      const month = raw.slice(4, 6);
+      const day = Number(raw.slice(6, 8));
+      const key = `${year}-${month}`;
+      if (!byMonth.has(key)) {
+        const label = new Date(`${year}-${month}-01T00:00:00`).toLocaleDateString("en-US", {
+          month: "long",
+          year: "numeric",
+        });
+        byMonth.set(key, { key, label, days: [] });
+      }
+      byMonth.get(key)!.days.push({
+        day,
+        users: parseNum(row.metricValues?.[0]?.value),
+        sessions: parseNum(row.metricValues?.[1]?.value),
+      });
+    }
+
+    // Newest month first so the dropdown defaults to the current month.
+    return Array.from(byMonth.values()).sort((a, b) => b.key.localeCompare(a.key));
+  } catch (e: unknown) {
+    console.error("[getMonthlyTraffic]", (e as AnalyticsError).details || (e as AnalyticsError).message);
     return [];
   }
 }

@@ -9,6 +9,7 @@ import {
   getSeoData,
   getPageSpeedData,
   getDailyTraffic,
+  getMonthlyTraffic,
 } from "@/lib/analytics";
 import { AnalyticsDashboard } from "./_components/AnalyticsDashboard";
 
@@ -16,6 +17,7 @@ export default async function AnalyticsPage() {
   const [
     traffic,
     dailyTraffic,
+    monthlyTraffic,
     engagement,
     sources,
     topPages,
@@ -26,6 +28,7 @@ export default async function AnalyticsPage() {
   ] = await Promise.all([
     getTrafficData(),
     getDailyTraffic(),
+    getMonthlyTraffic(),
     getEngagementData(),
     getTrafficSources(),
     getTopPages(),
@@ -39,6 +42,7 @@ export default async function AnalyticsPage() {
     <AnalyticsDashboard
       traffic={traffic}
       dailyTraffic={dailyTraffic}
+      monthlyTraffic={monthlyTraffic}
       engagement={engagement}
       sources={sources}
       topPages={topPages}

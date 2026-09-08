@@ -3,6 +3,7 @@
 // src/app/admin/analytics/_components/AnalyticsDashboard.tsx
 // Run: npm install framer-motion  (if not already installed)
 
+import { useMemo, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   AreaChart, Area, PieChart, Pie, Cell,
@@ -10,7 +11,7 @@ import {
   Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
 import type {
-  TrafficData, DailyPoint, EngagementData, TrafficSource,
+  TrafficData, DailyPoint, MonthlyTraffic, EngagementData, TrafficSource,
   PageData, ConversionData, DeviceData, SeoData, PageSpeedData,
 } from "@/lib/analytics";
 
@@ -140,6 +141,7 @@ function RankBadge({ pos }: { pos: number }) {
 interface Props {
   traffic: TrafficData;
   dailyTraffic: DailyPoint[];
+  monthlyTraffic: MonthlyTraffic[];
   engagement: EngagementData;
   sources: TrafficSource[];
   topPages: PageData[];
@@ -149,10 +151,140 @@ interface Props {
   speed: PageSpeedData;
 }
 
+// ── Visitors trend + month comparison ────────────────────────────────────────
+// Pick a month and (optionally) a second month to overlay. The two months are
+// aligned by day-of-month so their daily visitor lines can be compared directly.
+// Falls back to the rolling 30-day view when GA4 returns no monthly data.
+function VisitorsTrendCard({
+  monthlyTraffic,
+  dailyTraffic,
+}: {
+  monthlyTraffic: MonthlyTraffic[];
+  dailyTraffic: DailyPoint[];
+}) {
+  const hasMonths = monthlyTraffic.length > 0;
+  const [aKey, setAKey] = useState(monthlyTraffic[0]?.key ?? "");
+  const [bKey, setBKey] = useState(monthlyTraffic[1]?.key ?? "none");
+
+  const monthA = monthlyTraffic.find((m) => m.key === aKey) ?? monthlyTraffic[0];
+  const monthB = bKey === "none" ? undefined : monthlyTraffic.find((m) => m.key === bKey);
+
+  const data = useMemo(() => {
+    if (!monthA) return [];
+    const maxDay = Math.max(
+      1,
+      ...monthA.days.map((d) => d.day),
+      ...(monthB?.days.map((d) => d.day) ?? [0]),
+    );
+    const aByDay = new Map(monthA.days.map((d) => [d.day, d.users]));
+    const bByDay = new Map((monthB?.days ?? []).map((d) => [d.day, d.users]));
+    const rows: { day: string; a: number; b: number | null }[] = [];
+    for (let day = 1; day <= maxDay; day++) {
+      rows.push({
+        day: String(day),
+        a: aByDay.get(day) ?? 0,
+        b: monthB ? bByDay.get(day) ?? 0 : null,
+      });
+    }
+    return rows;
+  }, [monthA, monthB]);
+
+  const selectCls =
+    "rounded-lg border border-border bg-background px-2 py-1 text-[11px] text-foreground focus:outline-none focus:ring-1 focus:ring-ring";
+
+  return (
+    <motion.div variants={item} className="rounded-2xl border border-border bg-background p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <SectionLabel>Visitors trend</SectionLabel>
+        {hasMonths ? (
+          <div className="flex items-center gap-2">
+            <select aria-label="Month" value={monthA?.key ?? ""} onChange={(e) => setAKey(e.target.value)} className={selectCls}>
+              {monthlyTraffic.map((m) => (
+                <option key={m.key} value={m.key}>{m.label}</option>
+              ))}
+            </select>
+            <span className="text-[11px] text-muted-foreground">vs</span>
+            <select aria-label="Compare month" value={bKey} onChange={(e) => setBKey(e.target.value)} className={selectCls}>
+              <option value="none">No comparison</option>
+              {monthlyTraffic.map((m) => (
+                <option key={m.key} value={m.key} disabled={m.key === monthA?.key}>{m.label}</option>
+              ))}
+            </select>
+          </div>
+        ) : (
+          <span className="text-[11px] text-muted-foreground">Last 30 days</span>
+        )}
+      </div>
+
+      {hasMonths && (
+        <div className="flex items-center gap-4 text-[11px] text-muted-foreground mb-3">
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-0.5 rounded" style={{ background: "#3b82f6" }} />
+            {monthA?.label}
+          </span>
+          {monthB && (
+            <span className="flex items-center gap-1.5">
+              <span className="w-3 border-t-2 border-dashed" style={{ borderColor: "#f59e0b" }} />
+              {monthB.label}
+            </span>
+          )}
+        </div>
+      )}
+
+      {!hasMonths ? (
+        dailyTraffic.length === 0 ? (
+          <div className="h-[180px] flex items-center justify-center text-sm text-muted-foreground">
+            No traffic data yet - check GA4 service account permissions
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={180}>
+            <AreaChart data={dailyTraffic} margin={{ top: 0, right: 4, bottom: 0, left: -20 }}>
+              <defs>
+                <linearGradient id="gUsers" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.18} />
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid stroke="hsl(var(--border))" vertical={false} strokeOpacity={0.6} />
+              <XAxis dataKey="date" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
+              <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+              <Tooltip content={<ChartTooltip />} />
+              <Area type="monotone" dataKey="users" name="visitors" stroke="#3b82f6" strokeWidth={2} fill="url(#gUsers)" dot={false} activeDot={{ r: 4, fill: "#3b82f6" }} />
+            </AreaChart>
+          </ResponsiveContainer>
+        )
+      ) : (
+        <ResponsiveContainer width="100%" height={200}>
+          <AreaChart data={data} margin={{ top: 0, right: 4, bottom: 0, left: -20 }}>
+            <defs>
+              <linearGradient id="gMonthA" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.18} />
+                <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid stroke="hsl(var(--border))" vertical={false} strokeOpacity={0.6} />
+            <XAxis dataKey="day" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
+            <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} allowDecimals={false} />
+            <Tooltip content={<ChartTooltip />} />
+            {monthB && (
+              <Area type="monotone" dataKey="b" name={monthB.label} stroke="#f59e0b" strokeWidth={1.5} strokeDasharray="4 3" fill="none" dot={false} activeDot={{ r: 3, fill: "#f59e0b" }} />
+            )}
+            <Area type="monotone" dataKey="a" name={monthA?.label ?? "Month"} stroke="#3b82f6" strokeWidth={2} fill="url(#gMonthA)" dot={false} activeDot={{ r: 4, fill: "#3b82f6" }} />
+          </AreaChart>
+        </ResponsiveContainer>
+      )}
+
+      {hasMonths && (
+        <p className="mt-2 text-[10px] text-muted-foreground">Daily visitors by day of month.</p>
+      )}
+    </motion.div>
+  );
+}
+
 // ── Dashboard ─────────────────────────────────────────────────────────────────
 
 export function AnalyticsDashboard({
-  traffic, dailyTraffic, engagement, sources,
+  traffic, dailyTraffic, monthlyTraffic, engagement, sources,
   topPages, conversions, devices, seo, speed,
 }: Props) {
   const maxPageViews = Math.max(...topPages.map((p) => p.views), 1);
@@ -218,84 +350,8 @@ export function AnalyticsDashboard({
         animate="show"
         className="grid lg:grid-cols-[1fr_360px] gap-4"
       >
-        {/* Visitors area chart */}
-        <motion.div
-          variants={item}
-          className="rounded-2xl border border-border bg-background p-6"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <SectionLabel>Visitors trend</SectionLabel>
-            <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-0.5 bg-foreground rounded" />
-                Visitors
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-0.5 bg-blue-400/60 rounded" style={{ borderTop: "2px dashed" }} />
-                Sessions
-              </span>
-            </div>
-          </div>
-          {dailyTraffic.length === 0 ? (
-            <div className="h-[180px] flex items-center justify-center text-sm text-muted-foreground">
-              No traffic data yet - check GA4 service account permissions
-            </div>
-          ) : (
-            <ResponsiveContainer width="100%" height={180}>
-              <AreaChart data={dailyTraffic} margin={{ top: 0, right: 4, bottom: 0, left: -20 }}>
-                <defs>
-                  <linearGradient id="gUsers" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.18} />
-                    <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="gSessions" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#94a3b8" stopOpacity={0.12} />
-                    <stop offset="100%" stopColor="#94a3b8" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid
-                  strokeDasharray="0"
-                  stroke="hsl(var(--border))"
-                  vertical={false}
-                  strokeOpacity={0.6}
-                />
-                <XAxis
-                  dataKey="date"
-                  tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
-                  tickLine={false}
-                  axisLine={false}
-                  interval="preserveStartEnd"
-                />
-                <YAxis
-                  tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <Tooltip content={<ChartTooltip />} />
-                <Area
-                  type="monotone"
-                  dataKey="sessions"
-                  name="sessions"
-                  stroke="#94a3b8"
-                  strokeWidth={1.5}
-                  fill="url(#gSessions)"
-                  dot={false}
-                  activeDot={{ r: 3, fill: "#94a3b8" }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="users"
-                  name="visitors"
-                  stroke="#3b82f6"
-                  strokeWidth={2}
-                  fill="url(#gUsers)"
-                  dot={false}
-                  activeDot={{ r: 4, fill: "#3b82f6" }}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          )}
-        </motion.div>
+        {/* Visitors area chart — with month-over-month comparison dropdown */}
+        <VisitorsTrendCard monthlyTraffic={monthlyTraffic} dailyTraffic={dailyTraffic} />
 
         {/* Traffic sources donut */}
         <motion.div
