@@ -126,7 +126,7 @@ export default function BrandingManager({
               type="text"
               value={headline}
               onChange={(e) => setHeadline(e.target.value)}
-              placeholder="e.g. Bold Caribbean flavors"
+              placeholder="e.g. Bold Southern flavors"
               className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-stone-300"
             />
           </div>

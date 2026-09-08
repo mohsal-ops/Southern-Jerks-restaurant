@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+import CateringMenuDisplay from "./CateringMenuDisplay";
 
 export default function CateringPageClient({
   cateringImage = "/general/3rdsection/SouthernJerks-Sep25-42.jpg",
@@ -156,24 +157,15 @@ export default function CateringPageClient({
       {/* Menu / Packages */}
       <section
         ref={packagesRef}
-        className="max-w-6xl w-full space-y-10 pb-4 px-2"
+        className="max-w-6xl w-full space-y-8 pb-4 px-2 scroll-mt-24"
       >
-        <div className="flex flex-col gap-4 sm:flex-row justify-between items-center">
-          <h2 className="text-3xl font-bold">Catering Menu</h2>
-          <Button
-            size="lg"
-            variant="outline"
-            className="h-12  text-left"
-            onClick={() => {
-              const link = document.createElement("a");
-              link.href = "/southern-jerks-catering-menu.pdf";
-              link.download = "Southern-Jerks-Catering-Menu.pdf";
-              link.click();
-            }}
-          >
-            Download Menu
-          </Button>
+        <div className="text-center">
+          <h2 className="text-3xl font-bold sm:text-4xl">Catering Menu</h2>
+          <p className="mt-2 text-gray-500">
+            Trays that feed a crowd. Pick your chicken, sides, and extras, then request a quote.
+          </p>
         </div>
+        <CateringMenuDisplay />
       </section>
 
       {/* Request Form */}

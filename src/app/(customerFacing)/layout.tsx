@@ -32,14 +32,14 @@ export default async function Customerlayout({
             {SITE_CONFIG.footer.copyright}
             {" "}Website by{" "}
             <a
-              href="https://www.instagram.com/vegastar.digital/"
+              href="https://www.instagram.com/starvega.digital/"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-primary"
             >
               Vega Star Digital
             </a>{" "}
-            - MOHAMMED BENSALAH
+            - MOHAMMED BSL
             <Link
             href="/login"
             className="absolute right-1 text-xs text-stone-400 hover:text-stone-600"

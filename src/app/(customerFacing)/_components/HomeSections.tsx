@@ -69,7 +69,7 @@ export function TopSection({
         <Image
           priority
           fill
-          alt={`${SITE_CONFIG.name} bold Caribbean food`}
+          alt={`${SITE_CONFIG.name} bold Southern food`}
           src={heroImage}
           sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover"

@@ -5,7 +5,7 @@
 export const SITE_CONFIG = {
   // Brand
   name: "Southern Jerks",
-  tagline: "Bold Caribbean flavors, juicy wings, and stacked sandwiches",
+  tagline: "Bold Southern flavors, juicy wings, and stacked sandwiches",
   subTagline:
     "perfectly seasoned, and packed with flavor made fresh so every bite hits just right.",
   legalName: "Southern Jerk Co LLC",
@@ -39,13 +39,13 @@ export const SITE_CONFIG = {
 
   // SEO
   siteUrl: "https://southernjerkshtx.com",
-  seoTitle: "Southern Jerks | Jerk Chicken, Wings & Caribbean Food in Houston",
+  seoTitle: "Southern Jerks | Jerk Chicken, Wings & Southern Food in Houston",
   seoDescription:
     "Southern Jerks serves bold jerk chicken, crispy wings, loaded fries, and stacked sandwiches in Houston, TX.",
   seoKeywords: [
     "jerk chicken Houston",
     "jerk wings Houston",
-    "Caribbean restaurant Houston",
+    "Southern restaurant Houston",
     "fried chicken Houston",
     "family restaurant Houston",
     "Southern Jerks Houston",
@@ -70,7 +70,7 @@ export const SITE_CONFIG = {
 
   // Home page text sections
   home: {
-    heroHeadline: "Bold Caribbean flavors",
+    heroHeadline: "Bold Southern flavors",
     heroSubHeadline: "juicy wings, and stacked sandwiches",
     galleryTitle: "Southern Jerks®",
     gallerySubtitle: "Quiet Mouth. Loud Flavor.",
@@ -78,7 +78,7 @@ export const SITE_CONFIG = {
       {
         title: "Only flavor that hits",
         description:
-          "From juicy wings to stacked sandwiches, every dish is made with care, quality ingredients, and big Caribbean flavor.",
+          "From juicy wings to stacked sandwiches, every dish is made with care, quality ingredients, and big Southern flavor.",
         image: "/general/generalPages/enjoy.jpg",
       },
       {
@@ -102,7 +102,7 @@ export const SITE_CONFIG = {
       },
       {
         question: "What meals do you serve?",
-        answer: "Chicken wings, sandwiches, Caribbean sides, and snacks.",
+        answer: "Chicken wings, sandwiches, Southern sides, and snacks.",
       },
       {
         question: "Do you offer delivery or takeout?",

@@ -36,14 +36,14 @@ export type ItemWithSides = Item & {
 };
 
 export const metadata: Metadata = {
-  title: "Southern Jerks | Jerk Chicken, Wings & Caribbean Food in Houston",
+  title: "Southern Jerks | Jerk Chicken, Wings & Southern Food in Houston",
   description:
-    "Southern Jerks serves bold jerk chicken, crispy wings, loaded fries, and stacked sandwiches in Houston, TX. A family-friendly Caribbean-inspired kitchen with a kids menu, catering, and gift cards.",
+    "Southern Jerks serves bold jerk chicken, crispy wings, loaded fries, and stacked sandwiches in Houston, TX. A family-friendly Southern-inspired kitchen with a kids menu, catering, and gift cards.",
   keywords: [
     "jerk chicken Houston",
     "jerk wings Houston",
-    "Caribbean restaurant Houston",
-    "Caribbean food Houston",
+    "Southern restaurant Houston",
+    "Southern food Houston",
     "fried chicken Houston",
     "loaded fries Houston",
     "family restaurant Houston",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     icon: "/logo.png",
   },
   openGraph: {
-    title: "Southern Jerks | Jerk Chicken, Wings & Caribbean Food in Houston",
+    title: "Southern Jerks | Jerk Chicken, Wings & Southern Food in Houston",
     description:
       "Bold jerk chicken, crispy wings, loaded fries, and stacked sandwiches made fresh at Southern Jerks in Houston.",
     url: "/",
@@ -75,9 +75,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Southern Jerks | Caribbean Food in Houston",
+    title: "Southern Jerks | Southern Food in Houston",
     description:
-      "Jerk chicken, wings, loaded fries, and bold Caribbean-inspired flavors you'll crave.",
+      "Jerk chicken, wings, loaded fries, and bold Southern-inspired flavors you'll crave.",
     images: ["/general/generalPages/mainImage.jpg"],
   },
 };
@@ -106,7 +106,7 @@ function FaqSchema() {
               name: "What meals do you serve?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Chicken wings, sandwiches, Caribbean sides, and snacks.",
+                text: "Chicken wings, sandwiches, Southern sides, and snacks.",
               },
             },
             {

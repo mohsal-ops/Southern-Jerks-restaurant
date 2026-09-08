@@ -5,9 +5,9 @@ import PostCard from "../_components/PostCard";
 import InstagramFeed from "./_components/InstagramFeed";
 
 export const metadata = {
-  title: "Southern Jerks Journal | Caribbean Food & Culture",
+  title: "Southern Jerks Journal | Southern Food & Culture",
   description:
-    "Discover stories, flavors, and behind-the-scenes from Southern Jerks - the home of authentic Caribbean fusion cuisine.",
+    "Discover stories, flavors, and behind-the-scenes from Southern Jerks - the home of authentic Southern fusion cuisine.",
   openGraph: {
     title: "Southern Jerks Journal",
     description: "Stories, culture and food from Southern Jerks restaurant.",

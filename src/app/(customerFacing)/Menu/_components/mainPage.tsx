@@ -220,7 +220,7 @@ export default function MainPageMenu({
           id="name&address"
         >
           <p className="tracking-tight font-serif  text-xl text-center">
-            Southern jerks Chicken Wings, Sandwiches, Caribbean
+            Southern jerks Chicken Wings, Sandwiches, and more
           </p>
           <span className="flex text-sm space-x-2 justify-center sm:justify-start items-center font-semibold w-4/5 gap-1  text-neutral-600 text-center  ">
             <FaLocationPin className="md:block hidden" />

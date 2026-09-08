@@ -122,7 +122,7 @@ export default async function RootLayout({
               image: `${SITE_CONFIG.siteUrl}${SITE_CONFIG.ogImage}`,
               logo: `${SITE_CONFIG.siteUrl}/logo.png`,
               priceRange: "$$",
-              servesCuisine: ["Caribbean", "Southern", "Fried Chicken", "American"],
+              servesCuisine: ["Southern", "Fried Chicken", "American"],
               address: {
                 "@type": "PostalAddress",
                 streetAddress: SITE_CONFIG.street,
