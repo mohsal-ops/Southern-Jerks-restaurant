@@ -61,7 +61,7 @@ export const SITE_CONFIG = {
   // Starting color theme for a first-time visitor: "light" | "dark".
   // Southern Jerks is a dark brand (black + gold), so it opens dark. The header
   // toggle is intentionally hidden on this site, so this is the fixed look.
-  defaultTheme: "dark" as "light" | "dark",
+  defaultTheme: "light" as "light" | "dark",
 
   // Main call-to-action button label, used on every "menu" button across the site.
   menuCtaLabel: "Order Now",

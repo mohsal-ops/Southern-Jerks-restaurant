@@ -65,9 +65,9 @@ export default function TrafficSourceChart() {
       <div className="flex flex-col items-center justify-center h-[300px] gap-2 text-center px-4">
         <p className="text-sm text-muted-foreground">⚠️ {error}</p>
         <p className="text-xs text-muted-foreground">
-          Check that <code className="bg-muted px-1 rounded">GA4_PROPERTY_ID</code> in{" "}
-          <code className="bg-muted px-1 rounded">.env.local</code> is just the number
-          (e.g. <code className="bg-muted px-1 rounded">123456789</code>)
+          Check that <code className="bg-stone-100 px-1 rounded">GA4_PROPERTY_ID</code> in{" "}
+          <code className="bg-stone-100 px-1 rounded">.env.local</code> is just the number
+          (e.g. <code className="bg-stone-100 px-1 rounded">123456789</code>)
         </p>
       </div>
     );

@@ -163,12 +163,12 @@ export default async function Home() {
         <FeaturedProductsSection />
       </Suspense>
       <SectionDivider />
-      <Suspense fallback={<div className="sm:w-[85%] w-full h-100 bg-muted rounded-3xl animate-pulse" />}>
+      <Suspense fallback={<div className="sm:w-[85%] w-full h-100 bg-stone-100 rounded-3xl animate-pulse" />}>
         <GallerySection />
       </Suspense>
       <SectionDivider />
       <FadeIn delay={100}>
-        <Suspense fallback={<div className="h-96 w-full md:w-[85vw] bg-muted rounded-4xl animate-pulse" />}>
+        <Suspense fallback={<div className="h-96 w-full md:w-[85vw] bg-stone-100 rounded-4xl animate-pulse" />}>
           <ReviewsDataSection />
         </Suspense>
       </FadeIn>
@@ -203,7 +203,7 @@ export default async function Home() {
         </div>
       </FadeIn>
       <SectionDivider />
-      <Suspense fallback={<div className="h-40 w-full sm:w-[75%] animate-pulse bg-muted rounded-4xl" />}>
+      <Suspense fallback={<div className="h-40 w-full sm:w-[75%] animate-pulse bg-stone-100 rounded-4xl" />}>
         <LocationSection />
       </Suspense>
     </div>

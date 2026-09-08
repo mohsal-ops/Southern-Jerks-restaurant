@@ -94,8 +94,8 @@ export function ReviewsSection({ reviews }: { reviews: ReviewData[] }) {
   if (!reviews?.length) return null;
 
   return (
-    <section className="relative overflow-hidden flex w-full flex-col items-center gap-8 rounded-4xl bg-muted p-6 md:w-[85vw] md:p-10">
-      <LogoDriftBackground className="rounded-4xl" veilClassName="bg-muted/80" />
+    <section className="relative overflow-hidden flex w-full flex-col items-center gap-8 rounded-4xl bg-stone-100 p-6 md:w-[85vw] md:p-10">
+      <LogoDriftBackground className="rounded-4xl" veilClassName="bg-stone-100/80" />
       <div className="relative z-10 text-center">
         <PageHeader>What our guests are saying</PageHeader>
       </div>
@@ -129,7 +129,7 @@ export function ReviewsSection({ reviews }: { reviews: ReviewData[] }) {
               type="button"
               onClick={() => setActive(null)}
               aria-label="Close"
-              className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-accent"
+              className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-stone-100 text-muted-foreground transition-colors hover:bg-accent"
             >
               <X className="h-5 w-5" />
             </button>

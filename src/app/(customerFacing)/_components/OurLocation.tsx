@@ -55,7 +55,7 @@ export function OurLocation({
   const mapsUrl = `${SITE_CONFIG.googleMapsUrl}?entry=ttu`;
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-muted text-foreground rounded-4xl w-[92%] mx-auto sm:w-[75%] font-bold ">
+    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-stone-100 text-foreground rounded-4xl w-[92%] mx-auto sm:w-[75%] font-bold ">
       <HereMapsScripts />
       {/* Map */}
       <div className="sm:w-[45%] w-full h-56 sm:h-auto min-h-50 rounded-3xl overflow-hidden shrink-0">

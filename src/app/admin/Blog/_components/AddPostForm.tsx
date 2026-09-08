@@ -78,7 +78,7 @@ export default function AddPostForm({ post }: { post: null }) {
       {/* IMAGE UPLOAD */}
       <div className="space-y-2">
         <Label>Featured Image</Label>
-        <label className="flex flex-col items-center justify-center h-32 border-2 border-dashed rounded-lg cursor-pointer text-sm text-muted-foreground hover:bg-muted">
+        <label className="flex flex-col items-center justify-center h-32 border-2 border-dashed rounded-lg cursor-pointer text-sm text-muted-foreground hover:bg-stone-100">
           <input type="file" name="image" className="text-center" placeholder="none" id="image" />
           <span className="text-xs">PNG, JPG up to 20MB</span>
         </label>

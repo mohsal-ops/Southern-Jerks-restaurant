@@ -124,7 +124,6 @@ exports.Prisma.AdminScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
-  pendingEmail: 'pendingEmail',
   passwordHash: 'passwordHash',
   status: 'status',
   emailVerifiedAt: 'emailVerifiedAt',
@@ -133,7 +132,8 @@ exports.Prisma.AdminScalarFieldEnum = {
   approvedById: 'approvedById',
   approvedAt: 'approvedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  pendingEmail: 'pendingEmail'
 };
 
 exports.Prisma.ItemScalarFieldEnum = {
@@ -207,12 +207,7 @@ exports.Prisma.CartScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  status: 'status',
-  uberQuoteId: 'uberQuoteId',
-  uberFeeCents: 'uberFeeCents',
-  uberDeliveryId: 'uberDeliveryId',
-  uberStatus: 'uberStatus',
-  uberTrackingUrl: 'uberTrackingUrl'
+  status: 'status'
 };
 
 exports.Prisma.CartItemScalarFieldEnum = {
@@ -243,7 +238,6 @@ exports.Prisma.SideGroupScalarFieldEnum = {
   type: 'type',
   required: 'required',
   maxSelect: 'maxSelect',
-  order: 'order',
   createdAt: 'createdAt'
 };
 
@@ -252,8 +246,7 @@ exports.Prisma.SideOptionScalarFieldEnum = {
   sideGroupId: 'sideGroupId',
   label: 'label',
   priceInCents: 'priceInCents',
-  linkedItemId: 'linkedItemId',
-  order: 'order'
+  linkedItemId: 'linkedItemId'
 };
 
 exports.Prisma.CartItemSideScalarFieldEnum = {
@@ -319,29 +312,6 @@ exports.Prisma.SiteSettingScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.LoyaltyContactScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  phone: 'phone',
-  firstName: 'firstName',
-  birthday: 'birthday',
-  subscribed: 'subscribed',
-  consentTextVersion: 'consentTextVersion',
-  consentTimestamp: 'consentTimestamp',
-  consentIp: 'consentIp',
-  unsubscribedAt: 'unsubscribedAt',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.LoyaltyCampaignScalarFieldEnum = {
-  id: 'id',
-  projectId: 'projectId',
-  message: 'message',
-  type: 'type',
-  recipientCount: 'recipientCount',
-  sentAt: 'sentAt'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -390,9 +360,7 @@ exports.Prisma.ModelName = {
   BusinessHours: 'BusinessHours',
   CateringRequest: 'CateringRequest',
   SiteImage: 'SiteImage',
-  SiteSetting: 'SiteSetting',
-  LoyaltyContact: 'LoyaltyContact',
-  LoyaltyCampaign: 'LoyaltyCampaign'
+  SiteSetting: 'SiteSetting'
 };
 
 /**

@@ -222,7 +222,7 @@ export function PickupDetailsContent({
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
               />
-              <div className="border rounded-xl p-3 bg-muted text-sm space-y-1">
+              <div className="border rounded-xl p-3 bg-stone-100 text-sm space-y-1">
                 <p className="font-semibold">
                   ⭐ Earn Rewards With Every Order
                 </p>
@@ -350,7 +350,7 @@ export function PickupDetailsContent({
                   onChange={(e) => setCustomerPhone(e.target.value)}
                 />
 
-                <div className="border rounded-xl p-3 bg-muted text-sm space-y-1">
+                <div className="border rounded-xl p-3 bg-stone-100 text-sm space-y-1">
                   <p className="font-semibold">
                     ⭐ Earn Rewards With Every Order
                   </p>

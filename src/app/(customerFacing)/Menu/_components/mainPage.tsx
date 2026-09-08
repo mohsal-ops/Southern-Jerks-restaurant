@@ -250,7 +250,7 @@ export default function MainPageMenu({
           <div className="flex flex-col sm:flex-row w-full sm:w-1/2  gap-4 font-semibold text-muted-foreground">
             {/* Pickup/Delivery toggle — only on Standard+ tiers. Starter is pickup-only. */}
             {deliveryAllowed && (
-            <div className="bg-muted w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden">
+            <div className="bg-stone-100 w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden">
               <label className="cursor-pointer w-1/2 relative">
                 <input
                   type="radio"
@@ -260,7 +260,7 @@ export default function MainPageMenu({
                   onChange={() => setChoice("delivery")}
                   className="hidden peer"
                 />
-                <div className="h-full bg-muted border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
+                <div className="h-full bg-stone-100 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
                   Delivery
                 </div>
               </label>
@@ -273,7 +273,7 @@ export default function MainPageMenu({
                   onChange={() => setChoice("pickup")}
                   className="hidden peer"
                 />
-                <div className=" h-full bg-muted border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
+                <div className=" h-full bg-stone-100 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
                   Pickup
                 </div>
               </label>

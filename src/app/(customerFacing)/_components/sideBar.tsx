@@ -41,7 +41,7 @@ export default function AppSideBar() {
                   className={[
                     "w-full text-center px-4 py-2 rounded-md font-medium transition-colors",
                     pathname === obj.href
-                      ? "bg-accent text-accent-foreground"
+                      ? "bg-brand text-accent-foreground"
                       : "text-foreground/70 hover:bg-accent hover:text-accent-foreground"
                   ].join(" ")}
                 >

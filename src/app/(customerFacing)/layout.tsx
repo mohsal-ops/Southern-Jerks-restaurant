@@ -34,7 +34,7 @@ export default async function Customerlayout({
         <div id="main-content" className="flex flex-col md:items-center   ">{children}</div>
         <div className="flex flex-col w-full items-center ">
           <Footer logoUrl={logoUrl} />
-          <div className="relative text-xs  mt-2 text-muted-foreground text-center p-4 md:py-3 bg-muted w-full border-t border-border">
+          <div className="relative text-xs  mt-2 text-muted-foreground text-center p-4 md:py-3 bg-stone-100 w-full border-t border-border">
             {SITE_CONFIG.footer.copyright}
             {" "}Website by{" "}
             <a

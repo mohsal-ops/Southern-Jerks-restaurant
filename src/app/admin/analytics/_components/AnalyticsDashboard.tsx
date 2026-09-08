@@ -129,7 +129,7 @@ function RankBadge({ pos }: { pos: number }) {
       </span>
     );
   return (
-    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-stone-100 text-muted-foreground">
       #{pos}
     </span>
   );
@@ -379,7 +379,7 @@ export function AnalyticsDashboard({
           <SectionLabel>Top pages</SectionLabel>
         </div>
         {/* Header */}
-        <div className="grid grid-cols-[1fr_64px_88px_56px] px-6 py-2.5 bg-muted/30 border-b border-border
+        <div className="grid grid-cols-[1fr_64px_88px_56px] px-6 py-2.5 bg-stone-100/30 border-b border-border
                         text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
           <span>Page</span>
           <span className="text-right">Views</span>
@@ -396,12 +396,12 @@ export function AnalyticsDashboard({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.05 * i }}
             className={`grid grid-cols-[1fr_64px_88px_56px] px-6 py-3.5 items-center
-                        text-sm hover:bg-muted/40 transition-colors duration-150
+                        text-sm hover:bg-stone-100/40 transition-colors duration-150
                         ${i < topPages.length - 1 ? "border-b border-border" : ""}`}
           >
             <div className="flex items-center gap-3 pr-4 overflow-hidden">
               {/* Mini view bar */}
-              <div className="hidden sm:block w-16 h-1 bg-muted rounded-full overflow-hidden flex-shrink-0">
+              <div className="hidden sm:block w-16 h-1 bg-stone-100 rounded-full overflow-hidden flex-shrink-0">
                 <div
                   className="h-full bg-blue-500/60 rounded-full"
                   style={{ width: `${(page.views / maxPageViews) * 100}%` }}
@@ -454,7 +454,7 @@ export function AnalyticsDashboard({
               Last 30 days
             </span>
           </div>
-          <div className="grid grid-cols-[1fr_68px_60px_56px_64px] px-6 py-2.5 bg-muted/30 border-b border-border
+          <div className="grid grid-cols-[1fr_68px_60px_56px_64px] px-6 py-2.5 bg-stone-100/30 border-b border-border
                           text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
             <span>Keyword</span>
             <span className="text-right">Position</span>
@@ -472,7 +472,7 @@ export function AnalyticsDashboard({
               animate={{ opacity: 1 }}
               transition={{ delay: 0.04 * i }}
               className={`grid grid-cols-[1fr_68px_60px_56px_64px] px-6 py-3.5 items-center
-                          text-sm hover:bg-muted/40 transition-colors duration-150
+                          text-sm hover:bg-stone-100/40 transition-colors duration-150
                           ${i < seo.keywords.length - 1 ? "border-b border-border" : ""}`}
             >
               <span className="truncate pr-4 font-medium">{kw.keyword}</span>
@@ -582,10 +582,10 @@ export function AnalyticsDashboard({
               <p className="text-sm text-muted-foreground">Not connected</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Add{" "}
-                <code className="bg-muted px-1 py-0.5 rounded text-[11px]">
+                <code className="bg-stone-100 px-1 py-0.5 rounded text-[11px]">
                   PAGESPEED_API_KEY
                 </code>{" "}
-                to <code className="bg-muted px-1 py-0.5 rounded text-[11px]">.env.local</code>
+                to <code className="bg-stone-100 px-1 py-0.5 rounded text-[11px]">.env.local</code>
               </p>
             </div>
           ) : (
@@ -603,7 +603,7 @@ export function AnalyticsDashboard({
                   { label: "CLS", value: speed.cls },
                   { label: "TBT", value: speed.tbt },
                 ].map((m) => (
-                  <div key={m.label} className="bg-muted/40 rounded-xl p-2.5 text-center">
+                  <div key={m.label} className="bg-stone-100/40 rounded-xl p-2.5 text-center">
                     <p className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
                       {m.label}
                     </p>

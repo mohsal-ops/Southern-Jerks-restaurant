@@ -52,7 +52,7 @@ export default function TrialPopup() {
           type="button"
           onClick={dismiss}
           aria-label="Close"
-          className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-accent"
+          className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-stone-100 text-muted-foreground transition-colors hover:bg-accent"
         >
           <X className="h-5 w-5" />
         </button>

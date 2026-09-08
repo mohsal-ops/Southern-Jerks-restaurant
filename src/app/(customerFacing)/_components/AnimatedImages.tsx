@@ -44,7 +44,7 @@ export function HoverCard({ src, alt }: { src: string; alt: string }) {
     >
       {/* Skeleton (same size, no layout shift) */}
       {!loaded && (
-        <div className="absolute inset-0 bg-muted animate-pulse z-10" />
+        <div className="absolute inset-0 bg-stone-100 animate-pulse z-10" />
       )}
 
       {/* Image */}

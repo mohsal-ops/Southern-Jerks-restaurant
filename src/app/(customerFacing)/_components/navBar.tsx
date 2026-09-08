@@ -127,7 +127,7 @@ export function TopNavBar({
                     className={[
                       "text-md rounded-md  font-medium transition-colors duration-150 flex items-center gap-2",
                       isActive
-                        ? "bg-accent text-accent-foreground" // active
+                        ? "bg-brand text-accent-foreground" // active
                         : "text-foreground/70 hover:bg-accent hover:text-accent-foreground", // inactive
                     ].join(" ")}
                   >

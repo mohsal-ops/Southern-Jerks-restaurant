@@ -38,7 +38,7 @@ export function TopSection({
   logoUrl?: string;
 }) {
   return (
-    <div className="flex relative overflow-hidden h-svh w-full sm:w-[85%] flex-col sm:flex-row bg-muted sm:rounded-3xl sm:p-2">
+    <div className="flex relative overflow-hidden h-svh w-full sm:w-[85%] flex-col sm:flex-row bg-stone-100 sm:rounded-3xl sm:p-2">
       <LogoDriftBackground  veilClassName="bg-background/90" className="sm:rounded-3xl" />
       <div className="sm:relative absolute z-30 bottom-20 flex flex-col gap-6 items-start h-full sm:justify-center justify-end mt-10 md:mb-20 md:w-1/2 p-5 md:p-12">
          <Image
@@ -177,7 +177,7 @@ export function DistinctiveFeatures({
           width={800}
           height={600}
           sizes="(max-width: 768px) 100vw, 45vw"
-          className="object-cover flex items-start bg-muted md:order-2 order-1 md:w-[45%] w-full h-full rounded-3xl"
+          className="object-cover flex items-start bg-stone-100 md:order-2 order-1 md:w-[45%] w-full h-full rounded-3xl"
         />
       </div>
     </div>

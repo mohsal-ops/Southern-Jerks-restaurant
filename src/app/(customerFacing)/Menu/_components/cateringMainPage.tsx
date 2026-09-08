@@ -96,7 +96,7 @@ console.log(choice)
                 <div className='flex flex-col gap-2 md:items-start  items-center  font-bold  ' id="name&address">
                     <p className='tracking-tight font-serif  text-xl text-center'>Burgers, Breakfast, Pizza & Daily Specials</p>
                 </div>
-                <div id="PickupOrDelivery " className='text-xs flex  bg-muted rounded-3xl p'>
+                <div id="PickupOrDelivery " className='text-xs flex  bg-stone-100 rounded-3xl p'>
                     <div className="flex w-full justify-between  gap-4 font-semibold text-muted-foreground">
                         {/* Delivery */}
                         <label className="cursor-pointer w-1/2 relative">
@@ -108,7 +108,7 @@ console.log(choice)
                                 onChange={() => setChoice("delivery")}
                                 className="hidden peer"
                             />
-                            <div className=" h-10 bg-muted border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
+                            <div className=" h-10 bg-stone-100 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
                                 Delivery
                             </div>
                         </label>
@@ -123,7 +123,7 @@ console.log(choice)
                                 onChange={() => setChoice("pickup")}
                                 className="hidden peer"
                             />
-                            <div className=" h-10 bg-muted border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
+                            <div className=" h-10 bg-stone-100 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
                                 Pickup
                             </div>
                         </label>

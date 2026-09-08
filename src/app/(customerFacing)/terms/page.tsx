@@ -4,7 +4,7 @@ export const metadata = buildMetadata("terms");
 
 export default function TermsAndPolicies() {
   return (
-    <div className="min-h-screen bg-muted py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-stone-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-card text-card-foreground rounded-lg shadow-md p-8">
         <h1 className="text-4xl font-bold text-foreground mb-8">Terms and Policies</h1>
 

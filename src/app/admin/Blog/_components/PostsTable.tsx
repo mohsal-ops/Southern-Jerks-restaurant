@@ -26,7 +26,7 @@ export default function PostsTable({ posts }: { posts: Post[] }) {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="flex justify-between items-start rounded-lg bg-muted/40 p-3"
+            className="flex justify-between items-start rounded-lg bg-stone-100/40 p-3"
           >
             <div>
               <p className="font-medium text-sm">{post.title}</p>

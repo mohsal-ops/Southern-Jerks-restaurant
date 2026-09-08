@@ -39,9 +39,16 @@ import { atLeast, tierOf, type PackageTier } from "@/lib/packages";
 // them. TO REMOVE ALL BADGES: set SHOW_NEW_BADGES to false.
 // TO CHANGE WHICH TABS are flagged: edit the NEW_TAB_HREFS list.
 const SHOW_NEW_BADGES = true;
-// The tabs added to Southern Jerks in the latest template update. The other tabs
-// already existed on this dashboard, so only these two carry the "New" pill.
+// The tabs added to Southern Jerks in the latest template update.
 const NEW_TAB_HREFS = new Set([
+  "/admin/catering",
+  "/admin/hours",
+  "/admin/story",
+  "/admin/content",
+  "/admin/media",
+  "/admin/reviews",
+  "/admin/team",
+  "/admin/branding",
   "/admin/delivery",
   "/admin/loyalty",
 ]);
