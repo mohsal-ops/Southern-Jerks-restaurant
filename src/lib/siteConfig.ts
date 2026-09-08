@@ -140,6 +140,29 @@ export const SITE_CONFIG = {
   home: {
     heroHeadline: "Bold Southern flavors",
     heroSubHeadline: "juicy wings, and stacked sandwiches",
+    heroSlides: [
+      {
+        image: "/general/generalPages/mainImage.jpg",
+        headline: "Bold Southern Flavors",
+        subheadline: "juicy wings, and stacked sandwiches",
+        ctaLabel: "Order Now",
+        ctaHref: "/Menu",
+      },
+      {
+        image: "/general/generalPages/enjoy.jpg",
+        headline: "Now Booking Catering",
+        subheadline: "Feeding a crowd? We've got you covered for any event.",
+        ctaLabel: "See Catering",
+        ctaHref: "/catering",
+      },
+      {
+        image: "/general/generalPages/vibe.jpg",
+        headline: "Earn Every Time You Order",
+        subheadline: "Join Southern Jerks Rewards and start racking up perks.",
+        ctaLabel: "Join Rewards",
+        ctaHref: "/rewards",
+      },
+    ] as { image: string; headline: string; subheadline: string; ctaLabel: string; ctaHref: string }[],
     galleryTitle: "Southern Jerks®",
     gallerySubtitle: "Quiet Mouth. Loud Flavor.",
     distinctiveFeatures: [
