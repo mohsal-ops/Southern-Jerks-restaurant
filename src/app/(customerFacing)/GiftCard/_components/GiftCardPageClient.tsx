@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import logo from "public/logo.png";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 import { formatCurrency } from "@/lib/formatters";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -23,7 +24,7 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string,
 );
 
-export default function GiftCardPageClient() {
+export default function GiftCardPageClient({ logoUrl }: { logoUrl?: string }) {
   const [clientSecret, setClientSecret] = useState<string>();
   const [price, setPrice] = useState(50 * 100);
   const route = useRouter();
@@ -88,21 +89,21 @@ export default function GiftCardPageClient() {
         />
 
         {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-black/90" />
+        <div className="absolute inset-0 bg-white/90" />
 
         {/* CONTENT */}
         <div className="relative z-10">
           <div className="flex justify-center mb-6">
             <div className="rounded-2xl bg-brand p-3 shadow-xl">
-              <Image src={logo} alt="Southern Jerks" className="h-20 w-auto" />
+              <Image src={logoUrl || logo} alt={`${SITE_CONFIG.name}`} className="h-20 w-20 rounded-full object-cover" />
             </div>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-            A Gift They’ll <span className="text-white">Never Forget</span>
+            A Gift They’ll <span className="text-stone-300">Never Forget</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl mx-auto text-yellow-200 text-lg">
+          <p className="mt-6 max-w-2xl mx-auto text-lg">
             Premium food. Bold flavors. One unforgettable experience. Send a
             Southern Jerks gift card instantly.
           </p>
@@ -112,19 +113,19 @@ export default function GiftCardPageClient() {
       {/* 🎁 GIFT CARD PREVIEW */}
       <section className="grid md:grid-cols-2 gap-10 items-center px-6">
         <div className="relative">
-          <div className="rounded-2xl bg-linear-to-br from-yellow-400 to-yellow-300 p-8 shadow-2xl -rotate-3">
+          <div className="rounded-2xl bg-linear-to-br from-brand to-brand-dark p-8 shadow-2xl -rotate-3">
             <div className="flex justify-between items-center mb-10">
-              <span className="font-bold text-black text-xl">
+              <span className="font-bold text-brand-foreground text-xl">
                 Southern Jerks
               </span>
-              <span className="text-black/70">Gift Card</span>
+              <span className="text-brand-foreground/70">Gift Card</span>
             </div>
 
-            <div className="text-black text-4xl font-extrabold mb-4">
+            <div className="text-brand-foreground text-4xl font-extrabold mb-4">
               {formatCurrency(price / 100)}
             </div>
 
-            <div className="flex justify-between text-black/80 text-sm">
+            <div className="flex justify-between text-brand-foreground/80 text-sm">
               <span>No Expiration</span>
               <span>Premium Experience</span>
             </div>
@@ -133,7 +134,7 @@ export default function GiftCardPageClient() {
 
         {/* Amount Selector */}
         <div className="space-y-6">
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-foreground">
             Choose the amount
           </h2>
 
@@ -145,8 +146,8 @@ export default function GiftCardPageClient() {
                 className={cn(
                   "rounded-full px-6 py-3 text-lg border-2",
                   price === amt * 100
-                    ? "bg-black text-brand border-black"
-                    : "border-gray-300",
+                    ? "bg-foreground text-background border-foreground"
+                    : "border-border",
                 )}
                 onClick={() => setPrice(amt * 100)}
               >
@@ -156,7 +157,7 @@ export default function GiftCardPageClient() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Label htmlFor="custom-amount" className="text-gray-700">Custom amount</Label>
+            <Label htmlFor="custom-amount" className="text-muted-foreground">Custom amount</Label>
             <Input
               id="custom-amount"
               type="number"
@@ -178,7 +179,7 @@ export default function GiftCardPageClient() {
           />
         </Elements>
       ) : (
-        <div className="flex justify-center text-gray-400 py-10">
+        <div className="flex justify-center text-muted-foreground py-10">
           Loading payment…
           <Button
             variant="link"
@@ -245,7 +246,7 @@ function CheckoutForm({
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/GcPurchase-success`,
+          return_url: `${window.location.origin}/stripe/GcPurchase-success`,
           receipt_email: email,
         },
       });
@@ -313,7 +314,7 @@ function CheckoutForm({
 
         <Button
           type="submit"
-          className="w-full bg-black text-brand hover:bg-black/90"
+          className="w-full bg-foreground text-brand hover:bg-foreground/90"
         >
           {isLoading
             ? "Processing..."

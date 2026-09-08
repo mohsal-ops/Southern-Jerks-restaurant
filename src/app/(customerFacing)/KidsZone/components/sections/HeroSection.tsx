@@ -1,6 +1,7 @@
 import { Gamepad2, Star, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const HeroSection = () => {
   return (
@@ -44,7 +45,7 @@ const HeroSection = () => {
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-8">
             <Star className="w-4 h-4 text-primary" fill="currentColor" />
             <span className="text-primary text-sm font-semibold tracking-wide">
-              #1 Family Restaurant in Houston
+              #1 Family Restaurant in {SITE_CONFIG.city}
             </span>
           </div>
 
@@ -89,7 +90,7 @@ const HeroSection = () => {
               variant="outline"
               className="rounded-xl text-base px-8 h-12 border-white/15 hover:text-black bg-white/5 text-white"
             >
-              <Link href="/Menu">View Menu</Link>
+              <Link href="/Menu">{SITE_CONFIG.menuCtaLabel}</Link>
             </Button>
           </div>
 

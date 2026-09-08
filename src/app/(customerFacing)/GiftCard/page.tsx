@@ -1,26 +1,10 @@
-import type { Metadata } from "next";
 import GiftCardPageClient from "./_components/GiftCardPageClient";
+import { buildMetadata } from "@/lib/seo";
+import { getLogoUrl } from "@/lib/siteSettings";
 
-export const metadata: Metadata = {
-  title: "Gift Cards | Send Jerk Chicken & Wings to a Friend",
-  description:
-    "Buy a Southern Jerks gift card online - perfect for jerk chicken, wings, and Southern-inspired food lovers in Houston, TX. Instant delivery, no expiration.",
-  keywords: [
-    "restaurant gift card Houston",
-    "Southern Jerks gift card",
-    "jerk chicken gift card",
-  ],
-  alternates: {
-    canonical: "/GiftCard",
-  },
-  openGraph: {
-    title: "Gift Cards | Southern Jerks Houston",
-    description:
-      "Send a Southern Jerks gift card instantly - great for jerk chicken and wings lovers in Houston, TX.",
-    url: "/GiftCard",
-  },
-};
+export const metadata = buildMetadata("giftCard");
 
-export default function Page() {
-  return <GiftCardPageClient />;
+export default async function Page() {
+  const logoUrl = await getLogoUrl();
+  return <GiftCardPageClient logoUrl={logoUrl} />;
 }

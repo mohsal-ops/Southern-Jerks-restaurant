@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaStar } from "react-icons/fa6";
 import { X } from "lucide-react";
 import PageHeader from "./PageHeader";
+import LogoDriftBackground from "./LogoDriftBackground";
 
 export type ReviewData = { name: string; review: string; avatar: string };
 
@@ -54,7 +55,7 @@ function ReviewCard({
         <CardHeader className="pb-3">
           <Stars />
         </CardHeader>
-        <CardContent className="font-normal text-neutral-700">
+        <CardContent className="font-normal text-muted-foreground">
           <p className={isLong ? "line-clamp-5" : ""}>{review.review}</p>
           {isLong && (
             <button
@@ -93,14 +94,15 @@ export function ReviewsSection({ reviews }: { reviews: ReviewData[] }) {
   if (!reviews?.length) return null;
 
   return (
-    <section className="flex w-full flex-col items-center gap-8 rounded-4xl bg-gray-100 p-6 md:w-[85vw] md:p-10">
-      <div className="text-center">
+    <section className="relative overflow-hidden flex w-full flex-col items-center gap-8 rounded-4xl bg-muted p-6 md:w-[85vw] md:p-10">
+      <LogoDriftBackground className="rounded-4xl" veilClassName="bg-muted/80" />
+      <div className="relative z-10 text-center">
         <PageHeader>What our guests are saying</PageHeader>
       </div>
 
       {/* Adaptive + centered: cards keep a natural width and wrap, so 3 look
           balanced and any number the owner adds stays tidy (never forced to 5). */}
-      <div className="flex w-full max-w-6xl flex-wrap justify-center gap-6">
+      <div className="relative z-10 flex w-full max-w-6xl flex-wrap justify-center gap-6">
         {reviews.map((rev, i) => (
           <div
             key={i}
@@ -120,21 +122,21 @@ export function ReviewsSection({ reviews }: { reviews: ReviewData[] }) {
           onClick={() => setActive(null)}
         >
           <div
-            className="relative max-h-[80vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white p-7 shadow-2xl"
+            className="relative max-h-[80vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-card p-7 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
               onClick={() => setActive(null)}
               aria-label="Close"
-              className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-stone-100 text-stone-600 transition-colors hover:bg-stone-200"
+              className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-accent"
             >
               <X className="h-5 w-5" />
             </button>
             <div className="mb-4">
               <Stars />
             </div>
-            <p className="whitespace-pre-line leading-relaxed text-neutral-700">
+            <p className="whitespace-pre-line leading-relaxed text-muted-foreground">
               {active.review}
             </p>
             <div className="mt-6 border-t pt-4">

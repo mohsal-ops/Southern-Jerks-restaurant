@@ -1,14 +1,14 @@
 import db from "@/db/db";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
-export const DEFAULT_HOURS = [
-  { day: "Sunday", dayIndex: 0, open: 11, close: 16 },
-  { day: "Monday", dayIndex: 1, open: null, close: null },
-  { day: "Tuesday", dayIndex: 2, open: 11, close: 21 },
-  { day: "Wednesday", dayIndex: 3, open: 11, close: 21 },
-  { day: "Thursday", dayIndex: 4, open: 11, close: 21 },
-  { day: "Friday", dayIndex: 5, open: 11, close: 21 },
-  { day: "Saturday", dayIndex: 6, open: 12, close: 20 },
-];
+// Derived from the single source of truth (siteConfig.hours) so seeded hours
+// always match the brand's real hours. Array order is Sunday → Saturday.
+export const DEFAULT_HOURS = SITE_CONFIG.hours.map((h, i) => ({
+  day: h.day,
+  dayIndex: i,
+  open: h.open,
+  close: h.close,
+}));
 
 // Falls back to seeding the table from DEFAULT_HOURS if it's ever empty
 // (fresh DB, or the seed script was never run) instead of returning nothing.

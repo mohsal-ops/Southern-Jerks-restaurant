@@ -1,6 +1,7 @@
 // Replace SecondSection with this:
 "use client";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 import { ProductSuspense } from "../Menu/_components/ProductSuspense";
 import { Suspense, useRef } from "react";
 import HomeFeaturedSkeleton from "../_skeletons/HomeFeaturedSkeleton";
@@ -38,9 +39,9 @@ export function SecondSectionFeatured({
           <button
             onClick={scrollLeft}
             aria-label="Scroll left"
-            className="w-10 h-10 rounded-full border border-gray-300 bg-white
+            className="w-10 h-10 rounded-full border border-border bg-background
                        flex items-center justify-center
-                       hover:bg-gray-50 transition-colors text-gray-600"
+                       hover:bg-accent transition-colors text-muted-foreground"
           >
             <MdKeyboardArrowRight className="rotate-180" size={20} />
           </button>
@@ -49,9 +50,9 @@ export function SecondSectionFeatured({
           <button
             onClick={scrollRight}
             aria-label="Scroll right"
-            className="w-10 h-10 rounded-full border border-gray-300 bg-white
+            className="w-10 h-10 rounded-full border border-border bg-background
                        flex items-center justify-center
-                       hover:bg-gray-50 transition-colors text-gray-600"
+                       hover:bg-accent transition-colors text-muted-foreground"
           >
             <MdKeyboardArrowRight size={20} />
           </button>
@@ -59,7 +60,7 @@ export function SecondSectionFeatured({
           {/* View Menu button */}
           <Link href="/Menu">
             <Button size="lg" variant="outline" className="h-10 text-left">
-              View Menu
+              {SITE_CONFIG.menuCtaLabel}
             </Button>
           </Link>
         </div>

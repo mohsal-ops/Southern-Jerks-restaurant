@@ -5,7 +5,7 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-export async function appendOrderToSheet(row: any[]) {
+export async function appendOrderToSheet(row: unknown[]) {
   const sheets = google.sheets({ version: "v4", auth });
 
   await sheets.spreadsheets.values.append({

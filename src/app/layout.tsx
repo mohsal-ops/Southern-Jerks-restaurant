@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CartProvider } from "./providers/CartProvider";
+import { ThemeProvider } from "./providers/ThemeProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 import { getBusinessHours } from "@/lib/getHours";
@@ -96,12 +97,13 @@ export default async function RootLayout({
 }>) {
   const businessHours = await getBusinessHours();
   const rawColor = await getThemeColor();
+  // Only allow a hex color to reach the injected <style> (no CSS injection).
   const themeColor = /^#[0-9a-fA-F]{3,8}$/.test(rawColor)
     ? rawColor
     : DEFAULT_THEME_COLOR;
   const brandForeground = readableTextColor(themeColor);
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <style
           dangerouslySetInnerHTML={{
@@ -121,8 +123,8 @@ export default async function RootLayout({
               email: SITE_CONFIG.email,
               image: `${SITE_CONFIG.siteUrl}${SITE_CONFIG.ogImage}`,
               logo: `${SITE_CONFIG.siteUrl}/logo.png`,
-              priceRange: "$$",
-              servesCuisine: ["Southern", "Fried Chicken", "American"],
+              priceRange: SITE_CONFIG.priceRange,
+              servesCuisine: SITE_CONFIG.cuisines,
               address: {
                 "@type": "PostalAddress",
                 streetAddress: SITE_CONFIG.street,
@@ -150,7 +152,9 @@ export default async function RootLayout({
         <a href="#main-content" className="skip-to-content">
           Skip to main content
         </a>
-        <CartProvider>{children}</CartProvider>
+        <ThemeProvider>
+          <CartProvider>{children}</CartProvider>
+        </ThemeProvider>
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}

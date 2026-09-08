@@ -6,7 +6,10 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 import { getLogoUrl } from "@/lib/siteSettings";
+import VisitAlert from "./_components/VisitAlert";
 import LoadingScreen from "@/components/LoadingScreen";
+import TrialPopup from "./_components/TrialPopup";
+import DashboardBubble from "./_components/DashboardBubble";
 
 export default async function Customerlayout({
   children,
@@ -21,6 +24,9 @@ export default async function Customerlayout({
     <SidebarProvider>
       {/* One-time branded intro on the public site (once per browser session) */}
       <LoadingScreen />
+      <VisitAlert />
+      <TrialPopup />
+      <DashboardBubble />
       <main className="flex relative flex-col w-full  pb- ">
         <div className="fixed top-0 left-0 right-0 z-50">
           <TopNavBar initialCartId={cartId} logoUrl={logoUrl} />
@@ -28,31 +34,31 @@ export default async function Customerlayout({
         <div id="main-content" className="flex flex-col md:items-center   ">{children}</div>
         <div className="flex flex-col w-full items-center ">
           <Footer logoUrl={logoUrl} />
-          <div className="relative text-xs  mt-2 text-black text-center p-4 md:py-3 bg-stone-200 w-full border-t border-white/10">
+          <div className="relative text-xs  mt-2 text-muted-foreground text-center p-4 md:py-3 bg-muted w-full border-t border-border">
             {SITE_CONFIG.footer.copyright}
             {" "}Website by{" "}
             <a
-              href="https://www.instagram.com/starvega.digital/"
+              href="https://www.instagram.com/vegastar.digital/"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-primary"
             >
               Vega Star Digital
             </a>{" "}
-            - MOHAMMED BSL
-            <Link
+            - MOHAMMED BSL.
+            {/* <Link
             href="/login"
             className="absolute right-1 text-xs text-stone-400 hover:text-stone-600"
           >
             Admin
-          </Link>
+          </Link> */}
           </div>
           
         </div>
       </main>
       <Toaster
         position="top-center"
-        theme="light"
+        theme="system"
         expand
         richColors
         closeButton

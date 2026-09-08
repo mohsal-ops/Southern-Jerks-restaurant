@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
+import { buildMetadata } from "@/lib/seo";
 import { cookies } from "next/headers";
 import {
   GetCartItems,
@@ -13,7 +13,8 @@ import HomeFeaturedSkeleton from "./_skeletons/HomeFeaturedSkeleton";
 import db from "@/db/db";
 import { getBusinessHours } from "@/lib/getHours";
 import { getSiteImage } from "@/lib/getSiteImages";
-import { getSiteText } from "@/lib/siteSettings";
+import { getLogoUrl, getSiteText } from "@/lib/siteSettings";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 import {
   TopSection,
   SecondSection,
@@ -35,52 +36,7 @@ export type ItemWithSides = Item & {
   })[];
 };
 
-export const metadata: Metadata = {
-  title: "Southern Jerks | Jerk Chicken, Wings & Southern Food in Houston",
-  description:
-    "Southern Jerks serves bold jerk chicken, crispy wings, loaded fries, and stacked sandwiches in Houston, TX. A family-friendly Southern-inspired kitchen with a kids menu, catering, and gift cards.",
-  keywords: [
-    "jerk chicken Houston",
-    "jerk wings Houston",
-    "Southern restaurant Houston",
-    "Southern food Houston",
-    "fried chicken Houston",
-    "loaded fries Houston",
-    "family restaurant Houston",
-    "kids restaurant Houston",
-    "Southern Jerks Houston",
-  ],
-  alternates: {
-    canonical: "/",
-  },
-  icons: {
-    icon: "/logo.png",
-  },
-  openGraph: {
-    title: "Southern Jerks | Jerk Chicken, Wings & Southern Food in Houston",
-    description:
-      "Bold jerk chicken, crispy wings, loaded fries, and stacked sandwiches made fresh at Southern Jerks in Houston.",
-    url: "/",
-    siteName: "Southern Jerks",
-    images: [
-      {
-        url: "/general/generalPages/mainImage.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Southern Jerks jerk chicken and wings in Houston, TX",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Southern Jerks | Southern Food in Houston",
-    description:
-      "Jerk chicken, wings, loaded fries, and bold Southern-inspired flavors you'll crave.",
-    images: ["/general/generalPages/mainImage.jpg"],
-  },
-};
+export const metadata = buildMetadata("home");
 
 function FaqSchema() {
   // Mirrors the questions/answers rendered in Frequentlyaskedquestions below -
@@ -98,7 +54,7 @@ function FaqSchema() {
               name: "What are you known for?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "We're known for our crispy jerk chicken, wings, and bold southern flavors.",
+                text: "Homemade comfort food, hand-pressed burgers, all-day breakfast, and our daily specials.",
               },
             },
             {
@@ -106,7 +62,7 @@ function FaqSchema() {
               name: "What meals do you serve?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Chicken wings, sandwiches, Southern sides, and snacks.",
+                text: "Breakfast (served all day), burgers, sandwiches, homemade pizza, and daily specials.",
               },
             },
             {
@@ -122,7 +78,7 @@ function FaqSchema() {
               name: "Where are you located?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "We are located at 2950 Gears Rd, Houston, TX 77067.",
+                text: `We're at ${SITE_CONFIG.address}.`,
               },
             },
           ],
@@ -135,7 +91,7 @@ function FaqSchema() {
 function SectionDivider() {
   return (
     <div className="w-full flex justify-center px-4">
-      <div className="h-px w-full max-w-[85vw] bg-linear-to-r from-transparent via-stone-300 to-transparent" />
+      <div className="h-px w-full max-w-[85vw] bg-linear-to-r from-transparent via-border to-transparent" />
     </div>
   );
 }
@@ -153,8 +109,11 @@ async function FeaturedProductsSection() {
 async function LocationSection() {
   const [placesRes, hours] = await Promise.all([GetPlaces(), getBusinessHours()]);
   const places = placesRes?.places ?? [];
-  const lat = places[0]?.lat ?? 0;
-  const lng = places[0]?.lng ?? 0;
+  // Fall back to the address in siteConfig when no location row exists yet
+  // (fresh DB / not filled in the dashboard) so the map centers on the real
+  // restaurant instead of 0,0 in the ocean.
+  const lat = places[0]?.lat ?? SITE_CONFIG.lat;
+  const lng = places[0]?.lng ?? SITE_CONFIG.lng;
 
   return <OurLocation places={places} lat={lat} lng={lng} hours={hours} />;
 }
@@ -174,11 +133,21 @@ export default async function Home() {
   // heavier DB-backed sections stream in behind Suspense so they aren't
   // blocked on the featured-products and places queries. The hero image is a
   // single indexed lookup, cheap enough to await directly here.
-  const heroImage = await getSiteImage("home_hero");
-  const orderImage = await getSiteImage("home_order");
-  const featureBreakfast = await getSiteImage("home_feature_breakfast");
-  const featureComfort = await getSiteImage("home_feature_comfort");
-  const homeText = await getSiteText();
+  const [
+    heroImage,
+    orderImage,
+    featureBreakfast,
+    featureComfort,
+    homeText,
+    logoUrl,
+  ] = await Promise.all([
+    getSiteImage("home_hero"),
+    getSiteImage("home_order"),
+    getSiteImage("home_feature_1"),
+    getSiteImage("home_feature_2"),
+    getSiteText(),
+    getLogoUrl(),
+  ]);
 
   return (
     <div className="flex  pt-20 flex-col gap-5 items-center justify-center    [&>*:not(:first-child)]:m-2">
@@ -187,18 +156,19 @@ export default async function Home() {
         heroImage={heroImage}
         headline={homeText.headline}
         subheadline={homeText.subheadline}
+        logoUrl={logoUrl}
       />
       <SectionDivider />
       <Suspense fallback={<HomeFeaturedSkeleton />}>
         <FeaturedProductsSection />
       </Suspense>
       <SectionDivider />
-      <Suspense fallback={<div className="sm:w-[85%] w-full h-100 bg-gray-200 rounded-3xl animate-pulse" />}>
+      <Suspense fallback={<div className="sm:w-[85%] w-full h-100 bg-muted rounded-3xl animate-pulse" />}>
         <GallerySection />
       </Suspense>
       <SectionDivider />
       <FadeIn delay={100}>
-        <Suspense fallback={<div className="h-96 w-full md:w-[85vw] bg-gray-100 rounded-4xl animate-pulse" />}>
+        <Suspense fallback={<div className="h-96 w-full md:w-[85vw] bg-muted rounded-4xl animate-pulse" />}>
           <ReviewsDataSection />
         </Suspense>
       </FadeIn>
@@ -233,7 +203,7 @@ export default async function Home() {
         </div>
       </FadeIn>
       <SectionDivider />
-      <Suspense fallback={<div className="h-40 w-full sm:w-[75%] animate-pulse bg-stone-100 rounded-4xl" />}>
+      <Suspense fallback={<div className="h-40 w-full sm:w-[75%] animate-pulse bg-muted rounded-4xl" />}>
         <LocationSection />
       </Suspense>
     </div>

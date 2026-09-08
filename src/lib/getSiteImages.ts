@@ -6,9 +6,9 @@ export const DEFAULT_SITE_IMAGES = [
   { key: "story_origin", url: "/general/generalPages/grandmother.jpg", label: "Our Story - Origin Section" },
   { key: "story_closing", url: "/general/generalPages/enjoy.jpg", label: "Our Story - Closing Section" },
   { key: "home_order", url: "/general/generalPages/mainImage.jpg", label: "Home - Order Directly section" },
-  { key: "home_feature_breakfast", url: "/general/generalPages/enjoy.jpg", label: "Home - First Feature" },
-  { key: "home_feature_comfort", url: "/general/generalPages/vibe.jpg", label: "Home - Second Feature" },
-  { key: "catering_hero", url: "/general/3rdsection/SouthernJerks-Sep25-42.jpg", label: "Catering - Hero" },
+  { key: "home_feature_1", url: "/general/generalPages/enjoy.jpg", label: "Home - First Feature" },
+  { key: "home_feature_2", url: "/general/generalPages/vibe.jpg", label: "Home - Second Feature" },
+  { key: "catering_hero", url: "/general/generalPages/enjoy.jpg", label: "Catering - Hero" },
 ];
 
 async function seedDefaults() {

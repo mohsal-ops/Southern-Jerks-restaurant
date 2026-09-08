@@ -1,6 +1,8 @@
 "use client";
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { FaLocationPin } from "react-icons/fa6";
+import { SITE_CONFIG } from "@/lib/siteConfig";
+import { atLeast, tierOf } from "@/lib/packages";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
 import { AllDishesSuspense, PopularDishesSuspense } from "./ProductSuspense";
@@ -47,8 +49,12 @@ export default function MainPageMenu({
   hours,
 }: PropsTypes) {
   const [filtered, setfiltered] = useState<ItemWithSides[] | undefined>();
-  // Starts unset so the (currently disabled) delivery/pickup toggle forces an explicit choice once re-enabled.
-  const [choice, setChoice] = useState<"delivery" | "pickup" | null>(null);
+  // Delivery is a Standard+ tier capability; Starter sites are pickup-only.
+  // tierOf() defaults a tier-less (pre-tiers) siteConfig to PRO, so existing
+  // clients that get new template code but keep their old siteConfig keep delivery.
+  const deliveryAllowed = atLeast(tierOf(SITE_CONFIG), "STANDARD");
+  // Default to pickup so ordering works out of the box; the toggle can switch to delivery.
+  const [choice, setChoice] = useState<"delivery" | "pickup" | null>("pickup");
   const [query, setQuery] = useState("");
   const placeholderRef = useRef<HTMLDivElement | null>(null);
   const [isPinned, setIsPinned] = useState(false);
@@ -179,7 +185,7 @@ export default function MainPageMenu({
     >
       <div className="relative hidden md:block w-2/12 py-5  ">
         <div id="desktop-search-categories" className="flex w-60 flex-col sticky top-24">
-          <div className="flex  w-full justify-start items-center  border border-stone-300 rounded-xl outline-none focus-within:border-2 focus-within:border-black">
+          <div className="flex  w-full justify-start items-center  border border-border rounded-xl outline-none focus-within:border-2 focus-within:border-ring">
             {/* Search Input */}
             <PiMagnifyingGlass fontSize={21} className="mx-2" />
 
@@ -203,8 +209,8 @@ export default function MainPageMenu({
                   }
                   className={`justify-start font-medium text-sm ${
                     activeCategory === cat.id
-                      ? "bg-black text-white"
-                      : "bg-transparent text-gray-600"
+                      ? "bg-foreground text-background"
+                      : "bg-transparent text-muted-foreground"
                   }`}
                   variant="ghost"
                 >
@@ -220,11 +226,11 @@ export default function MainPageMenu({
           id="name&address"
         >
           <p className="tracking-tight font-serif  text-xl text-center">
-            Southern jerks Chicken Wings, Sandwiches, and more
+            {SITE_CONFIG.tagline}
           </p>
-          <span className="flex text-sm space-x-2 justify-center sm:justify-start items-center font-semibold w-4/5 gap-1  text-neutral-600 text-center  ">
+          <span className="flex text-sm space-x-2 justify-center sm:justify-start items-center font-semibold w-4/5 gap-1  text-muted-foreground text-center  ">
             <FaLocationPin className="md:block hidden" />
-            <p>2950 Gears Rd. Houston, TX 77067</p>
+            <p>{SITE_CONFIG.address}</p>
 
             <p className="flex items-center gap-1.5 text-sm font-medium">
               <span
@@ -240,7 +246,66 @@ export default function MainPageMenu({
             </p>
           </span>
         </div>
-      {/* the comented code at the bottom of select delivery/pickup it's place is here  */}
+        <div id="PickupOrDelivery" className="text-sm flex p-1">
+          <div className="flex flex-col sm:flex-row w-full sm:w-1/2  gap-4 font-semibold text-muted-foreground">
+            {/* Pickup/Delivery toggle — only on Standard+ tiers. Starter is pickup-only. */}
+            {deliveryAllowed && (
+            <div className="bg-muted w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden">
+              <label className="cursor-pointer w-1/2 relative">
+                <input
+                  type="radio"
+                  name="orderType"
+                  value="delivery"
+                  checked={choice === "delivery"}
+                  onChange={() => setChoice("delivery")}
+                  className="hidden peer"
+                />
+                <div className="h-full bg-muted border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
+                  Delivery
+                </div>
+              </label>
+              <label className="cursor-pointer h-full relative w-1/2">
+                <input
+                  type="radio"
+                  name="orderType"
+                  value="pickup"
+                  checked={choice === "pickup"}
+                  onChange={() => setChoice("pickup")}
+                  className="hidden peer"
+                />
+                <div className=" h-full bg-muted border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
+                  Pickup
+                </div>
+              </label>
+            </div>
+            )}
+            <Button
+              variant="outline"
+              onClick={() => setOpen(true)}
+              className="w-full sm:w-2/3 h-11 text-sm rounded-lg hover:bg-accent shadow-xs justify-between"
+            >
+              {choice === "pickup" ? (
+                selectedDay != null || selectedTime != null ? (
+                  <div className="flex items-center gap-2">
+                    <StoreIcon size={17} />
+                    <h1>{selectedDay?.toDateString()}</h1>{" "}
+                    <h1>{selectedTime}</h1>
+                  </div>
+                ) : (
+                  "Schedule pickup"
+                )
+              ) : selectedDay != null || selectedTime != null ? (
+                <div className="flex items-center gap-2">
+                  <CarFrontIcon size={17} />
+                  <h1>{"Delivery to " + selectedAddress}</h1>
+                </div>
+              ) : (
+                "Select delivery location"
+              )}
+              <span>▼</span>
+            </Button>
+          </div>
+        </div>
         <div ref={placeholderRef} id="popularDishes">
           <h2 className="text-xl font-semibold font-serif ">Popular</h2>
           {featuredProducts && featuredProducts?.length > 0 ? (
@@ -250,18 +315,18 @@ export default function MainPageMenu({
               Poularproducts={featuredProducts}
             />
           ) : (
-            <p className="text-gray-500 text-center ">No products found</p>
+            <p className="text-muted-foreground text-center ">No products found</p>
           )}
         </div>
         <div
           id="SearchBar&gategories"
           className={
             isPinned
-              ? "fixed top-20  right-0 left-0  z-50 md:hidden transform p-2 -translate-y-20 duration-500  bg-white flex gap-2 flex-col "
+              ? "fixed top-20  right-0 left-0  z-50 md:hidden transform p-2 -translate-y-20 duration-500  bg-background flex gap-2 flex-col "
               : "md:hidden py-2 translate-y-0 duration-500 z-50 flex gap-2 flex-col"
           }
         >
-          <div className="flex pl-1 w-full justify-start items-center  bg-white border rounded-xl outline-none focus-within:border-2 focus-within:border-black">
+          <div className="flex pl-1 w-full justify-start items-center  bg-background border rounded-xl outline-none focus-within:border-2 focus-within:border-ring">
             {/* Search Input */}
             <PiMagnifyingGlass fontSize={21} className="ml-1" />
 
@@ -285,8 +350,8 @@ export default function MainPageMenu({
                   }
                   className={`font-medium text-sm ${
                     activeCategory === cat.id
-                      ? "bg-black text-white"
-                      : "bg-transparent text-gray-600"
+                      ? "bg-foreground text-background"
+                      : "bg-transparent text-muted-foreground"
                   }`}
                   variant="outline"
                 >
@@ -304,7 +369,7 @@ export default function MainPageMenu({
               Products={filtered}
             />
           ) : query ? (
-            <span className="text-gray-500 text-center  ">
+            <span className="text-muted-foreground text-center  ">
               No products found
             </span>
           ) : (
@@ -376,7 +441,7 @@ export function PopularDishes({
             className="absolute right-2 top-1/2 -translate-y-1/2 z-50
                              flex items-center justify-center
                              w-10 h-10 rounded-full shadow-md
-                             bg-brand text-black
+                             bg-brand text-white
                              hover:bg-brand-dark transition-colors"
           >
             <MdKeyboardArrowRight size={24} />
@@ -418,64 +483,3 @@ export function AllDishes({
     </div>
   );
 }
-{/* <div id="PickupOrDelivery " className="text-sm flex  p">
-          <div className="flex flex-col sm:flex-row w-full sm:w-1/2  gap-4 font-semibold text-gray-600">
-            <div className="bg-stone-200 w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden">
-              <label className="cursor-pointer w-1/2 relative">
-                <input
-                  type="radio"
-                  name="orderType"
-                  value="delivery"
-                   checked={choice === "delivery"}
-                   onChange={() => setChoice("delivery")}
-                  className="hidden peer"
-                />
-
-                <div className="h-full bg-stone-200 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
-                  Delivery
-                </div>
-              </label>
-
-              <label className="cursor-pointer h-full relative w-1/2">
-                <input
-                  type="radio"
-                  name="orderType"
-                  value="pickup"
-                  checked={choice === "pickup"}
-                  onChange={() => setChoice("pickup")}
-                  className="hidden peer"
-                />
-                <div className=" h-full bg-stone-200 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-gray-300 peer-checked:bg-white peer-checked:text-black transition">
-                  Pickup
-                </div>
-              </label>
-            </div>
-
-            <Button
-              variant="outline"
-              onClick={() => setOpen(true)}
-              className="w-full sm:w-2/3 h-11 text-sm rounded-lg hover:bg-stone-200 shadow-xs justify-between"
-            >
-              {choice === "pickup" ? (
-                selectedDay != null || selectedTime != null ? (
-                  <div className="flex items-center gap-2">
-                    <StoreIcon size={17} />
-                    <h1>{selectedDay?.toDateString()}</h1>{" "}
-                    <h1>{selectedTime}</h1>
-                  </div>
-                ) : (
-                  "Schedule pickup"
-                )
-              ) : selectedDay != null || selectedTime != null ? (
-                <div className="flex items-center gap-2">
-                  <CarFrontIcon size={17} />
-                  <h1>{"Delivery to " + selectedAddress}</h1>
-                </div>
-              ) : (
-                "Select delivery location"
-              )}
-
-              <span>▼</span>
-            </Button>
-          </div>
-        </div> */}

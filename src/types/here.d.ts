@@ -2,14 +2,14 @@ declare namespace H {
   namespace service {
     class Platform {
       constructor(opts: { apikey: string })
-      createDefaultLayers(): any
+      createDefaultLayers(): unknown
     }
 
     class SearchService {
       geocode(
-        params: any,
-        onResult: (result: any) => void,
-        onError: (err: any) => void
+        params: unknown,
+        onResult: (result: unknown) => void,
+        onError: (err: unknown) => void
       ): void
     }
   }
@@ -17,43 +17,43 @@ declare namespace H {
   namespace map {
     class Marker {
       constructor(position: { lat: number; lng: number })
-      addEventListener(event: string, cb: (...args: any[]) => void): void
+      addEventListener(event: string, cb: (...args: unknown[]) => void): void
     }
   }
 
   namespace mapevents {
     class Behavior {
-      constructor(events: any)
+      constructor(events: unknown)
     }
 
     class MapEvents {
-      constructor(map: any)
+      constructor(map: unknown)
     }
   }
 
   namespace ui {
     class UI {
-      static createDefault(map: any, layers: any): UI
-      addBubble(bubble: any): void
+      static createDefault(map: unknown, layers: unknown): UI
+      addBubble(bubble: unknown): void
     }
 
     class InfoBubble {
-      constructor(pos: any, opts: any)
+      constructor(pos: unknown, opts: unknown)
     }
   }
 
   namespace geo {
     class Rect {
       constructor(t: number, r: number, b: number, l: number)
-      mergePoint(p: any): void
+      mergePoint(p: unknown): void
     }
   }
 
   class Map {
-    constructor(el: HTMLElement, layer: any, opts: any)
+    constructor(el: HTMLElement, layer: unknown, opts: unknown)
     getCenter(): { lat: number; lng: number }
-    getViewModel(): any
-    addObject(obj: any): void
-    removeObject(obj: any): void
+    getViewModel(): unknown
+    addObject(obj: unknown): void
+    removeObject(obj: unknown): void
   }
 }

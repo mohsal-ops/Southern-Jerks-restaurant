@@ -38,7 +38,7 @@ export const SITE_IMAGE_GUIDE: Record<string, SlotGuide> = {
       { k: "full", active: true },
     ],
   },
-  home_feature_breakfast: {
+  home_feature_1: {
     page: "Home page",
     href: "/",
     where: "First feature row (further down) - the photo on the left.",
@@ -49,7 +49,7 @@ export const SITE_IMAGE_GUIDE: Record<string, SlotGuide> = {
       { k: "split", side: "right" },
     ],
   },
-  home_feature_comfort: {
+  home_feature_2: {
     page: "Home page",
     href: "/",
     where: "Second feature row (further down) - the photo on the right.",

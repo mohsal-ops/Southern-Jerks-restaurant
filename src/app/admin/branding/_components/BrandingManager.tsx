@@ -1,16 +1,18 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
   updateThemeColor,
   updateLogo,
+  removeLogo,
   updateHomeText,
 } from "../_actions/brandingActions";
 import { readableTextColor } from "@/lib/color";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, X } from "lucide-react";
 import SlotDiagram from "@/app/admin/images/_components/SlotDiagram";
 
 const PRESETS = [
@@ -51,7 +53,9 @@ export default function BrandingManager({
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [savingLogo, startLogo] = useTransition();
+  const [removingLogo, startRemove] = useTransition();
   const logoRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const saveColor = () =>
     startColor(async () => {
@@ -76,6 +80,20 @@ export default function BrandingManager({
       }
     });
   };
+
+  const removeLogoHandler = () =>
+    startRemove(async () => {
+      const res = await removeLogo();
+      if (res.ok) {
+        toast.success("Logo removed");
+        setLogoFile(null);
+        setLogoPreview(null);
+        if (logoRef.current) logoRef.current.value = "";
+        router.refresh();
+      } else {
+        toast.error(res.error ?? "Failed to remove");
+      }
+    });
 
   return (
     <div className="space-y-6 px-4 md:px-0">
@@ -126,7 +144,7 @@ export default function BrandingManager({
               type="text"
               value={headline}
               onChange={(e) => setHeadline(e.target.value)}
-              placeholder="e.g. Bold Southern flavors"
+              placeholder="e.g. Houston' viral Texas BBQ"
               className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-stone-300"
             />
           </div>
@@ -138,7 +156,7 @@ export default function BrandingManager({
               type="text"
               value={subheadline}
               onChange={(e) => setSubheadline(e.target.value)}
-              placeholder="e.g. juicy wings and stacked sandwiches"
+              placeholder="e.g. brisket, ribs & sausage smoked daily"
               className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-stone-300"
             />
           </div>
@@ -238,6 +256,18 @@ export default function BrandingManager({
               <div className="flex h-full w-full items-center justify-center text-xs text-stone-400">
                 Default
               </div>
+            )}
+            {!logoFile && initialLogo && (
+              <button
+                type="button"
+                aria-label="Remove logo"
+                title="Remove logo"
+                disabled={removingLogo}
+                onClick={removeLogoHandler}
+                className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white shadow-sm transition hover:bg-black/80 disabled:opacity-50"
+              >
+                <X size={12} strokeWidth={2.5} />
+              </button>
             )}
           </div>
           <input

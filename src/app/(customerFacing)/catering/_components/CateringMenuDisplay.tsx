@@ -44,8 +44,9 @@ function downloadPdf() {
   link.click();
 }
 
-export default function CateringMenuDisplay() {
+export default function CateringMenuDisplay({ logoUrl }: { logoUrl?: string }) {
   const reduce = useReducedMotion();
+  const patternLogo = logoUrl || logo.src;
 
   const container: Variants = {
     hidden: {},
@@ -69,7 +70,7 @@ export default function CateringMenuDisplay() {
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.06]"
         style={{
-          backgroundImage: `url(${logo.src})`,
+          backgroundImage: `url(${patternLogo})`,
           backgroundRepeat: "repeat",
           backgroundSize: "90px 90px",
           transform: "rotate(-8deg) scale(1.2)",

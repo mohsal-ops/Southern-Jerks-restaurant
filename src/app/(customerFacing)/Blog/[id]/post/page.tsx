@@ -1,18 +1,11 @@
 import Image from "next/image";
+import { buildMetadata } from "@/lib/seo";
 import Link from "next/link";
 import db from "@/db/db";
 import PostCard from "@/app/(customerFacing)/_components/PostCard";
 import InstagramFeed from "../../_components/InstagramFeed";
 
-export const metadata = {
-  title: "Southern Jerks Journal | Southern Food & Culture",
-  description:
-    "Discover stories, flavors, and behind-the-scenes from Southern Jerks - the home of authentic Southern fusion cuisine.",
-  openGraph: {
-    title: "Southern Jerks Journal",
-    description: "Stories, culture and food from Southern Jerks restaurant.",
-  },
-};
+export const metadata = buildMetadata("blog");
 
 export default async function BlogPage() {
   const posts = await db.post.findMany({
@@ -75,12 +68,12 @@ export default async function BlogPage() {
       {/* Show message if no blog posts yet */}
       {posts.length === 0 && (
         <div className="py-40 text-center text-muted-foreground">
-          <p className="text-xl text-gray-500">No stories yet - check back soon.</p>
+          <p className="text-xl text-gray-500">No stories yet -- check back soon.</p>
         </div>
       )}
 
       {/* BRAND STATEMENT */}
-      <section className="bg-[#f4b400] text-black py-20 text-center">
+      <section className="bg-brand text-black py-20 text-center">
         <h3 className="text-4xl font-bold">
           This is not fast food. This is culture.
         </h3>

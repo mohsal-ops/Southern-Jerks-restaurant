@@ -1,6 +1,50 @@
 // Single source of truth for every brand-specific value on the site.
 // To onboard a new restaurant client, this is the only file that should
 // need to change (plus swapping image assets in /public).
+import { atLeast, type PackageTier } from "./packages";
+
+// Product tier this client is on. The panel patches this line per client at
+// provision time. It gates which site + admin sections show (via `minTier`
+// below and the admin nav). Southern Jerks is a full live site → PRO.
+const PACKAGE_TIER: PackageTier = "PRO";
+
+// Optional sections. Flip a flag to false to remove that section from the
+// navbar + footer. The route still exists, it is simply not linked. Tier gating
+// (`minTier`) is layered on top: a section shows only when its flag is on AND
+// the client's tier reaches it. Southern Jerks runs every section.
+const FEATURES = {
+  catering: true,
+  giftCard: true,
+  rewards: true,
+  blog: true,
+};
+
+type FeatureKey = keyof typeof FEATURES;
+type NavLink = { label: string; href: string; feature?: FeatureKey; minTier?: PackageTier };
+
+const ALL_NAV_LINKS: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "Menu", href: "/Menu" },
+  { label: "Catering", href: "/catering", feature: "catering", minTier: "STANDARD" },
+  { label: "Gift Card", href: "/GiftCard", feature: "giftCard", minTier: "STANDARD" },
+  { label: "Kids Zone", href: "/KidsZone", minTier: "PRO" },
+  { label: "Rewards", href: "/rewards", feature: "rewards", minTier: "PRO" },
+  { label: "Press", href: "/Blog", feature: "blog", minTier: "STANDARD" },
+  { label: "Our Story", href: "/story" },
+];
+
+const ALL_FOOTER_LINKS: NavLink[] = [
+  { label: "Menu", href: "/Menu" },
+  { label: "Catering", href: "/catering", feature: "catering", minTier: "STANDARD" },
+  { label: "Gift Cards", href: "/GiftCard", feature: "giftCard", minTier: "STANDARD" },
+  { label: "Terms", href: "/terms" },
+];
+
+// A link shows when its feature flag is on (or it has none) AND the client's
+// tier reaches its minTier (or it has none).
+const enabled = (l: NavLink) =>
+  (!l.feature || FEATURES[l.feature]) && (!l.minTier || atLeast(PACKAGE_TIER, l.minTier));
+const pickLink = ({ label, href }: NavLink) => ({ label, href });
 
 export const SITE_CONFIG = {
   // Brand
@@ -13,6 +57,14 @@ export const SITE_CONFIG = {
 
   // Admin intro animation: "burger" (fast food) | "coffee" (café) | "pizza" (pizzeria)
   loaderStyle: "burger",
+
+  // Starting color theme for a first-time visitor: "light" | "dark".
+  // Southern Jerks is a dark brand (black + gold), so it opens dark. The header
+  // toggle is intentionally hidden on this site, so this is the fixed look.
+  defaultTheme: "dark" as "light" | "dark",
+
+  // Main call-to-action button label, used on every "menu" button across the site.
+  menuCtaLabel: "Order Now",
 
   // Contact & Location
   address: "2950 Gears Rd, Houston, TX 77067",
@@ -52,10 +104,26 @@ export const SITE_CONFIG = {
   ],
   ogImage: "/general/generalPages/mainImage.jpg",
 
+  // Structured-data / business info (used in JSON-LD)
+  cuisines: ["Southern", "American", "Comfort Food"],
+  priceRange: "$$",
+
   // Colors (Tailwind hex values)
   primaryColor: "#c85a1e",
   secondaryColor: "#1a6b3c",
   accentColor: "#d97706",
+
+  // Outreach conversion layer (trial popup + read-only dashboard preview). This
+  // is a sales tool for un-converted leads — Southern Jerks is a live client, so
+  // it is turned OFF. `signalKey`/`savings` are kept for reference only.
+  outreach: {
+    enabled: false,
+    discountReason: "review",
+    trialLengthDays: 14,
+    calendlyUrl: "https://calendly.com/popdeveloper54/10-minute-meet",
+    signalKey: "southern-jerks",
+    savings: { estimatedOrdersPerDay: 20, avgOrderValue: 25, commissionPct: 20 },
+  },
 
   // Hours (used for open/closed status) - hour values are 24h local time
   hours: [
@@ -115,29 +183,21 @@ export const SITE_CONFIG = {
     ],
   },
 
-  // Navbar links
-  navLinks: [
-    { label: "Home", href: "/" },
-    { label: "Menu", href: "/Menu" },
-    { label: "Catering", href: "/catering" },
-    { label: "Gift Card", href: "/GiftCard" },
-    { label: "Kids Zone", href: "/KidsZone" },
-    { label: "Rewards", href: "/rewards" },
-    { label: "Press", href: "/Blog" },
-    { label: "Our Story", href: "/story" },
-  ],
+  // Which optional sections are enabled (see FEATURES above)
+  features: FEATURES,
+
+  // Product tier — gates site + admin sections (see PACKAGE_TIER above).
+  packageTier: PACKAGE_TIER,
+
+  // Navbar links (derived from FEATURES + tier)
+  navLinks: ALL_NAV_LINKS.filter(enabled).map(pickLink),
 
   // Footer
   footer: {
     get copyright() {
       return `© ${new Date().getFullYear()} Southern Jerk Co LLC. All rights reserved.`;
     },
-    links: [
-      { label: "Menu", href: "/Menu" },
-      { label: "Catering", href: "/catering" },
-      { label: "Gift Cards", href: "/GiftCard" },
-      { label: "Terms", href: "/terms" },
-    ],
+    links: ALL_FOOTER_LINKS.filter(enabled).map(pickLink),
   },
 };
 

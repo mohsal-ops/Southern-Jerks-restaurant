@@ -1,8 +1,10 @@
 import db from "@/db/db";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
-// Default brand accent (the current yellow). Overridden by the "theme_color"
+// Default brand accent, pulled from siteConfig so a fresh DB (no theme_color
+// row yet) still uses the real brand color. Overridden by the "theme_color"
 // SiteSetting once the owner picks a color in admin → Branding.
-export const DEFAULT_THEME_COLOR = "#facc15";
+export const DEFAULT_THEME_COLOR = SITE_CONFIG.primaryColor;
 
 export async function getSetting(
   key: string,
@@ -18,6 +20,25 @@ export async function getSetting(
 
 export async function getThemeColor(): Promise<string> {
   return getSetting("theme_color", DEFAULT_THEME_COLOR);
+}
+
+export type UberDirectMode = "both" | "delivery_only" | "pickup_only";
+export type UberDirectSettings = { enabled: boolean; mode: UberDirectMode };
+
+/**
+ * Per-restaurant Uber Direct courier-delivery config. OFF by default — a client
+ * only gets courier delivery once they've bought the add-on and the owner flips
+ * this on in admin. When disabled the checkout behaves exactly as before.
+ */
+export async function getUberDirect(): Promise<UberDirectSettings> {
+  const [enabledRaw, modeRaw] = await Promise.all([
+    getSetting("uber_direct_enabled", "false"),
+    getSetting("uber_direct_mode", "both"),
+  ]);
+  const enabled = enabledRaw === "true";
+  const mode: UberDirectMode =
+    modeRaw === "delivery_only" || modeRaw === "pickup_only" ? modeRaw : "both";
+  return { enabled, mode };
 }
 
 /** Custom uploaded logo URL, or "" to fall back to the bundled logo. */

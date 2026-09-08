@@ -4,6 +4,7 @@ import db from "@/db/db";
 import { hashPassword } from "@/lib/password";
 import { sendMail } from "@/lib/email";
 import { getClientIp, isRateLimited } from "@/lib/rateLimit";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 const VERIFICATION_TOKEN_TTL_MS = 1000 * 60 * 60 * 24; // 24h
 
@@ -57,7 +58,7 @@ export async function POST(req: NextRequest) {
   try {
     await sendMail({
       to: normalizedEmail,
-      subject: "Verify your Southern Jerks admin account",
+      subject: `Verify your ${SITE_CONFIG.name} admin account`,
       html: `
         <h2>Verify your email</h2>
         <p>Hi ${name.trim()}, confirm your email to continue creating your admin account.</p>

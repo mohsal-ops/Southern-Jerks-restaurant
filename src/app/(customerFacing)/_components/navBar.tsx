@@ -26,7 +26,7 @@ export function SideBar({
           <Image
             alt={`${SITE_CONFIG.name} logo`}
             priority
-            className=" w-auto h-auto"
+            className="h-12 w-12 rounded-full object-cover"
             src={logoUrl || Logo}
             height={50}
             width={50}
@@ -34,13 +34,13 @@ export function SideBar({
         </Link>
       </div>
 
-      <div className="flex items-center gap-4 pr-7">
+      <div className="flex items-center gap-3 pr-7">
         {pathname !== "/Menu" && (
           <Button
             asChild
             size="md"
             variant="outline"
-            className="text-md border-gray-300"
+            className="text-md border-border"
           >
             <Link href="/Menu">Menu</Link>
           </Button>
@@ -94,7 +94,7 @@ export function TopNavBar({
   const links = SITE_CONFIG.navLinks;
 
   return (
-    <div className="bg-white flex justify-center ">
+    <div className="bg-background border-b border-border flex justify-center ">
       <div className="flex w-full md:hidden">
         <SideBar pathname={pathname} logoUrl={logoUrl} />
         {cartItems.length > 0 && (
@@ -106,13 +106,15 @@ export function TopNavBar({
 
       <div className="hidden md:flex justify-between h-16 md:h-20 md:w-[80%]  items-center ">
         <div className="flex items-center justify-center w-auto ">
-          <Image
-            alt={`${SITE_CONFIG.name} logo`}
-            className="w-auto h-auto"
-            src={logoUrl || Logo}
-            height={60}
-            width={60}
-          />
+          <Link href="/" aria-label={`${SITE_CONFIG.name} home`}>
+            <Image
+              alt={`${SITE_CONFIG.name} logo`}
+              className="h-14 w-14 rounded-full object-cover"
+              src={logoUrl || Logo}
+              height={60}
+              width={60}
+            />
+          </Link>
         </div>
         <div className="flex justify-end gap-4 items-center">
           <div className="flex overflow-auto gap-2 justify-center w-full py-1">
@@ -125,8 +127,8 @@ export function TopNavBar({
                     className={[
                       "text-md rounded-md  font-medium transition-colors duration-150 flex items-center gap-2",
                       isActive
-                        ? "bg-brand text-stone-900" // active: yellow bg, dark text
-                        : "text-stone-700  hover:bg-stone-100 ", // inactive: orange text, subtle yellow hover
+                        ? "bg-accent text-accent-foreground" // active
+                        : "text-foreground/70 hover:bg-accent hover:text-accent-foreground", // inactive
                     ].join(" ")}
                   >
                     {obj.label === "Kids Zone" && (
@@ -138,6 +140,11 @@ export function TopNavBar({
               );
             })}
           </div>
+          <Link href="/Menu">
+          <Button size="lg" variant="mainButton">
+            {SITE_CONFIG.menuCtaLabel}
+          </Button>
+        </Link>
           <div>
             <CartSideBar cartId={cartId} cartItems={cartItems} />
           </div>

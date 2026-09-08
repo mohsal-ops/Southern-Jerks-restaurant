@@ -19,9 +19,12 @@ import CateringMenuDisplay from "./CateringMenuDisplay";
 
 export default function CateringPageClient({
   cateringImage = "/general/3rdsection/SouthernJerks-Sep25-42.jpg",
+  logoUrl,
 }: {
   cateringImage?: string;
+  logoUrl?: string;
 }) {
+  const heroLogo = logoUrl || logo.src;
   const [open, setOpen] = useState(false);
   const packagesRef = useRef<HTMLDivElement | null>(null);
   const [formData, setFormData] = useState({
@@ -79,7 +82,7 @@ export default function CateringPageClient({
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `url(${logo.src})`,
+            backgroundImage: `url(${heroLogo})`,
             backgroundRepeat: "repeat",
             backgroundSize: "100px 100px", // You can adjust the size based on your preference
             transform: "rotate(-8deg) scale(1.2)",
@@ -133,7 +136,7 @@ export default function CateringPageClient({
             Trays that feed a crowd. Pick your chicken, sides, and extras, then request a quote.
           </p>
         </div>
-        <CateringMenuDisplay />
+        <CateringMenuDisplay logoUrl={logoUrl} />
       </section>
 
        {/* Why Choose Us */}

@@ -1,4 +1,5 @@
 "use server";
+import { assertWritable } from "@/lib/previewGuard";
 
 import { z } from "zod";
 import db from "@/db/db";
@@ -90,6 +91,7 @@ export default async function AddProduct(
   prevState: unknown,
   formData: FormData
 ) {
+  await assertWritable();
   try {
     const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
     if (!result.success) {
@@ -108,7 +110,7 @@ export default async function AddProduct(
     let n = 1;
     while (await db.item.findUnique({ where: { slug } })) slug = `${base}-${++n}`;
 
-    // Handle image — never let a storage hiccup block saving the item.
+    // Handle image - never let a storage hiccup block saving the item.
     const file = data.image;
     const isValidImage = file && file.size > 0 && file.type.startsWith("image/");
     let image: string | null = null;
@@ -142,7 +144,7 @@ export default async function AddProduct(
     revalidateTag("products");
     return {
       message: imageWarning
-        ? "Item added — but the photo couldn't be saved (image storage isn't connected on this site)."
+        ? "Item added - but the photo couldn't be saved (image storage isn't connected on this site)."
         : "Menu item added.",
     };
   } catch (error) {
@@ -157,6 +159,7 @@ export async function updateProduct(
   prevState: unknown,
   formData: FormData
 ) {
+  await assertWritable();
   const result = editSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!result.success) {
     const first = result.error.issues[0];
@@ -171,6 +174,7 @@ export async function updateProduct(
   let image = item.image;
   const file = data.image;
   const isValidImage = file && file.size > 0 && file.type.startsWith("image/");
+  const removeImage = formData.get("removeImage") === "true";
 
   if (isValidImage) {
     try {
@@ -179,6 +183,10 @@ export async function updateProduct(
     } catch (e) {
       console.error("Image save failed:", e);
     }
+  } else if (removeImage && item.image) {
+    // Owner cleared the photo — delete the stored file and leave it empty.
+    await deleteImage(item.image);
+    image = null;
   }
 
   await db.item.update({
@@ -205,6 +213,7 @@ export async function updateProduct(
 const categorySchema = z.object({ name: z.string().min(1) });
 
 export async function AddCategory(prevState: unknown, formData: FormData) {
+  await assertWritable();
   try {
     const result = categorySchema.safeParse(Object.fromEntries(formData.entries()));
     if (!result.success) return { message: "Please enter a category name." };
@@ -230,6 +239,7 @@ export async function AddCategory(prevState: unknown, formData: FormData) {
 
 // ── Item status toggles ──────────────────────────────────────────────────────
 export async function toglleAvalability(id: string, isAvailableForPurchase: boolean) {
+  await assertWritable();
   await db.item.update({ where: { id }, data: { isAvailableForPurchase } });
   revalidatePath("/");
   revalidatePath("/Menu");
@@ -238,6 +248,7 @@ export async function toglleAvalability(id: string, isAvailableForPurchase: bool
 }
 
 export async function toglleFeaturing(id: string, isFeatured: boolean) {
+  await assertWritable();
   await db.item.update({ where: { id }, data: { featured: isFeatured } });
   revalidatePath("/");
   revalidateTag("featured-products");
@@ -246,6 +257,7 @@ export async function toglleFeaturing(id: string, isFeatured: boolean) {
 }
 
 export async function DeleteMenuItem(id: string) {
+  await assertWritable();
   const item = await db.item.findUnique({ where: { id } });
   if (item?.image) await deleteImage(item.image);
   await db.item.delete({ where: { id } });
@@ -256,6 +268,7 @@ export async function DeleteMenuItem(id: string) {
 }
 
 export async function DeleteCategory(id: string) {
+  await assertWritable();
   await db.types.delete({ where: { id } });
   revalidatePath("/");
   revalidatePath("/Menu");
@@ -264,9 +277,10 @@ export async function DeleteCategory(id: string) {
 }
 
 // Persist the owner-chosen category order (array of category ids, in display
-// order) in the "category_order" SiteSetting — no schema change needed. The
+// order) in the "category_order" SiteSetting - no schema change needed. The
 // website reads this to order categories on the Menu.
 export async function reorderCategories(orderedIds: string[]) {
+  await assertWritable();
   await db.siteSetting.upsert({
     where: { key: "category_order" },
     update: { value: JSON.stringify(orderedIds) },
@@ -292,6 +306,7 @@ type SideGroupInput = {
 };
 
 export async function addItemSides(itemId: string, groups: SideGroupInput[]) {
+  await assertWritable();
   try {
     await db.sideGroup.deleteMany({ where: { itemId } });
 
@@ -326,21 +341,95 @@ export async function addItemSides(itemId: string, groups: SideGroupInput[]) {
   }
 }
 
+// ── Modifier groups (generic owner-managed) ──────────────────────────────────
+// Replaces ALL modifier groups for an item with the given ordered set (the admin
+// UI always sends the full list). Persists `order` on groups + options and
+// enforces that a required group has at least one real option.
+type ModifierGroupInput = {
+  title: string;
+  type: "RECOMMENDED" | "NO" | "EXTRA" | "SPICE" | "SIDE";
+  required?: boolean;
+  maxSelect?: number | null;
+  order?: number;
+  options: {
+    label?: string;
+    priceInCents?: number | null;
+    linkedItemId?: string | null;
+    order?: number;
+  }[];
+};
+
+export async function saveItemModifiers(itemId: string, groups: ModifierGroupInput[]) {
+  await assertWritable();
+
+  // Validate before touching the DB.
+  for (const g of groups) {
+    if (!(g.title ?? "").trim()) {
+      return { error: "Every modifier group needs a title." };
+    }
+    const realOptions = (g.options ?? []).filter((o) => (o.label ?? "").trim().length > 0);
+    if ((g.required ?? false) && realOptions.length === 0) {
+      return {
+        error: `"${g.title.trim()}" is marked required, so it needs at least one option.`,
+      };
+    }
+  }
+
+  try {
+    await db.sideGroup.deleteMany({ where: { itemId } });
+
+    for (let gi = 0; gi < groups.length; gi++) {
+      const group = groups[gi];
+      const realOptions = (group.options ?? []).filter((o) => (o.label ?? "").trim().length > 0);
+      if (realOptions.length === 0) continue; // drop empty (optional) groups
+      await db.sideGroup.create({
+        data: {
+          itemId,
+          title: group.title.trim(),
+          type: group.type,
+          required: group.required ?? false,
+          maxSelect: group.maxSelect ?? null,
+          order: group.order ?? gi,
+          options: {
+            create: realOptions.map((opt, oi) => ({
+              label: (opt.label ?? "").trim(),
+              priceInCents: opt.priceInCents ?? null,
+              linkedItemId: opt.linkedItemId ?? null,
+              order: opt.order ?? oi,
+            })),
+          },
+        },
+      });
+    }
+
+    revalidatePath("/admin");
+    revalidatePath("/admin/menuItems");
+    revalidatePath(`/admin/menuItems/${itemId}/edit`);
+    revalidatePath("/Menu");
+    revalidateTag("products");
+    return { ok: true, message: "Modifiers saved." };
+  } catch (error) {
+    console.error("saveItemModifiers error:", error);
+    return { error: String(error) };
+  }
+}
+
 // ── Sample / demo menu ─────────────────────────────────────────────────────────
 // Lets the owner load a few ready-made products with one click so they can try
 // the whole ordering flow, then remove them. All grouped under one category so
 // they're easy to clear.
 const SAMPLE_CAT_SLUG = "sample-menu-demo";
 const SAMPLE_ITEMS = [
-  { name: "Classic Cheeseburger", description: "Sample item — beef patty, cheese, lettuce, tomato.", price: 9.99 },
-  { name: "Margherita Pizza", description: "Sample item — fresh mozzarella, tomato, basil.", price: 12.99 },
-  { name: "Caesar Salad", description: "Sample item — romaine, parmesan, croutons.", price: 7.99 },
-  { name: "Crispy Fries", description: "Sample item — golden and salted.", price: 3.99 },
-  { name: "Chocolate Brownie", description: "Sample item — warm and fudgy.", price: 4.99 },
-  { name: "Soft Drink", description: "Sample item — your choice of soda.", price: 2.49 },
+  { name: "Classic Cheeseburger", description: "Sample item - beef patty, cheese, lettuce, tomato.", price: 9.99 },
+  { name: "Margherita Pizza", description: "Sample item - fresh mozzarella, tomato, basil.", price: 12.99 },
+  { name: "Caesar Salad", description: "Sample item - romaine, parmesan, croutons.", price: 7.99 },
+  { name: "Crispy Fries", description: "Sample item - golden and salted.", price: 3.99 },
+  { name: "Chocolate Brownie", description: "Sample item - warm and fudgy.", price: 4.99 },
+  { name: "Soft Drink", description: "Sample item - your choice of soda.", price: 2.49 },
 ];
 
 export async function seedSampleMenu() {
+  await assertWritable();
   try {
     const cat = await db.types.upsert({
       where: { slug: SAMPLE_CAT_SLUG },
@@ -369,7 +458,7 @@ export async function seedSampleMenu() {
     revalidatePath("/Menu");
     revalidatePath("/");
     revalidateTag("products");
-    return { message: added ? `Sample menu ready — ${added} item${added === 1 ? "" : "s"} added.` : "Sample menu already loaded." };
+    return { message: added ? `Sample menu ready - ${added} item${added === 1 ? "" : "s"} added.` : "Sample menu already loaded." };
   } catch (error) {
     console.error("seedSampleMenu error:", error);
     return { message: String(error) };
@@ -377,6 +466,7 @@ export async function seedSampleMenu() {
 }
 
 export async function clearSampleMenu() {
+  await assertWritable();
   try {
     const cat = await db.types.findUnique({ where: { slug: SAMPLE_CAT_SLUG } });
     if (!cat) return { message: "No sample menu to remove." };
@@ -387,7 +477,7 @@ export async function clearSampleMenu() {
         await db.item.delete({ where: { id: it.id } });
         removed++;
       } catch {
-        // Item was test-ordered (has an order) so it can't be deleted — just hide it.
+        // Item was test-ordered (has an order) so it can't be deleted - just hide it.
         await db.item.update({ where: { id: it.id }, data: { isAvailableForPurchase: false } }).catch(() => {});
       }
     }

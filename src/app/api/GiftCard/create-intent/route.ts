@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder");
 
 const MIN_AMOUNT_CENTS = 500; // $5
 const MAX_AMOUNT_CENTS = 100_000; // $1,000

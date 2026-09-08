@@ -6,11 +6,11 @@ export default async function Success(props: any) {
   const searchParams = await Promise.resolve(props.searchParams);
   const payment_intent = searchParams?.payment_intent;
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder");
 
   if (!payment_intent) {
     return (
-      <div className="flex items-center justify-center text-gray-400 w-full h-screen">
+      <div className="flex items-center justify-center text-muted-foreground w-full h-screen">
         A problem occurred
       </div>
     );
@@ -22,7 +22,7 @@ export default async function Success(props: any) {
 
   if (!paymentIntent) {
     return (
-      <div className="flex items-center justify-center text-gray-400 w-full h-screen">
+      <div className="flex items-center justify-center text-muted-foreground w-full h-screen">
         A problem occurred
       </div>
     );

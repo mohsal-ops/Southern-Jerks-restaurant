@@ -1,9 +1,11 @@
 "use server";
+import { assertWritable } from "@/lib/previewGuard";
 
 import { randomBytes } from "crypto";
 import db from "@/db/db";
 import { getCurrentAdmin } from "@/lib/getCurrentAdmin";
 import { hashPassword, verifyPassword } from "@/lib/password";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 import { sendMail } from "@/lib/email";
 import { revalidatePath } from "next/cache";
 
@@ -11,6 +13,7 @@ const EMAIL_CHANGE_TOKEN_TTL_MS = 1000 * 60 * 60 * 24; // 24h
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function updateName(name: string) {
+  await assertWritable();
   const admin = await getCurrentAdmin();
   if (!admin) throw new Error("Unauthorized");
 
@@ -23,6 +26,7 @@ export async function updateName(name: string) {
 }
 
 export async function requestEmailChange(newEmail: string) {
+  await assertWritable();
   const admin = await getCurrentAdmin();
   if (!admin) throw new Error("Unauthorized");
 
@@ -49,7 +53,7 @@ export async function requestEmailChange(newEmail: string) {
   try {
     await sendMail({
       to: normalized,
-      subject: "Confirm your new Southern Jerks admin email",
+      subject: `Confirm your new ${SITE_CONFIG.name} admin email`,
       html: `
         <h2>Confirm your new email</h2>
         <p>Hi ${admin.name}, click below to make this your new admin sign-in email.</p>
@@ -66,6 +70,7 @@ export async function requestEmailChange(newEmail: string) {
 }
 
 export async function changePassword(currentPassword: string, newPassword: string) {
+  await assertWritable();
   const admin = await getCurrentAdmin();
   if (!admin) throw new Error("Unauthorized");
 

@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 let transporter: nodemailer.Transporter | null = null;
 
@@ -19,7 +20,7 @@ function getTransporter() {
 
 export async function sendMail(opts: { to: string; subject: string; html: string }) {
   await getTransporter().sendMail({
-    from: `"Southern Jerks Admin" <${process.env.SMTP_USER}>`,
+    from: `"${SITE_CONFIG.name} Admin" <${process.env.SMTP_USER}>`,
     to: opts.to,
     subject: opts.subject,
     html: opts.html,

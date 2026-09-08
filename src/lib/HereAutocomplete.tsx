@@ -14,6 +14,15 @@ type HerePlace = {
   position: { lat: number; lng: number };
 };
 
+type HereApiItem = {
+  id: string;
+  title: string;
+  resultType?: string;
+  address?: {
+    label?: string;
+  };
+};
+
 export default function HereAutocomplete({
   onSelect,
 }: {
@@ -24,6 +33,7 @@ export default function HereAutocomplete({
 
   const search = async (q: string) => {
     setQuery(q);
+
     if (q.length < 2) {
       setResults([]);
       return;
@@ -35,21 +45,20 @@ export default function HereAutocomplete({
       )}&limit=5&apiKey=${process.env.NEXT_PUBLIC_HERE_API_KEY}`
     );
 
-    const data = await res.json();
+    const data: { items?: HereApiItem[] } = await res.json();
 
     const filtered: HereSuggestion[] = (data.items || [])
       .filter(
-        (item: any) =>
+        (item: HereApiItem) =>
           (item.resultType === "houseNumber" ||
             item.resultType === "street" ||
             item.resultType === "place") &&
-          item.address &&
-          item.address.label
+          Boolean(item.address?.label)
       )
-      .map((item: any) => ({
+      .map((item: HereApiItem) => ({
         id: item.id,
         title: item.title,
-        address: { label: item.address.label },
+        address: { label: item.address!.label! },
       }));
 
     setResults(filtered);
@@ -60,7 +69,12 @@ export default function HereAutocomplete({
       `https://lookup.search.hereapi.com/v1/lookup?id=${item.id}&apiKey=${process.env.NEXT_PUBLIC_HERE_API_KEY}`
     );
 
-    const full = await res.json();
+    const full: {
+      position: {
+        lat: number;
+        lng: number;
+      };
+    } = await res.json();
 
     const place: HerePlace = {
       id: item.id,

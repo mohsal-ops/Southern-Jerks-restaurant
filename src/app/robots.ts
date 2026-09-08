@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/api", "/login"],
       },
     ],
-    sitemap: "https://southernjerkshtx.com/sitemap.xml",
+    sitemap: `${SITE_CONFIG.siteUrl}/sitemap.xml`,
   };
 }
