@@ -122,8 +122,22 @@ export default function CateringPageClient({
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="text-center max-w-6xl w-9/12 sm:w-full space-y-10">
+      {/* Menu / Packages */}
+      <section
+        ref={packagesRef}
+        className="max-w-6xl w-full space-y-8 pb-4 px-2 scroll-mt-24"
+      >
+        <div className="text-center">
+          <h2 className="text-3xl font-bold sm:text-4xl">Catering Menu</h2>
+          <p className="mt-2 text-gray-500">
+            Trays that feed a crowd. Pick your chicken, sides, and extras, then request a quote.
+          </p>
+        </div>
+        <CateringMenuDisplay />
+      </section>
+
+       {/* Why Choose Us */}
+      <section className="text-center max-w-6xl w-9/12 mb-4 sm:w-full space-y-10">
         <h2 className="text-3xl font-bold">Why Choose {SITE_CONFIG.name}?</h2>
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
           {[
@@ -152,20 +166,6 @@ export default function CateringPageClient({
             </Card>
           ))}
         </div>
-      </section>
-
-      {/* Menu / Packages */}
-      <section
-        ref={packagesRef}
-        className="max-w-6xl w-full space-y-8 pb-4 px-2 scroll-mt-24"
-      >
-        <div className="text-center">
-          <h2 className="text-3xl font-bold sm:text-4xl">Catering Menu</h2>
-          <p className="mt-2 text-gray-500">
-            Trays that feed a crowd. Pick your chicken, sides, and extras, then request a quote.
-          </p>
-        </div>
-        <CateringMenuDisplay />
       </section>
 
       {/* Request Form */}
