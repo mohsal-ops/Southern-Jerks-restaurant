@@ -22,7 +22,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { CartItem } from "generated/prisma";
 import { SecondSectionFeatured } from "./FeaturedSection";
-import LogoDriftBackground from "./LogoDriftBackground";
 import type { ItemWithSides } from "../page";
 import { SITE_CONFIG } from "@/lib/siteConfig";
 
