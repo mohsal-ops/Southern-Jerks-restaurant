@@ -17,6 +17,7 @@ export default function LoyaltySignupForm({
   prefillEmail = "",
   prefillPhone = "",
   className = "",
+  onSuccess,
 }: {
   loyaltyEnabled: boolean;
   consentText: string;
@@ -24,6 +25,9 @@ export default function LoyaltySignupForm({
   prefillEmail?: string;
   prefillPhone?: string;
   className?: string;
+  // When provided (e.g. the popup), the parent owns the success UI — the form
+  // hands off instead of rendering its own confirmation card.
+  onSuccess?: (result: { sms: boolean; email: boolean }) => void;
 }) {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState(prefillEmail);
@@ -79,6 +83,8 @@ export default function LoyaltySignupForm({
       };
       if (!res.ok || !data.ok) {
         setError(data.error || "Couldn't sign you up — please try again.");
+      } else if (onSuccess) {
+        onSuccess({ sms: !!data.sms, email: !!data.email });
       } else {
         setDone({ sms: !!data.sms, email: !!data.email });
       }
