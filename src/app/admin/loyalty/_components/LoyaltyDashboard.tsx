@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { sendBlast, sendEmailBlast, setLoyaltyEnabled, saveBirthday } from "../_actions/loyaltyActions";
+import { sendBlast, sendEmailBlast, setLoyaltyEnabled, setLoyaltyPopupEnabled, saveBirthday } from "../_actions/loyaltyActions";
 import type { LoyaltySettings } from "@/lib/loyalty";
 
 // Kept as a plain string here (NOT imported from @/lib/loyalty) so this client
@@ -31,6 +31,7 @@ export function LoyaltyDashboard({
   rewardsUrl: string;
 }) {
   const [enabled, setEnabled] = useState(settings.enabled);
+  const [popup, setPopup] = useState(settings.popupEnabled);
   const [msg, setMsg] = useState("");
   const [blastResult, setBlastResult] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
@@ -47,6 +48,10 @@ export function LoyaltyDashboard({
   const toggleEnabled = (v: boolean) => {
     setEnabled(v);
     start(async () => { await setLoyaltyEnabled(v); });
+  };
+  const togglePopup = (v: boolean) => {
+    setPopup(v);
+    start(async () => { await setLoyaltyPopupEnabled(v); });
   };
   const doBlast = () =>
     start(async () => {
@@ -80,6 +85,13 @@ export function LoyaltyDashboard({
       </label>
 
       <div className={enabled ? "space-y-6" : "space-y-6 pointer-events-none opacity-50"}>
+        {/* Site popup toggle */}
+        <label className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-white p-4">
+          <input type="checkbox" checked={popup} onChange={(e) => togglePopup(e.target.checked)} className="h-5 w-5 accent-[#c85a1e]" />
+          <span className="font-semibold text-stone-800">Show the rewards popup on the site</span>
+          <span className="text-sm text-stone-500">A one-time teaser that invites visitors to join (never on checkout or the rewards page).</span>
+        </label>
+
         {/* Stats + growth */}
         <div className="rounded-2xl border border-stone-200 bg-white p-5">
           <div className="flex gap-6">

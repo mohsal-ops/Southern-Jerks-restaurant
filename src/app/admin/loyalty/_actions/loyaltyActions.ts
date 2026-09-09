@@ -122,6 +122,18 @@ export async function sendEmailBlast(subject: string, body: string) {
   return res;
 }
 
+export async function setLoyaltyPopupEnabled(enabled: boolean) {
+  await assertWritable();
+  await db.siteSetting.upsert({
+    where: { key: "loyalty_popup_enabled" },
+    update: { value: enabled ? "true" : "false" },
+    create: { key: "loyalty_popup_enabled", value: enabled ? "true" : "false" },
+  });
+  revalidatePath("/admin/loyalty");
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
 export async function setLoyaltyEnabled(enabled: boolean) {
   await assertWritable();
   await db.siteSetting.upsert({

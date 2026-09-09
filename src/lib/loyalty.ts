@@ -24,6 +24,7 @@ export function loyaltyConsentText(businessName = SITE_CONFIG.name): string {
 
 export type LoyaltySettings = {
   enabled: boolean;
+  popupEnabled: boolean;
   consentText: string;
   birthdayEnabled: boolean;
   birthdayMessage: string;
@@ -31,14 +32,18 @@ export type LoyaltySettings = {
 };
 
 export async function getLoyaltySettings(): Promise<LoyaltySettings> {
-  const [enabled, bEnabled, bMsg, bDays] = await Promise.all([
+  const [enabled, popupEnabled, bEnabled, bMsg, bDays] = await Promise.all([
     getSetting("loyalty_enabled", "false"),
+    // Popup defaults ON when the add-on is enabled; the owner can switch just
+    // the popup off without disabling the whole loyalty program.
+    getSetting("loyalty_popup_enabled", "true"),
     getSetting("loyalty_birthday_enabled", "false"),
     getSetting("loyalty_birthday_message", ""),
     getSetting("loyalty_days_ahead", "7"),
   ]);
   return {
     enabled: enabled === "true",
+    popupEnabled: popupEnabled !== "false",
     consentText: loyaltyConsentText(),
     birthdayEnabled: bEnabled === "true",
     birthdayMessage: bMsg,

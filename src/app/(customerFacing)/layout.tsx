@@ -32,6 +32,7 @@ export default async function Customerlayout({
       <DashboardBubble />
       <LoyaltyPopup
         loyaltyEnabled={loyalty.enabled}
+        popupEnabled={loyalty.popupEnabled}
         consentText={loyalty.consentText}
         incentive={loyaltyIncentive()}
       />

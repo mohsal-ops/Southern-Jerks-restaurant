@@ -80,6 +80,8 @@ export const SITE_CONFIG = {
   // `pdfUrl` is optional (a downloadable PDF in /public); omit to hide the button.
   catering: {
     pdfUrl: "/southern-jerks-catering-menu.pdf",
+    // Catering menu entrance animation: "grill" (drifting smoke + embers) or "none".
+    animation: "grill",
     menu: [
       {
         title: "Chicken",

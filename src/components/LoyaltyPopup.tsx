@@ -65,10 +65,12 @@ function Burst({ reduce }: { reduce: boolean | null }) {
 
 export default function LoyaltyPopup({
   loyaltyEnabled,
+  popupEnabled = true,
   consentText,
   incentive,
 }: {
   loyaltyEnabled: boolean;
+  popupEnabled?: boolean;
   consentText: string;
   incentive: string;
 }) {
@@ -77,19 +79,22 @@ export default function LoyaltyPopup({
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<"teaser" | "form" | "success">("teaser");
 
+  // The whole popup is off unless the add-on AND its dedicated popup toggle are
+  // on; also never on /rewards, checkout, or admin.
+  const active = loyaltyEnabled && popupEnabled;
   const suppressedRoute =
     pathname === "/rewards" || /\/purchase(\/|$)/.test(pathname) || pathname.startsWith("/admin");
 
   // Arm the one-shot timer (once per mount). Layout persists across customer
   // route changes, so this fires a single time per session.
   useEffect(() => {
-    if (!loyaltyEnabled || suppressedRoute) return;
+    if (!active || suppressedRoute) return;
     const s = readSuppression();
     if (s?.completed) return;
     if (s && Date.now() < s.until) return;
     const t = setTimeout(() => setOpen(true), DELAY_MS);
     return () => clearTimeout(t);
-  }, [loyaltyEnabled, suppressedRoute]);
+  }, [active, suppressedRoute]);
 
   // Auto-close the celebration after a beat (manual close is available too).
   useEffect(() => {
@@ -113,7 +118,7 @@ export default function LoyaltyPopup({
     setOpen(false);
   };
 
-  if (!loyaltyEnabled || suppressedRoute) return null;
+  if (!active || suppressedRoute) return null;
 
   return (
     <AnimatePresence>
