@@ -97,7 +97,7 @@ export default function HeroCarousel({
 
   return (
     <div
-      className="flex relative overflow-hidden h-svh w-full sm:w-[85%] flex-col sm:flex-row bg-stone-100 sm:rounded-3xl sm:p-2"
+      className="flex relative overflow-hidden h-[calc(100svh-5rem)] w-full sm:w-[85%] flex-col sm:flex-row bg-stone-100 sm:rounded-3xl sm:p-2"
       onMouseEnter={pause}
       onMouseLeave={resume}
       onFocus={pause}
@@ -155,63 +155,10 @@ export default function HeroCarousel({
             </motion.div>
           </motion.div>
         </AnimatePresence>
-
-        {/* Controls: prev/next + one filling segment per slide (segment doubles
-            as the clickable dot). Only shown when there's more than one slide. */}
-        {count > 1 && (
-          <div className="flex items-center gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => go(active - 1)}
-              aria-label="Previous slide"
-              className="grid place-items-center size-8 rounded-full text-white sm:text-foreground bg-white/15 sm:bg-foreground/10 hover:bg-white/30 sm:hover:bg-foreground/20 transition-colors"
-            >
-              <MdKeyboardArrowLeft size={20} />
-            </button>
-
-            <div className="flex items-center gap-2">
-              {slides.map((s, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => go(i)}
-                  aria-label={`Go to slide ${i + 1}: ${s.headline}`}
-                  aria-current={i === active}
-                  className="relative h-1.5 w-9 rounded-full overflow-hidden bg-white/30 sm:bg-foreground/20"
-                >
-                  <span
-                    key={i === active ? active : `done-${i}`}
-                    className="absolute inset-0 origin-left rounded-full bg-brand"
-                    style={
-                      i < active
-                        ? { transform: "scaleX(1)" }
-                        : i > active
-                          ? { transform: "scaleX(0)" }
-                          : {
-                              transform: "scaleX(0)",
-                              animation: `heroProgress ${INTERVAL}ms linear forwards`,
-                              animationPlayState: paused ? "paused" : "running",
-                            }
-                    }
-                  />
-                </button>
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => go(active + 1)}
-              aria-label="Next slide"
-              className="grid place-items-center size-8 rounded-full text-white sm:text-foreground bg-white/15 sm:bg-foreground/10 hover:bg-white/30 sm:hover:bg-foreground/20 transition-colors"
-            >
-              <MdKeyboardArrowRight size={20} />
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Image column: crossfading stack + persistent mobile readability gradient. */}
-      <div className="relative z-10 w-full md:w-1/2 sm:rounded-3xl overflow-hidden h-svh sm:h-full">
+      <div className="relative z-10 w-full md:w-1/2 sm:rounded-3xl overflow-hidden h-full">
         <AnimatePresence mode="sync">
           <motion.div
             key={active}
@@ -231,8 +178,56 @@ export default function HeroCarousel({
             />
           </motion.div>
         </AnimatePresence>
+        {/* legibility band for the number/arrows cluster — all breakpoints */}
+        <div className="absolute inset-x-0 bottom-0 h-28 sm:h-36 bg-gradient-to-t from-black/60 to-transparent z-20 pointer-events-none" />
         <div className="sm:hidden absolute inset-0 bg-linear-to-t from-black/70 via-black/25 to-transparent z-20" />
       </div>
+
+      {/* Floating slide indicator (current number · fill line · next number +
+          arrows), pinned to the hero's bottom-right so it's immune to how long
+          any slide's copy runs. */}
+      {count > 1 && (
+        <div className="absolute z-40 bottom-4 right-4 sm:bottom-8 sm:right-8 flex items-center gap-3 sm:gap-4">
+          <button
+            type="button"
+            onClick={() => go(active - 1)}
+            aria-label="Previous slide"
+            className="grid place-items-center size-9 sm:size-11 rounded-full border border-white/50 text-white hover:bg-white/15 transition-colors"
+          >
+            <MdKeyboardArrowLeft size={20} />
+          </button>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="text-2xl sm:text-3xl font-bold text-brand tabular-nums">
+              {active + 1}
+            </span>
+            <span className="relative h-px w-8 sm:w-10 bg-white/30 overflow-hidden">
+              <span
+                key={active}
+                className="absolute inset-y-0 left-0 origin-left bg-brand"
+                style={{
+                  width: "100%",
+                  transform: "scaleX(0)",
+                  animation: `heroProgress ${INTERVAL}ms linear forwards`,
+                  animationPlayState: paused ? "paused" : "running",
+                }}
+              />
+            </span>
+            <span className="text-sm sm:text-base font-medium text-white/60 tabular-nums">
+              {((active + 1) % count) + 1}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => go(active + 1)}
+            aria-label="Next slide"
+            className="grid place-items-center size-9 sm:size-11 rounded-full border border-white/50 text-white hover:bg-white/15 transition-colors"
+          >
+            <MdKeyboardArrowRight size={20} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
