@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Flame, Handshake, House } from "lucide-react";
 import { Partner } from "generated/prisma";
 
 type StoryImages = {
@@ -224,17 +225,17 @@ export default function StoryClient({
         <div className="grid sm:grid-cols-3 gap-6">
           {[
             {
-              icon: "🏡",
+              icon: House,
               title: "Family First",
               text: "Every recipe carries the legacy of family. We cook the way our grandmother cooked with love, intention, and nothing to hide.",
             },
             {
-              icon: "🌶️",
+              icon: Flame,
               title: "Bold Authenticity",
               text: "No shortcuts, no compromises. Caribbean flavors done right, every single time because Houston deserves the real thing.",
             },
             {
-              icon: "🤝",
+              icon: Handshake,
               title: "Community Rooted",
               text: "We're not just serving food. We're building a space where culture, community, and connection share the same table.",
             },
@@ -247,7 +248,9 @@ export default function StoryClient({
               transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.12 }}
               className="bg-white border border-stone-200 rounded-2xl p-8 space-y-3"
             >
-              <span className="text-3xl">{v.icon}</span>
+              <span className="flex size-12 items-center justify-center rounded-full bg-[#c85a1e]/10 text-[#c85a1e]">
+                <v.icon size={25} strokeWidth={1.8} aria-hidden="true" />
+              </span>
               <h3 className="text-xl font-semibold">{v.title}</h3>
               <p className="text-gray-500 leading-relaxed">{v.text}</p>
             </motion.div>
