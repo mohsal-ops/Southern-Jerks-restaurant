@@ -12,6 +12,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
+const ONLINE_ORDERING_ENABLED = false;
+
 type productObjectPath = {
   id: string;
   name: string;
@@ -93,9 +95,10 @@ export function PopularDishesCardClient({
 
           <div className="absolute bottom-2 right-2 z-20">
             <Button
-              onClick={() => setOpen(true)}
+              disabled={!ONLINE_ORDERING_ENABLED}
               variant="outline"
-              className="h-9 w-9 rounded-full p-0 bg-background shadow-md hover:bg-accent"
+              aria-label="Online ordering temporarily unavailable"
+              className="h-9 w-9 rounded-full bg-background p-0 opacity-60 shadow-md"
             >
               <Plus className="stroke-2" size={20} />
             </Button>
@@ -169,9 +172,10 @@ export function AllDishesCardClient({
           <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
             <div className="flex gap-2 items-center  ">
               <Button
-                onClick={() => setOpen(true)}
+                disabled={!ONLINE_ORDERING_ENABLED}
                 variant="outline"
-                className="w-10 h-10 "
+                aria-label="Online ordering temporarily unavailable"
+                className="h-10 w-10 opacity-60"
               >
                 <Plus className="stroke-1" size={28} />
               </Button>

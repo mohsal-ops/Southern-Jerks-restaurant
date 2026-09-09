@@ -2,6 +2,7 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { FaLocationPin } from "react-icons/fa6";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+const ONLINE_ORDERING_ENABLED = false;
 import { atLeast, tierOf } from "@/lib/packages";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
@@ -258,6 +259,7 @@ export default function MainPageMenu({
                   value="delivery"
                   checked={choice === "delivery"}
                   onChange={() => setChoice("delivery")}
+                  disabled={!ONLINE_ORDERING_ENABLED}
                   className="hidden peer"
                 />
                 <div className="h-full bg-stone-100 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
@@ -271,6 +273,7 @@ export default function MainPageMenu({
                   value="pickup"
                   checked={choice === "pickup"}
                   onChange={() => setChoice("pickup")}
+                  disabled={!ONLINE_ORDERING_ENABLED}
                   className="hidden peer"
                 />
                 <div className=" h-full bg-stone-100 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
@@ -282,6 +285,7 @@ export default function MainPageMenu({
             <Button
               variant="outline"
               onClick={() => setOpen(true)}
+              disabled={!ONLINE_ORDERING_ENABLED}
               className="w-full sm:w-2/3 h-11 text-sm rounded-lg hover:bg-accent shadow-xs justify-between"
             >
               {choice === "pickup" ? (

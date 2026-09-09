@@ -7,6 +7,7 @@ import { GetFeaturedProducts, GetGategories } from '../_actions/getDataNeeded'
 import { ProductCardSkeleton } from '../../_components/ProductCardServer'
 import { useCart } from '@/app/providers/CartProvider'
 import { CartItem, Item, Types } from 'generated/prisma'
+const ONLINE_ORDERING_ENABLED = false;
 import { ItemWithSides } from '../../page'
 
 
@@ -106,6 +107,7 @@ console.log(choice)
                                 value="delivery"
                                 checked={choice === "delivery"}
                                 onChange={() => setChoice("delivery")}
+                                disabled={!ONLINE_ORDERING_ENABLED}
                                 className="hidden peer"
                             />
                             <div className=" h-10 bg-stone-100 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
@@ -121,6 +123,7 @@ console.log(choice)
                                 value="pickup"
                                 checked={choice === "pickup"}
                                 onChange={() => setChoice("pickup")}
+                                disabled={!ONLINE_ORDERING_ENABLED}
                                 className="hidden peer"
                             />
                             <div className=" h-10 bg-stone-100 border  flex items-center justify-center  rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
