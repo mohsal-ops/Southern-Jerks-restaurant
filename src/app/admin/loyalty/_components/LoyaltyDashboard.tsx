@@ -18,6 +18,8 @@ export function LoyaltyDashboard({
   optedOut,
   growth,
   campaigns,
+  qrDataUrl,
+  rewardsUrl,
 }: {
   settings: LoyaltySettings;
   smsSubscribed: number;
@@ -25,6 +27,8 @@ export function LoyaltyDashboard({
   optedOut: number;
   growth: { label: string; count: number }[];
   campaigns: Campaign[];
+  qrDataUrl: string;
+  rewardsUrl: string;
 }) {
   const [enabled, setEnabled] = useState(settings.enabled);
   const [msg, setMsg] = useState("");
@@ -151,6 +155,34 @@ export function LoyaltyDashboard({
               {pending ? "Sending…" : `Email ${emailSubscribed}`}
             </Button>
             {emailResult && <span className="text-sm text-stone-500">{emailResult}</span>}
+          </div>
+        </div>
+
+        {/* Sign-up QR code (for the physical restaurant) */}
+        <div className="rounded-2xl border border-stone-200 bg-white p-5">
+          <h2 className="font-semibold text-stone-800">📷 Sign-up QR code</h2>
+          <p className="mt-1 text-sm text-stone-500">
+            Put this on table tents, receipts, or the counter — scanning it opens your rewards join page.
+          </p>
+          <div className="mt-3 flex items-center gap-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={qrDataUrl}
+              alt="Rewards sign-up QR code"
+              width={128}
+              height={128}
+              className="rounded-lg border border-stone-200"
+            />
+            <div className="text-sm">
+              <a
+                href={qrDataUrl}
+                download="southern-jerks-rewards-qr.png"
+                className="inline-block rounded-lg bg-[#c85a1e] px-4 py-2 font-semibold text-white hover:bg-[#c85a1e]/90"
+              >
+                Download PNG
+              </a>
+              <p className="mt-2 break-all text-xs text-stone-400">{rewardsUrl}</p>
+            </div>
           </div>
         </div>
 

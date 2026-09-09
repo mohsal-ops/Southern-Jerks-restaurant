@@ -1,11 +1,18 @@
+import QRCode from "qrcode";
 import db from "@/db/db";
 import { getLoyaltySettings, LOYALTY_PROJECT_ID } from "@/lib/loyalty";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 import { LoyaltyDashboard } from "./_components/LoyaltyDashboard";
 
 export const dynamic = "force-dynamic";
 
 export default async function LoyaltyPage() {
   const settings = await getLoyaltySettings();
+
+  // QR code (PNG data URL) pointing at the public join page — for table tents,
+  // receipts, etc. Generated server-side so no client library is needed.
+  const rewardsUrl = `${SITE_CONFIG.siteUrl.replace(/\/$/, "")}/rewards`;
+  const qrDataUrl = await QRCode.toDataURL(rewardsUrl, { width: 512, margin: 2 });
 
   const [smsSubscribed, emailSubscribed, optedOut, contacts, campaigns] = await Promise.all([
     db.loyaltyContact.count({ where: { projectId: LOYALTY_PROJECT_ID, smsSubscribed: true } }),
@@ -44,6 +51,8 @@ export default async function LoyaltyPage() {
         emailSubscribed={emailSubscribed}
         optedOut={optedOut}
         growth={days}
+        qrDataUrl={qrDataUrl}
+        rewardsUrl={rewardsUrl}
         campaigns={campaigns.map((c) => ({
           id: c.id,
           channel: c.channel,
