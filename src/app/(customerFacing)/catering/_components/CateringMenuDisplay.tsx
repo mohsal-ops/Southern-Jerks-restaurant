@@ -4,49 +4,34 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import Image from "next/image";
 import logo from "public/logo.png";
 
-// The catering menu, exposed inline on the page (the source PDF stays available
-// as a download). Content mirrors southern-jerks-catering-menu.pdf exactly - if
-// the menu changes, update it here AND the PDF in /public.
-type MenuItem = { name: string; qty?: string; price: number };
-const MENU: { title: string; note?: string; items: MenuItem[] }[] = [
-  {
-    title: "Chicken",
-    note: "Each meal comes with 20 rolls and 20 jalapeños",
-    items: [
-      { name: "Half Wings", qty: "50 pieces", price: 75 },
-      { name: "Half Wings", qty: "100 pieces", price: 150 },
-      { name: "Chicken Tenders", qty: "25 pieces", price: 65 },
-      { name: "Chicken Tenders", qty: "50 pieces", price: 105 },
-    ],
-  },
-  {
-    title: "Sides",
-    items: [
-      { name: "Pan Collard Greens", price: 45 },
-      { name: "Pan 3 Cheese Mac & Cheese", price: 65 },
-      { name: "Pan Jerk Dirty Rice", price: 55 },
-      { name: "Box of Seasoned Fries", price: 35 },
-    ],
-  },
-  {
-    title: "Extras",
-    items: [
-      { name: "20 Rolls", price: 10 },
-      { name: "20 Jalapeños", price: 10 },
-    ],
-  },
-];
+// The inline catering menu — DESIGN ONLY. The content comes from
+// SITE_CONFIG.catering.menu (per client, so ⤓ Update never overwrites a
+// client's real menu) and is passed in by CateringPageClient. Optional
+// `pdfUrl` shows a download button; omit it to hide the button.
+export type CateringMenuItem = { name: string; qty?: string; price: number };
+export type CateringMenuSection = { title: string; note?: string; items: CateringMenuItem[] };
 
-function downloadPdf() {
-  const link = document.createElement("a");
-  link.href = "/southern-jerks-catering-menu.pdf";
-  link.download = "Southern-Jerks-Catering-Menu.pdf";
-  link.click();
-}
-
-export default function CateringMenuDisplay({ logoUrl }: { logoUrl?: string }) {
+export default function CateringMenuDisplay({
+  menu,
+  pdfUrl,
+  logoUrl,
+}: {
+  menu: CateringMenuSection[];
+  pdfUrl?: string;
+  logoUrl?: string;
+}) {
   const reduce = useReducedMotion();
   const patternLogo = logoUrl || logo.src;
+
+  if (!menu || menu.length === 0) return null;
+
+  const downloadPdf = () => {
+    if (!pdfUrl) return;
+    const link = document.createElement("a");
+    link.href = pdfUrl;
+    link.download = pdfUrl.split("/").pop() || "catering-menu.pdf";
+    link.click();
+  };
 
   const container: Variants = {
     hidden: {},
@@ -90,34 +75,32 @@ export default function CateringMenuDisplay({ logoUrl }: { logoUrl?: string }) {
         </motion.div>
 
         <div className="grid gap-x-12 gap-y-10 md:grid-cols-2">
-          {MENU.map((section) => (
-            <motion.div
-              key={section.title}
-              variants={rise}
-              className={section.title === "Chicken" ? "md:col-span-2" : ""}
-            >
-              <div className="mb-1 flex items-baseline gap-3">
-                <h3 className="font-serif text-2xl font-bold text-brand sm:text-3xl">{section.title}</h3>
-                <span className="h-px flex-1 translate-y-[-2px] bg-white/15" />
-              </div>
-              {section.note && (
-                <p className="mb-4 text-sm italic text-white/50">{section.note}</p>
-              )}
+          {menu.map((section, s) => {
+            // The first section is the headliner: full width with 2-column items.
+            const wide = s === 0;
+            return (
+              <motion.div key={section.title} variants={rise} className={wide ? "md:col-span-2" : ""}>
+                <div className="mb-1 flex items-baseline gap-3">
+                  <h3 className="font-serif text-2xl font-bold text-brand sm:text-3xl">{section.title}</h3>
+                  <span className="h-px flex-1 translate-y-[-2px] bg-white/15" />
+                </div>
+                {section.note && <p className="mb-4 text-sm italic text-white/50">{section.note}</p>}
 
-              <ul className={section.title === "Chicken" ? "grid gap-x-12 gap-y-3 sm:grid-cols-2" : "space-y-3"}>
-                {section.items.map((item, i) => (
-                  <li key={`${item.name}-${i}`} className="flex items-baseline gap-3">
-                    <span className="text-[17px] font-medium text-white">
-                      {item.name}
-                      {item.qty && <span className="ml-2 text-sm font-normal text-white/50">{item.qty}</span>}
-                    </span>
-                    <span className="mb-1 flex-1 border-b border-dotted border-white/20" />
-                    <span className="text-lg font-bold tabular-nums text-brand">${item.price}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
+                <ul className={wide ? "grid gap-x-12 gap-y-3 sm:grid-cols-2" : "space-y-3"}>
+                  {section.items.map((item, i) => (
+                    <li key={`${item.name}-${i}`} className="flex items-baseline gap-3">
+                      <span className="text-[17px] font-medium text-white">
+                        {item.name}
+                        {item.qty && <span className="ml-2 text-sm font-normal text-white/50">{item.qty}</span>}
+                      </span>
+                      <span className="mb-1 flex-1 border-b border-dotted border-white/20" />
+                      <span className="text-lg font-bold tabular-nums text-brand">${item.price}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            );
+          })}
         </div>
 
         <motion.div
@@ -125,14 +108,16 @@ export default function CateringMenuDisplay({ logoUrl }: { logoUrl?: string }) {
           className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 sm:flex-row"
         >
           <p className="text-sm text-white/45">Tax and gratuity not included. Custom orders welcome.</p>
-          <button
-            type="button"
-            onClick={downloadPdf}
-            className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-brand hover:text-brand"
-          >
-            <Image src={logo} alt="" width={18} height={18} className="h-4 w-4 rounded-sm" />
-            Download PDF menu
-          </button>
+          {pdfUrl && (
+            <button
+              type="button"
+              onClick={downloadPdf}
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-brand hover:text-brand"
+            >
+              <Image src={logo} alt="" width={18} height={18} className="h-4 w-4 rounded-sm" />
+              Download PDF menu
+            </button>
+          )}
         </motion.div>
       </div>
     </motion.div>

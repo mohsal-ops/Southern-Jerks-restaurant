@@ -15,16 +15,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { SITE_CONFIG } from "@/lib/siteConfig";
-import CateringMenuDisplay from "./CateringMenuDisplay";
+import CateringMenuDisplay, { type CateringMenuSection } from "./CateringMenuDisplay";
 
 export default function CateringPageClient({
-  cateringImage = "/general/3rdsection/SouthernJerks-Sep25-42.jpg",
+  cateringImage = "/general/generalPages/enjoy.jpg",
   logoUrl,
 }: {
   cateringImage?: string;
   logoUrl?: string;
 }) {
   const heroLogo = logoUrl || logo.src;
+  // Per-client menu content lives in siteConfig (blocklisted from ⤓ Update, so
+  // each client keeps their own). Read defensively so a clone without it still
+  // renders the rest of the page.
+  const catering = (SITE_CONFIG as {
+    catering?: { pdfUrl?: string; menu?: CateringMenuSection[] };
+  }).catering;
+  const cateringMenu = catering?.menu ?? [];
   const [open, setOpen] = useState(false);
   const packagesRef = useRef<HTMLDivElement | null>(null);
   const [formData, setFormData] = useState({
@@ -93,7 +100,7 @@ export default function CateringPageClient({
         <div className="w-full sm:w-1/2 h-75 md:h-full relative overflow-hidden rounded-2xl">
           <Image
             src={cateringImage}
-            alt={`${SITE_CONFIG.name} jerk chicken and wings catering trays for ${SITE_CONFIG.city} events`}
+            alt={`${SITE_CONFIG.name} catering trays for ${SITE_CONFIG.city} events`}
             fill
             className="object-cover"
             priority
@@ -126,18 +133,20 @@ export default function CateringPageClient({
       </section>
 
       {/* Menu / Packages */}
-      <section
-        ref={packagesRef}
-        className="max-w-6xl w-full space-y-8 pb-4 px-2 scroll-mt-24"
-      >
-        <div className="text-center">
-          <h2 className="text-3xl font-bold sm:text-4xl">Catering Menu</h2>
-          <p className="mt-2 text-gray-500">
-            Trays that feed a crowd. Pick your chicken, sides, and extras, then request a quote.
-          </p>
-        </div>
-        <CateringMenuDisplay logoUrl={logoUrl} />
-      </section>
+      {cateringMenu.length > 0 && (
+        <section
+          ref={packagesRef}
+          className="max-w-6xl w-full space-y-8 pb-4 px-2 scroll-mt-24"
+        >
+          <div className="text-center">
+            <h2 className="text-3xl font-bold sm:text-4xl">Catering Menu</h2>
+            <p className="mt-2 text-gray-500">
+              Trays that feed a crowd. Pick your favorites, then request a quote.
+            </p>
+          </div>
+          <CateringMenuDisplay menu={cateringMenu} pdfUrl={catering?.pdfUrl} logoUrl={logoUrl} />
+        </section>
+      )}
 
        {/* Why Choose Us */}
       <section className="text-center max-w-6xl w-9/12 mb-4 sm:w-full space-y-10">
@@ -150,7 +159,7 @@ export default function CateringPageClient({
             },
             {
               title: "Bold Flavors",
-              desc: "Signature Southern recipes in every bite.",
+              desc: "Signature homemade recipes in every bite.",
             },
             {
               title: "Friendly Team",

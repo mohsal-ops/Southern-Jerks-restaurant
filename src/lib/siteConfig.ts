@@ -75,6 +75,41 @@ export const SITE_CONFIG = {
     incentive: "[INCENTIVE]",
   },
 
+  // Inline catering menu shown on /catering (design in CateringMenuDisplay).
+  // Edit these to change the menu — the first section renders full-width.
+  // `pdfUrl` is optional (a downloadable PDF in /public); omit to hide the button.
+  catering: {
+    pdfUrl: "/southern-jerks-catering-menu.pdf",
+    menu: [
+      {
+        title: "Chicken",
+        note: "Each meal comes with 20 rolls and 20 jalapeños",
+        items: [
+          { name: "Half Wings", qty: "50 pieces", price: 75 },
+          { name: "Half Wings", qty: "100 pieces", price: 150 },
+          { name: "Chicken Tenders", qty: "25 pieces", price: 65 },
+          { name: "Chicken Tenders", qty: "50 pieces", price: 105 },
+        ],
+      },
+      {
+        title: "Sides",
+        items: [
+          { name: "Pan Collard Greens", price: 45 },
+          { name: "Pan 3 Cheese Mac & Cheese", price: 65 },
+          { name: "Pan Jerk Dirty Rice", price: 55 },
+          { name: "Box of Seasoned Fries", price: 35 },
+        ],
+      },
+      {
+        title: "Extras",
+        items: [
+          { name: "20 Rolls", price: 10 },
+          { name: "20 Jalapeños", price: 10 },
+        ],
+      },
+    ] as { title: string; note?: string; items: { name: string; qty?: string; price: number }[] }[],
+  },
+
   // Contact & Location
   address: "2950 Gears Rd, Houston, TX 77067",
   street: "2950 Gears Rd",
