@@ -66,6 +66,15 @@ export const SITE_CONFIG = {
   // Main call-to-action button label, used on every "menu" button across the site.
   menuCtaLabel: "Order Now",
 
+  // Loyalty / rewards program.
+  loyalty: {
+    // ⚠️ PLACEHOLDER — set this to the real signup reward Jordan confirms
+    // (e.g. "10% off your next order" or "a free regular side"), then it flows
+    // into the /rewards signup, the instant welcome text/email, and the success
+    // message. Do NOT turn the loyalty toggle on until this is the real offer.
+    incentive: "[INCENTIVE]",
+  },
+
   // Contact & Location
   address: "2950 Gears Rd, Houston, TX 77067",
   street: "2950 Gears Rd",
