@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   const tDay = target.getUTCDate();
 
   const contacts = await db.loyaltyContact.findMany({
-    where: { projectId: LOYALTY_PROJECT_ID, subscribed: true, birthday: { not: null } },
+    where: { projectId: LOYALTY_PROJECT_ID, smsSubscribed: true, birthday: { not: null } },
     select: { phone: true, firstName: true, birthday: true },
   });
   const due = contacts.filter(

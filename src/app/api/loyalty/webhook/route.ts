@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     // Match with or without a leading "+".
     await db.loyaltyContact.updateMany({
       where: { projectId: LOYALTY_PROJECT_ID, phone: { in: [phone, phone.replace(/^\+/, ""), `+${phone.replace(/^\+/, "")}`] } },
-      data: { subscribed: false, unsubscribedAt: new Date() },
+      data: { smsSubscribed: false, unsubscribedAt: new Date() },
     });
     return NextResponse.json({ ok: true });
   } catch (e) {

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { sendSms } from "@/lib/brevo";
 import { withinQuietHours, withOptOut, LOYALTY_PROJECT_ID } from "@/lib/loyalty";
 
-type LoyaltyContactRow = { phone: string; firstName: string | null };
+type LoyaltyContactRow = { phone: string | null; firstName: string | null };
 
 function toE164(phone: string): string {
   const p = phone.replace(/[^\d+]/g, "");
@@ -40,13 +40,14 @@ export async function sendToSubscribed(
   const contacts =
     recipients ??
     (await db.loyaltyContact.findMany({
-      where: { projectId: LOYALTY_PROJECT_ID, subscribed: true },
+      where: { projectId: LOYALTY_PROJECT_ID, smsSubscribed: true, phone: { not: null } },
       select: { phone: true, firstName: true },
     }));
 
   const body = withOptOut(message);
   let sent = 0;
   for (const c of contacts) {
+    if (!c.phone) continue; // email-only contacts have no number to text
     try {
       await sendSms({ to: toE164(c.phone), content: personalize(body, c), type: "marketing" });
       sent++;

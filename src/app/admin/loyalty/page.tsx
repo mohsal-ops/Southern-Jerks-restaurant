@@ -8,8 +8,8 @@ export default async function LoyaltyPage() {
   const settings = await getLoyaltySettings();
 
   const [subscribed, optedOut, contacts, campaigns] = await Promise.all([
-    db.loyaltyContact.count({ where: { projectId: LOYALTY_PROJECT_ID, subscribed: true } }),
-    db.loyaltyContact.count({ where: { projectId: LOYALTY_PROJECT_ID, subscribed: false } }),
+    db.loyaltyContact.count({ where: { projectId: LOYALTY_PROJECT_ID, smsSubscribed: true } }),
+    db.loyaltyContact.count({ where: { projectId: LOYALTY_PROJECT_ID, smsSubscribed: false } }),
     db.loyaltyContact.findMany({
       where: { projectId: LOYALTY_PROJECT_ID },
       select: { createdAt: true },

@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       where: { projectId_phone: { projectId: LOYALTY_PROJECT_ID, phone } },
       // Re-opt-in resubscribes and refreshes the consent record.
       update: {
-        subscribed: true,
+        smsSubscribed: true,
         unsubscribedAt: null,
         firstName: firstName ?? undefined,
         birthday: birthday && !isNaN(birthday.getTime()) ? birthday : undefined,
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         phone,
         firstName,
         birthday: birthday && !isNaN(birthday.getTime()) ? birthday : null,
-        subscribed: true,
+        smsSubscribed: true,
         consentTextVersion,
         consentIp,
       },
