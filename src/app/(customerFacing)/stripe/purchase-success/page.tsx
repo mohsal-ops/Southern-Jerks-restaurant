@@ -49,7 +49,7 @@ export default async function Success(props: any) {
             <div className="text-sm font-normal">
               <p>
                 A courier is being arranged
-                {cart.uberStatus ? ` — status: ${cart.uberStatus.replace(/_/g, " ")}` : ""}.
+                {cart.uberStatus ? `, status: ${cart.uberStatus.replace(/_/g, " ")}` : ""}.
               </p>
               {cart.uberTrackingUrl && (
                 <a

@@ -76,7 +76,7 @@ export async function POST(req: Request) {
         delivery = {
           available: false,
           reason:
-            "Delivery isn't available for this address right now — pickup is still available.",
+            "Delivery isn't available for this address right now. Pickup is still available.",
         };
       }
     }

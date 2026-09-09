@@ -171,7 +171,7 @@ export default function HeroCarousel({
             <Image
               priority
               fill
-              alt={`${SITE_CONFIG.name} — ${slide.headline}`}
+              alt={`${SITE_CONFIG.name}: ${slide.headline}`}
               src={slide.image}
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover sm:brightness-100 brightness-[0.4]"

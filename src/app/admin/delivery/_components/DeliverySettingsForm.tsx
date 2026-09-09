@@ -47,7 +47,7 @@ export function DeliverySettingsForm({ initial }: { initial: UberDirectSettings 
             <div>
               <p className="font-semibold text-stone-800">Offer delivery (Uber Direct)</p>
               <p className="mt-0.5 text-sm text-stone-500">
-                A real Uber courier is dispatched after payment — no marketplace, no commission.
+                A real Uber courier is dispatched after payment. No marketplace, no commission.
                 Needs your Uber Direct credentials; if none is available the order falls back to pickup.
               </p>
             </div>

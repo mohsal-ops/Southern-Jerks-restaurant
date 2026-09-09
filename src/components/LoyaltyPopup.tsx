@@ -229,7 +229,7 @@ export default function LoyaltyPopup({
                     <p className="text-4xl">🎉</p>
                     <h2 className="mt-2 text-2xl font-extrabold text-stone-800">You&apos;re in!</h2>
                     <p className="mt-1 text-sm text-stone-600">
-                      {incentive} is on its way — check your phone or inbox.
+                      {incentive} is on its way. Check your phone or inbox.
                     </p>
                     <Button variant="mainButton" size="md" className="mt-5" onClick={finishCompleted}>
                       Awesome, thanks

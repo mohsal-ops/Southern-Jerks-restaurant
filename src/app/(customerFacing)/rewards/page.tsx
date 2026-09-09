@@ -89,7 +89,7 @@ export default async function RewardsPage() {
             <h3 className="text-2xl font-bold">No App. No Cards. No Hassle.</h3>
             <p className="text-muted-foreground">
               Join in seconds, then earn points on every order. Add your phone for
-              text specials, your email for news — or both.
+              text specials, your email for news, or both.
             </p>
           </div>
           <div className="mx-auto w-full max-w-lg">

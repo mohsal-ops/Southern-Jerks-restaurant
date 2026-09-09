@@ -72,7 +72,7 @@ export function LoyaltyDashboard({
     start(async () => {
       const r = await saveBirthday({ enabled: bEnabled, message: bMsg });
       setBEnabled(r.enabled);
-      setBResult(r.enabled ? "Birthday automation on." : "Saved (off — add a message to enable).");
+      setBResult(r.enabled ? "Birthday automation on." : "Saved (off; add a message to enable).");
     });
 
   return (
@@ -147,7 +147,7 @@ export function LoyaltyDashboard({
             value={emailSubject}
             onChange={(e) => setEmailSubject(e.target.value)}
             maxLength={150}
-            placeholder="Subject — e.g. This weekend only 🍗"
+            placeholder="Subject, e.g. This weekend only 🍗"
             className="mt-3 w-full rounded-xl border border-stone-200 bg-white px-3 py-2 text-stone-800 outline-none focus:border-[#c85a1e]"
           />
           <textarea
@@ -174,7 +174,7 @@ export function LoyaltyDashboard({
         <div className="rounded-2xl border border-stone-200 bg-white p-5">
           <h2 className="font-semibold text-stone-800">📷 Sign-up QR code</h2>
           <p className="mt-1 text-sm text-stone-500">
-            Put this on table tents, receipts, or the counter — scanning it opens your rewards join page.
+            Put this on table tents, receipts, or the counter. Scanning it opens your rewards join page.
           </p>
           <div className="mt-3 flex items-center gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
