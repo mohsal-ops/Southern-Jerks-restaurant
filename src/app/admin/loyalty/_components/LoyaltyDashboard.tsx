@@ -2,24 +2,26 @@
 
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { sendBlast, setLoyaltyEnabled, saveBirthday } from "../_actions/loyaltyActions";
+import { sendBlast, sendEmailBlast, setLoyaltyEnabled, saveBirthday } from "../_actions/loyaltyActions";
 import type { LoyaltySettings } from "@/lib/loyalty";
 
 // Kept as a plain string here (NOT imported from @/lib/loyalty) so this client
 // component never pulls the server-only DB module into the browser bundle.
 const OPT_OUT_LINE = "Reply STOP to unsubscribe.";
 
-type Campaign = { id: string; message: string; type: string; recipientCount: number; sentAt: string };
+type Campaign = { id: string; channel?: string; message: string; type: string; recipientCount: number; sentAt: string };
 
 export function LoyaltyDashboard({
   settings,
-  subscribed,
+  smsSubscribed,
+  emailSubscribed,
   optedOut,
   growth,
   campaigns,
 }: {
   settings: LoyaltySettings;
-  subscribed: number;
+  smsSubscribed: number;
+  emailSubscribed: number;
   optedOut: number;
   growth: { label: string; count: number }[];
   campaigns: Campaign[];
@@ -27,6 +29,9 @@ export function LoyaltyDashboard({
   const [enabled, setEnabled] = useState(settings.enabled);
   const [msg, setMsg] = useState("");
   const [blastResult, setBlastResult] = useState("");
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailBody, setEmailBody] = useState("");
+  const [emailResult, setEmailResult] = useState("");
   const [bEnabled, setBEnabled] = useState(settings.birthdayEnabled);
   const [bMsg, setBMsg] = useState(settings.birthdayMessage);
   const [bResult, setBResult] = useState("");
@@ -44,6 +49,15 @@ export function LoyaltyDashboard({
       const r = await sendBlast(msg);
       setBlastResult(r.error ? r.error : `Sent to ${r.sent} subscriber${r.sent === 1 ? "" : "s"}.`);
       if (!r.error) setMsg("");
+    });
+  const doEmailBlast = () =>
+    start(async () => {
+      const r = await sendEmailBlast(emailSubject, emailBody);
+      setEmailResult(r.error ? r.error : `Emailed ${r.sent} subscriber${r.sent === 1 ? "" : "s"}.`);
+      if (!r.error) {
+        setEmailSubject("");
+        setEmailBody("");
+      }
     });
   const doSaveBirthday = () =>
     start(async () => {
@@ -65,7 +79,8 @@ export function LoyaltyDashboard({
         {/* Stats + growth */}
         <div className="rounded-2xl border border-stone-200 bg-white p-5">
           <div className="flex gap-6">
-            <div><div className="text-3xl font-bold text-stone-800">{subscribed}</div><div className="text-sm text-stone-500">Subscribed</div></div>
+            <div><div className="text-3xl font-bold text-stone-800">{smsSubscribed}</div><div className="text-sm text-stone-500">📱 SMS subscribers</div></div>
+            <div><div className="text-3xl font-bold text-stone-800">{emailSubscribed}</div><div className="text-sm text-stone-500">📧 Email subscribers</div></div>
             <div><div className="text-3xl font-bold text-stone-800">{optedOut}</div><div className="text-sm text-stone-500">Opted out</div></div>
           </div>
           <div className="mt-4 flex items-end gap-1 h-20">
@@ -79,9 +94,9 @@ export function LoyaltyDashboard({
           <p className="mt-1 text-xs text-stone-500">New subscribers, last 14 days</p>
         </div>
 
-        {/* Send a special */}
+        {/* Send a special — SMS */}
         <div className="rounded-2xl border border-stone-200 bg-white p-5">
-          <h2 className="font-semibold text-stone-800">Send a special</h2>
+          <h2 className="font-semibold text-stone-800">📱 Send a text special</h2>
           <textarea
             value={msg}
             onChange={(e) => setMsg(e.target.value)}
@@ -101,10 +116,41 @@ export function LoyaltyDashboard({
             </div>
           )}
           <div className="mt-3 flex items-center gap-3">
-            <Button variant="mainButton" size="md" disabled={pending || !msg.trim() || subscribed === 0} onClick={doBlast}>
-              {pending ? "Sending…" : `Send to ${subscribed}`}
+            <Button variant="mainButton" size="md" disabled={pending || !msg.trim() || smsSubscribed === 0} onClick={doBlast}>
+              {pending ? "Sending…" : `Send to ${smsSubscribed}`}
             </Button>
             {blastResult && <span className="text-sm text-stone-500">{blastResult}</span>}
+          </div>
+        </div>
+
+        {/* Send a special — Email */}
+        <div className="rounded-2xl border border-stone-200 bg-white p-5">
+          <h2 className="font-semibold text-stone-800">📧 Send an email special</h2>
+          <input
+            type="text"
+            value={emailSubject}
+            onChange={(e) => setEmailSubject(e.target.value)}
+            maxLength={150}
+            placeholder="Subject — e.g. This weekend only 🍗"
+            className="mt-3 w-full rounded-xl border border-stone-200 bg-white px-3 py-2 text-stone-800 outline-none focus:border-[#c85a1e]"
+          />
+          <textarea
+            value={emailBody}
+            onChange={(e) => setEmailBody(e.target.value)}
+            rows={4}
+            maxLength={2000}
+            placeholder={"Write your message. Use {firstName} to personalize.\n\nAn unsubscribe link and your address are added automatically."}
+            className="mt-2 w-full rounded-xl border border-stone-200 bg-white px-3 py-2 text-stone-800 outline-none focus:border-[#c85a1e]"
+          />
+          <div className="mt-1 flex justify-between text-xs text-stone-500">
+            <span>Unsubscribe link + your address are added automatically (required by law).</span>
+            <span>{emailBody.length}/2000</span>
+          </div>
+          <div className="mt-3 flex items-center gap-3">
+            <Button variant="mainButton" size="md" disabled={pending || !emailSubject.trim() || !emailBody.trim() || emailSubscribed === 0} onClick={doEmailBlast}>
+              {pending ? "Sending…" : `Email ${emailSubscribed}`}
+            </Button>
+            {emailResult && <span className="text-sm text-stone-500">{emailResult}</span>}
           </div>
         </div>
 
@@ -137,7 +183,7 @@ export function LoyaltyDashboard({
           <h2 className="font-semibold text-stone-800">Compliance</h2>
           <p className="mt-2 text-xs font-semibold text-stone-500">Opt-in wording currently shown on your ordering page:</p>
           <p className="mt-1 rounded-lg bg-stone-100 p-3 text-sm">{settings.consentText}</p>
-          <p className="mt-3 text-sm text-stone-500">{subscribed} subscribed · {optedOut} opted out. Every marketing text includes “{OPT_OUT_LINE}” and only sends 8am–9:30pm.</p>
+          <p className="mt-3 text-sm text-stone-500">{smsSubscribed} SMS · {emailSubscribed} email · {optedOut} opted out. Every text includes “{OPT_OUT_LINE}” and only sends 8am–9:30pm; every email carries an unsubscribe link + your address.</p>
         </div>
 
         {/* Recent */}
@@ -149,7 +195,7 @@ export function LoyaltyDashboard({
                 <li key={c.id} className="flex justify-between gap-3 border-b border-stone-200 pb-2 last:border-0">
                   <span className="truncate">{c.message}</span>
                   <span className="shrink-0 text-stone-500">
-                    {c.type === "birthday_auto" ? "🎂" : "📣"} {c.recipientCount} · {new Date(c.sentAt).toLocaleDateString()}
+                    {c.channel === "email" ? "📧" : "📱"} {c.type === "birthday_auto" ? "🎂" : "📣"} {c.recipientCount} · {new Date(c.sentAt).toLocaleDateString()}
                   </span>
                 </li>
               ))}
