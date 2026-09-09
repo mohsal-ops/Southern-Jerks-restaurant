@@ -110,7 +110,7 @@ export function LoyaltyDashboard({
           <p className="mt-1 text-xs text-stone-500">New subscribers, last 14 days</p>
         </div>
 
-        {/* Send a special — SMS */}
+        {/* Send a special - SMS */}
         <div className="rounded-2xl border border-stone-200 bg-white p-5">
           <h2 className="font-semibold text-stone-800">📱 Send a text special</h2>
           <textarea
@@ -139,7 +139,7 @@ export function LoyaltyDashboard({
           </div>
         </div>
 
-        {/* Send a special — Email */}
+        {/* Send a special - Email */}
         <div className="rounded-2xl border border-stone-200 bg-white p-5">
           <h2 className="font-semibold text-stone-800">📧 Send an email special</h2>
           <input

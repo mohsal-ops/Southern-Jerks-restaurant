@@ -14,11 +14,11 @@ import {
 // POST /api/loyalty/subscribe
 //   { phone?, email?, firstName?, birthday?, smsConsent?, emailConsent?, consentTextVersion? }
 // A marketing opt-in captured from the /rewards join form or checkout. SMS
-// (TCPA) and email (CAN-SPAM) are separate consents — each channel only turns
+// (TCPA) and email (CAN-SPAM) are separate consents - each channel only turns
 // on if BOTH an identifier for it AND its explicit checkbox are present, so an
 // email-only signup never flips smsSubscribed. Stores the exact consent wording
 // + timestamp + IP as proof. A welcome message with the reward is sent instantly
-// to whichever channel(s) just opted in (best-effort — never blocks the reply).
+// to whichever channel(s) just opted in (best-effort - never blocks the reply).
 export const runtime = "nodejs";
 
 function toE164(phone: string): string {
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
           email: emailValid ? email : undefined,
           firstName: firstName ?? undefined,
           birthday: birthday ?? undefined,
-          // Consent only ever upgrades here — a channel not opted into this time
+          // Consent only ever upgrades here - a channel not opted into this time
           // keeps whatever it already had (never silently turned off).
           smsSubscribed: smsOptIn || existing.smsSubscribed,
           emailSubscribed: emailOptIn || existing.emailSubscribed,

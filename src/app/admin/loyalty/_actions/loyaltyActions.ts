@@ -31,8 +31,8 @@ function personalize(body: string, c: LoyaltyContactRow): string {
 
 /**
  * Send a marketing message to every currently-subscribed contact. Enforces the
- * SAME rules for manual blasts and automated birthday sends — quiet hours + the
- * appended opt-out line + subscribed=true — no bypass path. Logs a LoyaltyCampaign.
+ * SAME rules for manual blasts and automated birthday sends - quiet hours + the
+ * appended opt-out line + subscribed=true - no bypass path. Logs a LoyaltyCampaign.
  * Outside quiet hours it does NOT send (returns queued=true).
  */
 export async function sendToSubscribed(
@@ -148,7 +148,7 @@ export async function setLoyaltyEnabled(enabled: boolean) {
 
 /**
  * Save the birthday automation. Enabling REQUIRES a non-empty message the owner
- * has written — never auto-enable with a default message they didn't approve.
+ * has written - never auto-enable with a default message they didn't approve.
  */
 export async function saveBirthday(input: { enabled: boolean; message: string }) {
   await assertWritable();

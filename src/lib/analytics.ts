@@ -287,7 +287,7 @@ export async function getDailyTraffic(): Promise<DailyPoint[]> {
 }
 
 // Daily visitors/sessions for the last ~6 months, grouped by calendar month.
-// Powers the "compare months" dropdown on the Visitors-trend chart — each month
+// Powers the "compare months" dropdown on the Visitors-trend chart - each month
 // keeps its per-day points so two months can be overlaid day-for-day.
 export async function getMonthlyTraffic(): Promise<MonthlyTraffic[]> {
   try {

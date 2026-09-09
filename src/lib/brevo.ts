@@ -1,6 +1,6 @@
 // Brevo SMS (the account is the agency's shared Brevo, already used by the
 // outreach pipeline). Marketing sends MUST use type "marketing" so Brevo applies
-// opt-out + US compliance handling — never send promotional content as
+// opt-out + US compliance handling - never send promotional content as
 // "transactional" to dodge those (the exact TCPA violation to avoid).
 //
 // PREREQUISITE (manual, not code): Brevo toll-free / Sender ID registration and
@@ -37,9 +37,9 @@ export async function sendSms(params: {
 }
 
 // Transactional/marketing email via Brevo. Mirrors sendSms. The FROM address is
-// BREVO_SENDER_EMAIL — a sender that MUST be verified in the Brevo account or
+// BREVO_SENDER_EMAIL - a sender that MUST be verified in the Brevo account or
 // sends fail. CAN-SPAM compliance (unsubscribe link + physical address) is the
-// caller's job via wrapMarketingEmail()/emailFooter() in lib/loyalty.ts — the
+// caller's job via wrapMarketingEmail()/emailFooter() in lib/loyalty.ts - the
 // same way SMS routes through withOptOut().
 export async function sendEmail(params: {
   to: string;

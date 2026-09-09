@@ -32,11 +32,11 @@ function writeSuppression(s: Suppression) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
   } catch {
-    /* private mode / blocked storage — worst case it shows again next visit */
+    /* private mode / blocked storage - worst case it shows again next visit */
   }
 }
 
-// Restrained success garnish — a handful of emoji fanning out and fading in
+// Restrained success garnish - a handful of emoji fanning out and fading in
 // well under a second. Not a confetti cannon.
 function Burst({ reduce }: { reduce: boolean | null }) {
   if (reduce) return null;
@@ -162,7 +162,7 @@ export default function LoyaltyPopup({
 
             {/* Steps cross-fade in place (default "sync" mode): the next step
                 mounts immediately rather than waiting on the previous step's
-                exit — a true cross-fade, and it never stalls if the tab is
+                exit - a true cross-fade, and it never stalls if the tab is
                 backgrounded mid-transition (paused rAF can't complete an exit). */}
             <div className="relative z-10 grid p-6 sm:p-8 [&>*]:col-start-1 [&>*]:row-start-1">
               <AnimatePresence>

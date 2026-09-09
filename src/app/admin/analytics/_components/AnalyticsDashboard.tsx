@@ -350,7 +350,7 @@ export function AnalyticsDashboard({
         animate="show"
         className="grid lg:grid-cols-[1fr_360px] gap-4"
       >
-        {/* Visitors area chart — with month-over-month comparison dropdown */}
+        {/* Visitors area chart - with month-over-month comparison dropdown */}
         <VisitorsTrendCard monthlyTraffic={monthlyTraffic} dailyTraffic={dailyTraffic} />
 
         {/* Traffic sources donut */}

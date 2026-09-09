@@ -4,7 +4,7 @@
 // enters staggered; a thin per-slide progress bar fills over the dwell. Reuses
 // the exact motion/AnimatePresence/useReducedMotion pattern (and easing) from
 // components/LoadingScreen.tsx for visual consistency. Client component because
-// it owns the timer, hover/focus pause, and shared active-slide state — imported
+// it owns the timer, hover/focus pause, and shared active-slide state - imported
 // into the server-rendered TopSection in HomeSections.tsx.
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -45,7 +45,7 @@ export default function HeroCarousel({
   // Pausable 6s auto-advance. `remaining` banks the leftover time on pause so a
   // hover/focus resumes from where it left off, staying in step with the CSS
   // progress bar (which pauses via animation-play-state). Reduced motion does NOT
-  // shorten the dwell — only the visual transitions collapse (framer durations
+  // shorten the dwell - only the visual transitions collapse (framer durations
   // below + the global prefers-reduced-motion rule that flattens the bar).
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const startedAt = useRef(0);
@@ -178,7 +178,7 @@ export default function HeroCarousel({
             />
           </motion.div>
         </AnimatePresence>
-        {/* legibility band for the number/arrows cluster — all breakpoints */}
+        {/* legibility band for the number/arrows cluster - all breakpoints */}
         <div className="absolute inset-x-0 bottom-0 h-28 sm:h-36 bg-gradient-to-t from-black/60 to-transparent z-20 pointer-events-none" />
         <div className="sm:hidden absolute inset-0 bg-linear-to-t from-black/70 via-black/25 to-transparent z-20" />
       </div>

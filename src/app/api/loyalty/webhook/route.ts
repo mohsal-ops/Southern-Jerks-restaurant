@@ -3,7 +3,7 @@ import db from "@/db/db";
 import { LOYALTY_PROJECT_ID } from "@/lib/loyalty";
 
 // Brevo unsubscribe / STOP webhook. When a contact texts STOP (or unsubscribes),
-// Brevo posts here — we flip subscribed=false + set unsubscribedAt so the
+// Brevo posts here - we flip subscribed=false + set unsubscribedAt so the
 // dashboard reflects real status and no further sends go to that number.
 // Configure this URL in Brevo with ?key=<BREVO_WEBHOOK_SECRET>.
 export const runtime = "nodejs";

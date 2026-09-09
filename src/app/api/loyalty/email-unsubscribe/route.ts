@@ -6,7 +6,7 @@ import { SITE_CONFIG } from "@/lib/siteConfig";
 // One-click CAN-SPAM email unsubscribe. The link in every marketing email's
 // footer points here with the contact id + a signed token. GET (so the link
 // works straight from an inbox) flips emailSubscribed=false and shows a plain
-// confirmation page. SMS consent is untouched — the two are separate.
+// confirmation page. SMS consent is untouched - the two are separate.
 export const runtime = "nodejs";
 
 function page(title: string, body: string): NextResponse {

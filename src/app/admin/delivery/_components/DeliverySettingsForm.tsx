@@ -19,7 +19,7 @@ export function DeliverySettingsForm({ initial }: { initial: UberDirectSettings 
   const [mode, setMode] = useState<UberDirectMode>(initial.mode);
   const [pending, startTransition] = useTransition();
 
-  // Delivery on this platform IS Uber Direct — so pickup/delivery options only
+  // Delivery on this platform IS Uber Direct - so pickup/delivery options only
   // matter once it's on. Turning it off falls back to pickup-only.
   const toggle = () =>
     setEnabled((v) => {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 // The rewards join form. One definition, reused on /rewards and inside the
-// Stripe checkout — so it's a <div> with a type="button" submit, never its own
+// Stripe checkout - so it's a <div> with a type="button" submit, never its own
 // <form> (it must embed inside the checkout <form> without nesting). SMS and
 // email are separate opt-ins: the SMS box only appears once a phone is entered,
 // and each box is unchecked by default (pre-checked consent isn't valid).
@@ -25,7 +25,7 @@ export default function LoyaltySignupForm({
   prefillEmail?: string;
   prefillPhone?: string;
   className?: string;
-  // When provided (e.g. the popup), the parent owns the success UI — the form
+  // When provided (e.g. the popup), the parent owns the success UI - the form
   // hands off instead of rendering its own confirmation card.
   onSuccess?: (result: { sms: boolean; email: boolean }) => void;
 }) {

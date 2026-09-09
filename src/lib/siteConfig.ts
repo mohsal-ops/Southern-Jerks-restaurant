@@ -68,7 +68,7 @@ export const SITE_CONFIG = {
 
   // Loyalty / rewards program.
   loyalty: {
-    // ⚠️ PLACEHOLDER — set this to the real signup reward Jordan confirms
+    // ⚠️ PLACEHOLDER - set this to the real signup reward Jordan confirms
     // (e.g. "10% off your next order" or "a free regular side"), then it flows
     // into the /rewards signup, the instant welcome text/email, and the success
     // message. Do NOT turn the loyalty toggle on until this is the real offer.
@@ -76,7 +76,7 @@ export const SITE_CONFIG = {
   },
 
   // Inline catering menu shown on /catering (design in CateringMenuDisplay).
-  // Edit these to change the menu — the first section renders full-width.
+  // Edit these to change the menu - the first section renders full-width.
   // `pdfUrl` is optional (a downloadable PDF in /public); omit to hide the button.
   catering: {
     pdfUrl: "/southern-jerks-catering-menu.pdf",
@@ -160,7 +160,7 @@ export const SITE_CONFIG = {
   accentColor: "#d97706",
 
   // Outreach conversion layer (trial popup + read-only dashboard preview). This
-  // is a sales tool for un-converted leads — Southern Jerks is a live client, so
+  // is a sales tool for un-converted leads - Southern Jerks is a live client, so
   // it is turned OFF. `signalKey`/`savings` are kept for reference only.
   outreach: {
     enabled: false,
@@ -255,7 +255,7 @@ export const SITE_CONFIG = {
   // Which optional sections are enabled (see FEATURES above)
   features: FEATURES,
 
-  // Product tier — gates site + admin sections (see PACKAGE_TIER above).
+  // Product tier - gates site + admin sections (see PACKAGE_TIER above).
   packageTier: PACKAGE_TIER,
 
   // Navbar links (derived from FEATURES + tier)

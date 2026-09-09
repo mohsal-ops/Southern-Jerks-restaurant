@@ -14,7 +14,7 @@ export const LOYALTY_PROJECT_ID = SITE_CONFIG.siteUrl;
 /** The required opt-out sentence appended to every marketing message. */
 export const OPT_OUT_LINE = "Reply STOP to unsubscribe.";
 
-/** Per-business opt-in consent text (name interpolated — never generic/shared). */
+/** Per-business opt-in consent text (name interpolated - never generic/shared). */
 export function loyaltyConsentText(businessName = SITE_CONFIG.name): string {
   return (
     `Send me text updates about specials and rewards from ${businessName}. ` +
@@ -53,7 +53,7 @@ export async function getLoyaltySettings(): Promise<LoyaltySettings> {
 
 /**
  * TCPA quiet hours: marketing SMS only sends 8:00am–9:30pm in the restaurant's
- * local timezone. Automated AND manual sends both respect this — no bypass path.
+ * local timezone. Automated AND manual sends both respect this - no bypass path.
  * Returns true if it's OK to send right now.
  */
 export function withinQuietHours(now: Date = new Date()): boolean {

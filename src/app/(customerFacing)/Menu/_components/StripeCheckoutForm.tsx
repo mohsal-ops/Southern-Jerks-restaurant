@@ -55,7 +55,7 @@ function Form({ priceInCents, deliveryFeeInCents = 0, loyaltyEnabled = false, lo
 
         setIsLoading(true)
 
-        // Loyalty opt-in is now its own action via <LoyaltySignupForm/> below —
+        // Loyalty opt-in is now its own action via <LoyaltySignupForm/> below -
         // it posts to /api/loyalty/subscribe on its own button, independent of
         // (and never blocking) the payment.
 

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function LoyaltyPage() {
   const settings = await getLoyaltySettings();
 
-  // QR code (PNG data URL) pointing at the public join page — for table tents,
+  // QR code (PNG data URL) pointing at the public join page - for table tents,
   // receipts, etc. Generated server-side so no client library is needed.
   const rewardsUrl = `${SITE_CONFIG.siteUrl.replace(/\/$/, "")}/rewards`;
   const qrDataUrl = await QRCode.toDataURL(rewardsUrl, { width: 512, margin: 2 });

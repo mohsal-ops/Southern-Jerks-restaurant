@@ -117,7 +117,7 @@ model Cart {
   items     CartItem[]
   status    String     @default("open") // open/completed/abandoned
 
-  // Uber Direct courier delivery (optional per restaurant — see SiteSetting
+  // Uber Direct courier delivery (optional per restaurant - see SiteSetting
   // "uber_direct_enabled"). A quote is fetched at checkout; the courier is
   // dispatched after payment; status is advanced by the Uber webhook.
   uberQuoteId     String?
@@ -265,7 +265,7 @@ model LoyaltyContact {
   email              String?
   firstName          String?
   birthday           DateTime?
-  // SMS (TCPA) and email (CAN-SPAM) are legally distinct consents — tracked
+  // SMS (TCPA) and email (CAN-SPAM) are legally distinct consents - tracked
   // separately so an email-only signup never counts as an SMS opt-in.
   smsSubscribed      Boolean   @default(false)
   emailSubscribed    Boolean   @default(false)

@@ -17,7 +17,7 @@ import { SITE_CONFIG } from "@/lib/siteConfig";
 const SESSION_KEY = "vega:introPlayed";
 
 // Optional loader fields are read defensively so the config architecture stays
-// intact — a clone that doesn't set them still gets a good default.
+// intact - a clone that doesn't set them still gets a good default.
 const cfg = SITE_CONFIG as {
   name: string;
   primaryColor?: string;
