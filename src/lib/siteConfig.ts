@@ -66,6 +66,10 @@ export const SITE_CONFIG = {
   // Main call-to-action button label, used on every "menu" button across the site.
   menuCtaLabel: "Order Now",
 
+  // Southern Jerks is LIVE, so don't email on every public-site visit (it was
+  // flooding the inbox). Dashboard/preview visits are still tracked in the admin.
+  trackWebsiteVisits: false,
+
   // Loyalty / rewards program.
   loyalty: {
     // What members sign up FOR. A lowercase noun phrase, always used mid-sentence
