@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -11,7 +11,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search, ArrowUpDown, Phone, Mail, Users } from "lucide-react";
+import {
+  Search,
+  ArrowUpDown,
+  Phone,
+  Mail,
+  Users,
+  MessageSquare,
+  Cake,
+  QrCode,
+  ShieldCheck,
+  BellRing,
+  UserCheck,
+  UserX,
+} from "lucide-react";
+import { StatusPill, type PosTone } from "../../_components/pos";
 import { sendBlast, sendEmailBlast, setLoyaltyEnabled, setLoyaltyPopupEnabled, saveBirthday } from "../_actions/loyaltyActions";
 import type { LoyaltySettings } from "@/lib/loyalty";
 
@@ -19,15 +33,24 @@ import type { LoyaltySettings } from "@/lib/loyalty";
 // component never pulls the server-only DB module into the browser bundle.
 const OPT_OUT_LINE = "Reply STOP to unsubscribe.";
 
-// Shared styling so this page matches the branding/catering admin sections
-// exactly (same card, input, and toggle treatment).
-const CARD = "rounded-2xl border border-stone-200 bg-white p-6 shadow-sm";
+// Section + input tokens - the modern admin card treatment (matches Orders /
+// Catering / Reviews). Status colours come from the shared POS palette (pos.tsx).
+const CARD = "rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6";
 const INPUT = "w-full rounded-lg border border-stone-200 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-stone-300";
-// Enabled toggles read as "live" (green) everywhere - see the shared Switch
-// default; here we only tweak the off state for a touch more contrast.
 const SWITCH = "data-[state=unchecked]:bg-stone-300";
 
-type Campaign = { id: string; channel?: string; message: string; type: string; recipientCount: number; sentAt: string };
+type Campaign = {
+  id: string;
+  channel?: string;
+  message: string;
+  type: string;
+  recipientCount: number;
+  redemptionCode?: string | null;
+  discountPercent?: number;
+  costCents?: number | null;
+  redemptionCount?: number;
+  sentAt: string;
+};
 type Subscriber = {
   id: string;
   firstName: string | null;
@@ -38,6 +61,31 @@ type Subscriber = {
   optedOut: boolean;
   createdAt: string;
 };
+
+// ── small building blocks ────────────────────────────────────────────────────
+function SectionHeader({ icon, title, desc }: { icon: React.ReactNode; title: string; desc?: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-stone-100 text-stone-600">{icon}</span>
+      <div className="min-w-0">
+        <h2 className="font-semibold text-stone-800">{title}</h2>
+        {desc && <p className="text-sm text-stone-500">{desc}</p>}
+      </div>
+    </div>
+  );
+}
+
+function StatTile({ icon, n, label, accent }: { icon: React.ReactNode; n: number; label: string; accent: string }) {
+  return (
+    <div className="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm">
+      <div className="mb-2 grid size-9 place-items-center rounded-xl" style={{ background: accent + "18", color: accent }}>
+        {icon}
+      </div>
+      <div className="text-3xl font-bold text-stone-900">{n}</div>
+      <div className="mt-0.5 text-xs font-medium text-stone-500">{label}</div>
+    </div>
+  );
+}
 
 export function LoyaltyDashboard({
   settings,
@@ -74,6 +122,12 @@ export function LoyaltyDashboard({
 
   const maxGrowth = Math.max(1, ...growth.map((g) => g.count));
   const preview = msg.trim() ? `${msg.trim()}\n${OPT_OUT_LINE}` : "";
+  const total = subscribers.length;
+
+  // Quiet-list notice (visible up top, not buried): flag when no send in 3+ weeks.
+  const lastSentAt = campaigns.reduce<string | null>((max, c) => (!max || c.sentAt > max ? c.sentAt : max), null);
+  const weeksSince = lastSentAt ? Math.floor((Date.now() - new Date(lastSentAt).getTime()) / (7 * 86_400_000)) : null;
+  const listIsQuiet = lastSentAt === null || (weeksSince !== null && weeksSince >= 3);
 
   const toggleEnabled = (v: boolean) => {
     setEnabled(v);
@@ -106,65 +160,73 @@ export function LoyaltyDashboard({
     });
 
   return (
-    <div className="space-y-6 px-4 md:px-0">
-      {/* Enable */}
-      <div className={`${CARD} flex items-start justify-between gap-4`}>
-        <div>
-          <h2 className="font-semibold text-stone-800">Loyalty texts enabled</h2>
-          <p className="text-sm text-stone-500">Shows the opt-in at checkout and lets you text subscribers.</p>
-        </div>
-        <Switch checked={enabled} onCheckedChange={toggleEnabled} aria-label="Loyalty texts enabled" className={`mt-1 ${SWITCH}`} />
+    <div className="space-y-5 px-4 md:px-0">
+      {/* Stat band */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <StatTile icon={<Users size={18} />} n={total} label="Total contacts" accent="#c85a1e" />
+        <StatTile icon={<MessageSquare size={18} />} n={smsSubscribed} label="SMS subscribers" accent="#1a6b3c" />
+        <StatTile icon={<Mail size={18} />} n={emailSubscribed} label="Email subscribers" accent="#1d4ed8" />
+        <StatTile icon={<UserX size={18} />} n={optedOut} label="Opted out" accent="#dc2626" />
       </div>
 
-      {/* Stats + growth (always visible so you can see the list any time) */}
-      <div className={CARD}>
-        <div className="grid grid-cols-3 gap-4">
-          {[
-            { n: smsSubscribed, label: "SMS subscribers", icon: "📱" },
-            { n: emailSubscribed, label: "Email subscribers", icon: "📧" },
-            { n: optedOut, label: "Opted out", icon: "🚫" },
-          ].map((s) => (
-            <div key={s.label} className="rounded-xl border border-stone-200 bg-stone-50 p-4">
-              <div className="text-3xl font-bold text-stone-800">{s.n}</div>
-              <div className="mt-0.5 text-sm text-stone-500">{s.icon} {s.label}</div>
-            </div>
-          ))}
+      {/* Quiet-list notice (prominent, not buried) */}
+      {listIsQuiet && (
+        <div className="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+          <BellRing className="mt-0.5 size-5 shrink-0 text-amber-600" />
+          <span>
+            {lastSentAt
+              ? `No campaign sent in ${weeksSince} week${weeksSince === 1 ? "" : "s"}. Your list goes cold without regular offers - send one below to bring people back.`
+              : "You haven't sent a campaign yet. Send your first text or email special below to start earning redemptions."}
+          </span>
         </div>
-        <div className="mt-5 flex h-20 items-end gap-1">
+      )}
+
+      {/* Settings: master + popup toggles */}
+      <div className={CARD}>
+        <div className="flex items-start justify-between gap-4">
+          <SectionHeader
+            icon={<BellRing size={18} />}
+            title="Loyalty & marketing"
+            desc="Shows the opt-in at checkout and lets you text or email subscribers."
+          />
+          <Switch checked={enabled} onCheckedChange={toggleEnabled} aria-label="Loyalty enabled" className={`mt-1 ${SWITCH}`} />
+        </div>
+        <div className="mt-4 flex items-start justify-between gap-4 border-t border-stone-100 pt-4">
+          <div className="min-w-0 pl-12">
+            <h3 className="text-sm font-semibold text-stone-800">Show the rewards popup on the site</h3>
+            <p className="text-sm text-stone-500">A one-time teaser inviting visitors to join (never on checkout or the rewards page).</p>
+          </div>
+          <Switch checked={popup} onCheckedChange={togglePopup} disabled={!enabled} aria-label="Show rewards popup" className={`mt-1 ${SWITCH}`} />
+        </div>
+      </div>
+
+      {/* Growth */}
+      <div className={CARD}>
+        <SectionHeader icon={<UserCheck size={18} />} title="List growth" desc="New subscribers, last 14 days" />
+        <div className="mt-5 flex h-24 items-end gap-1.5">
           {growth.map((g) => (
             <div key={g.label} className="flex flex-1 flex-col items-center justify-end" title={`${g.label}: ${g.count}`}>
               <div className="w-full rounded-t bg-[#c85a1e]/70" style={{ height: `${(g.count / maxGrowth) * 100}%`, minHeight: g.count ? 4 : 0 }} />
-              <span className="mt-1 text-[9px] text-stone-500">{g.label}</span>
+              <span className="mt-1 text-[9px] text-stone-400">{g.label}</span>
             </div>
           ))}
         </div>
-        <p className="mt-1 text-xs text-stone-500">New subscribers, last 14 days</p>
       </div>
 
-      {/* Subscriber list (Phase 1) - always visible */}
+      {/* Subscribers */}
       <SubscriberList subscribers={subscribers} />
 
-      <div className={enabled ? "space-y-6" : "space-y-6 pointer-events-none opacity-50"}>
-        {/* Site popup toggle */}
-        <div className={`${CARD} flex items-start justify-between gap-4`}>
-          <div>
-            <h2 className="font-semibold text-stone-800">Show the rewards popup on the site</h2>
-            <p className="text-sm text-stone-500">A one-time teaser that invites visitors to join (never on checkout or the rewards page).</p>
-          </div>
-          <Switch checked={popup} onCheckedChange={togglePopup} aria-label="Show rewards popup" className={`mt-1 ${SWITCH}`} />
-        </div>
-
-        {/* Send a special - SMS */}
+      <div className={enabled ? "space-y-5" : "pointer-events-none space-y-5 opacity-50"}>
+        {/* Send SMS */}
         <div className={CARD}>
-          <h2 className="font-semibold text-stone-800">📱 Send a text special</h2>
-          <p className="text-sm text-stone-500">Blast a one-off offer to everyone opted in to texts.</p>
+          <SectionHeader icon={<MessageSquare size={18} />} title="Send a text special" desc="Blast a one-off offer to everyone opted in to texts." />
           <textarea
             value={msg}
             onChange={(e) => setMsg(e.target.value)}
             rows={3}
             maxLength={480}
             placeholder="e.g. Today only: free fries with any sandwich 🍟"
-            className={`mt-3 ${INPUT}`}
+            className={`mt-4 ${INPUT}`}
           />
           <div className="mt-1 flex justify-between text-xs text-stone-500">
             <span>The opt-out line is added automatically.</span>
@@ -184,17 +246,16 @@ export function LoyaltyDashboard({
           </div>
         </div>
 
-        {/* Send a special - Email */}
+        {/* Send Email */}
         <div className={CARD}>
-          <h2 className="font-semibold text-stone-800">📧 Send an email special</h2>
-          <p className="text-sm text-stone-500">Reach everyone opted in to email with a subject and message.</p>
+          <SectionHeader icon={<Mail size={18} />} title="Send an email special" desc="Reach everyone opted in to email with a subject and message." />
           <input
             type="text"
             value={emailSubject}
             onChange={(e) => setEmailSubject(e.target.value)}
             maxLength={150}
             placeholder="Subject - e.g. This weekend only 🍗"
-            className={`mt-3 ${INPUT}`}
+            className={`mt-4 ${INPUT}`}
           />
           <textarea
             value={emailBody}
@@ -216,21 +277,12 @@ export function LoyaltyDashboard({
           </div>
         </div>
 
-        {/* Sign-up QR code (for the physical restaurant) */}
+        {/* QR */}
         <div className={CARD}>
-          <h2 className="font-semibold text-stone-800">📷 Sign-up QR code</h2>
-          <p className="mt-1 text-sm text-stone-500">
-            Put this on table tents, receipts, or the counter - scanning it opens your rewards join page.
-          </p>
+          <SectionHeader icon={<QrCode size={18} />} title="Sign-up QR code" desc="Put it on table tents, receipts, or the counter - scanning opens your rewards join page." />
           <div className="mt-4 flex items-center gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={qrDataUrl}
-              alt="Rewards sign-up QR code"
-              width={128}
-              height={128}
-              className="rounded-xl border border-stone-200"
-            />
+            <img src={qrDataUrl} alt="Rewards sign-up QR code" width={128} height={128} className="rounded-xl border border-stone-200" />
             <div className="text-sm">
               <Button asChild variant="mainButton" size="sm">
                 <a href={qrDataUrl} download="rewards-qr.png">Download PNG</a>
@@ -240,15 +292,14 @@ export function LoyaltyDashboard({
           </div>
         </div>
 
-        {/* Birthday automation */}
+        {/* Birthday */}
         <div className={CARD}>
           <div className="flex items-start justify-between gap-4">
-            <div>
-              <h2 className="font-semibold text-stone-800">Birthday offer (automatic)</h2>
-              <p className="mt-1 text-sm text-stone-500">
-                Sent {settings.birthdayDaysAhead} days before a subscriber&apos;s birthday. Off until you write and save a message.
-              </p>
-            </div>
+            <SectionHeader
+              icon={<Cake size={18} />}
+              title="Birthday offer (automatic)"
+              desc={`Sent ${settings.birthdayDaysAhead} days before a subscriber's birthday. Off until you write and save a message.`}
+            />
             <Switch checked={bEnabled} onCheckedChange={setBEnabled} aria-label="Turn on birthday automation" className={`mt-1 ${SWITCH}`} />
           </div>
           <textarea
@@ -257,7 +308,7 @@ export function LoyaltyDashboard({
             rows={2}
             maxLength={480}
             placeholder="Happy early birthday {firstName}! Here's a treat from us 🎂 …"
-            className={`mt-3 ${INPUT}`}
+            className={`mt-4 ${INPUT}`}
           />
           <div className="mt-4 flex items-center gap-3">
             <Button variant="mainButton" size="md" disabled={pending} onClick={doSaveBirthday}>Save birthday settings</Button>
@@ -267,34 +318,157 @@ export function LoyaltyDashboard({
 
         {/* Compliance */}
         <div className={CARD}>
-          <h2 className="font-semibold text-stone-800">Compliance</h2>
-          <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-stone-400">Opt-in wording currently shown on your ordering page</p>
+          <SectionHeader icon={<ShieldCheck size={18} />} title="Compliance" />
+          <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-stone-400">Opt-in wording currently shown on your ordering page</p>
           <p className="mt-1 rounded-xl border border-stone-200 bg-stone-50 p-3 text-sm text-stone-700">{settings.consentText}</p>
-          <p className="mt-3 text-sm text-stone-500">{smsSubscribed} SMS · {emailSubscribed} email · {optedOut} opted out. Every text includes “{OPT_OUT_LINE}” and only sends 8am–9:30pm; every email carries an unsubscribe link + your address.</p>
+          <p className="mt-3 text-sm text-stone-500">
+            {smsSubscribed} SMS · {emailSubscribed} email · {optedOut} opted out. Every text includes “{OPT_OUT_LINE}” and only sends 8am–9:30pm; every email carries an unsubscribe link + your address.
+          </p>
         </div>
 
-        {/* Recent */}
-        {campaigns.length > 0 && (
-          <div className={CARD}>
-            <h2 className="font-semibold text-stone-800">Recent sends</h2>
-            <ul className="mt-3 space-y-2 text-sm">
-              {campaigns.map((c) => (
-                <li key={c.id} className="flex justify-between gap-3 border-b border-stone-100 pb-2 last:border-0">
-                  <span className="truncate text-stone-700">{c.message}</span>
-                  <span className="shrink-0 text-stone-500">
-                    {c.channel === "email" ? "📧" : "📱"} {c.type === "birthday_auto" ? "🎂" : "📣"} {c.recipientCount} · {new Date(c.sentAt).toLocaleDateString()}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {/* Campaign performance + history */}
+        {campaigns.length > 0 && <CampaignHistory campaigns={campaigns} />}
       </div>
     </div>
   );
 }
 
-// ── Phase 1: browsable subscriber list ───────────────────────────────────────
+// ── campaign performance + history ───────────────────────────────────────────
+function fmtUsd(cents?: number | null): string {
+  return cents == null ? "—" : `$${(cents / 100).toFixed(2)}`;
+}
+function redemptionRate(redemptions?: number, recipients?: number): number {
+  if (!recipients) return 0;
+  return Math.round(((redemptions ?? 0) / recipients) * 100);
+}
+
+type SortKey = "date" | "recipients" | "cost" | "redemptions" | "rate";
+
+function ChannelSummary({
+  label,
+  tone,
+  s,
+}: {
+  label: string;
+  tone: PosTone;
+  s: { sends: number; recipients: number; cost: number; redemptions: number; rate: number };
+}) {
+  return (
+    <div className="rounded-xl border border-stone-200 bg-stone-50 p-4">
+      <div className="flex items-center justify-between">
+        <StatusPill tone={tone} dot={false}>{label}</StatusPill>
+        <span className="text-xs text-stone-400">{s.sends} send{s.sends === 1 ? "" : "s"}</span>
+      </div>
+      <div className="mt-3 grid grid-cols-4 gap-2 text-center">
+        <div><div className="text-lg font-bold text-stone-800">{s.recipients}</div><div className="text-[10px] text-stone-500">sent</div></div>
+        <div><div className="text-lg font-bold text-stone-800">{fmtUsd(s.cost)}</div><div className="text-[10px] text-stone-500">cost</div></div>
+        <div><div className="text-lg font-bold text-stone-800">{s.redemptions}</div><div className="text-[10px] text-stone-500">redeemed</div></div>
+        <div><div className="text-lg font-bold text-green-600">{s.rate}%</div><div className="text-[10px] text-stone-500">rate</div></div>
+      </div>
+    </div>
+  );
+}
+
+function CampaignHistory({ campaigns }: { campaigns: Campaign[] }) {
+  const [sort, setSort] = useState<SortKey>("date");
+  const [desc, setDesc] = useState(true);
+
+  const sorted = useMemo(() => {
+    const val = (c: Campaign) => {
+      switch (sort) {
+        case "recipients": return c.recipientCount;
+        case "cost": return c.costCents ?? 0;
+        case "redemptions": return c.redemptionCount ?? 0;
+        case "rate": return redemptionRate(c.redemptionCount, c.recipientCount);
+        default: return new Date(c.sentAt).getTime();
+      }
+    };
+    return [...campaigns].sort((a, b) => (desc ? val(b) - val(a) : val(a) - val(b)));
+  }, [campaigns, sort, desc]);
+
+  // SMS and email kept as SEPARATE performance lines - never blended.
+  const summary = (ch: "sms" | "email") => {
+    const list = campaigns.filter((c) => (c.channel ?? "sms") === ch);
+    const recipients = list.reduce((n, c) => n + c.recipientCount, 0);
+    const redemptions = list.reduce((n, c) => n + (c.redemptionCount ?? 0), 0);
+    return {
+      sends: list.length,
+      recipients,
+      cost: list.reduce((n, c) => n + (c.costCents ?? 0), 0),
+      redemptions,
+      rate: redemptionRate(redemptions, recipients),
+    };
+  };
+
+  const Th = ({ k, children, right }: { k: SortKey; children: ReactNode; right?: boolean }) => (
+    <TableHead className={`text-stone-500 ${right ? "text-right" : ""}`}>
+      <button
+        onClick={() => (sort === k ? setDesc((d) => !d) : (setSort(k), setDesc(true)))}
+        className={`inline-flex items-center gap-1 hover:text-stone-800 ${sort === k ? "text-stone-800" : ""}`}
+      >
+        {children}
+        <ArrowUpDown className="size-3" />
+      </button>
+    </TableHead>
+  );
+
+  return (
+    <div className={CARD}>
+      <SectionHeader icon={<MessageSquare size={18} />} title="Campaign performance" desc="Every send, its cost, and how many orders redeemed its code." />
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <ChannelSummary label="SMS" tone="live" s={summary("sms")} />
+        <ChannelSummary label="Email" tone="info" s={summary("email")} />
+      </div>
+
+      <div className="mt-4 overflow-hidden rounded-xl border border-stone-200">
+        <div className="max-h-[28rem] overflow-y-auto">
+          <Table>
+            <TableHeader className="sticky top-0 z-10 bg-stone-50">
+              <TableRow className="hover:bg-transparent">
+                <TableHead className="text-stone-500">Message</TableHead>
+                <TableHead className="text-stone-500">Channel</TableHead>
+                <Th k="date">Sent</Th>
+                <Th k="recipients" right>Recipients</Th>
+                <Th k="cost" right>Cost</Th>
+                <Th k="redemptions" right>Redeemed</Th>
+                <Th k="rate" right>Rate</Th>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sorted.map((c) => {
+                const ch = (c.channel ?? "sms") === "email" ? "email" : "sms";
+                const r = redemptionRate(c.redemptionCount, c.recipientCount);
+                return (
+                  <TableRow key={c.id} className="border-stone-100">
+                    <TableCell className="max-w-[240px] truncate font-medium text-stone-800" title={c.message}>
+                      {c.message}
+                      {c.redemptionCode && (
+                        <span className="ml-2 rounded bg-stone-100 px-1.5 py-0.5 font-mono text-[10px] text-stone-500">{c.redemptionCode}</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <StatusPill tone={ch === "email" ? "info" : "live"} dot={false}>{ch === "email" ? "Email" : "SMS"}</StatusPill>
+                    </TableCell>
+                    <TableCell className="text-stone-500" suppressHydrationWarning>{new Date(c.sentAt).toLocaleDateString()}</TableCell>
+                    <TableCell className="text-right tabular-nums text-stone-700">{c.recipientCount}</TableCell>
+                    <TableCell className="text-right tabular-nums text-stone-700">{fmtUsd(c.costCents)}</TableCell>
+                    <TableCell className="text-right tabular-nums font-semibold text-stone-800">{c.redemptionCount ?? 0}</TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      <span className={r >= 10 ? "font-semibold text-green-600" : "text-stone-600"}>{r}%</span>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── browsable subscriber list ────────────────────────────────────────────────
 type Filter = "all" | "sms" | "email" | "opted";
 const FILTERS: { key: Filter; label: string }[] = [
   { key: "all", label: "All" },
@@ -302,19 +476,6 @@ const FILTERS: { key: Filter; label: string }[] = [
   { key: "email", label: "Email" },
   { key: "opted", label: "Opted out" },
 ];
-
-function Badge({ tone, children }: { tone: "green" | "blue" | "red" | "stone"; children: React.ReactNode }) {
-  // Canonical POS status palette (admin/_components/pos.tsx).
-  const tones = {
-    green: "bg-green-100 text-green-800",
-    blue: "bg-blue-100 text-blue-700",
-    red: "bg-red-100 text-red-700",
-    stone: "bg-stone-100 text-stone-600",
-  } as const;
-  return (
-    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${tones[tone]}`}>{children}</span>
-  );
-}
 
 function SubscriberList({ subscribers }: { subscribers: Subscriber[] }) {
   const [query, setQuery] = useState("");
@@ -335,9 +496,7 @@ function SubscriberList({ subscribers }: { subscribers: Subscriber[] }) {
       );
     });
     list = [...list].sort((a, b) =>
-      newestFirst
-        ? b.createdAt.localeCompare(a.createdAt)
-        : a.createdAt.localeCompare(b.createdAt),
+      newestFirst ? b.createdAt.localeCompare(a.createdAt) : a.createdAt.localeCompare(b.createdAt),
     );
     return list;
   }, [subscribers, query, filter, newestFirst]);
@@ -348,9 +507,7 @@ function SubscriberList({ subscribers }: { subscribers: Subscriber[] }) {
         <div className="flex items-center gap-2">
           <Users className="size-4 text-stone-400" />
           <h2 className="font-semibold text-stone-800">Subscribers</h2>
-          <span className="rounded-full bg-stone-100 px-2 py-0.5 text-xs font-semibold text-stone-500">
-            {subscribers.length}
-          </span>
+          <span className="rounded-full bg-stone-100 px-2 py-0.5 text-xs font-semibold text-stone-500">{subscribers.length}</span>
         </div>
         <div className="relative">
           <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-stone-400" />
@@ -368,7 +525,7 @@ function SubscriberList({ subscribers }: { subscribers: Subscriber[] }) {
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
-            className={`rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-colors ${
+            className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
               filter === f.key ? "bg-brand text-white" : "bg-stone-100 text-stone-500 hover:bg-stone-200"
             }`}
           >
@@ -426,10 +583,10 @@ function SubscriberList({ subscribers }: { subscribers: Subscriber[] }) {
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1.5">
-                        {s.smsSubscribed && <Badge tone="green">SMS</Badge>}
-                        {s.emailSubscribed && <Badge tone="blue">Email</Badge>}
-                        {s.optedOut && <Badge tone="red">Opted out</Badge>}
-                        {!s.smsSubscribed && !s.emailSubscribed && !s.optedOut && <Badge tone="stone">None</Badge>}
+                        {s.smsSubscribed && <StatusPill tone="live" dot={false}>SMS</StatusPill>}
+                        {s.emailSubscribed && <StatusPill tone="info" dot={false}>Email</StatusPill>}
+                        {s.optedOut && <StatusPill tone="off" dot={false}>Opted out</StatusPill>}
+                        {!s.smsSubscribed && !s.emailSubscribed && !s.optedOut && <StatusPill tone="neutral" dot={false}>None</StatusPill>}
                       </div>
                     </TableCell>
                     <TableCell className="text-right text-sm text-stone-500" suppressHydrationWarning>
