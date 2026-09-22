@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ui/confirm-dialog";
 import Image from "next/image";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -50,6 +51,7 @@ export default function GalleryManager({
   const [overIndex, setOverIndex] = useState<number | null>(null);
 
   const router = useRouter();
+  const confirm = useConfirm();
   const [state, formAction, isUploading] = useActionState(addGalleryImage, {
     message: "",
   });
@@ -91,7 +93,7 @@ export default function GalleryManager({
     if (tooBig) {
       e.preventDefault();
       toast.error(
-        `That's ${formatBytes(totalBytes)} in one go. Please upload under ${formatBytes(
+        `That's ${formatBytes(totalBytes)} in one go - please upload under ${formatBytes(
           MAX_DEV_BATCH_BYTES
         )} at a time (fewer or smaller photos).`
       );
@@ -105,7 +107,7 @@ export default function GalleryManager({
     if (selected.length === 0 || prodBusy) return;
     if (oversizeFile) {
       toast.error(
-        `"${oversizeFile.name}" is ${formatBytes(oversizeFile.size)}. Please keep each photo under ${formatBytes(
+        `"${oversizeFile.name}" is ${formatBytes(oversizeFile.size)} - please keep each photo under ${formatBytes(
           MAX_PER_FILE_BYTES
         )}.`
       );
@@ -154,7 +156,7 @@ export default function GalleryManager({
   }
 
   async function handleDelete(id: string, alt: string) {
-    if (!confirm(`Remove "${alt || "this image"}" from the gallery?`)) return;
+    if (!(await confirm({ title: `Remove "${alt || "this image"}" from the gallery?`, confirmText: "Remove", destructive: true }))) return;
     setDeletingId(id);
     const res = await deleteGalleryImage(id);
     setDeletingId(null);
@@ -234,8 +236,8 @@ export default function GalleryManager({
             />
             <p className="text-xs text-stone-400">
               {isDev
-                ? `You can select multiple images at once, up to ${formatBytes(MAX_DEV_BATCH_BYTES)} per upload.`
-                : `Select as many photos as you like. Each can be up to ${formatBytes(MAX_PER_FILE_BYTES)}.`}
+                ? `You can select multiple images at once - up to ${formatBytes(MAX_DEV_BATCH_BYTES)} per upload.`
+                : `Select as many photos as you like - each can be up to ${formatBytes(MAX_PER_FILE_BYTES)}.`}
             </p>
           </div>
           <div className="flex-1 space-y-2 w-full">
@@ -261,7 +263,7 @@ export default function GalleryManager({
             </span>
             {tooBig && (
               <span className="ml-auto text-xs font-medium">
-                Too large. Upload fewer or smaller photos.
+                Too large - upload fewer or smaller photos.
               </span>
             )}
           </div>
@@ -284,7 +286,7 @@ export default function GalleryManager({
                   : `Uploading ${selected.length > 0 ? `${selected.length} ` : ""}photo${selected.length !== 1 ? "s" : ""}…`}
               </p>
               <p className="mt-0.5 text-sm text-stone-500">
-                Large images can take a moment. Please keep this tab open. Don&apos;t refresh.
+                Large images can take a moment. Please keep this tab open - don&apos;t refresh.
               </p>
             </div>
             <div className="h-1.5 w-48 overflow-hidden rounded-full bg-stone-200">

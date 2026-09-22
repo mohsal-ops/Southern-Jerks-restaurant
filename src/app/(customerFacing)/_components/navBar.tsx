@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { CartItem } from "generated/prisma";
 import { Gamepad2 } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function SideBar({
   pathname,
@@ -26,7 +27,7 @@ export function SideBar({
           <Image
             alt={`${SITE_CONFIG.name} logo`}
             priority
-            className="h-12 w-12 rounded-full object-cover"
+            className={`h-12 w-12 ${logoUrl ? "rounded-full object-cover" : "object-contain"}`}
             src={logoUrl || Logo}
             height={50}
             width={50}
@@ -45,6 +46,7 @@ export function SideBar({
             <Link href="/Menu">Menu</Link>
           </Button>
         )}
+        <ThemeToggle />
         <div className="flex w-7 justify-center items-center">
           <AppSideBar />
         </div>
@@ -109,7 +111,7 @@ export function TopNavBar({
           <Link href="/" aria-label={`${SITE_CONFIG.name} home`}>
             <Image
               alt={`${SITE_CONFIG.name} logo`}
-              className="h-14 w-14 rounded-full object-cover"
+              className={`h-14 w-14 ${logoUrl ? "rounded-full object-cover" : "object-contain"}`}
               src={logoUrl || Logo}
               height={60}
               width={60}
@@ -127,7 +129,7 @@ export function TopNavBar({
                     className={[
                       "text-md rounded-md  font-medium transition-colors duration-150 flex items-center gap-2",
                       isActive
-                        ? "bg-brand text-accent-foreground" // active
+                        ? "bg-accent text-accent-foreground" // active
                         : "text-foreground/70 hover:bg-accent hover:text-accent-foreground", // inactive
                     ].join(" ")}
                   >
@@ -145,6 +147,7 @@ export function TopNavBar({
             {SITE_CONFIG.menuCtaLabel}
           </Button>
         </Link>
+          <ThemeToggle />
           <div>
             <CartSideBar cartId={cartId} cartItems={cartItems} />
           </div>

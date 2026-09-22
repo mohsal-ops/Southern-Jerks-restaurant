@@ -11,8 +11,7 @@ import { CartItem } from "../../../../generated/prisma";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-
-const ONLINE_ORDERING_ENABLED = false;
+import { SITE_CONFIG } from "@/lib/siteConfig";
 
 type productObjectPath = {
   id: string;
@@ -95,10 +94,10 @@ export function PopularDishesCardClient({
 
           <div className="absolute bottom-2 right-2 z-20">
             <Button
-              disabled={!ONLINE_ORDERING_ENABLED}
+              onClick={() => SITE_CONFIG.onlineOrderingEnabled && setOpen(true)}
+              disabled={!SITE_CONFIG.onlineOrderingEnabled}
               variant="outline"
-              aria-label="Online ordering temporarily unavailable"
-              className="h-9 w-9 rounded-full bg-background p-0 opacity-60 shadow-md"
+              className="h-9 w-9 rounded-full p-0 bg-background shadow-md hover:bg-accent"
             >
               <Plus className="stroke-2" size={20} />
             </Button>
@@ -172,10 +171,10 @@ export function AllDishesCardClient({
           <div className="absolute bottom-0 z-20 flex justify-end w-full p-3 ">
             <div className="flex gap-2 items-center  ">
               <Button
-                disabled={!ONLINE_ORDERING_ENABLED}
+                onClick={() => SITE_CONFIG.onlineOrderingEnabled && setOpen(true)}
+                disabled={!SITE_CONFIG.onlineOrderingEnabled}
                 variant="outline"
-                aria-label="Online ordering temporarily unavailable"
-                className="h-10 w-10 opacity-60"
+                className="w-10 h-10 "
               >
                 <Plus className="stroke-1" size={28} />
               </Button>

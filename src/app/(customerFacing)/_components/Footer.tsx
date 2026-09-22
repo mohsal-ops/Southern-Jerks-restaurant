@@ -10,13 +10,13 @@ import { SITE_CONFIG } from "@/lib/siteConfig";
 
 export function Footer({ logoUrl }: { logoUrl?: string }) {
   return (
-    <div className="flex w-[92%] mx-auto text-sm gap-6 items-center py-6 md:py-10 justify-center flex-col sm:space-x-10  sm:pr-10  md:w-[98%] bg-stone-100 text-foreground rounded-4xl">
+    <div className="flex w-[92%] mx-auto text-sm gap-6 items-center py-6 md:py-10 justify-center flex-col sm:space-x-10  sm:pr-10  md:w-[98%] bg-muted text-foreground rounded-4xl">
       <div className=" flex flex-col md:flex-row  md:justify-center w-full">
         <div className="flex  items-start justify-center w-full md:w-32">
           <Link href="/">
             <Image
               alt={`${SITE_CONFIG.name} logo`}
-              className="h-16 w-16 rounded-full object-cover"
+              className={`h-16 w-16 ${logoUrl ? "rounded-full object-cover" : "object-contain"}`}
               src={logoUrl || Logo}
               height={70}
               width={70}

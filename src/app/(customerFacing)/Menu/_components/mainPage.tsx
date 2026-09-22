@@ -2,7 +2,6 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { FaLocationPin } from "react-icons/fa6";
 import { SITE_CONFIG } from "@/lib/siteConfig";
-const ONLINE_ORDERING_ENABLED = false;
 import { atLeast, tierOf } from "@/lib/packages";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
@@ -251,32 +250,32 @@ export default function MainPageMenu({
           <div className="flex flex-col sm:flex-row w-full sm:w-1/2  gap-4 font-semibold text-muted-foreground">
             {/* Pickup/Delivery toggle - only on Standard+ tiers. Starter is pickup-only. */}
             {deliveryAllowed && (
-            <div className="bg-stone-100 w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden">
-              <label className="cursor-pointer w-1/2 relative">
+            <div className="bg-muted w-full shadow-sm sm:w-1/2 flex h-11 rounded-3xl overflow-hidden">
+              <label className={`w-1/2 relative ${SITE_CONFIG.onlineOrderingEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
                 <input
                   type="radio"
                   name="orderType"
                   value="delivery"
                   checked={choice === "delivery"}
                   onChange={() => setChoice("delivery")}
-                  disabled={!ONLINE_ORDERING_ENABLED}
+                  disabled={!SITE_CONFIG.onlineOrderingEnabled}
                   className="hidden peer"
                 />
-                <div className="h-full bg-stone-100 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
+                <div className="h-full bg-muted border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
                   Delivery
                 </div>
               </label>
-              <label className="cursor-pointer h-full relative w-1/2">
+              <label className={`h-full relative w-1/2 ${SITE_CONFIG.onlineOrderingEnabled ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
                 <input
                   type="radio"
                   name="orderType"
                   value="pickup"
                   checked={choice === "pickup"}
                   onChange={() => setChoice("pickup")}
-                  disabled={!ONLINE_ORDERING_ENABLED}
+                  disabled={!SITE_CONFIG.onlineOrderingEnabled}
                   className="hidden peer"
                 />
-                <div className=" h-full bg-stone-100 border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
+                <div className=" h-full bg-muted border  flex items-center justify-center rounded-3xl peer-checked:shadow-md peer-checked:border-border peer-checked:bg-background peer-checked:text-foreground transition">
                   Pickup
                 </div>
               </label>
@@ -284,8 +283,8 @@ export default function MainPageMenu({
             )}
             <Button
               variant="outline"
-              onClick={() => setOpen(true)}
-              disabled={!ONLINE_ORDERING_ENABLED}
+              onClick={() => SITE_CONFIG.onlineOrderingEnabled && setOpen(true)}
+              disabled={!SITE_CONFIG.onlineOrderingEnabled}
               className="w-full sm:w-2/3 h-11 text-sm rounded-lg hover:bg-accent shadow-xs justify-between"
             >
               {choice === "pickup" ? (

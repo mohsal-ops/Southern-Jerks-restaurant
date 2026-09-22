@@ -3,12 +3,25 @@ import { CartProvider } from "./providers/CartProvider";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SITE_CONFIG } from "@/lib/siteConfig";
+import db from "@/db/db";
 import { getBusinessHours } from "@/lib/getHours";
 import { getThemeColor, DEFAULT_THEME_COLOR } from "@/lib/siteSettings";
 import { readableTextColor } from "@/lib/color";
 import "./globals.css";
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  // Link-preview (Open Graph / Twitter) image = the restaurant's OWN first
+  // gallery photo, so a shared link shows this client's real food instead of the
+  // packaged template photo. Falls back to the site's OWN logo when the gallery
+  // is empty, and never throws (a DB hiccup just uses the fallback).
+  const firstGallery = await db.galleryImage
+    .findFirst({ orderBy: { order: "asc" }, select: { url: true } })
+    .catch(() => null);
+  // Never the packaged template photo - fall back to the site's OWN logo so a
+  // client never shows another restaurant's food in a shared link.
+  const ogImage = firstGallery?.url || "/logo.png";
+
+  return {
   // ── TITLE ────────────────────────────────────────────────────────────────
   title: {
     default: SITE_CONFIG.seoTitle,
@@ -44,7 +57,7 @@ export const metadata: Metadata = {
     description: SITE_CONFIG.seoDescription,
     images: [
       {
-        url: SITE_CONFIG.ogImage,
+        url: ogImage,
         width: 1200,
         height: 630,
         alt: `${SITE_CONFIG.name} in ${SITE_CONFIG.city}, ${SITE_CONFIG.state}`,
@@ -57,7 +70,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_CONFIG.seoTitle,
     description: SITE_CONFIG.seoDescription,
-    images: [SITE_CONFIG.ogImage],
+    images: [ogImage],
   },
 
   // ── ROBOTS ───────────────────────────────────────────────────────────────
@@ -77,7 +90,8 @@ export const metadata: Metadata = {
   // verification: {
   //   google: "paste-your-verification-code-here",
   // },
-};
+  };
+}
 
 function openingHoursSpecification(hours: { day: string; open: number | null; close: number | null }[]) {
   return hours
@@ -121,7 +135,7 @@ export default async function RootLayout({
               url: SITE_CONFIG.siteUrl,
               telephone: SITE_CONFIG.phone,
               email: SITE_CONFIG.email,
-              image: `${SITE_CONFIG.siteUrl}${SITE_CONFIG.ogImage}`,
+              image: `${SITE_CONFIG.siteUrl}/logo.png`,
               logo: `${SITE_CONFIG.siteUrl}/logo.png`,
               priceRange: SITE_CONFIG.priceRange,
               servesCuisine: SITE_CONFIG.cuisines,

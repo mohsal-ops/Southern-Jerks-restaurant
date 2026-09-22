@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { Minus, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/app/providers/CartProvider'
+import { SITE_CONFIG } from '@/lib/siteConfig';
 
 type CartItemWithSides = CartItem & { sides?: CartItemSide[] };
 
@@ -185,6 +186,7 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
                                                 variant="outline"
                                                 size="icon"
                                                 onClick={() => adjustQuantity(item.id, -1)}
+                                                disabled={!SITE_CONFIG.onlineOrderingEnabled}
                                             >
                                                 <Minus size={14} />
                                             </Button>
@@ -195,6 +197,7 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
                                                 variant="outline"
                                                 size="icon"
                                                 onClick={() => adjustQuantity(item.id, 1)}
+                                                disabled={!SITE_CONFIG.onlineOrderingEnabled}
                                             >
                                                 <Plus size={14} />
                                             </Button>
@@ -217,7 +220,7 @@ export default function CartSideBar({ cartItems: initialItems, cartId }: { cartI
                             </div>
                             <SheetFooter>
                                 <Link className="w-full " href={{ pathname: `/Menu/${cartId}/purchase` }}>
-                                    <Button disabled={subtotal === 0} className="w-full" variant="mainButton" >
+                                    <Button disabled={!SITE_CONFIG.onlineOrderingEnabled || subtotal === 0} className="w-full" variant="mainButton" >
                                         Checkout
                                     </Button>
                                 </Link>

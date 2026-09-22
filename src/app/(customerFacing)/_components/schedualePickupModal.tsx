@@ -8,6 +8,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { SITE_CONFIG } from "@/lib/siteConfig";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
@@ -75,7 +76,7 @@ type Product = {
 //             </div>
 
 //       <p className="text-center text-sm text-muted-foreground">
-//         📍 Southern Jerks | Texas BBQ in Houston
+//         📍 The Wagon Wheel | Texas BBQ in Eagle Pass
 //       </p>
 //     </div>
 //   );
@@ -142,6 +143,7 @@ function AddProductCard({
               size="icon"
               variant="ghost"
               onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
+              disabled={!SITE_CONFIG.onlineOrderingEnabled || quantity <= 1}
             >
               -
             </Button>
@@ -150,6 +152,7 @@ function AddProductCard({
               size="icon"
               variant="ghost"
               onClick={() => setQuantity((prev) => prev + 1)}
+              disabled={!SITE_CONFIG.onlineOrderingEnabled}
             >
               +
             </Button>
@@ -353,6 +356,8 @@ export default function SchedulePickupDialog({
       .map((group) => group.id);
 
   const handleAddToCart = async () => {
+    if (!SITE_CONFIG.onlineOrderingEnabled) return;
+
     // The button is disabled while required groups are unsatisfied; guard anyway.
     if (getMissingRequiredGroupIds().length > 0) return;
 
@@ -430,7 +435,7 @@ export default function SchedulePickupDialog({
                   variant="mainButton"
                   className="w-full"
                   onClick={handleAddToCart}
-                  disabled={isLoading || missingCount > 0}
+                  disabled={!SITE_CONFIG.onlineOrderingEnabled || isLoading || missingCount > 0}
                 >
                   {isLoading
                     ? "Adding..."

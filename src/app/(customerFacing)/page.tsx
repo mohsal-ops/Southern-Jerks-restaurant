@@ -36,7 +36,20 @@ export type ItemWithSides = Item & {
   })[];
 };
 
-export const metadata = buildMetadata("home");
+export async function generateMetadata() {
+  const base = buildMetadata("home");
+  // Prefer the restaurant's OWN first gallery photo for the shared home-page
+  // link preview. buildMetadata already falls back to the site logo (never the
+  // packaged template photo), so an empty gallery still shows this client's brand.
+  const first = await db.galleryImage
+    .findFirst({ orderBy: { order: "asc" }, select: { url: true } })
+    .catch(() => null);
+  if (first?.url) {
+    if (base.openGraph) base.openGraph.images = [{ url: first.url, width: 1200, height: 630 }];
+    if (base.twitter) base.twitter.images = [first.url];
+  }
+  return base;
+}
 
 function FaqSchema() {
   // Mirrors the questions/answers rendered in Frequentlyaskedquestions below -
@@ -78,7 +91,7 @@ function FaqSchema() {
               name: "Where are you located?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: `We're at ${SITE_CONFIG.address}.`,
+                text: "We're at 1302 W 11th St, Eagle Pass, TX 79035.",
               },
             },
           ],
@@ -168,12 +181,12 @@ export default async function Home() {
         <FeaturedProductsSection />
       </Suspense>
       <SectionDivider />
-      <Suspense fallback={<div className="sm:w-[85%] w-full h-100 bg-stone-100 rounded-3xl animate-pulse" />}>
+      <Suspense fallback={<div className="sm:w-[85%] w-full h-100 bg-muted rounded-3xl animate-pulse" />}>
         <GallerySection />
       </Suspense>
       <SectionDivider />
       <FadeIn delay={100}>
-        <Suspense fallback={<div className="h-96 w-full md:w-[85vw] bg-stone-100 rounded-4xl animate-pulse" />}>
+        <Suspense fallback={<div className="h-96 w-full md:w-[85vw] bg-muted rounded-4xl animate-pulse" />}>
           <ReviewsDataSection />
         </Suspense>
       </FadeIn>
@@ -208,7 +221,7 @@ export default async function Home() {
         </div>
       </FadeIn>
       <SectionDivider />
-      <Suspense fallback={<div className="h-40 w-full sm:w-[75%] animate-pulse bg-stone-100 rounded-4xl" />}>
+      <Suspense fallback={<div className="h-40 w-full sm:w-[75%] animate-pulse bg-muted rounded-4xl" />}>
         <LocationSection />
       </Suspense>
     </div>

@@ -106,6 +106,10 @@ export default function HeroCarousel({
       aria-roledescription="carousel"
       aria-label={`${SITE_CONFIG.name} highlights`}
     >
+      {/* Clean, high-opacity veil over a warm off-white base (matches the
+          Southern Jerks hero): the tiled logo stays a faint watermark and the
+          heading/text on top read clearly. bg-background/90 keeps this correct in
+          dark mode (the veil follows the theme background). */}
       <LogoDriftBackground veilClassName="bg-background/90" className="sm:rounded-3xl" />
 
       {/* Text column (Phase 0 layout preserved). subTagline is a constant kicker
@@ -117,7 +121,7 @@ export default function HeroCarousel({
           src={logoUrl || Logo}
           width={120}
           height={120}
-          className="h-28 w-28 rounded-full object-cover shadow-lg"
+          className={`h-28 w-28 ${logoUrl ? "rounded-full object-cover shadow-lg" : "object-contain"}`}
         />
 
         <span className="font-semibold text-white sm:text-muted-foreground text-md">
@@ -171,7 +175,7 @@ export default function HeroCarousel({
             <Image
               priority
               fill
-              alt={`${SITE_CONFIG.name}: ${slide.headline}`}
+              alt={`${SITE_CONFIG.name} - ${slide.headline}`}
               src={slide.image}
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover sm:brightness-100 brightness-[0.4]"
