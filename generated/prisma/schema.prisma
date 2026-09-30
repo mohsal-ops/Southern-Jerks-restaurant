@@ -122,6 +122,10 @@ model Cart {
   uberDeliveryId  String?
   uberStatus      String? // pending|pickup|pickup_complete|dropoff|delivered|canceled|returned
   uberTrackingUrl String?
+  // Why the last Uber quote failed (Uber's own reason, or "delivery turned off").
+  // Set when a delivery quote fails, cleared on success; included in the owner's
+  // Telegram alert so a missing courier is diagnosable without reading code.
+  uberQuoteError  String?
 
   // Loyalty promo code applied to this cart (redeemed at checkout).
   promoCampaignId String?
