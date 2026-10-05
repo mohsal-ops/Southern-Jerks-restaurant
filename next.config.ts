@@ -19,8 +19,10 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    // Vercel image optimization quota is account-wide; once used, new sizes 402 (phones lost photos).
-    unoptimized: true,
+    // Vercel Image Optimization is OFF (account-wide quota → 402s on new sizes;
+    // phones lost photos). Remote images go through wsrv.nl instead — see image-loader.ts.
+    loader: "custom",
+    loaderFile: "./image-loader.ts",
     remotePatterns: [
       {
         protocol: "https",
